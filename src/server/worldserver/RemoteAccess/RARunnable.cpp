@@ -20,7 +20,7 @@
  */
 
 /** \file
-    \ingroup Trilliumd
+    \ingroup Arkcored
  */
 
 #include "Common.h"
@@ -77,11 +77,11 @@ void RARunnable::run()
 
     if (acceptor.open(listen_addr, m_Reactor) == -1)
     {
-        sLog->outError("Trillium RA can not bind to port %d on %s", raport, stringip.c_str());
+        sLog->outError("Arkcore RA can not bind to port %d on %s", raport, stringip.c_str());
         return;
     }
 
-    sLog->outString("Starting Trillium RA on port %d on %s", raport, stringip.c_str());
+    sLog->outString("Starting Arkcore RA on port %d on %s", raport, stringip.c_str());
 
     while (!World::IsStopped())
     {
@@ -93,5 +93,5 @@ void RARunnable::run()
             break;
     }
 
-    sLog->outStaticDebug("Trillium RA thread exiting");
+    sLog->outStaticDebug("Arkcore RA thread exiting");
 }

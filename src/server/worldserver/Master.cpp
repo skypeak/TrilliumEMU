@@ -20,7 +20,7 @@
  */
 
 /** \file
-    \ingroup Trilliumd
+    \ingroup Arkcored
 */
 
 #include <ace/Sig_Handler.h>
@@ -53,7 +53,7 @@ extern int m_ServiceStatus;
 #endif
 
 /// Handle worldservers's termination signals
-class WorldServerSignalHandler : public Trillium::SignalHandler
+class WorldServerSignalHandler : public Arkcore::SignalHandler
 {
     public:
         virtual void HandleSignal(int SigNum)
@@ -136,9 +136,10 @@ int Master::Run()
     sLog->outString("######### ##   ##   ##  ##   ##       ##     ## ##   ##   ##       ");
     sLog->outString("##     ## ##    ##  ##   ##  ##    ## ##     ## ##    ##  ##       ");
     sLog->outString("##     ## ##     ## ##    ##  ######   #######  ##     ## ######## ");                                   
-	sLog->outString("Cataclysm Emulator Fork of TrilliumEMU ");
+	sLog->outString(" ");
+	sLog->outString("World of Warcraft: Cataclysm Emulator Framework");
 	sLog->outString("Arkania Community 2011 (c) ");
-	sLog->outString("<http://arkania.net> ");
+	sLog->outString("Website: http://arkania.net ");
                                                                                               
 #ifdef USE_SFMT_FOR_RNG
     sLog->outString("\n");

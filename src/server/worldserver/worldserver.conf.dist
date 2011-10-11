@@ -374,7 +374,7 @@ PersistentCharacterCleanFlags = 0
 #        Example:     "./worldd.pid" - (Enabled)
 #        Default:     ""             - (Disabled)
 
-PidFile = "pids/worldd.pid"
+PidFile = "worldd.pid"
 
 #
 #    Log.Directory

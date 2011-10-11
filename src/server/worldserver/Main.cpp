@@ -19,7 +19,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/// \addtogroup Trilliumd Trillium Daemon
+/// \addtogroup Arkcored Arkcore Daemon
 /// @{
 /// \file
 
@@ -41,8 +41,8 @@
 #ifdef _WIN32
 #include "ServiceWin32.h"
 char serviceName[] = "worldserver";
-char serviceLongName[] = "Trillium EMU world service";
-char serviceDescription[] = "Trillium EMU World of Warcraft emulator world service";
+char serviceLongName[] = "ArkCORE world service";
+char serviceDescription[] = "ArkCORE World of Warcraft emulator world service";
 /*
  * -1 - not in service mode
  *  0 - stopped
@@ -72,7 +72,7 @@ void usage(const char *prog)
         , prog);
 }
 
-/// Launch the Trillium server
+/// Launch the Arkcore server
 extern int main(int argc, char **argv)
 {
     ///- Command line parsing to get the configuration file name
@@ -150,7 +150,7 @@ extern int main(int argc, char **argv)
     // at sMaster return function exist with codes
     // 0 - normal shutdown
     // 1 - shutdown at error
-    // 2 - restart command used, this code can be used by restarter for restart Trilliumd
+    // 2 - restart command used, this code can be used by restarter for restart Arkcored
 
     return ret;
 }

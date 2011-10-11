@@ -20,7 +20,7 @@
  */
 
 /** \file
-    \ingroup Trilliumd
+    \ingroup Arkcored
 */
 
 #include "Common.h"
