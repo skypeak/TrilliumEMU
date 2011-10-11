@@ -50,7 +50,7 @@ class Aura;
 // AURA_EFFECT_HANDLE_CHANGE_AMOUNT_MASK set - aura is recalculated or is just applied/removed - need to redo all things related to m_amount
 // AURA_EFFECT_HANDLE_CHANGE_AMOUNT_SEND_FOR_CLIENT_MASK - logical or of above conditions
 // AURA_EFFECT_HANDLE_STAT - set when stats are reapplied
-// such checks will speedup Trillium change amount/send for client operations
+// such checks will speedup Arkcore change amount/send for client operations
 // because for change amount operation packets will not be send
 // aura effect handlers shouldn't contain any AuraEffect or Aura object modifications
 
@@ -2525,8 +2525,8 @@ void AuraEffect::HandleFeignDeath(AuraApplication const* aurApp, uint8 mode, boo
         */
 
         UnitList targets;
-        Trillium::AnyUnfriendlyUnitInObjectRangeCheck u_check(target, target, target->GetMap()->GetVisibilityRange());
-        Trillium::UnitListSearcher<Trillium::AnyUnfriendlyUnitInObjectRangeCheck> searcher(target, targets, u_check);
+        Arkcore::AnyUnfriendlyUnitInObjectRangeCheck u_check(target, target, target->GetMap()->GetVisibilityRange());
+        Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyUnitInObjectRangeCheck> searcher(target, targets, u_check);
         target->VisitNearbyObject(target->GetMap()->GetVisibilityRange(), searcher);
         for (UnitList::iterator iter = targets.begin(); iter != targets.end(); ++iter)
         {
@@ -2909,7 +2909,7 @@ void AuraEffect::HandleAuraMounted(AuraApplication const* aurApp, uint8 mode, bo
             target->Mount(plr->getGender() == GENDER_FEMALE ? 29423 : 29422, 0, GetMiscValue());
             target->Mount(plr->getGender() == GENDER_MALE ? 29422 : 29423, 0, GetMiscValue());
             return;
-        }
+        }		
 
         // Festive Holiday Mount
         if (target->HasAura(62061))
@@ -4790,7 +4790,7 @@ void AuraEffect::HandleAuraDummy(AuraApplication const* aurApp, uint8 mode, bool
                 if (target->GetTypeId() != TYPEID_PLAYER)
                     return;
                 //  ..while they are casting
-                if (target->IsNonMeleeSpellCasted(false, false, true, false, false))
+                if (target->IsNonMeleeSpellCasted(false, false, true, false, true))
                     if (AuraEffect* aurEff = caster->GetAuraEffect(SPELL_AURA_ADD_FLAT_MODIFIER, SPELLFAMILY_WARRIOR, 2775, 0))
                         switch (aurEff->GetId())
                         {
@@ -5267,7 +5267,7 @@ void AuraEffect::HandleAuraDummy(AuraApplication const* aurApp, uint8 mode, bool
                         else target->ToPlayer()->SetSpeed(MOVE_RUN, 1.0f, true);
                             target->ToPlayer()->setInWorgenForm(UNIT_FLAG2_WORGEN_TRANSFORM3);
                             target->GetAuraEffectsByType(SPELL_AURA_MOUNTED).front()->GetMiscValue();
-                            break;
+                            break;					
                 case 62061: // Festive Holiday Mount
                     if (target->HasAuraType(SPELL_AURA_MOUNTED))
                     {
@@ -5884,15 +5884,15 @@ void AuraEffect::HandlePeriodicDummyAuraTick(Unit* target, Unit* caster) const
                         // eff_radius == 0
                         float radius = GetSpellInfo()->GetMaxRange(false);
 
-                        CellPair p(Trillium::ComputeCellPair(target->GetPositionX(), target->GetPositionY()));
+                        CellPair p(Arkcore::ComputeCellPair(target->GetPositionX(), target->GetPositionY()));
                         Cell cell(p);
                         cell.data.Part.reserved = ALL_DISTRICT;
 
-                        Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck u_check(target, radius);
-                        Trillium::UnitListSearcher<Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck> checker(target, targets, u_check);
+                        Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck u_check(target, radius);
+                        Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck> checker(target, targets, u_check);
 
-                        TypeContainerVisitor<Trillium::UnitListSearcher<Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, GridTypeMapContainer > grid_object_checker(checker);
-                        TypeContainerVisitor<Trillium::UnitListSearcher<Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, WorldTypeMapContainer > world_object_checker(checker);
+                        TypeContainerVisitor<Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, GridTypeMapContainer > grid_object_checker(checker);
+                        TypeContainerVisitor<Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, WorldTypeMapContainer > world_object_checker(checker);
 
                         cell.Visit(p, grid_object_checker,  *GetBase()->GetOwner()->GetMap(), *target, radius);
                         cell.Visit(p, world_object_checker, *GetBase()->GetOwner()->GetMap(), *target, radius);
@@ -6988,12 +6988,13 @@ void AuraEffect::HandleRaidProcFromChargeWithValueAuraProc(AuraApplication* aurA
 void AuraEffect::HandleMastery(AuraApplication const* aurApp, uint8 mode, bool apply) const
 {
     Player* player = aurApp->GetBase()->GetOwner()->ToPlayer();
-    uint32 mastery;
+    uint32 mastery = 0;
     switch (player->GetActiveSpec())
     {
         case PALADIN_HOLY:          mastery = 76669; break;
         case PALADIN_PROTECTION:    mastery = 76671; break;
         case PALADIN_RETRIBUTION:   mastery = 76672; break;
     }
-    player->CastCustomSpell(player, mastery, NULL, NULL, NULL, false);
+    if (mastery != 0)
+       player->CastCustomSpell(player, mastery, NULL, NULL, NULL, false);
 }
