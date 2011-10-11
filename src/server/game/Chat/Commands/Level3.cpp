@@ -203,13 +203,13 @@ bool ChatHandler::HandleCooldownCommand(const char *args)
 
         if (!sSpellMgr->GetSpellInfo(spell_id))
         {
-            PSendSysMessage(LANG_UNKNOWN_SPELL, target == m_session->GetPlayer() ? GetTrilliumString(LANG_YOU) : tNameLink.c_str());
+            PSendSysMessage(LANG_UNKNOWN_SPELL, target == m_session->GetPlayer() ? GetArkcoreString(LANG_YOU) : tNameLink.c_str());
             SetSentErrorMessage(true);
             return false;
         }
 
         target->RemoveSpellCooldown(spell_id, true);
-        PSendSysMessage(LANG_REMOVE_COOLDOWN, spell_id, target == m_session->GetPlayer() ? GetTrilliumString(LANG_YOU) : tNameLink.c_str());
+        PSendSysMessage(LANG_REMOVE_COOLDOWN, spell_id, target == m_session->GetPlayer() ? GetArkcoreString(LANG_YOU) : tNameLink.c_str());
    }
     return true;
 }
@@ -264,7 +264,7 @@ bool ChatHandler::HandleAddItemCommand(const char *args)
     if (!plTarget)
         plTarget = pl;
 
-    sLog->outDetail(GetTrilliumString(LANG_ADDITEM), itemId, count);
+    sLog->outDetail(GetArkcoreString(LANG_ADDITEM), itemId, count);
 
     ItemTemplate const *pProto = sObjectMgr->GetItemTemplate(itemId);
     if (!pProto)
@@ -343,7 +343,7 @@ bool ChatHandler::HandleAddItemSetCommand(const char *args)
     if (!playerTarget)
         playerTarget = player;
 
-    sLog->outDetail(GetTrilliumString(LANG_ADDITEMSET), itemsetId);
+    sLog->outDetail(GetArkcoreString(LANG_ADDITEMSET), itemsetId);
 
     bool found = false;
     ItemTemplateContainer const* its = sObjectMgr->GetItemTemplateStore();
@@ -955,13 +955,13 @@ bool ChatHandler::HandleLookupSkillCommand(const char *args)
                 char const* knownStr = "";
                 if (target && target->HasSkill(id))
                 {
-                    knownStr = GetTrilliumString(LANG_KNOWN);
+                    knownStr = GetArkcoreString(LANG_KNOWN);
                     uint32 curValue = target->GetPureSkillValue(id);
                     uint32 maxValue  = target->GetPureMaxSkillValue(id);
                     uint32 permValue = target->GetSkillPermBonusValue(id);
                     uint32 tempValue = target->GetSkillTempBonusValue(id);
 
-                    char const* valFormat = GetTrilliumString(LANG_SKILL_VALUES);
+                    char const* valFormat = GetArkcoreString(LANG_SKILL_VALUES);
                     snprintf(valStr, 50, valFormat, curValue, maxValue, permValue, tempValue);
                 }
 
@@ -1043,7 +1043,7 @@ bool ChatHandler::HandleLookupSpellCommand(const char *args)
 
                 // include rank in link name
                 if (rank)
-                    ss << GetTrilliumString(LANG_SPELL_RANK) << rank;
+                    ss << GetArkcoreString(LANG_SPELL_RANK) << rank;
 
                 if (m_session)
                     ss << ' ' << localeNames[loc] << "]|h|r";
@@ -1051,15 +1051,15 @@ bool ChatHandler::HandleLookupSpellCommand(const char *args)
                     ss << ' ' << localeNames[loc];
 
                 if (talent)
-                    ss << GetTrilliumString(LANG_TALENT);
+                    ss << GetArkcoreString(LANG_TALENT);
                 if (passive)
-                    ss << GetTrilliumString(LANG_PASSIVE);
+                    ss << GetArkcoreString(LANG_PASSIVE);
                 if (learn)
-                    ss << GetTrilliumString(LANG_LEARN);
+                    ss << GetArkcoreString(LANG_LEARN);
                 if (known)
-                    ss << GetTrilliumString(LANG_KNOWN);
+                    ss << GetArkcoreString(LANG_KNOWN);
                 if (active)
-                    ss << GetTrilliumString(LANG_ACTIVE);
+                    ss << GetArkcoreString(LANG_ACTIVE);
 
                 SendSysMessage(ss.str().c_str());
 
@@ -1126,12 +1126,12 @@ bool ChatHandler::HandleLookupQuestCommand(const char *args)
                             if (status == QUEST_STATUS_COMPLETE)
                             {
                                 if (target->GetQuestRewardStatus(qinfo->GetQuestId()))
-                                    statusStr = GetTrilliumString(LANG_COMMAND_QUEST_REWARDED);
+                                    statusStr = GetArkcoreString(LANG_COMMAND_QUEST_REWARDED);
                                 else
-                                    statusStr = GetTrilliumString(LANG_COMMAND_QUEST_COMPLETE);
+                                    statusStr = GetArkcoreString(LANG_COMMAND_QUEST_COMPLETE);
                             }
                             else if (status == QUEST_STATUS_INCOMPLETE)
-                                statusStr = GetTrilliumString(LANG_COMMAND_QUEST_ACTIVE);
+                                statusStr = GetArkcoreString(LANG_COMMAND_QUEST_ACTIVE);
                         }
 
                         if (m_session)
@@ -1169,12 +1169,12 @@ bool ChatHandler::HandleLookupQuestCommand(const char *args)
                 if (status == QUEST_STATUS_COMPLETE)
                 {
                     if (target->GetQuestRewardStatus(qinfo->GetQuestId()))
-                        statusStr = GetTrilliumString(LANG_COMMAND_QUEST_REWARDED);
+                        statusStr = GetArkcoreString(LANG_COMMAND_QUEST_REWARDED);
                     else
-                        statusStr = GetTrilliumString(LANG_COMMAND_QUEST_COMPLETE);
+                        statusStr = GetArkcoreString(LANG_COMMAND_QUEST_COMPLETE);
                 }
                 else if (status == QUEST_STATUS_INCOMPLETE)
-                    statusStr = GetTrilliumString(LANG_COMMAND_QUEST_ACTIVE);
+                    statusStr = GetArkcoreString(LANG_COMMAND_QUEST_ACTIVE);
             }
 
             if (m_session)
@@ -1417,25 +1417,25 @@ bool ChatHandler::HandleLookupFactionCommand(const char *args)
                 if (repState)                               // and then target != NULL also
                 {
                     uint32 index = target->GetReputationMgr().GetReputationRankStrIndex(factionEntry);
-                    std::string rankName = GetTrilliumString(index);
+                    std::string rankName = GetArkcoreString(index);
 
                     ss << ' ' << rankName << "|h|r (" << target->GetReputationMgr().GetReputation(factionEntry) << ')';
 
                     if (repState->Flags & FACTION_FLAG_VISIBLE)
-                        ss << GetTrilliumString(LANG_FACTION_VISIBLE);
+                        ss << GetArkcoreString(LANG_FACTION_VISIBLE);
                     if (repState->Flags & FACTION_FLAG_AT_WAR)
-                        ss << GetTrilliumString(LANG_FACTION_ATWAR);
+                        ss << GetArkcoreString(LANG_FACTION_ATWAR);
                     if (repState->Flags & FACTION_FLAG_PEACE_FORCED)
-                        ss << GetTrilliumString(LANG_FACTION_PEACE_FORCED);
+                        ss << GetArkcoreString(LANG_FACTION_PEACE_FORCED);
                     if (repState->Flags & FACTION_FLAG_HIDDEN)
-                        ss << GetTrilliumString(LANG_FACTION_HIDDEN);
+                        ss << GetArkcoreString(LANG_FACTION_HIDDEN);
                     if (repState->Flags & FACTION_FLAG_INVISIBLE_FORCED)
-                        ss << GetTrilliumString(LANG_FACTION_INVISIBLE_FORCED);
+                        ss << GetArkcoreString(LANG_FACTION_INVISIBLE_FORCED);
                     if (repState->Flags & FACTION_FLAG_INACTIVE)
-                        ss << GetTrilliumString(LANG_FACTION_INACTIVE);
+                        ss << GetArkcoreString(LANG_FACTION_INACTIVE);
                 }
                 else
-                    ss << GetTrilliumString(LANG_FACTION_NOREPUTATION);
+                    ss << GetArkcoreString(LANG_FACTION_NOREPUTATION);
 
                 SendSysMessage(ss.str().c_str());
 
@@ -1578,20 +1578,20 @@ bool ChatHandler::HandleLookupMapCommand(const char *args)
                     ss << id << " - [" << name << ']';
 
                 if (MapInfo->IsContinent())
-                    ss << GetTrilliumString(LANG_CONTINENT);
+                    ss << GetArkcoreString(LANG_CONTINENT);
 
                 switch (MapInfo->map_type)
                 {
-                    case MAP_INSTANCE:      ss << GetTrilliumString(LANG_INSTANCE);      break;
-                    case MAP_BATTLEGROUND:  ss << GetTrilliumString(LANG_BATTLEGROUND);  break;
-                    case MAP_ARENA:         ss << GetTrilliumString(LANG_ARENA);         break;
+                    case MAP_INSTANCE:      ss << GetArkcoreString(LANG_INSTANCE);      break;
+                    case MAP_BATTLEGROUND:  ss << GetArkcoreString(LANG_BATTLEGROUND);  break;
+                    case MAP_ARENA:         ss << GetArkcoreString(LANG_ARENA);         break;
                 }
 
                 if (MapInfo->IsRaid())
-                    ss << GetTrilliumString(LANG_RAID);
+                    ss << GetArkcoreString(LANG_RAID);
 
                 if (MapInfo->SupportsHeroicMode())
-                    ss << GetTrilliumString(LANG_HEROIC);
+                    ss << GetArkcoreString(LANG_HEROIC);
 
                 uint32 ResetTimeRaid = MapInfo->resetTimeRaid;
 
@@ -1605,7 +1605,7 @@ bool ChatHandler::HandleLookupMapCommand(const char *args)
                     ResetTimeHeroicStr = secsToTimeString(ResetTimeHeroic, true, false);
 
                 if (MapInfo->IsMountAllowed())
-                    ss << GetTrilliumString(LANG_MOUNTABLE);
+                    ss << GetArkcoreString(LANG_MOUNTABLE);
 
                 if (ResetTimeRaid && !ResetTimeHeroic)
                     PSendSysMessage(ss.str().c_str(), ResetTimeRaidStr.c_str());
@@ -2062,14 +2062,14 @@ bool ChatHandler::HandleNearGraveCommand(const char *args)
 
         g_team = data->team;
 
-        std::string team_name = GetTrilliumString(LANG_COMMAND_GRAVEYARD_NOTEAM);
+        std::string team_name = GetArkcoreString(LANG_COMMAND_GRAVEYARD_NOTEAM);
 
         if (g_team == 0)
-            team_name = GetTrilliumString(LANG_COMMAND_GRAVEYARD_ANY);
+            team_name = GetArkcoreString(LANG_COMMAND_GRAVEYARD_ANY);
         else if (g_team == HORDE)
-            team_name = GetTrilliumString(LANG_COMMAND_GRAVEYARD_HORDE);
+            team_name = GetArkcoreString(LANG_COMMAND_GRAVEYARD_HORDE);
         else if (g_team == ALLIANCE)
-            team_name = GetTrilliumString(LANG_COMMAND_GRAVEYARD_ALLIANCE);
+            team_name = GetArkcoreString(LANG_COMMAND_GRAVEYARD_ALLIANCE);
 
         PSendSysMessage(LANG_COMMAND_GRAVEYARDNEAREST, g_id, team_name.c_str(), zone_id);
     }
@@ -2078,11 +2078,11 @@ bool ChatHandler::HandleNearGraveCommand(const char *args)
         std::string team_name;
 
         if (g_team == 0)
-            team_name = GetTrilliumString(LANG_COMMAND_GRAVEYARD_ANY);
+            team_name = GetArkcoreString(LANG_COMMAND_GRAVEYARD_ANY);
         else if (g_team == HORDE)
-            team_name = GetTrilliumString(LANG_COMMAND_GRAVEYARD_HORDE);
+            team_name = GetArkcoreString(LANG_COMMAND_GRAVEYARD_HORDE);
         else if (g_team == ALLIANCE)
-            team_name = GetTrilliumString(LANG_COMMAND_GRAVEYARD_ALLIANCE);
+            team_name = GetArkcoreString(LANG_COMMAND_GRAVEYARD_ALLIANCE);
 
         if (g_team == ~uint32(0))
             PSendSysMessage(LANG_COMMAND_ZONENOGRAVEYARDS, zone_id);
@@ -2382,8 +2382,8 @@ bool ChatHandler::HandleListAurasCommand (const char * /*args*/)
         return false;
     }
 
-    char const* talentStr = GetTrilliumString(LANG_TALENT);
-    char const* passiveStr = GetTrilliumString(LANG_PASSIVE);
+    char const* talentStr = GetArkcoreString(LANG_TALENT);
+    char const* passiveStr = GetArkcoreString(LANG_PASSIVE);
 
     Unit::AuraApplicationMap const& uAuras = unit->GetAppliedAuras();
     PSendSysMessage(LANG_COMMAND_TARGET_LISTAURAS, uAuras.size());
@@ -3101,9 +3101,9 @@ bool ChatHandler::HandleBanInfoCharacterCommand(const char *args)
         if (fields[2].GetUInt8() && (!fields[1].GetUInt32() || unbandate >= time(NULL)))
             active = true;
         bool permanent = (fields[1].GetUInt32() == uint32(0));
-        std::string bantime = permanent ? GetTrilliumString(LANG_BANINFO_INFINITE) : secsToTimeString(fields[1].GetUInt32(), true);
+        std::string bantime = permanent ? GetArkcoreString(LANG_BANINFO_INFINITE) : secsToTimeString(fields[1].GetUInt32(), true);
         PSendSysMessage(LANG_BANINFO_HISTORYENTRY,
-            fields[0].GetCString(), bantime.c_str(), active ? GetTrilliumString(LANG_BANINFO_YES) : GetTrilliumString(LANG_BANINFO_NO), fields[4].GetCString(), fields[5].GetCString());
+            fields[0].GetCString(), bantime.c_str(), active ? GetArkcoreString(LANG_BANINFO_YES) : GetArkcoreString(LANG_BANINFO_NO), fields[4].GetCString(), fields[5].GetCString());
     }
     while (result->NextRow());
 
@@ -3129,9 +3129,9 @@ bool ChatHandler::HandleBanInfoHelper(uint32 accountid, char const* accountname)
         if (fields[2].GetBool() && (fields[1].GetUInt64() == (uint64)0 ||unbandate >= time(NULL)))
             active = true;
         bool permanent = (fields[1].GetUInt64() == (uint64)0);
-        std::string bantime = permanent ? GetTrilliumString(LANG_BANINFO_INFINITE) : secsToTimeString(fields[1].GetUInt64(), true);
+        std::string bantime = permanent ? GetArkcoreString(LANG_BANINFO_INFINITE) : secsToTimeString(fields[1].GetUInt64(), true);
         PSendSysMessage(LANG_BANINFO_HISTORYENTRY,
-            fields[0].GetCString(), bantime.c_str(), active ? GetTrilliumString(LANG_BANINFO_YES) : GetTrilliumString(LANG_BANINFO_NO), fields[4].GetCString(), fields[5].GetCString());
+            fields[0].GetCString(), bantime.c_str(), active ? GetArkcoreString(LANG_BANINFO_YES) : GetArkcoreString(LANG_BANINFO_NO), fields[4].GetCString(), fields[5].GetCString());
     } while (result->NextRow());
 
     return true;
@@ -3162,8 +3162,8 @@ bool ChatHandler::HandleBanInfoIPCommand(const char *args)
     Field* fields = result->Fetch();
     bool permanent = !fields[6].GetUInt64();
     PSendSysMessage(LANG_BANINFO_IPENTRY,
-        fields[0].GetCString(), fields[1].GetCString(), permanent ? GetTrilliumString(LANG_BANINFO_NEVER) : fields[2].GetCString(),
-        permanent ? GetTrilliumString(LANG_BANINFO_INFINITE) : secsToTimeString(fields[3].GetUInt64(), true).c_str(), fields[4].GetCString(), fields[5].GetCString());
+        fields[0].GetCString(), fields[1].GetCString(), permanent ? GetArkcoreString(LANG_BANINFO_NEVER) : fields[2].GetCString(),
+        permanent ? GetArkcoreString(LANG_BANINFO_INFINITE) : secsToTimeString(fields[3].GetUInt64(), true).c_str(), fields[4].GetCString(), fields[5].GetCString());
 
     return true;
 }
@@ -3452,15 +3452,15 @@ bool ChatHandler::HandleRespawnCommand(const char* /*args*/)
         return true;
     }
 
-    CellPair p(Trillium::ComputeCellPair(pl->GetPositionX(), pl->GetPositionY()));
+    CellPair p(Arkcore::ComputeCellPair(pl->GetPositionX(), pl->GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
-    Trillium::RespawnDo u_do;
-    Trillium::WorldObjectWorker<Trillium::RespawnDo> worker(pl, u_do);
+    Arkcore::RespawnDo u_do;
+    Arkcore::WorldObjectWorker<Arkcore::RespawnDo> worker(pl, u_do);
 
-    TypeContainerVisitor<Trillium::WorldObjectWorker<Trillium::RespawnDo>, GridTypeMapContainer > obj_worker(worker);
+    TypeContainerVisitor<Arkcore::WorldObjectWorker<Arkcore::RespawnDo>, GridTypeMapContainer > obj_worker(worker);
     cell.Visit(p, obj_worker, *pl->GetMap());
 
     return true;

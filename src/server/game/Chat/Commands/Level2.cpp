@@ -312,11 +312,11 @@ bool ChatHandler::HandlePInfoCommand(const char* args)
         areaId = fields[7].GetUInt16();
     }
 
-    std::string username = GetTrilliumString(LANG_ERROR);
-    std::string email = GetTrilliumString(LANG_ERROR);
-    std::string last_ip = GetTrilliumString(LANG_ERROR);
+    std::string username = GetArkcoreString(LANG_ERROR);
+    std::string email = GetArkcoreString(LANG_ERROR);
+    std::string last_ip = GetArkcoreString(LANG_ERROR);
     uint32 security = 0;
-    std::string last_login = GetTrilliumString(LANG_ERROR);
+    std::string last_login = GetArkcoreString(LANG_ERROR);
 
     QueryResult result = LoginDatabase.PQuery("SELECT a.username, aa.gmlevel, a.email, a.last_ip, a.last_login, a.mutetime "
                                                 "FROM account a "
@@ -348,7 +348,7 @@ bool ChatHandler::HandlePInfoCommand(const char* args)
 
     std::string nameLink = playerLink(target_name);
 
-    PSendSysMessage(LANG_PINFO_ACCOUNT, (target?"":GetTrilliumString(LANG_OFFLINE)), nameLink.c_str(), GUID_LOPART(target_guid), username.c_str(), accId, email.c_str(), security, last_ip.c_str(), last_login.c_str(), latency);
+    PSendSysMessage(LANG_PINFO_ACCOUNT, (target?"":GetArkcoreString(LANG_OFFLINE)), nameLink.c_str(), GUID_LOPART(target_guid), username.c_str(), accId, email.c_str(), security, last_ip.c_str(), last_login.c_str(), latency);
 
     std::string bannedby = "unknown";
     std::string banreason = "";
@@ -571,7 +571,7 @@ bool ChatHandler::HandleCharacterReputationCommand(const char* args)
         FactionEntry const *factionEntry = sFactionStore.LookupEntry(faction.ID);
         char const* factionName = factionEntry ? factionEntry->name[loc] : "#Not found#";
         ReputationRank rank = target->GetReputationMgr().GetRank(factionEntry);
-        std::string rankName = GetTrilliumString(ReputationRankStrIndex[rank]);
+        std::string rankName = GetArkcoreString(ReputationRankStrIndex[rank]);
         std::ostringstream ss;
         if (m_session)
             ss << faction.ID << " - |cffffffff|Hfaction:" << faction.ID << "|h[" << factionName << ' ' << localeNames[loc] << "]|h|r";
@@ -581,17 +581,17 @@ bool ChatHandler::HandleCharacterReputationCommand(const char* args)
         ss << ' ' << rankName << " (" << target->GetReputationMgr().GetReputation(factionEntry) << ')';
 
         if (faction.Flags & FACTION_FLAG_VISIBLE)
-            ss << GetTrilliumString(LANG_FACTION_VISIBLE);
+            ss << GetArkcoreString(LANG_FACTION_VISIBLE);
         if (faction.Flags & FACTION_FLAG_AT_WAR)
-            ss << GetTrilliumString(LANG_FACTION_ATWAR);
+            ss << GetArkcoreString(LANG_FACTION_ATWAR);
         if (faction.Flags & FACTION_FLAG_PEACE_FORCED)
-            ss << GetTrilliumString(LANG_FACTION_PEACE_FORCED);
+            ss << GetArkcoreString(LANG_FACTION_PEACE_FORCED);
         if (faction.Flags & FACTION_FLAG_HIDDEN)
-            ss << GetTrilliumString(LANG_FACTION_HIDDEN);
+            ss << GetArkcoreString(LANG_FACTION_HIDDEN);
         if (faction.Flags & FACTION_FLAG_INVISIBLE_FORCED)
-            ss << GetTrilliumString(LANG_FACTION_INVISIBLE_FORCED);
+            ss << GetArkcoreString(LANG_FACTION_INVISIBLE_FORCED);
         if (faction.Flags & FACTION_FLAG_INACTIVE)
-            ss << GetTrilliumString(LANG_FACTION_INACTIVE);
+            ss << GetArkcoreString(LANG_FACTION_INACTIVE);
 
         SendSysMessage(ss.str().c_str());
     }
@@ -635,7 +635,7 @@ bool ChatHandler::HandleLookupEventCommand(const char* args)
                 return true;
             }
 
-            char const* active = activeEvents.find(id) != activeEvents.end() ? GetTrilliumString(LANG_ACTIVE) : "";
+            char const* active = activeEvents.find(id) != activeEvents.end() ? GetArkcoreString(LANG_ACTIVE) : "";
 
             if (m_session)
                 PSendSysMessage(LANG_EVENT_ENTRY_LIST_CHAT, id, id, eventData.description.c_str(), active);
@@ -1039,10 +1039,10 @@ bool ChatHandler::HandleLookupTitleCommand(const char* args)
                     return true;
                 }
 
-                char const* knownStr = target && target->HasTitle(titleInfo) ? GetTrilliumString(LANG_KNOWN) : "";
+                char const* knownStr = target && target->HasTitle(titleInfo) ? GetArkcoreString(LANG_KNOWN) : "";
 
                 char const* activeStr = target && target->GetUInt32Value(PLAYER_CHOSEN_TITLE) == titleInfo->bit_index
-                    ? GetTrilliumString(LANG_ACTIVE)
+                    ? GetArkcoreString(LANG_ACTIVE)
                     : "";
 
                 char titleNameStr[80];
@@ -1074,7 +1074,7 @@ bool ChatHandler::HandleCharacterTitlesCommand(const char* args)
 
     LocaleConstant loc = GetSessionDbcLocale();
     char const* targetName = target->GetName();
-    char const* knownStr = GetTrilliumString(LANG_KNOWN);
+    char const* knownStr = GetArkcoreString(LANG_KNOWN);
 
     // Search in CharTitles.dbc
     for (uint32 id = 0; id < sCharTitlesStore.GetNumRows(); id++)
@@ -1087,7 +1087,7 @@ bool ChatHandler::HandleCharacterTitlesCommand(const char* args)
                 continue;
 
             char const* activeStr = target && target->GetUInt32Value(PLAYER_CHOSEN_TITLE) == titleInfo->bit_index
-                ? GetTrilliumString(LANG_ACTIVE)
+                ? GetArkcoreString(LANG_ACTIVE)
                 : "";
 
             char titleNameStr[80];

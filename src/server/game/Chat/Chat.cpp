@@ -464,7 +464,7 @@ ChatCommand * ChatHandler::getCommandTable()
 
 std::string ChatHandler::PGetParseString(int32 entry, ...) const
 {
-    const char *format = GetTrilliumString(entry);
+    const char *format = GetArkcoreString(entry);
     char str[1024];
     va_list ap;
     va_start(ap, entry);
@@ -473,9 +473,9 @@ std::string ChatHandler::PGetParseString(int32 entry, ...) const
     return std::string(str);
 }
 
-const char *ChatHandler::GetTrilliumString(int32 entry) const
+const char *ChatHandler::GetArkcoreString(int32 entry) const
 {
-    return m_session->GetTrilliumString(entry);
+    return m_session->GetArkcoreString(entry);
 }
 
 bool ChatHandler::isAvailable(ChatCommand const& cmd) const
@@ -613,12 +613,12 @@ void ChatHandler::SendGlobalGMSysMessage(const char *str)
 
 void ChatHandler::SendSysMessage(int32 entry)
 {
-    SendSysMessage(GetTrilliumString(entry));
+    SendSysMessage(GetArkcoreString(entry));
 }
 
 void ChatHandler::PSendSysMessage(int32 entry, ...)
 {
-    const char *format = GetTrilliumString(entry);
+    const char *format = GetArkcoreString(entry);
     va_list ap;
     char str [2048];
     va_start(ap, entry);
@@ -1224,8 +1224,8 @@ GameObject* ChatHandler::GetNearbyGameObject()
 
     Player* pl = m_session->GetPlayer();
     GameObject* obj = NULL;
-    Trillium::NearestGameObjectCheck check(*pl);
-    Trillium::GameObjectLastSearcher<Trillium::NearestGameObjectCheck> searcher(pl, obj, check);
+    Arkcore::NearestGameObjectCheck check(*pl);
+    Arkcore::GameObjectLastSearcher<Arkcore::NearestGameObjectCheck> searcher(pl, obj, check);
     pl->VisitNearbyGridObject(999, searcher);
     return obj;
 }
@@ -1242,14 +1242,14 @@ GameObject* ChatHandler::GetObjectGlobalyWithGuidOrNearWithDbGuid(uint32 lowguid
     if (!obj && sObjectMgr->GetGOData(lowguid))                   // guid is DB guid of object
     {
         // search near player then
-        CellPair p(Trillium::ComputeCellPair(pl->GetPositionX(), pl->GetPositionY()));
+        CellPair p(Arkcore::ComputeCellPair(pl->GetPositionX(), pl->GetPositionY()));
         Cell cell(p);
         cell.data.Part.reserved = ALL_DISTRICT;
 
-        Trillium::GameObjectWithDbGUIDCheck go_check(*pl, lowguid);
-        Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck> checker(pl, obj, go_check);
+        Arkcore::GameObjectWithDbGUIDCheck go_check(*pl, lowguid);
+        Arkcore::GameObjectSearcher<Arkcore::GameObjectWithDbGUIDCheck> checker(pl, obj, go_check);
 
-        TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > object_checker(checker);
+        TypeContainerVisitor<Arkcore::GameObjectSearcher<Arkcore::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > object_checker(checker);
         cell.Visit(p, object_checker, *pl->GetMap());
     }
 
@@ -1527,9 +1527,9 @@ int ChatHandler::GetSessionDbLocaleIndex() const
     return m_session->GetSessionDbLocaleIndex();
 }
 
-const char *CliHandler::GetTrilliumString(int32 entry) const
+const char *CliHandler::GetArkcoreString(int32 entry) const
 {
-    return sObjectMgr->GetTrilliumStringForDBCLocale(entry);
+    return sObjectMgr->GetArkcoreStringForDBCLocale(entry);
 }
 
 bool CliHandler::isAvailable(ChatCommand const& cmd) const
@@ -1546,7 +1546,7 @@ void CliHandler::SendSysMessage(const char *str)
 
 std::string CliHandler::GetNameLink() const
 {
-    return GetTrilliumString(LANG_CONSOLE_COMMAND);
+    return GetArkcoreString(LANG_CONSOLE_COMMAND);
 }
 
 bool CliHandler::needReportToTarget(Player* /*chr*/) const
