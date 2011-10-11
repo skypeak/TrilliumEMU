@@ -260,7 +260,7 @@ class ThreatManager
 
 //=================================================
 
-namespace Trillium
+namespace Arkcore
 {
     // Binary predicate for sorting HostileReferences based on threat value
     class ThreatOrderPred
