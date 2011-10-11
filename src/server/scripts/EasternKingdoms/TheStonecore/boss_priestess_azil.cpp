@@ -22,19 +22,19 @@
 #include "ScriptPCH.h"
 #include "the_stonecore.h"
 
-class boss_ozruk : public CreatureScript
+class boss_priestess_azil : public CreatureScript
 {
 public:
-    boss_ozruk() : CreatureScript("boss_ozruk") { }
+    boss_priestess_azil() : CreatureScript("boss_priestess_azil") { }
 
     CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_ozrukAI (creature);
+        return new boss_priestess_azilAI (creature);
     }
 
-    struct boss_ozrukAI : public ScriptedAI
+    struct boss_priestess_azilAI : public ScriptedAI
     {
-        boss_ozrukAI(Creature* creature) : ScriptedAI(creature)
+        boss_priestess_azilAI(Creature* creature) : ScriptedAI(creature)
         {
             pInstance = creature->GetInstanceScript();
         }
@@ -55,7 +55,7 @@ public:
     };
 };
 
-void AddSC_boss_ozruk()
+void AddSC_boss_priestess_azil()
 {
-    new boss_ozruk();
+    new boss_priestess_azil();
 }
