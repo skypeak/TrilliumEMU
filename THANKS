@@ -1,11 +1,23 @@
 This file contains all people that in some way helped out our project:
-Original by:
-MaNGoS: http://www.getmangos.com
-Initial Based on:
-TrinityCore: http://www.trinitycore.org
-Rebase on:
-TrilliumEMU: http://forums.arkania.net
+ArkCORE is a fork of TrilliumEMU that was a derivation/rewrite of MaNGOS and TrinityCore for Cataclysm, 
+which was originally written by Team Python and the WoW Daemon Team. Thanks to the community!
 
-Special thanks to Venugh and AriDEV
+Special thanks should go out to Venugh and AriDEV because they this project exist
 
-People that had contrib in this project:
+We want to thanks WowwoW team. We have gained help from
+them many times in the creation of this project. Keep up the good work guys.
+
+
+Thanks to SkyFire for some patches/Fixes www.project-skyfire.org
+Thanks to TrinityCore for base www.trinitycore.org
+Thanks to MaNGoS for base www.getmangos.com
+Thanks to TrilliumEMU: www.trilliumemu.org
+Thanks to Project Voragine: www.projectvoragine.com/
+
+Thanks go out to the following people for various patches/code (listed in the
+order they were added): Chameleon, Pek, Fabi, LordJZ, Azazel, Dvlpr, Brecky, Keany, Arktus, Yezi, xelfe,
+Sovak, Openmage, Kitiara, MobileDev, Bootz, AlterEgo, et2012, Nibelar, raxume.
+
+
+And special thanks to our Team and our community!
+http://www.arkania.net
