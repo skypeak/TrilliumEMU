@@ -39,7 +39,7 @@
 #include "SpellAuraEffects.h"
 #include "Util.h"
 
-namespace Trillium
+namespace Arkcore
 {
     class BattlegroundChatBuilder
     {
@@ -49,7 +49,7 @@ namespace Trillium
 
             void operator()(WorldPacket& data, LocaleConstant loc_idx)
             {
-                char const* text = sObjectMgr->GetTrilliumString(_textId, loc_idx);
+                char const* text = sObjectMgr->GetArkcoreString(_textId, loc_idx);
                 if (_args)
                 {
                     // we need copy va_list before use or original va_list will corrupted
@@ -95,9 +95,9 @@ namespace Trillium
 
             void operator()(WorldPacket& data, LocaleConstant loc_idx)
             {
-                char const* text = sObjectMgr->GetTrilliumString(_textId, loc_idx);
-                char const* arg1str = _arg1 ? sObjectMgr->GetTrilliumString(_arg1, loc_idx) : "";
-                char const* arg2str = _arg2 ? sObjectMgr->GetTrilliumString(_arg2, loc_idx) : "";
+                char const* text = sObjectMgr->GetArkcoreString(_textId, loc_idx);
+                char const* arg1str = _arg1 ? sObjectMgr->GetArkcoreString(_arg1, loc_idx) : "";
+                char const* arg2str = _arg2 ? sObjectMgr->GetArkcoreString(_arg2, loc_idx) : "";
 
                 char str[2048];
                 snprintf(str, 2048, text, arg1str, arg2str);
@@ -121,7 +121,7 @@ namespace Trillium
             int32 _arg1;
             int32 _arg2;
     };
-}                                                           // namespace Trillium
+}                                                           // namespace Arkcore
 
 template<class Do>
 void Battleground::BroadcastWorker(Do& _do)
@@ -893,7 +893,7 @@ uint32 Battleground::GetBonusHonorFromKill(uint32 kills) const
 {
     //variable kills means how many honorable kills you scored (so we need kills * honor_for_one_kill)
     uint32 maxLevel = std::min(GetMaxLevel(), 80U);
-    return Trillium::Honor::hk_honor_at_level(maxLevel, float(kills));
+    return Arkcore::Honor::hk_honor_at_level(maxLevel, float(kills));
 }
 
 uint32 Battleground::GetBattlemasterEntry() const
@@ -1649,8 +1649,8 @@ void Battleground::SendMessageToAll(int32 entry, ChatMsg type, Player const* sou
     if (!entry)
         return;
 
-    Trillium::BattlegroundChatBuilder bg_builder(type, entry, source);
-    Trillium::LocalizedPacketDo<Trillium::BattlegroundChatBuilder> bg_do(bg_builder);
+    Arkcore::BattlegroundChatBuilder bg_builder(type, entry, source);
+    Arkcore::LocalizedPacketDo<Arkcore::BattlegroundChatBuilder> bg_do(bg_builder);
     BroadcastWorker(bg_do);
 }
 
@@ -1662,8 +1662,8 @@ void Battleground::PSendMessageToAll(int32 entry, ChatMsg type, Player const* so
     va_list ap;
     va_start(ap, source);
 
-    Trillium::BattlegroundChatBuilder bg_builder(type, entry, source, &ap);
-    Trillium::LocalizedPacketDo<Trillium::BattlegroundChatBuilder> bg_do(bg_builder);
+    Arkcore::BattlegroundChatBuilder bg_builder(type, entry, source, &ap);
+    Arkcore::LocalizedPacketDo<Arkcore::BattlegroundChatBuilder> bg_do(bg_builder);
     BroadcastWorker(bg_do);
 
     va_end(ap);
@@ -1674,7 +1674,7 @@ void Battleground::SendWarningToAll(int32 entry, ...)
     if (!entry)
         return;
 
-    const char *format = sObjectMgr->GetTrilliumStringForDBCLocale(entry);
+    const char *format = sObjectMgr->GetArkcoreStringForDBCLocale(entry);
 
     char str[1024];
     va_list ap;
@@ -1703,8 +1703,8 @@ void Battleground::SendWarningToAll(int32 entry, ...)
 
 void Battleground::SendMessage2ToAll(int32 entry, ChatMsg type, Player const* source, int32 arg1, int32 arg2)
 {
-    Trillium::Battleground2ChatBuilder bg_builder(type, entry, source, arg1, arg2);
-    Trillium::LocalizedPacketDo<Trillium::Battleground2ChatBuilder> bg_do(bg_builder);
+    Arkcore::Battleground2ChatBuilder bg_builder(type, entry, source, arg1, arg2);
+    Arkcore::LocalizedPacketDo<Arkcore::Battleground2ChatBuilder> bg_do(bg_builder);
     BroadcastWorker(bg_do);
 }
 
@@ -1716,10 +1716,10 @@ void Battleground::EndNow()
 }
 
 // To be removed
-const char* Battleground::GetTrilliumString(int32 entry)
+const char* Battleground::GetArkcoreString(int32 entry)
 {
     // FIXME: now we have different DBC locales and need localized message for each target client
-    return sObjectMgr->GetTrilliumStringForDBCLocale(entry);
+    return sObjectMgr->GetArkcoreStringForDBCLocale(entry);
 }
 
 // IMPORTANT NOTICE:

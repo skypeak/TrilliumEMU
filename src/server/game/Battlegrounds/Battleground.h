@@ -558,7 +558,7 @@ class Battleground
         void DoorOpen(uint32 type);
         void DoorClose(uint32 type);
         //to be removed
-        const char* GetTrilliumString(int32 entry);
+        const char* GetArkcoreString(int32 entry);
 
         virtual bool HandlePlayerUnderMap(Player* /*plr*/) { return false; }
 
