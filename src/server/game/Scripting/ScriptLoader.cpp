@@ -86,6 +86,9 @@ void AddSC_boss_balinda();
 void AddSC_boss_drekthar();
 void AddSC_boss_galvangar();
 void AddSC_boss_vanndar();
+void AddSC_instance_baradin_hold();          //Baradin Hold
+void AddSC_boss_argaloth();
+void AddSC_boss_occuthar();
 void AddSC_blackrock_depths();               //Blackrock Depths
 void AddSC_boss_ambassador_flamelash();
 void AddSC_boss_anubshiah();
@@ -121,10 +124,22 @@ void AddSC_boss_chromaggus();
 void AddSC_boss_nefarian();
 void AddSC_boss_victor_nefarius();
 void AddSC_boss_mr_smite();
+void AddSC_boss_omnotron_defense_system(); //Blackwing Descent
+void AddSC_boss_bd_nefarian();
+void AddSC_boss_maloriak();
+void AddSC_boss_atramedes();
+void AddSC_boss_magmaw();
+void AddSC_boss_chimaeron();
+void AddSC_instance_blackwing_descent();
 void AddSC_deadmines();                      //Deadmines
 void AddSC_instance_deadmines();
 void AddSC_gnomeregan();                     //Gnomeregan
 void AddSC_instance_gnomeregan();
+void AddSC_boss_general_umbriss();           //Grimbatol
+void AddSC_boss_forgemaster_throngus();
+void AddSC_boss_drahga_shadowburner();
+void AddSC_boss_erudax();
+void AddSC_instance_grim_batol();
 void AddSC_boss_attumen();                   //Karazhan
 void AddSC_boss_curator();
 void AddSC_boss_maiden_of_virtue();
@@ -185,6 +200,12 @@ void AddSC_boss_vectus();
 void AddSC_instance_scholomance();
 void AddSC_shadowfang_keep();                //Shadowfang keep
 void AddSC_instance_shadowfang_keep();
+void AddSC_the_stonecore();                  //The Stonecore
+void AddSC_instance_the_stonecore();
+void AddSC_boss_priestess_azil();
+void AddSC_boss_ozruk();
+void AddSC_boss_slabhide();
+void AddSC_boss_corborus();
 void AddSC_boss_magistrate_barthilas();      //Stratholme
 void AddSC_boss_maleki_the_pallid();
 void AddSC_boss_nerubenkan();
@@ -208,6 +229,12 @@ void AddSC_boss_eredar_twins();
 void AddSC_boss_muru();
 void AddSC_boss_kiljaeden();
 void AddSC_sunwell_plateau();
+void AddSC_instance_throne_of_the_tides();   //Abyssal Maw: Throne of the Tides
+void AddSC_boss_ozumat();
+void AddSC_boss_ghursha();
+void AddSC_boss_nazjar();
+void AddSC_boss_erunak_stonespeaker();
+void AddSC_boss_ulthok();
 void AddSC_boss_archaedas();                 //Uldaman
 void AddSC_boss_ironaya();
 void AddSC_uldaman();
@@ -272,6 +299,14 @@ void AddSC_boss_mal_ganis();
 void AddSC_boss_meathook();
 void AddSC_culling_of_stratholme();
 void AddSC_instance_culling_of_stratholme();
+void AddSC_instance_halls_of_origination();  //Halls of Origination
+void AddSC_boss_temple_guardian_anhuur();
+void AddSC_boss_ptah();
+void AddSC_boss_anraphet();
+void AddSC_boss_ammunae();
+void AddSC_boss_setesh();
+void AddSC_boss_rajh();
+void AddSC_boss_isiset();
 void AddSC_boss_celebras_the_cursed();       //Maraudon
 void AddSC_boss_landslide();
 void AddSC_boss_noxxion();
@@ -443,6 +478,7 @@ void AddSC_boss_professor_putricide();
 void AddSC_boss_blood_prince_council();
 void AddSC_boss_blood_queen_lana_thel();
 void AddSC_boss_valithria_dreamwalker();
+void AddSC_boss_lichking();
 void AddSC_boss_sindragosa();
 void AddSC_icecrown_citadel_teleport();
 void AddSC_instance_icecrown_citadel();
@@ -655,6 +691,9 @@ void AddEasternKingdomsScripts()
     AddSC_boss_drekthar();
     AddSC_boss_galvangar();
     AddSC_boss_vanndar();
+    AddSC_instance_baradin_hold();          //Baradin Hold
+    AddSC_boss_argaloth();
+    AddSC_boss_occuthar();
     AddSC_blackrock_depths();               //Blackrock Depths
     AddSC_boss_ambassador_flamelash();
     AddSC_boss_anubshiah();
@@ -690,10 +729,22 @@ void AddEasternKingdomsScripts()
     AddSC_boss_nefarian();
     AddSC_boss_victor_nefarius();
     AddSC_boss_mr_smite();
+	AddSC_boss_omnotron_defense_system(); //Blackwing Descent
+    AddSC_boss_bd_nefarian();
+    AddSC_boss_maloriak();
+    AddSC_boss_atramedes();
+    AddSC_boss_magmaw();
+    AddSC_boss_chimaeron();
+    AddSC_instance_blackwing_descent();
     AddSC_deadmines();                      //Deadmines
     AddSC_instance_deadmines();
     AddSC_gnomeregan();                     //Gnomeregan
     AddSC_instance_gnomeregan();
+    AddSC_boss_general_umbriss();           //Grimbatol
+    AddSC_boss_forgemaster_throngus();
+    AddSC_boss_drahga_shadowburner();
+    AddSC_boss_erudax();
+    AddSC_instance_grim_batol();
     AddSC_boss_attumen();                   //Karazhan
     AddSC_boss_curator();
     AddSC_boss_maiden_of_virtue();
@@ -754,6 +805,12 @@ void AddEasternKingdomsScripts()
     AddSC_instance_scholomance();
     AddSC_shadowfang_keep();                //Shadowfang keep
     AddSC_instance_shadowfang_keep();
+    AddSC_the_stonecore();                  //The Stonecore
+    AddSC_instance_the_stonecore();
+    AddSC_boss_priestess_azil();
+    AddSC_boss_ozruk();
+    AddSC_boss_slabhide();
+    AddSC_boss_corborus();
     AddSC_boss_magistrate_barthilas();      //Stratholme
     AddSC_boss_maleki_the_pallid();
     AddSC_boss_nerubenkan();
@@ -777,6 +834,12 @@ void AddEasternKingdomsScripts()
     AddSC_boss_muru();
     AddSC_boss_kiljaeden();
     AddSC_sunwell_plateau();
+    AddSC_instance_throne_of_the_tides();   //Abyssal Maw: Throne of the Tides
+    AddSC_boss_ozumat();
+    AddSC_boss_ghursha();
+    AddSC_boss_nazjar();
+    AddSC_boss_erunak_stonespeaker();
+    AddSC_boss_ulthok();
     AddSC_boss_archaedas();                 //Uldaman
     AddSC_boss_ironaya();
     AddSC_uldaman();
@@ -844,6 +907,14 @@ void AddKalimdorScripts()
     AddSC_boss_meathook();
     AddSC_culling_of_stratholme();
     AddSC_instance_culling_of_stratholme();
+    AddSC_instance_halls_of_origination();  //Halls of Origination
+    AddSC_boss_temple_guardian_anhuur();
+    AddSC_boss_ptah();
+    AddSC_boss_anraphet();
+    AddSC_boss_ammunae();
+    AddSC_boss_setesh();
+    AddSC_boss_rajh();
+    AddSC_boss_isiset();	
     AddSC_boss_celebras_the_cursed();       //Maraudon
     AddSC_boss_landslide();
     AddSC_boss_noxxion();
@@ -1105,6 +1176,7 @@ void AddNorthrendScripts()
     AddSC_boss_blood_prince_council();
     AddSC_boss_blood_queen_lana_thel();
     AddSC_boss_valithria_dreamwalker();
+	AddSC_boss_lichking();
     AddSC_boss_sindragosa();
     AddSC_icecrown_citadel_teleport();
     AddSC_instance_icecrown_citadel();
