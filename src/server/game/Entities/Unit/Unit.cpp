@@ -1507,6 +1507,14 @@ uint32 Unit::CalcArmorReducedDamage(Unit* victim, const uint32 damage, SpellInfo
 {
     uint32 newdamage = 0;
     float armor = float(victim->GetArmor());
+	
+    // decrease enemy armor effectiveness by SPELL_AURA_MOD_ARMOR_EFFECTIVENESS_FOR_CASTER
+    int32 auraEffectivenessReduction = 0;
+    AuraEffectList const & reductionAuras = victim->GetAuraEffectsByType(SPELL_AURA_MOD_ARMOR_EFFECTIVENESS_FOR_CASTER);
+    for (AuraEffectList::const_iterator i = reductionAuras.begin(); i != reductionAuras.end(); ++i)
+        if ((*i)->GetCasterGUID() == GetGUID())
+            auraEffectivenessReduction += (*i)->GetAmount();
+    armor = CalculatePctN(armor, 100 - std::min(auraEffectivenessReduction, 100));
 
     // Ignore enemy armor by SPELL_AURA_MOD_TARGET_RESISTANCE aura
     armor += GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_TARGET_RESISTANCE, SPELL_SCHOOL_MASK_NORMAL);
@@ -1681,7 +1689,7 @@ void Unit::CalcAbsorbResist(Unit* victim, SpellSchoolMask schoolMask, DamageEffe
     // We're going to call functions which can modify content of the list during iteration over it's elements
     // Let's copy the list so we can prevent iterator invalidation
     AuraEffectList vSchoolAbsorbCopy(victim->GetAuraEffectsByType(SPELL_AURA_SCHOOL_ABSORB));
-    vSchoolAbsorbCopy.sort(Trillium::AbsorbAuraOrderPred());
+    vSchoolAbsorbCopy.sort(Arkcore::AbsorbAuraOrderPred());
 
     // absorb without mana cost
     for (AuraEffectList::iterator itr = vSchoolAbsorbCopy.begin(); (itr != vSchoolAbsorbCopy.end()) && (dmgInfo.GetDamage() > 0); ++itr)
@@ -3104,7 +3112,7 @@ void Unit::InterruptNonMeleeSpells(bool withDelayed, uint32 spell_id, bool withI
 
 bool Unit::CanCastWhileWalking(SpellInfo const* const sp)
 {
-    AuraEffectList alist = GetAuraEffectsByType(SPELL_AURA_WALK_AND_CAST);
+    AuraEffectList alist = GetAuraEffectsByType(SPELL_AURA_CAST_WHILE_WALKING);
     for (AuraEffectList::const_iterator i = alist.begin(); i != alist.end(); ++i)
     {
         // check that spell mask matches
@@ -5068,6 +5076,7 @@ bool Unit::HandleSpellCritChanceAuraProc(Unit* victim, uint32 /*damage*/, AuraEf
     return true;
 }
 
+//victim may be NULL
 bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const* procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown)
 {
     SpellInfo const* dummySpell = triggeredByAura->GetSpellInfo();
@@ -5713,6 +5722,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 // Glyph of Polymorph
                 case 56375:
                 {
+                    if(!target)
+                        return false;				
                     target->RemoveAurasByType(SPELL_AURA_PERIODIC_DAMAGE, 0, target->GetAura(32409)); // SW:D shall not be removed.
                     target->RemoveAurasByType(SPELL_AURA_PERIODIC_DAMAGE_PERCENT);
                     target->RemoveAurasByType(SPELL_AURA_PERIODIC_LEECH);
@@ -5817,6 +5828,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 // Blessing of Ancient Kings (Val'anyr, Hammer of Ancient Kings)
                 case 64411:
                 {
+                    if(!victim)
+                        return false;			
                     basepoints0 = int32(CalculatePctN(damage, 15));
                     if (AuraEffect* aurEff = victim->GetAuraEffect(64413, 0, GetGUID()))
                     {
@@ -6116,6 +6129,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
             // Divine Aegis
             if (dummySpell->SpellIconID == 2820)
             {
+                if(!target)
+                    return false;			
                 // Multiple effects stack, so let's try to find this aura.
                 int32 bonus = 0;
                 if (AuraEffect const* aurEff = target->GetAuraEffect(47753, 0))
@@ -6294,6 +6309,9 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 // Glyph of Shred
                 case 54815:
                 {
+                    if(!target)
+                        return false;
+						
                     // try to find spell Rip on the target
                     if (AuraEffect const* AurEff = target->GetAuraEffect(SPELL_AURA_PERIODIC_DAMAGE, SPELLFAMILY_DRUID, 0x00800000, 0x0, 0x0, GetGUID()))
                     {
@@ -6587,6 +6605,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                     // Explosive Shot
                     if (procSpell->SpellFamilyFlags[2] & 0x200)
                     {
+                        if(!victim)
+                            return false;					
                         if (AuraEffect const* pEff = victim->GetAuraEffect(SPELL_AURA_PERIODIC_DUMMY, SPELLFAMILY_HUNTER, 0x0, 0x80000000, 0x0, GetGUID()))
                             basepoints0 = pEff->GetSpellInfo()->CalcPowerCost(this, SpellSchoolMask(pEff->GetSpellInfo()->SchoolMask)) * 4/10/3;
                     }
@@ -7312,6 +7332,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 // Item - Shaman T10 Elemental 4P Bonus
                 case 70817:
                 {
+                    if(!target)
+                        return false;				
                     // try to find spell Flame Shock on the target
                     if (AuraEffect const* aurEff = target->GetAuraEffect(SPELL_AURA_PERIODIC_DAMAGE, SPELLFAMILY_SHAMAN, 0x10000000, 0x0, 0x0, GetGUID()))
                     {
@@ -14951,8 +14973,8 @@ void Unit::UpdateReactives(uint32 p_time)
 Unit* Unit::SelectNearbyTarget(float dist) const
 {
     std::list<Unit*> targets;
-    Trillium::AnyUnfriendlyUnitInObjectRangeCheck u_check(this, this, dist);
-    Trillium::UnitListSearcher<Trillium::AnyUnfriendlyUnitInObjectRangeCheck> searcher(this, targets, u_check);
+    Arkcore::AnyUnfriendlyUnitInObjectRangeCheck u_check(this, this, dist);
+    Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyUnitInObjectRangeCheck> searcher(this, targets, u_check);
     VisitNearbyObject(dist, searcher);
 
     // remove current target
@@ -16600,7 +16622,7 @@ void Unit::UpdateObjectVisibility(bool forced)
     {
         WorldObject::UpdateObjectVisibility(true);
         // call MoveInLineOfSight for nearby creatures
-        Trillium::AIRelocationNotifier notifier(*this);
+        Arkcore::AIRelocationNotifier notifier(*this);
         VisitNearbyObject(GetVisibilityRange(), notifier);
     }
 }
@@ -17299,7 +17321,7 @@ void Unit::NearTeleportTo(float x, float y, float z, float orientation, bool cas
 bool Unit::SetPosition(float x, float y, float z, float orientation, bool teleport)
 {
     // prevent crash when a bad coord is sent by the client
-    if (!Trillium::IsValidMapCoord(x, y, z, orientation))
+    if (!Arkcore::IsValidMapCoord(x, y, z, orientation))
     {
         sLog->outDebug(LOG_FILTER_UNITS, "Unit::SetPosition(%f, %f, %f) .. bad coordinates!", x, y, z);
         return false;

@@ -2395,7 +2395,7 @@ class Unit : public WorldObject
         bool _targetLocked; // locks the target during spell cast for proper facing
 };
 
-namespace Trillium
+namespace Arkcore
 {
     // Binary predicate for sorting Units based on percent value of a power
     class PowerPctOrderPred
