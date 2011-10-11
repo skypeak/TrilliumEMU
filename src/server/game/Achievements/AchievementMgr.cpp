@@ -44,7 +44,7 @@
 #include "Map.h"
 #include "InstanceScript.h"
 
-namespace Trillium
+namespace Arkcore
 {
     class AchievementChatBuilder
     {
@@ -53,7 +53,7 @@ namespace Trillium
                 : i_player(pl), i_msgtype(msgtype), i_textId(textId), i_achievementId(ach_id) {}
             void operator()(WorldPacket& data, LocaleConstant loc_idx)
             {
-                char const* text = sObjectMgr->GetTrilliumString(i_textId, loc_idx);
+                char const* text = sObjectMgr->GetArkcoreString(i_textId, loc_idx);
 
                 data << uint8(i_msgtype);
                 data << uint32(LANG_UNIVERSAL);
@@ -72,7 +72,7 @@ namespace Trillium
             int32 i_textId;
             uint32 i_achievementId;
     };
-}                                                           // namespace Trillium
+}                                                           // namespace Arkcore
 
 bool AchievementCriteriaData::IsValid(AchievementCriteriaEntry const* criteria)
 {
@@ -658,8 +658,8 @@ void AchievementMgr::SendAchievementEarned(AchievementEntry const* achievement) 
 
     if (Guild* guild = sGuildMgr->GetGuildById(GetPlayer()->GetGuildId()))
     {
-        Trillium::AchievementChatBuilder say_builder(*GetPlayer(), CHAT_MSG_GUILD_ACHIEVEMENT, LANG_ACHIEVEMENT_EARNED, achievement->ID);
-        Trillium::LocalizedPacketDo<Trillium::AchievementChatBuilder> say_do(say_builder);
+        Arkcore::AchievementChatBuilder say_builder(*GetPlayer(), CHAT_MSG_GUILD_ACHIEVEMENT, LANG_ACHIEVEMENT_EARNED, achievement->ID);
+        Arkcore::LocalizedPacketDo<Arkcore::AchievementChatBuilder> say_do(say_builder);
         guild->BroadcastWorker(say_do, GetPlayer());
     }
 
@@ -676,16 +676,16 @@ void AchievementMgr::SendAchievementEarned(AchievementEntry const* achievement) 
     // if player is in world he can tell his friends about new achievement
     else if (GetPlayer()->IsInWorld())
     {
-        CellPair p = Trillium::ComputeCellPair(GetPlayer()->GetPositionX(), GetPlayer()->GetPositionY());
+        CellPair p = Arkcore::ComputeCellPair(GetPlayer()->GetPositionX(), GetPlayer()->GetPositionY());
 
         Cell cell(p);
         cell.data.Part.reserved = ALL_DISTRICT;
         cell.SetNoCreate();
 
-        Trillium::AchievementChatBuilder say_builder(*GetPlayer(), CHAT_MSG_ACHIEVEMENT, LANG_ACHIEVEMENT_EARNED, achievement->ID);
-        Trillium::LocalizedPacketDo<Trillium::AchievementChatBuilder> say_do(say_builder);
-        Trillium::PlayerDistWorker<Trillium::LocalizedPacketDo<Trillium::AchievementChatBuilder> > say_worker(GetPlayer(), sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_SAY), say_do);
-        TypeContainerVisitor<Trillium::PlayerDistWorker<Trillium::LocalizedPacketDo<Trillium::AchievementChatBuilder> >, WorldTypeMapContainer > message(say_worker);
+        Arkcore::AchievementChatBuilder say_builder(*GetPlayer(), CHAT_MSG_ACHIEVEMENT, LANG_ACHIEVEMENT_EARNED, achievement->ID);
+        Arkcore::LocalizedPacketDo<Arkcore::AchievementChatBuilder> say_do(say_builder);
+        Arkcore::PlayerDistWorker<Arkcore::LocalizedPacketDo<Arkcore::AchievementChatBuilder> > say_worker(GetPlayer(), sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_SAY), say_do);
+        TypeContainerVisitor<Arkcore::PlayerDistWorker<Arkcore::LocalizedPacketDo<Arkcore::AchievementChatBuilder> >, WorldTypeMapContainer > message(say_worker);
         cell.Visit(p, message, *GetPlayer()->GetMap(), *GetPlayer(), sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_SAY));
     }
 
