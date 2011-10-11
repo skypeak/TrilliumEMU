@@ -209,7 +209,8 @@ Map::Map(uint32 id, time_t expiry, uint32 InstanceId, uint8 SpawnMode, Map* _par
 i_mapEntry (sMapStore.LookupEntry(id)), i_spawnMode(SpawnMode), i_InstanceId(InstanceId),
 m_unloadTimer(0), m_VisibleDistance(DEFAULT_VISIBILITY_DISTANCE),
 m_VisibilityNotifyPeriod(DEFAULT_VISIBILITY_NOTIFY_PERIOD),
-m_activeNonPlayersIter(m_activeNonPlayers.end()), i_gridExpiry(expiry), i_scriptLock(false)
+m_activeNonPlayersIter(m_activeNonPlayers.end()), i_gridExpiry(expiry),
+i_scriptLock(false), _creatureToMoveLock(false)
 {
     m_parentMap = (_parent ? _parent : this);
     for (unsigned int idx=0; idx < MAX_NUMBER_OF_GRIDS; ++idx)
@@ -268,7 +269,7 @@ void Map::RemoveFromGrid(T* obj, NGridType *grid, Cell const& cell)
 template<class T>
 void Map::SwitchGridContainers(T* obj, bool on)
 {
-    CellPair p = Trillium::ComputeCellPair(obj->GetPositionX(), obj->GetPositionY());
+    CellPair p = Arkcore::ComputeCellPair(obj->GetPositionX(), obj->GetPositionY());
     if (p.x_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP || p.y_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP)
     {
         sLog->outError("Map::SwitchGridContainers: Object " UI64FMTD " has invalid coordinates X:%f Y:%f grid cell [%u:%u]", obj->GetGUID(), obj->GetPositionX(), obj->GetPositionY(), p.x_coord, p.y_coord);
@@ -402,7 +403,7 @@ bool Map::EnsureGridLoaded(const Cell &cell)
 
 void Map::LoadGrid(float x, float y)
 {
-    CellPair pair = Trillium::ComputeCellPair(x, y);
+    CellPair pair = Arkcore::ComputeCellPair(x, y);
     Cell cell(pair);
     EnsureGridLoaded(cell);
 }
@@ -411,7 +412,7 @@ bool Map::Add(Player* player)
 {
     // Check if we are adding to correct map
     ASSERT (player->GetMap() == this);
-    CellPair p = Trillium::ComputeCellPair(player->GetPositionX(), player->GetPositionY());
+    CellPair p = Arkcore::ComputeCellPair(player->GetPositionX(), player->GetPositionY());
     if (p.x_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP || p.y_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP)
     {
         sLog->outError("Map::Add: Player (GUID: %u) has invalid coordinates X:%f Y:%f grid cell [%u:%u]", player->GetGUIDLow(), player->GetPositionX(), player->GetPositionY(), p.x_coord, p.y_coord);
@@ -439,10 +440,21 @@ bool Map::Add(Player* player)
 }
 
 template<class T>
+void Map::InitializeObject(T* obj)
+{
+}
+
+template<>
+void Map::InitializeObject(Creature* obj)
+{
+    obj->_moveState = CREATURE_CELL_MOVE_NONE;
+}
+
+template<class T>
 void
 Map::Add(T *obj)
 {
-    CellPair p = Trillium::ComputeCellPair(obj->GetPositionX(), obj->GetPositionY());
+    CellPair p = Arkcore::ComputeCellPair(obj->GetPositionX(), obj->GetPositionY());
     if (p.x_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP || p.y_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP)
     {
         sLog->outError("Map::Add: Object " UI64FMTD " has invalid coordinates X:%f Y:%f grid cell [%u:%u]", obj->GetGUID(), obj->GetPositionX(), obj->GetPositionY(), p.x_coord, p.y_coord);
@@ -467,6 +479,7 @@ Map::Add(T *obj)
     AddToGrid(obj, grid, cell);
     //obj->SetMap(this);
     obj->AddToWorld();
+	InitializeObject(obj);
 
     if (obj->isActiveObject())
         AddToActive(obj);
@@ -483,9 +496,9 @@ bool Map::loaded(const GridPair &p) const
     return (getNGrid(p.x_coord, p.y_coord) && isGridObjectDataLoaded(p.x_coord, p.y_coord));
 }
 
-void Map::VisitNearbyCellsOf(WorldObject* obj, TypeContainerVisitor<Trillium::ObjectUpdater, GridTypeMapContainer> &gridVisitor, TypeContainerVisitor<Trillium::ObjectUpdater, WorldTypeMapContainer> &worldVisitor)
+void Map::VisitNearbyCellsOf(WorldObject* obj, TypeContainerVisitor<Arkcore::ObjectUpdater, GridTypeMapContainer> &gridVisitor, TypeContainerVisitor<Arkcore::ObjectUpdater, WorldTypeMapContainer> &worldVisitor)
 {
-    CellPair standing_cell(Trillium::ComputeCellPair(obj->GetPositionX(), obj->GetPositionY()));
+    CellPair standing_cell(Arkcore::ComputeCellPair(obj->GetPositionX(), obj->GetPositionY()));
 
     // Check for correctness of standing_cell, it also avoids problems with update_cell
     if (standing_cell.x_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP || standing_cell.y_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP)
@@ -535,11 +548,11 @@ void Map::Update(const uint32 t_diff)
     /// update active cells around players and active objects
     resetMarkedCells();
 
-    Trillium::ObjectUpdater updater(t_diff);
+    Arkcore::ObjectUpdater updater(t_diff);
     // for creature
-    TypeContainerVisitor<Trillium::ObjectUpdater, GridTypeMapContainer  > grid_object_update(updater);
+    TypeContainerVisitor<Arkcore::ObjectUpdater, GridTypeMapContainer  > grid_object_update(updater);
     // for pets
-    TypeContainerVisitor<Trillium::ObjectUpdater, WorldTypeMapContainer > world_object_update(updater);
+    TypeContainerVisitor<Arkcore::ObjectUpdater, WorldTypeMapContainer > world_object_update(updater);
 
     // the player iterator is stored in the map object
     // to make sure calls to Map::Remove don't invalidate it
@@ -626,9 +639,9 @@ void Map::ProcessRelocationNotifies(const uint32 diff)
                 Cell cell(pair);
                 cell.SetNoCreate();
 
-                Trillium::DelayedUnitRelocation cell_relocation(cell, pair, *this, MAX_VISIBILITY_DISTANCE);
-                TypeContainerVisitor<Trillium::DelayedUnitRelocation, GridTypeMapContainer  > grid_object_relocation(cell_relocation);
-                TypeContainerVisitor<Trillium::DelayedUnitRelocation, WorldTypeMapContainer > world_object_relocation(cell_relocation);
+                Arkcore::DelayedUnitRelocation cell_relocation(cell, pair, *this, MAX_VISIBILITY_DISTANCE);
+                TypeContainerVisitor<Arkcore::DelayedUnitRelocation, GridTypeMapContainer  > grid_object_relocation(cell_relocation);
+                TypeContainerVisitor<Arkcore::DelayedUnitRelocation, WorldTypeMapContainer > world_object_relocation(cell_relocation);
                 Visit(cell, grid_object_relocation);
                 Visit(cell, world_object_relocation);
             }
@@ -678,7 +691,7 @@ void Map::Remove(Player* player, bool remove)
     player->RemoveFromWorld();
     SendRemoveTransports(player);
 
-    CellPair p = Trillium::ComputeCellPair(player->GetPositionX(), player->GetPositionY());
+    CellPair p = Arkcore::ComputeCellPair(player->GetPositionX(), player->GetPositionY());
     if (p.x_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP || p.y_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP)
         sLog->outCrash("Map::Remove: Player is in invalid cell!");
     else
@@ -711,7 +724,7 @@ Map::Remove(T *obj, bool remove)
     if (obj->isActiveObject())
         RemoveFromActive(obj);
 
-    CellPair p = Trillium::ComputeCellPair(obj->GetPositionX(), obj->GetPositionY());
+    CellPair p = Arkcore::ComputeCellPair(obj->GetPositionX(), obj->GetPositionY());
     if (p.x_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP || p.y_coord >= TOTAL_NUMBER_OF_CELLS_PER_MAP)
         sLog->outError("Map::Remove: Object " UI64FMTD " has invalid coordinates X:%f Y:%f grid cell [%u:%u]", obj->GetGUID(), obj->GetPositionX(), obj->GetPositionY(), p.x_coord, p.y_coord);
     else
@@ -744,8 +757,8 @@ Map::PlayerRelocation(Player* player, float x, float y, float z, float orientati
 {
     ASSERT(player);
 
-    CellPair old_val = Trillium::ComputeCellPair(player->GetPositionX(), player->GetPositionY());
-    CellPair new_val = Trillium::ComputeCellPair(x, y);
+    CellPair old_val = Arkcore::ComputeCellPair(player->GetPositionX(), player->GetPositionY());
+    CellPair new_val = Arkcore::ComputeCellPair(x, y);
 
     Cell old_cell(old_val);
     Cell new_cell(new_val);
@@ -776,7 +789,7 @@ Map::CreatureRelocation(Creature *creature, float x, float y, float z, float ang
 
     Cell old_cell = creature->GetCurrentCell();
 
-    CellPair new_val = Trillium::ComputeCellPair(x, y);
+    CellPair new_val = Arkcore::ComputeCellPair(x, y);
     Cell new_cell(new_val);
 
     if (!respawnRelocationOnFail && !getNGrid(new_cell.GridX(), new_cell.GridY()))
@@ -795,33 +808,55 @@ Map::CreatureRelocation(Creature *creature, float x, float y, float z, float ang
     {
         creature->Relocate(x, y, z, ang);
         creature->UpdateObjectVisibility(false);
+		RemoveCreatureFromMoveList(creature);
     }
 
-    ASSERT(CheckGridIntegrity(creature, true));
+    ASSERT (CheckGridIntegrity(creature, true));
 }
 
 void Map::AddCreatureToMoveList(Creature *c, float x, float y, float z, float ang)
 {
-    if (!c)
+    if (_creatureToMoveLock) //can this happen?
         return;
 
-    i_creaturesToMove[c] = CreatureMover(x, y, z, ang);
+    if(c->_moveState == CREATURE_CELL_MOVE_NONE)
+        _creaturesToMove.push_back(c);
+    c->SetNewCellPosition(x, y, z, ang);
+}
+
+void Map::RemoveCreatureFromMoveList(Creature* c)
+{
+    if (_creatureToMoveLock) //can this happen?
+        return;
+
+    if(c->_moveState == CREATURE_CELL_MOVE_ACTIVE)
+        c->_moveState = CREATURE_CELL_MOVE_INACTIVE;
 }
 
 void Map::MoveAllCreaturesInMoveList()
 {
-    while (!i_creaturesToMove.empty())
+    _creatureToMoveLock = true;
+    for(std::vector<Creature*>::iterator itr = _creaturesToMove.begin(); itr != _creaturesToMove.end(); ++itr)
     {
-        // get data and remove element;
-        CreatureMoveList::iterator iter = i_creaturesToMove.begin();
-        Creature* c = iter->first;
-        const CreatureMover &cm = iter->second;
+        Creature* c = *itr;
+        if(c->FindMap() != this) //pet is teleported to another map
+            continue;
+
+        if(c->_moveState != CREATURE_CELL_MOVE_ACTIVE)
+        {
+            c->_moveState = CREATURE_CELL_MOVE_NONE;
+            continue;
+        }
+
+        c->_moveState = CREATURE_CELL_MOVE_NONE;
+        if(!c->IsInWorld())
+            continue;
 
         // do move or do move to respawn or remove creature if previous all fail
-        if (CreatureCellRelocation(c, Cell(Trillium::ComputeCellPair(cm.x, cm.y))))
+        if (CreatureCellRelocation(c, Cell(Arkcore::ComputeCellPair(c->_newPosition.m_positionX, c->_newPosition.m_positionY))))
         {
             // update pos
-            c->Relocate(cm.x, cm.y, cm.z, cm.ang);
+            c->Relocate(c->_newPosition);
             //CreatureRelocationNotify(c, new_cell, new_cell.cellPair());
             c->UpdateObjectVisibility(false);
         }
@@ -829,7 +864,7 @@ void Map::MoveAllCreaturesInMoveList()
         {
             // if creature can't be move in new cell/grid (not loaded) move it to repawn cell/grid
             // creature coordinates will be updated and notifiers send
-            if (!CreatureRespawnRelocation(c))
+            if (!CreatureRespawnRelocation(c, false))
             {
                 // ... or unload (if respawn grid also not loaded)
                 #ifdef ARKCORE_DEBUG
@@ -848,8 +883,9 @@ void Map::MoveAllCreaturesInMoveList()
             }
         }
 
-        i_creaturesToMove.erase(iter);
     }
+    _creaturesToMove.clear();
+    _creatureToMoveLock = false;	
 }
 
 bool Map::CreatureCellRelocation(Creature *c, Cell new_cell)
@@ -913,13 +949,16 @@ bool Map::CreatureCellRelocation(Creature *c, Cell new_cell)
     return false;
 }
 
-bool Map::CreatureRespawnRelocation(Creature *c)
+bool Map::CreatureRespawnRelocation(Creature* c, bool diffGridOnly)
 {
     float resp_x, resp_y, resp_z, resp_o;
     c->GetRespawnCoord(resp_x, resp_y, resp_z, &resp_o);
-
-    CellPair resp_val = Trillium::ComputeCellPair(resp_x, resp_y);
+    CellPair resp_val = Arkcore::ComputeCellPair(resp_x, resp_y);
     Cell resp_cell(resp_val);
+	
+    //creature will be unloaded with grid
+    if(diffGridOnly && !c->GetCurrentCell().DiffGrid(resp_cell))
+        return true;
 
     c->CombatStop();
     c->GetMotionMaster()->Clear();
@@ -1024,7 +1063,7 @@ void Map::RemoveAllPlayers()
 void Map::UnloadAll()
 {
     // clear all delayed moves, useless anyway do this moves before map unload.
-    i_creaturesToMove.clear();
+    _creaturesToMove.clear();
 
     for (GridRefManager<NGridType>::iterator i = GridRefManager<NGridType>::begin(); i != GridRefManager<NGridType>::end();)
     {
@@ -1844,7 +1883,7 @@ bool Map::CheckGridIntegrity(Creature* c, bool moved) const
 {
     Cell const& cur_cell = c->GetCurrentCell();
 
-    CellPair xy_val = Trillium::ComputeCellPair(c->GetPositionX(), c->GetPositionY());
+    CellPair xy_val = Arkcore::ComputeCellPair(c->GetPositionX(), c->GetPositionY());
     Cell xy_cell(xy_val);
     if (xy_cell != cur_cell)
     {
@@ -1868,19 +1907,19 @@ void Map::UpdateObjectVisibility(WorldObject* obj, Cell cell, CellPair cellpair)
 {
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
-    Trillium::VisibleChangesNotifier notifier(*obj);
-    TypeContainerVisitor<Trillium::VisibleChangesNotifier, WorldTypeMapContainer > player_notifier(notifier);
+    Arkcore::VisibleChangesNotifier notifier(*obj);
+    TypeContainerVisitor<Arkcore::VisibleChangesNotifier, WorldTypeMapContainer > player_notifier(notifier);
     cell.Visit(cellpair, player_notifier, *this, *obj, obj->GetVisibilityRange());
 }
 
 void Map::UpdateObjectsVisibilityfor (Player* player, Cell cell, CellPair cellpair)
 {
-    Trillium::VisibleNotifier notifier(*player);
+    Arkcore::VisibleNotifier notifier(*player);
 
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
-    TypeContainerVisitor<Trillium::VisibleNotifier, WorldTypeMapContainer > world_notifier(notifier);
-    TypeContainerVisitor<Trillium::VisibleNotifier, GridTypeMapContainer  > grid_notifier(notifier);
+    TypeContainerVisitor<Arkcore::VisibleNotifier, WorldTypeMapContainer > world_notifier(notifier);
+    TypeContainerVisitor<Arkcore::VisibleNotifier, GridTypeMapContainer  > grid_notifier(notifier);
     cell.Visit(cellpair, world_notifier, *this, *player, player->GetSightRange());
     cell.Visit(cellpair, grid_notifier,  *this, *player, player->GetSightRange());
 
@@ -2117,7 +2156,7 @@ bool Map::ActiveObjectsNearGrid(uint32 x, uint32 y) const
     {
         Player* plr = iter->getSource();
 
-        CellPair p = Trillium::ComputeCellPair(plr->GetPositionX(), plr->GetPositionY());
+        CellPair p = Arkcore::ComputeCellPair(plr->GetPositionX(), plr->GetPositionY());
         if ((cell_min.x_coord <= p.x_coord && p.x_coord <= cell_max.x_coord) &&
             (cell_min.y_coord <= p.y_coord && p.y_coord <= cell_max.y_coord))
             return true;
@@ -2127,7 +2166,7 @@ bool Map::ActiveObjectsNearGrid(uint32 x, uint32 y) const
     {
         WorldObject* obj = *iter;
 
-        CellPair p = Trillium::ComputeCellPair(obj->GetPositionX(), obj->GetPositionY());
+        CellPair p = Arkcore::ComputeCellPair(obj->GetPositionX(), obj->GetPositionY());
         if ((cell_min.x_coord <= p.x_coord && p.x_coord <= cell_max.x_coord) &&
             (cell_min.y_coord <= p.y_coord && p.y_coord <= cell_max.y_coord))
             return true;
@@ -2145,12 +2184,12 @@ void Map::AddToActive(Creature* c)
     {
         float x, y, z;
         c->GetRespawnCoord(x, y, z);
-        GridPair p = Trillium::ComputeGridPair(x, y);
+        GridPair p = Arkcore::ComputeGridPair(x, y);
         if (getNGrid(p.x_coord, p.y_coord))
             getNGrid(p.x_coord, p.y_coord)->incUnloadActiveLock();
         else
         {
-            GridPair p2 = Trillium::ComputeGridPair(c->GetPositionX(), c->GetPositionY());
+            GridPair p2 = Arkcore::ComputeGridPair(c->GetPositionX(), c->GetPositionY());
             sLog->outError("Active creature (GUID: %u Entry: %u) added to grid[%u, %u] but spawn grid[%u, %u] was not loaded.",
                 c->GetGUIDLow(), c->GetEntry(), p.x_coord, p.y_coord, p2.x_coord, p2.y_coord);
         }
@@ -2166,12 +2205,12 @@ void Map::RemoveFromActive(Creature* c)
     {
         float x, y, z;
         c->GetRespawnCoord(x, y, z);
-        GridPair p = Trillium::ComputeGridPair(x, y);
+        GridPair p = Arkcore::ComputeGridPair(x, y);
         if (getNGrid(p.x_coord, p.y_coord))
             getNGrid(p.x_coord, p.y_coord)->decUnloadActiveLock();
         else
         {
-            GridPair p2 = Trillium::ComputeGridPair(c->GetPositionX(), c->GetPositionY());
+            GridPair p2 = Arkcore::ComputeGridPair(c->GetPositionX(), c->GetPositionY());
             sLog->outError("Active creature (GUID: %u Entry: %u) removed from grid[%u, %u] but spawn grid[%u, %u] was not loaded.",
                 c->GetGUIDLow(), c->GetEntry(), p.x_coord, p.y_coord, p2.x_coord, p2.y_coord);
         }

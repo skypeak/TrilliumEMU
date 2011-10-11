@@ -76,7 +76,7 @@ void WorldSession::HandleNameQueryOpcode(WorldPacket& recv_data)
             data << uint8(0);
             if (cname->m_name == "")
             {
-                data << std::string(GetTrilliumString(LANG_NON_EXIST_CHARACTER));
+                data << std::string(GetArkcoreString(LANG_NON_EXIST_CHARACTER));
                 data << uint32(0);
             }
             else

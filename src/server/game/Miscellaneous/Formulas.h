@@ -26,7 +26,7 @@
 #include "SharedDefines.h"
 #include "ScriptMgr.h"
 
-namespace Trillium
+namespace Arkcore
 {
     namespace Honor
     {

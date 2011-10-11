@@ -139,7 +139,7 @@ void WorldSession::HandleMessageChatOpcode(WorldPacket & recv_data)
             if (!_player->isAFK())
             {
                 if (msg.empty())
-                    msg = GetTrilliumString(LANG_PLAYER_AFK_DEFAULT);
+                    msg = GetArkcoreString(LANG_PLAYER_AFK_DEFAULT);
                 _player->afkMsg = msg;
             }
 
@@ -161,7 +161,7 @@ void WorldSession::HandleMessageChatOpcode(WorldPacket & recv_data)
             if (!_player->isDND())
             {
                 if (msg.empty())
-                    msg = GetTrilliumString(LANG_PLAYER_DND_DEFAULT);
+                    msg = GetArkcoreString(LANG_PLAYER_DND_DEFAULT);
                 _player->dndMsg = msg;
             }
 
@@ -268,7 +268,7 @@ void WorldSession::HandleMessageChatOpcode(WorldPacket & recv_data)
         if (!sender->CanSpeak())
         {
             std::string timeStr = secsToTimeString(m_muteTime - time(NULL));
-            SendNotification(GetTrilliumString(LANG_WAIT_BEFORE_SPEAKING), timeStr.c_str());
+            SendNotification(GetArkcoreString(LANG_WAIT_BEFORE_SPEAKING), timeStr.c_str());
             recv_data.rfinish(); // Prevent warnings
             return;
         }
@@ -282,7 +282,7 @@ void WorldSession::HandleMessageChatOpcode(WorldPacket & recv_data)
         std::string msg="";
         recv_data >> msg;
 
-        SendNotification(GetTrilliumString(LANG_GM_SILENCE), GetPlayer()->GetName());
+        SendNotification(GetArkcoreString(LANG_GM_SILENCE), GetPlayer()->GetName());
         return;
     }
 
@@ -342,7 +342,7 @@ void WorldSession::HandleMessageChatOpcode(WorldPacket & recv_data)
         {
             if (sender->getLevel() < sWorld->getIntConfig(CONFIG_CHAT_SAY_LEVEL_REQ))
             {
-                SendNotification(GetTrilliumString(LANG_SAY_REQ), sWorld->getIntConfig(CONFIG_CHAT_SAY_LEVEL_REQ));
+                SendNotification(GetArkcoreString(LANG_SAY_REQ), sWorld->getIntConfig(CONFIG_CHAT_SAY_LEVEL_REQ));
                 return;
             }
 
@@ -357,7 +357,7 @@ void WorldSession::HandleMessageChatOpcode(WorldPacket & recv_data)
         {
             if (sender->getLevel() < sWorld->getIntConfig(CONFIG_CHAT_WHISPER_LEVEL_REQ))
             {
-                SendNotification(GetTrilliumString(LANG_WHISPER_REQ), sWorld->getIntConfig(CONFIG_CHAT_WHISPER_LEVEL_REQ));
+                SendNotification(GetArkcoreString(LANG_WHISPER_REQ), sWorld->getIntConfig(CONFIG_CHAT_WHISPER_LEVEL_REQ));
                 return;
             }
 
@@ -387,7 +387,7 @@ void WorldSession::HandleMessageChatOpcode(WorldPacket & recv_data)
 
             if (GetPlayer()->HasAura(1852) && !receiver->isGameMaster())
             {
-                SendNotification(GetTrilliumString(LANG_GM_SILENCE), GetPlayer()->GetName());
+                SendNotification(GetArkcoreString(LANG_GM_SILENCE), GetPlayer()->GetName());
                 return;
             }
 
@@ -525,7 +525,7 @@ void WorldSession::HandleMessageChatOpcode(WorldPacket & recv_data)
             {
                 if (_player->getLevel() < sWorld->getIntConfig(CONFIG_CHAT_CHANNEL_LEVEL_REQ))
                 {
-                    SendNotification(GetTrilliumString(LANG_CHANNEL_REQ), sWorld->getIntConfig(CONFIG_CHAT_CHANNEL_LEVEL_REQ));
+                    SendNotification(GetArkcoreString(LANG_CHANNEL_REQ), sWorld->getIntConfig(CONFIG_CHAT_CHANNEL_LEVEL_REQ));
                     return;
                 }
             }
@@ -557,7 +557,7 @@ void WorldSession::HandleEmoteOpcode(WorldPacket & recv_data)
     GetPlayer()->HandleEmoteCommand(emote);
 }
 
-namespace Trillium
+namespace Arkcore
 {
     class EmoteChatBuilder
     {
@@ -587,7 +587,7 @@ namespace Trillium
             uint32        i_emote_num;
             Unit const*   i_target;
     };
-}                                                           // namespace Trillium
+}                                                           // namespace Arkcore
 
 void WorldSession::HandleTextEmoteOpcode(WorldPacket & recv_data)
 {
@@ -597,7 +597,7 @@ void WorldSession::HandleTextEmoteOpcode(WorldPacket & recv_data)
     if (!GetPlayer()->CanSpeak())
     {
         std::string timeStr = secsToTimeString(m_muteTime - time(NULL));
-        SendNotification(GetTrilliumString(LANG_WAIT_BEFORE_SPEAKING), timeStr.c_str());
+        SendNotification(GetArkcoreString(LANG_WAIT_BEFORE_SPEAKING), timeStr.c_str());
         return;
     }
 
@@ -633,16 +633,16 @@ void WorldSession::HandleTextEmoteOpcode(WorldPacket & recv_data)
 
     Unit* unit = ObjectAccessor::GetUnit(*_player, guid);
 
-    CellPair p = Trillium::ComputeCellPair(GetPlayer()->GetPositionX(), GetPlayer()->GetPositionY());
+    CellPair p = Arkcore::ComputeCellPair(GetPlayer()->GetPositionX(), GetPlayer()->GetPositionY());
 
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
-    Trillium::EmoteChatBuilder emote_builder(*GetPlayer(), text_emote, emoteNum, unit);
-    Trillium::LocalizedPacketDo<Trillium::EmoteChatBuilder > emote_do(emote_builder);
-    Trillium::PlayerDistWorker<Trillium::LocalizedPacketDo<Trillium::EmoteChatBuilder > > emote_worker(GetPlayer(), sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_TEXTEMOTE), emote_do);
-    TypeContainerVisitor<Trillium::PlayerDistWorker<Trillium::LocalizedPacketDo<Trillium::EmoteChatBuilder> >, WorldTypeMapContainer> message(emote_worker);
+    Arkcore::EmoteChatBuilder emote_builder(*GetPlayer(), text_emote, emoteNum, unit);
+    Arkcore::LocalizedPacketDo<Arkcore::EmoteChatBuilder > emote_do(emote_builder);
+    Arkcore::PlayerDistWorker<Arkcore::LocalizedPacketDo<Arkcore::EmoteChatBuilder > > emote_worker(GetPlayer(), sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_TEXTEMOTE), emote_do);
+    TypeContainerVisitor<Arkcore::PlayerDistWorker<Arkcore::LocalizedPacketDo<Arkcore::EmoteChatBuilder> >, WorldTypeMapContainer> message(emote_worker);
     cell.Visit(p, message, *GetPlayer()->GetMap(), *GetPlayer(), sWorld->getFloatConfig(CONFIG_LISTEN_RANGE_TEXTEMOTE));
 
     GetPlayer()->GetAchievementMgr().UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_DO_EMOTE, text_emote, 0, unit);

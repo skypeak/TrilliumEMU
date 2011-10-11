@@ -294,8 +294,8 @@ bool OPvPCapturePoint::Update(uint32 diff)
     }
 
     std::list<Player*> players;
-    Trillium::AnyPlayerInObjectRangeCheck checker(m_capturePoint, radius);
-    Trillium::PlayerListSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(m_capturePoint, players, checker);
+    Arkcore::AnyPlayerInObjectRangeCheck checker(m_capturePoint, radius);
+    Arkcore::PlayerListSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(m_capturePoint, players, checker);
     m_capturePoint->VisitNearbyWorldObject(radius, searcher);
 
     for (std::list<Player*>::iterator itr = players.begin(); itr != players.end(); ++itr)

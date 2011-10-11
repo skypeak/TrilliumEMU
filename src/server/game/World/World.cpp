@@ -412,7 +412,7 @@ void World::LoadConfigSettings(bool reload)
 
     ///- Read the player limit and the Message of the day from the config file
     SetPlayerAmountLimit(ConfigMgr::GetIntDefault("PlayerLimit", 100));
-    SetMotd(ConfigMgr::GetStringDefault("Motd", "Welcome to a Trillium Server."));
+    SetMotd(ConfigMgr::GetStringDefault("Motd", "Welcome to a Arkcore Server."));
 
     ///- Read ticket system setting from the config file
     m_bool_configs[CONFIG_ALLOW_TICKETS] = ConfigMgr::GetBoolDefault("AllowTickets", true);
@@ -1258,8 +1258,8 @@ void World::SetInitialWorldSettings()
 
     ///- Loading strings. Getting no records means core load has to be canceled because no error message can be output.
     sLog->outString();
-    sLog->outString("Loading Trillium strings...");
-    if (!sObjectMgr->LoadTrilliumStrings())
+    sLog->outString("Loading Arkcore strings...");
+    if (!sObjectMgr->LoadArkcoreStrings())
         exit(1);                                            // Error message displayed in function already
 
     ///- Update the realm entry in the database with the realm type from the config file
@@ -2566,7 +2566,7 @@ void World::SendGlobalGMMessage(WorldPacket* packet, WorldSession* self, uint32 
     }
 }
 
-namespace Trillium
+namespace Arkcore
 {
     class WorldWorldTextBuilder
     {
@@ -2575,7 +2575,7 @@ namespace Trillium
             explicit WorldWorldTextBuilder(int32 textId, va_list* args = NULL) : i_textId(textId), i_args(args) {}
             void operator()(WorldPacketList& data_list, LocaleConstant loc_idx)
             {
-                const char* text = sObjectMgr->GetTrilliumString(i_textId, loc_idx);
+                const char* text = sObjectMgr->GetArkcoreString(i_textId, loc_idx);
 
                 if (i_args)
                 {
@@ -2621,7 +2621,7 @@ namespace Trillium
             int32 i_textId;
             va_list* i_args;
     };
-}                                                           // namespace Trillium
+}                                                           // namespace Arkcore
 
 /// Send a System Message to all players (except self if mentioned)
 void World::SendWorldText(int32 string_id, ...)
@@ -2629,8 +2629,8 @@ void World::SendWorldText(int32 string_id, ...)
     va_list ap;
     va_start(ap, string_id);
 
-    Trillium::WorldWorldTextBuilder wt_builder(string_id, &ap);
-    Trillium::LocalizedPacketListDo<Trillium::WorldWorldTextBuilder> wt_do(wt_builder);
+    Arkcore::WorldWorldTextBuilder wt_builder(string_id, &ap);
+    Arkcore::LocalizedPacketListDo<Arkcore::WorldWorldTextBuilder> wt_do(wt_builder);
     for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
     {
         if (!itr->second || !itr->second->GetPlayer() || !itr->second->GetPlayer()->IsInWorld())
@@ -2648,8 +2648,8 @@ void World::SendGMText(int32 string_id, ...)
     va_list ap;
     va_start(ap, string_id);
 
-    Trillium::WorldWorldTextBuilder wt_builder(string_id, &ap);
-    Trillium::LocalizedPacketListDo<Trillium::WorldWorldTextBuilder> wt_do(wt_builder);
+    Arkcore::WorldWorldTextBuilder wt_builder(string_id, &ap);
+    Arkcore::LocalizedPacketListDo<Arkcore::WorldWorldTextBuilder> wt_do(wt_builder);
     for (SessionMap::iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
     {
         if (!itr->second || !itr->second->GetPlayer() || !itr->second->GetPlayer()->IsInWorld())

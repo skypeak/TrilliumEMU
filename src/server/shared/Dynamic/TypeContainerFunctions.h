@@ -32,7 +32,7 @@
 #include "Dynamic/TypeList.h"
 #include <map>
 
-namespace Trillium
+namespace Arkcore
 {
     /* ContainerMapList Helpers */
     // count functions

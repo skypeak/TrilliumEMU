@@ -83,7 +83,7 @@ void WorldSession::HandleSendMail(WorldPacket & recv_data)
 
     if (pl->getLevel() < sWorld->getIntConfig(CONFIG_MAIL_LEVEL_REQ))
     {
-        SendNotification(GetTrilliumString(LANG_MAIL_SENDER_REQ), sWorld->getIntConfig(CONFIG_MAIL_LEVEL_REQ));
+        SendNotification(GetArkcoreString(LANG_MAIL_SENDER_REQ), sWorld->getIntConfig(CONFIG_MAIL_LEVEL_REQ));
         return;
     }
 
@@ -173,7 +173,7 @@ void WorldSession::HandleSendMail(WorldPacket & recv_data)
 
     if (receiveLevel < sWorld->getIntConfig(CONFIG_MAIL_LEVEL_REQ))
     {
-        SendNotification(GetTrilliumString(LANG_MAIL_RECEIVER_REQ), sWorld->getIntConfig(CONFIG_MAIL_LEVEL_REQ));
+        SendNotification(GetArkcoreString(LANG_MAIL_RECEIVER_REQ), sWorld->getIntConfig(CONFIG_MAIL_LEVEL_REQ));
         return;
     }
 
@@ -295,10 +295,10 @@ void WorldSession::HandleSendMail(WorldPacket & recv_data)
 void WorldSession::HandleMailMarkAsRead(WorldPacket & recv_data)
 {
     uint64 mailbox;
-    uint64 unk;
+    //uint64 unk;
     uint32 mailId;
     recv_data >> mailbox;
-    recv_data >> unk;            // 4.0.6
+    //recv_data >> unk;            // 4.0.6
     recv_data >> mailId;
 
     if (!GetPlayer()->GetGameObjectIfCanInteractWith(mailbox, GAMEOBJECT_TYPE_MAILBOX))
@@ -461,7 +461,7 @@ void WorldSession::HandleMailTakeItem(WorldPacket & recv_data)
                     sender_accId = sObjectMgr->GetPlayerAccountIdByGUID(sender_guid);
 
                     if (!sObjectMgr->GetPlayerNameByGUID(sender_guid, sender_name))
-                        sender_name = sObjectMgr->GetTrilliumStringForDBCLocale(LANG_UNKNOWN);
+                        sender_name = sObjectMgr->GetArkcoreStringForDBCLocale(LANG_UNKNOWN);
                 }
                 sLogMgr->WriteGmCommand(GetAccountId(), "GM %s (Account: %u) receive mail item: %s (Entry: %u Count: %u) and send COD money: %u to player: %s (Account: %u)",
                     GetPlayerName(), GetAccountId(), it->GetTemplate()->Name1.c_str(), it->GetEntry(), it->GetCount(), m->COD, sender_name.c_str(), sender_accId);

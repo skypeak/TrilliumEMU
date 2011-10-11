@@ -69,8 +69,8 @@ void WaypointMgr::Load()
         float y = fields[3].GetFloat();
         float z = fields[4].GetFloat();
 
-        Trillium::NormalizeMapCoord(x);
-        Trillium::NormalizeMapCoord(y);
+        Arkcore::NormalizeMapCoord(x);
+        Arkcore::NormalizeMapCoord(y);
 
         wp->id = fields[1].GetUInt32();
         wp->x = x;
@@ -116,8 +116,8 @@ void WaypointMgr::ReloadPath(uint32 id)
         float y = fields[2].GetFloat();
         float z = fields[3].GetFloat();
 
-        Trillium::NormalizeMapCoord(x);
-        Trillium::NormalizeMapCoord(y);
+        Arkcore::NormalizeMapCoord(x);
+        Arkcore::NormalizeMapCoord(y);
 
         wp->id = fields[0].GetUInt32();
         wp->x = x;

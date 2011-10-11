@@ -37,7 +37,7 @@
 class Player;
 //class Map;
 
-namespace Trillium
+namespace Arkcore
 {
     struct VisibleNotifier
     {

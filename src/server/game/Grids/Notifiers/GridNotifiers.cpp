@@ -31,7 +31,7 @@
 #include "CellImpl.h"
 #include "SpellInfo.h"
 
-using namespace Trillium;
+using namespace Arkcore;
 
 void
 VisibleNotifier::SendToSelf()
@@ -222,7 +222,7 @@ void DelayedUnitRelocation::Visit(PlayerMapType &m)
         if (player != viewPoint && !viewPoint->IsPositionValid())
             continue;
 
-        CellPair pair2(Trillium::ComputeCellPair(viewPoint->GetPositionX(), viewPoint->GetPositionY()));
+        CellPair pair2(Arkcore::ComputeCellPair(viewPoint->GetPositionX(), viewPoint->GetPositionY()));
         Cell cell2(pair2);
         //cell.SetNoCreate(); need load cells around viewPoint or player, that's why its commented
 

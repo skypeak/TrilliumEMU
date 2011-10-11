@@ -24,7 +24,7 @@
 
 #include <ace/Event_Handler.h>
 
-namespace Trillium
+namespace Arkcore
 {
 
 /// Handle termination signals
