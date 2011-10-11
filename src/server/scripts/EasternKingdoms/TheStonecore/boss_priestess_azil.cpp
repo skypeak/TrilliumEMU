@@ -19,23 +19,22 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
  
- 
 #include "ScriptPCH.h"
-#include "grim_batol.h"
+#include "the_stonecore.h"
 
-class boss_drahga_shadowburner : public CreatureScript
+class boss_priestess_azil : public CreatureScript
 {
 public:
-    boss_drahga_shadowburner() : CreatureScript("boss_drahga_shadowburner") { }
+    boss_priestess_azil() : CreatureScript("boss_priestess_azil") { }
 
     CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_drahga_shadowburnerAI (creature);
+        return new boss_priestess_azilAI (creature);
     }
 
-    struct boss_drahga_shadowburnerAI : public ScriptedAI
+    struct boss_priestess_azilAI : public ScriptedAI
     {
-        boss_drahga_shadowburnerAI(Creature* creature) : ScriptedAI(creature)
+        boss_priestess_azilAI(Creature* creature) : ScriptedAI(creature)
         {
             pInstance = creature->GetInstanceScript();
         }
@@ -56,7 +55,7 @@ public:
     };
 };
 
-void AddSC_boss_drahga_shadowburner()
+void AddSC_boss_priestess_azil()
 {
-    new boss_drahga_shadowburner();
+    new boss_priestess_azil();
 }

@@ -23,19 +23,19 @@
 #include "ScriptPCH.h"
 #include "grim_batol.h"
 
-class boss_drahga_shadowburner : public CreatureScript
+class boss_forgemaster_throngus : public CreatureScript
 {
 public:
-    boss_drahga_shadowburner() : CreatureScript("boss_drahga_shadowburner") { }
+    boss_forgemaster_throngus() : CreatureScript("boss_forgemaster_throngus") { }
 
     CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_drahga_shadowburnerAI (creature);
+        return new boss_forgemaster_throngusAI (creature);
     }
 
-    struct boss_drahga_shadowburnerAI : public ScriptedAI
+    struct boss_forgemaster_throngusAI : public ScriptedAI
     {
-        boss_drahga_shadowburnerAI(Creature* creature) : ScriptedAI(creature)
+        boss_forgemaster_throngusAI(Creature* creature) : ScriptedAI(creature)
         {
             pInstance = creature->GetInstanceScript();
         }
@@ -56,7 +56,7 @@ public:
     };
 };
 
-void AddSC_boss_drahga_shadowburner()
+void AddSC_boss_forgemaster_throngus()
 {
-    new boss_drahga_shadowburner();
+    new boss_forgemaster_throngus();
 }

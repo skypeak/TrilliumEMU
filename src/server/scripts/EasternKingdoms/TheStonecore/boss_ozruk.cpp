@@ -18,3 +18,44 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+#include "ScriptPCH.h"
+#include "the_stonecore.h"
+
+class boss_ozruk : public CreatureScript
+{
+public:
+    boss_ozruk() : CreatureScript("boss_ozruk") { }
+
+    CreatureAI* GetAI(Creature* creature) const
+    {
+        return new boss_ozrukAI (creature);
+    }
+
+    struct boss_ozrukAI : public ScriptedAI
+    {
+        boss_ozrukAI(Creature* creature) : ScriptedAI(creature)
+        {
+            pInstance = creature->GetInstanceScript();
+        }
+
+        InstanceScript* pInstance;
+
+        void Reset() {}
+
+        void EnterCombat(Unit* /*pWho*/) {}
+
+        void UpdateAI(const uint32 Diff)
+        {
+            if (!UpdateVictim())
+                return;
+
+            DoMeleeAttackIfReady();
+        }
+    };
+};
+
+void AddSC_boss_ozruk()
+{
+    new boss_ozruk();
+}

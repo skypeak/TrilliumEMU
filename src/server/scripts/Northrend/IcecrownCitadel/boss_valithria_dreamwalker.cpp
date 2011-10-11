@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2005 - 2011 MaNGOS <http://www.getmangos.org/>
+ *
+ * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
+ *
+ * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -221,7 +225,7 @@ class ValithriaDespawner : public BasicEvent
 
         bool Execute(uint64 /*currTime*/, uint32 /*diff*/)
         {
-            Trillium::CreatureWorker<ValithriaDespawner> worker(_creature, *this);
+            Arkcore::CreatureWorker<ValithriaDespawner> worker(_creature, *this);
             _creature->VisitNearbyGridObject(333.0f, worker);
             return true;
         }
@@ -296,7 +300,9 @@ class boss_valithria_dreamwalker : public CreatureScript
 
             void Reset()
             {
-                me->SetHealth(_spawnHealth);
+                _events.Reset();
+                //me->SetHealth(_spawnHealth);
+                me->SetHealth(me->GetMaxHealth() / 2);
                 me->SetReactState(REACT_PASSIVE);
                 me->LoadCreaturesAddon(true);
                 // immune to percent heals
@@ -331,6 +337,13 @@ class boss_valithria_dreamwalker : public CreatureScript
 
             void HealReceived(Unit* /*healer*/, uint32& heal)
             {
+                // Do not recieve heal while encounter not in progress
+                if (_instance->GetBossState(DATA_VALITHRIA_DREAMWALKER) != IN_PROGRESS)
+                {
+                    heal = 0;
+                    return;
+                }
+
                 // encounter complete
                 if (me->HealthAbovePctHealed(100, heal) && !_done)
                 {
@@ -339,7 +352,7 @@ class boss_valithria_dreamwalker : public CreatureScript
                     _instance->SendEncounterUnit(ENCOUNTER_FRAME_REMOVE, me);
                     me->RemoveAurasDueToSpell(SPELL_CORRUPTION_VALITHRIA);
                     DoCast(me, SPELL_ACHIEVEMENT_CHECK);
-                    DoCastAOE(SPELL_DREAMWALKERS_RAGE);
+                    DoCastAOE(SPELL_DREAMWALKERS_RAGE);				
                     _events.ScheduleEvent(EVENT_DREAM_SLIP, 3500);
                     if (Creature* lichKing = ObjectAccessor::GetCreature(*me, _instance->GetData64(DATA_VALITHRIA_LICH_KING)))
                         lichKing->AI()->EnterEvadeMode();
@@ -356,7 +369,7 @@ class boss_valithria_dreamwalker : public CreatureScript
 
             void DamageTaken(Unit* /*attacker*/, uint32& damage)
             {
-                if (me->HealthBelowPctDamaged(25, damage))
+                if (me->HealthBelowPct(26))
                 {
                     if (!_under25PercentTalkDone)
                     {
@@ -389,8 +402,8 @@ class boss_valithria_dreamwalker : public CreatureScript
                     me->SetDisplayId(11686);
                     me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
                     me->DespawnOrUnsummon(4000);
-                    if (Creature* lichKing = ObjectAccessor::GetCreature(*me, _instance->GetData64(DATA_VALITHRIA_LICH_KING)))
-                        lichKing->CastSpell(lichKing, SPELL_SPAWN_CHEST, false);
+                    //if (Creature* lichKing = ObjectAccessor::GetCreature(*me, _instance->GetData64(DATA_VALITHRIA_LICH_KING)))
+                    //    lichKing->CastSpell(lichKing, SPELL_SPAWN_CHEST, false);
 
                     if (Creature* trigger = ObjectAccessor::GetCreature(*me, _instance->GetData64(DATA_VALITHRIA_TRIGGER)))
                         me->Kill(trigger);
@@ -440,7 +453,6 @@ class boss_valithria_dreamwalker : public CreatureScript
                             Talk(SAY_VALITHRIA_BERSERK);
                             break;
                         case EVENT_DREAM_PORTAL:
-                            if (!IsHeroic())
                                 Talk(SAY_VALITHRIA_DREAM_PORTAL);
                             for (uint32 i = 0; i < _portalCount; ++i)
                                 DoCast(me, SUMMON_PORTAL);
@@ -592,11 +604,12 @@ class npc_the_lich_king_controller : public CreatureScript
             {
                 _events.Reset();
                 _events.ScheduleEvent(EVENT_GLUTTONOUS_ABOMINATION_SUMMONER, 5000);
-                _events.ScheduleEvent(EVENT_SUPPRESSER_SUMMONER, 10000);
+                _events.ScheduleEvent(EVENT_SUPPRESSER_SUMMONER, 1000);
                 _events.ScheduleEvent(EVENT_BLISTERING_ZOMBIE_SUMMONER, 15000);
                 _events.ScheduleEvent(EVENT_RISEN_ARCHMAGE_SUMMONER, 20000);
                 _events.ScheduleEvent(EVENT_BLAZING_SKELETON_SUMMONER, 30000);
                 me->SetReactState(REACT_PASSIVE);
+                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
             }
 
             void JustReachedHome()
@@ -679,7 +692,11 @@ class npc_risen_archmage : public CreatureScript
 
             bool CanAIAttack(Unit const* target) const
             {
+                if(_instance->GetBossState(DATA_VALITHRIA_DREAMWALKER) == NOT_STARTED || _instance->GetBossState(DATA_VALITHRIA_DREAMWALKER) == FAIL)
                 return target->GetEntry() != NPC_VALITHRIA_DREAMWALKER;
+                if(_instance->GetBossState(DATA_VALITHRIA_DREAMWALKER) == IN_PROGRESS)
+                    return true;
+                return false;
             }
 
             void Reset()
@@ -694,11 +711,11 @@ class npc_risen_archmage : public CreatureScript
             void EnterCombat(Unit* /*target*/)
             {
                 me->FinishSpell(CURRENT_CHANNELED_SPELL, false);
-                if (me->GetDBTableGUIDLow() && _canCallEnterCombat)
+                if (me->GetDBTableGUIDLow() && _canCallEnterCombat && _instance->GetBossState(DATA_VALITHRIA_DREAMWALKER) != DONE)
                 {
                     std::list<Creature*> archmages;
                     RisenArchmageCheck check;
-                    Trillium::CreatureListSearcher<RisenArchmageCheck> searcher(me, archmages, check);
+                    Arkcore::CreatureListSearcher<RisenArchmageCheck> searcher(me, archmages, check);
                     me->VisitNearbyGridObject(100.0f, searcher);
                     for (std::list<Creature*>::iterator itr = archmages.begin(); itr != archmages.end(); ++itr)
                         (*itr)->AI()->DoAction(ACTION_ENTER_COMBAT);
@@ -1072,8 +1089,8 @@ class npc_dream_cloud : public CreatureScript
                         case EVENT_CHECK_PLAYER:
                         {
                             Player* player = NULL;
-                            Trillium::AnyPlayerInObjectRangeCheck check(me, 5.0f);
-                            Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, player, check);
+                            Arkcore::AnyPlayerInObjectRangeCheck check(me, 5.0f);
+                            Arkcore::PlayerSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, player, check);
                             me->VisitNearbyWorldObject(7.5f, searcher);
                             _events.ScheduleEvent(player ? EVENT_EXPLODE : EVENT_CHECK_PLAYER, 1000);
                             break;
@@ -1187,7 +1204,7 @@ class spell_dreamwalker_summoner : public SpellScriptLoader
 
             void FilterTargets(std::list<Unit*>& targets)
             {
-                targets.remove_if (Trillium::UnitAuraCheck(true, SPELL_RECENTLY_SPAWNED));
+                targets.remove_if(Arkcore::UnitAuraCheck(true, SPELL_RECENTLY_SPAWNED));
                 if (targets.empty())
                     return;
 
@@ -1235,9 +1252,9 @@ class spell_dreamwalker_summon_suppresser : public SpellScriptLoader
                     return;
 
                 std::list<Creature*> summoners;
-                GetCreatureListWithEntryInGrid(summoners, caster, 22515, 100.0f);
-                summoners.remove_if (Trillium::UnitAuraCheck(true, SPELL_RECENTLY_SPAWNED));
-                Trillium::RandomResizeList(summoners, 2);
+                GetCreatureListWithEntryInGrid(summoners, caster, NPC_WORLD_TRIGGER, 100.0f);
+                summoners.remove_if(Arkcore::UnitAuraCheck(true, SPELL_RECENTLY_SPAWNED));
+                Arkcore::RandomResizeList(summoners, 2);
                 if (summoners.empty())
                     return;
 

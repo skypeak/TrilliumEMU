@@ -18,3 +18,44 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+#include "ScriptPCH.h"
+#include "throne_of_the_tides.h"
+
+class boss_ozumat : public CreatureScript
+{
+public:
+    boss_ozumat() : CreatureScript("boss_ozumat") { }
+
+    CreatureAI* GetAI(Creature* creature) const
+    {
+        return new boss_ozumatAI (creature);
+    }
+
+    struct boss_ozumatAI : public ScriptedAI
+    {
+        boss_ozumatAI(Creature* creature) : ScriptedAI(creature)
+        {
+            pInstance = creature->GetInstanceScript();
+        }
+
+        InstanceScript* pInstance;
+
+        void Reset() {}
+
+        void EnterCombat(Unit* /*pWho*/) {}
+
+        void UpdateAI(const uint32 Diff)
+        {
+            if (!UpdateVictim())
+                return;
+
+            DoMeleeAttackIfReady();
+        }
+    };
+};
+
+void AddSC_boss_ozumat()
+{
+    new boss_ozumat();
+}

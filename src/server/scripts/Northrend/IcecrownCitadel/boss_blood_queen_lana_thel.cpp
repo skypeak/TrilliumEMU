@@ -19,6 +19,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #include "ObjectMgr.h"
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
@@ -142,6 +143,19 @@ class boss_blood_queen_lana_thel : public CreatureScript
             {
             }
 
+            void Cleanup()
+            {
+                instance->DoRemoveAurasDueToSpellOnPlayers(ESSENCE_OF_BLOOD_QUEEN);
+                instance->DoRemoveAurasDueToSpellOnPlayers(ESSENCE_OF_BLOOD_QUEEN_PLR);
+                instance->DoRemoveAurasDueToSpellOnPlayers(FRENZIED_BLOODTHIRST);
+                instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_UNCONTROLLABLE_FRENZY);
+                instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BLOOD_MIRROR_DAMAGE);
+                instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BLOOD_MIRROR_VISUAL);
+                instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BLOOD_MIRROR_DUMMY);
+                instance->DoRemoveAurasDueToSpellOnPlayers(DELIRIOUS_SLASH);
+                instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_PACT_OF_THE_DARKFALLEN);
+            }
+
             void Reset()
             {
                 _Reset();
@@ -184,15 +198,7 @@ class boss_blood_queen_lana_thel : public CreatureScript
             {
                 _JustDied();
                 Talk(SAY_DEATH);
-                instance->DoRemoveAurasDueToSpellOnPlayers(ESSENCE_OF_BLOOD_QUEEN);
-                instance->DoRemoveAurasDueToSpellOnPlayers(ESSENCE_OF_BLOOD_QUEEN_PLR);
-                instance->DoRemoveAurasDueToSpellOnPlayers(FRENZIED_BLOODTHIRST);
-                instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_UNCONTROLLABLE_FRENZY);
-                instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BLOOD_MIRROR_DAMAGE);
-                instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BLOOD_MIRROR_VISUAL);
-                instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BLOOD_MIRROR_DUMMY);
-                instance->DoRemoveAurasDueToSpellOnPlayers(DELIRIOUS_SLASH);
-                instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_PACT_OF_THE_DARKFALLEN);
+                Cleanup();
                 // Blah, credit the quest
                 if (_creditBloodQuickening)
                 {
@@ -255,6 +261,7 @@ class boss_blood_queen_lana_thel : public CreatureScript
                 _JustReachedHome();
                 Talk(SAY_WIPE);
                 instance->SetBossState(DATA_BLOOD_QUEEN_LANA_THEL, FAIL);
+                Cleanup();
             }
 
             void KilledUnit(Unit* victim)
@@ -309,7 +316,8 @@ class boss_blood_queen_lana_thel : public CreatureScript
                         events.ScheduleEvent(EVENT_BLOOD_MIRROR, 2500, EVENT_GROUP_CANCELLABLE);
                         break;
                     case POINT_MINCHAR:
-                        DoCast(me, SPELL_ANNIHILATE, true);
+                        if (Creature* minchar = me->FindNearestCreature(NPC_INFILTRATOR_MINCHAR_BQ, 200.0f))
+                            minchar->CastSpell(minchar, SPELL_ANNIHILATE, true);
                         // already in evade mode
                         me->GetMotionMaster()->MoveTargetedHome();
                         Reset();
@@ -390,7 +398,7 @@ class boss_blood_queen_lana_thel : public CreatureScript
                                 ++targetCount;
                             if (Is25ManRaid())
                                 ++targetCount;
-                            Trillium::RandomResizeList<Player*>(targets, targetCount);
+                            Arkcore::RandomResizeList<Player*>(targets, targetCount);
                             if (targets.size() > 1)
                             {
                                 Talk(SAY_PACT_OF_THE_DARKFALLEN);
@@ -413,7 +421,7 @@ class boss_blood_queen_lana_thel : public CreatureScript
                         {
                             std::list<Player*> targets;
                             SelectRandomTarget(false, &targets);
-                            Trillium::RandomResizeList<Player*>(targets, uint32(Is25ManRaid() ? 4 : 2));
+                            Arkcore::RandomResizeList<Player*>(targets, uint32(Is25ManRaid() ? 4 : 2));
                             for (std::list<Player*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                                 DoCast(*itr, SPELL_TWILIGHT_BLOODBOLT);
                             DoCast(me, SPELL_TWILIGHT_BLOODBOLT_TARGET);
@@ -481,7 +489,7 @@ class boss_blood_queen_lana_thel : public CreatureScript
 
                 if (includeOfftank)
                 {
-                    tempTargets.sort(Trillium::ObjectDistanceOrderPred(me->getVictim()));
+                    tempTargets.sort(Arkcore::ObjectDistanceOrderPred(me->getVictim()));
                     return tempTargets.front();
                 }
 
@@ -661,8 +669,8 @@ class spell_blood_queen_bloodbolt : public SpellScriptLoader
             void FilterTargets(std::list<Unit*>& targets)
             {
                 uint32 targetCount = (targets.size() + 2) / 3;
-                targets.remove_if (BloodboltHitCheck(static_cast<LanaThelAI*>(GetCaster()->GetAI())));
-                Trillium::RandomResizeList(targets, targetCount);
+                targets.remove_if(BloodboltHitCheck(static_cast<LanaThelAI*>(GetCaster()->GetAI())));
+                Arkcore::RandomResizeList(targets, targetCount);
                 // mark targets now, effect hook has missile travel time delay (might cast next in that time)
                 for (std::list<Unit*>::const_iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     GetCaster()->GetAI()->SetGUID((*itr)->GetGUID(), GUID_BLOODBOLT);
@@ -698,7 +706,7 @@ class spell_blood_queen_pact_of_the_darkfallen : public SpellScriptLoader
 
             void FilterTargets(std::list<Unit*>& unitList)
             {
-                unitList.remove_if (Trillium::UnitAuraCheck(false, SPELL_PACT_OF_THE_DARKFALLEN));
+                unitList.remove_if(Arkcore::UnitAuraCheck(false, SPELL_PACT_OF_THE_DARKFALLEN));
 
                 bool remove = true;
                 std::list<Unit*>::const_iterator itrEnd = unitList.end(), itr, itr2;
@@ -784,7 +792,7 @@ class spell_blood_queen_pact_of_the_darkfallen_dmg_target : public SpellScriptLo
 
             void FilterTargets(std::list<Unit*>& unitList)
             {
-                unitList.remove_if (Trillium::UnitAuraCheck(true, SPELL_PACT_OF_THE_DARKFALLEN));
+                unitList.remove_if(Arkcore::UnitAuraCheck(true, SPELL_PACT_OF_THE_DARKFALLEN));
                 unitList.push_back(GetCaster());
             }
 

@@ -128,6 +128,7 @@ class boss_rotface : public CreatureScript
 
             void JustDied(Unit* /*killer*/)
             {
+                summons.DespawnAll();
                 _JustDied();
                 Talk(SAY_DEATH);
                 instance->DoRemoveAurasDueToSpellOnPlayers(MUTATED_INFECTION);
@@ -445,14 +446,14 @@ class spell_rotface_ooze_flood : public SpellScriptLoader
 
                 std::list<Creature*> triggers;
                 GetHitUnit()->GetCreatureListWithEntryInGrid(triggers, GetHitUnit()->GetEntry(), 12.5f);
-                triggers.sort(Trillium::ObjectDistanceOrderPred(GetHitUnit()));
+                triggers.sort(Arkcore::ObjectDistanceOrderPred(GetHitUnit()));
                 GetHitUnit()->CastSpell(triggers.back(), uint32(GetEffectValue()), false, NULL, NULL, GetOriginalCaster() ? GetOriginalCaster()->GetGUID() : 0);
             }
 
             void FilterTargets(std::list<Unit*>& targetList)
             {
                 // get 2 targets except 2 nearest
-                targetList.sort(Trillium::ObjectDistanceOrderPred(GetCaster()));
+                targetList.sort(Arkcore::ObjectDistanceOrderPred(GetCaster()));
 
                 // .resize() runs pop_back();
                 if (targetList.size() > 4)
@@ -494,7 +495,7 @@ class spell_rotface_mutated_infection : public SpellScriptLoader
             {
                 // remove targets with this aura already
                 // tank is not on this list
-                targets.remove_if (Trillium::UnitAuraCheck(true, GetSpellInfo()->Id));
+                targets.remove_if(Arkcore::UnitAuraCheck(true, GetSpellInfo()->Id));
                 if (targets.empty())
                     return;
 
@@ -731,7 +732,7 @@ class spell_rotface_unstable_ooze_explosion : public SpellScriptLoader
 
             void Register()
             {
-                OnEffectHit += SpellEffectFn(spell_rotface_unstable_ooze_explosion_SpellScript::CheckTarget, EFFECT_0, SPELL_EFFECT_TRIGGER_MISSILE);
+                OnEffectHitTarget += SpellEffectFn(spell_rotface_unstable_ooze_explosion_SpellScript::CheckTarget, EFFECT_0, SPELL_EFFECT_TRIGGER_MISSILE);
             }
         };
 

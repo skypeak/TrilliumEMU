@@ -19,23 +19,23 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
  
- 
-#include "ScriptPCH.h"
-#include "grim_batol.h"
 
-class boss_drahga_shadowburner : public CreatureScript
+#include "ScriptPCH.h"
+#include "throne_of_the_tides.h"
+
+class boss_mindbender_ghursha : public CreatureScript
 {
 public:
-    boss_drahga_shadowburner() : CreatureScript("boss_drahga_shadowburner") { }
+    boss_mindbender_ghursha() : CreatureScript("boss_mindbender_ghursha") { }
 
     CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_drahga_shadowburnerAI (creature);
+        return new boss_mindbender_ghurshaAI (creature);
     }
 
-    struct boss_drahga_shadowburnerAI : public ScriptedAI
+    struct boss_mindbender_ghurshaAI : public ScriptedAI
     {
-        boss_drahga_shadowburnerAI(Creature* creature) : ScriptedAI(creature)
+        boss_mindbender_ghurshaAI(Creature* creature) : ScriptedAI(creature)
         {
             pInstance = creature->GetInstanceScript();
         }
@@ -56,7 +56,7 @@ public:
     };
 };
 
-void AddSC_boss_drahga_shadowburner()
+void AddSC_boss_ghursha()
 {
-    new boss_drahga_shadowburner();
+    new boss_mindbender_ghursha();
 }

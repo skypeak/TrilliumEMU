@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2008-2010 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2005 - 2011 MaNGOS <http://www.getmangos.org/>
+ *
+ * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
+ *
+ * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -14,6 +18,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 
 #include "ObjectMgr.h"
 #include "ScriptMgr.h"
@@ -1062,7 +1067,7 @@ class npc_crok_scourgebane : public CreatureScript
                         // get all nearby vrykul
                         std::list<Creature*> temp;
                         FrostwingVrykulSearcher check(me, 80.0f);
-                        Trillium::CreatureListSearcher<FrostwingVrykulSearcher> searcher(me, temp, check);
+                        Arkcore::CreatureListSearcher<FrostwingVrykulSearcher> searcher(me, temp, check);
                         me->VisitNearbyGridObject(80.0f, searcher);
 
                         _aliveTrash.clear();
@@ -1088,8 +1093,8 @@ class npc_crok_scourgebane : public CreatureScript
                 {
                     _wipeCheckTimer = 1000;
                     Player* player = NULL;
-                    Trillium::AnyPlayerInObjectRangeCheck check(me, 60.0f);
-                    Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, player, check);
+                    Arkcore::AnyPlayerInObjectRangeCheck check(me, 60.0f);
+                    Arkcore::PlayerSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, player, check);
                     me->VisitNearbyWorldObject(60.0f, searcher);
                     // wipe
                     if (!player)
@@ -1098,7 +1103,7 @@ class npc_crok_scourgebane : public CreatureScript
                         if (damage >= me->GetHealth())
                         {
                             FrostwingGauntletRespawner respawner;
-                            Trillium::CreatureWorker<FrostwingGauntletRespawner> worker(me, respawner);
+                            Arkcore::CreatureWorker<FrostwingGauntletRespawner> worker(me, respawner);
                             me->VisitNearbyGridObject(333.0f, worker);
                             Talk(SAY_CROK_DEATH);
                         }
@@ -1184,7 +1189,9 @@ class npc_crok_scourgebane : public CreatureScript
             bool CanAIAttack(Unit const* target) const
             {
                 // do not see targets inside Frostwing Halls when we are not there
-                return (me->GetPositionY() > 2660.0f) == (target->GetPositionY() > 2660.0f);
+                if (target->GetPositionY() < 2650.0f)
+                    return true;
+                return false;
             }
 
         private:
@@ -1263,7 +1270,9 @@ struct npc_argent_captainAI : public ScriptedAI
         bool CanAIAttack(Unit const* target) const
         {
             // do not see targets inside Frostwing Halls when we are not there
-            return (me->GetPositionY() > 2660.0f) == (target->GetPositionY() > 2660.0f);
+            if (target->GetPositionY() < 2650.0f)
+                return true;
+            return false;
         }
 
         void EnterEvadeMode()
@@ -1398,8 +1407,8 @@ class npc_captain_arnath : public CreatureScript
             Creature* FindFriendlyCreature() const
             {
                 Creature* target = NULL;
-                Trillium::MostHPMissingInRange u_check(me, 60.0f, 0);
-                Trillium::CreatureLastSearcher<Trillium::MostHPMissingInRange> searcher(me, target, u_check);
+                Arkcore::MostHPMissingInRange u_check(me, 60.0f, 0);
+                Arkcore::CreatureLastSearcher<Arkcore::MostHPMissingInRange> searcher(me, target, u_check);
                 me->VisitNearbyGridObject(60.0f, searcher);
                 return target;
             }
@@ -1749,7 +1758,7 @@ class spell_icc_sprit_alarm : public SpellScriptLoader
 
                 std::list<Creature*> wards;
                 GetCaster()->GetCreatureListWithEntryInGrid(wards, NPC_DEATHBOUND_WARD, 150.0f);
-                wards.sort(Trillium::ObjectDistanceOrderPred(GetCaster()));
+                wards.sort(Arkcore::ObjectDistanceOrderPred(GetCaster()));
                 for (std::list<Creature*>::iterator itr = wards.begin(); itr != wards.end(); ++itr)
                 {
                     if ((*itr)->isAlive() && (*itr)->HasAura(SPELL_STONEFORM))
@@ -1824,7 +1833,7 @@ class spell_frost_giant_death_plague : public SpellScriptLoader
             void FilterTargets(std::list<Unit*>& unitList)
             {
                 // Select valid targets for jump
-                unitList.remove_if (DeathPlagueTargetSelector(GetCaster()));
+                unitList.remove_if(DeathPlagueTargetSelector(GetCaster()));
                 if (!unitList.empty())
                 {
                     Unit* target = SelectRandomContainerElement(unitList);
@@ -1902,6 +1911,28 @@ class AliveCheck
         }
 };
 
+class TeleportToFrozenThrone : public BasicEvent
+{
+    public:
+        TeleportToFrozenThrone(Player *player, uint8 attempts): player(player), attemptsLeft(attempts) { }
+
+        bool Execute(uint64 /*eventTime*/, uint32 /*updateTime*/)
+        {
+            player->CastSpell(player, FROZEN_THRONE_TELEPORT, true);
+            if (--attemptsLeft)
+                player->m_Events.AddEvent(new TeleportToFrozenThrone(player, attemptsLeft), player->m_Events.CalculateTime(uint64(1500)));
+            return true;
+        }
+    private:
+        Player *player;
+        uint8 attemptsLeft;
+};
+
+void TeleportPlayerToFrozenThrone(Player *player)
+{
+    player->m_Events.AddEvent(new TeleportToFrozenThrone(player, 2), player->m_Events.CalculateTime(uint64(5000)));
+}
+
 class spell_svalna_revive_champion : public SpellScriptLoader
 {
     public:
@@ -1913,8 +1944,8 @@ class spell_svalna_revive_champion : public SpellScriptLoader
 
             void RemoveAliveTarget(std::list<Unit*>& unitList)
             {
-                unitList.remove_if (AliveCheck());
-                Trillium::RandomResizeList(unitList, 2);
+                unitList.remove_if(AliveCheck());
+                Arkcore::RandomResizeList(unitList, 2);
             }
 
             void Register()
@@ -1978,7 +2009,7 @@ class at_icc_saurfang_portal : public AreaTriggerScript
                 instance->SetData(DATA_COLDFLAME_JETS, IN_PROGRESS);
                 std::list<Creature*> traps;
                 GetCreatureListWithEntryInGrid(traps, player, NPC_FROST_FREEZE_TRAP, 120.0f);
-                traps.sort(Trillium::ObjectDistanceOrderPred(player));
+                traps.sort(Arkcore::ObjectDistanceOrderPred(player));
                 bool instant = false;
                 for (std::list<Creature*>::iterator itr = traps.begin(); itr != traps.end(); ++itr)
                 {

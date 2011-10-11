@@ -18,3 +18,50 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+ 
+#include "ScriptPCH.h"
+#include "blackwing_descent.h"
+
+class boss_atramedes : public CreatureScript
+{
+public:
+    boss_atramedes() : CreatureScript("boss_atramedes") { }
+
+    CreatureAI* GetAI(Creature* creature) const
+    {
+        return new boss_atramedesAI (creature);
+    }
+
+    struct boss_atramedesAI : public ScriptedAI
+    {
+        boss_atramedesAI(Creature* creature) : ScriptedAI(creature)
+        {
+            pInstance = creature->GetInstanceScript();
+        }
+
+        InstanceScript* pInstance;
+
+        void Reset() { }
+
+        void EnterCombat(Unit* /*pWho*/) {}
+
+        void JustDied(Unit* /*Killer*/)
+        {
+            pInstance->SetData(DATA_ATRAMEDES, DONE);
+        }
+
+        void UpdateAI(const uint32 Diff)
+        {
+            if (!UpdateVictim())
+                return;
+
+            DoMeleeAttackIfReady();
+        }
+    };
+};
+
+void AddSC_boss_atramedes()
+{
+    new boss_atramedes();
+}
