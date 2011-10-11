@@ -1,18 +1,18 @@
-REVOKE ALL PRIVILEGES ON * . * FROM 'singularity'@'localhost';
+REVOKE ALL PRIVILEGES ON * . * FROM 'arkania'@'localhost';
 
-REVOKE ALL PRIVILEGES ON `world` . * FROM 'singularity'@'localhost';
+REVOKE ALL PRIVILEGES ON `world` . * FROM 'arkania'@'localhost';
 
-REVOKE GRANT OPTION ON `world` . * FROM 'singularity'@'localhost';
+REVOKE GRANT OPTION ON `world` . * FROM 'arkania'@'localhost';
 
-REVOKE ALL PRIVILEGES ON `characters` . * FROM 'singularity'@'localhost';
+REVOKE ALL PRIVILEGES ON `characters` . * FROM 'arkania'@'localhost';
 
-REVOKE GRANT OPTION ON `characters` . * FROM 'singularity'@'localhost';
+REVOKE GRANT OPTION ON `characters` . * FROM 'arkania'@'localhost';
 
-REVOKE ALL PRIVILEGES ON `auth` . * FROM 'singularity'@'localhost';
+REVOKE ALL PRIVILEGES ON `auth` . * FROM 'arkania'@'localhost';
 
-REVOKE GRANT OPTION ON `auth` . * FROM 'singularity'@'localhost';
+REVOKE GRANT OPTION ON `auth` . * FROM 'arkania'@'localhost';
 
-DROP USER 'singularity'@'localhost';
+DROP USER 'arkania'@'localhost';
 
 DROP DATABASE IF EXISTS `world`;
 
