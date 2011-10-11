@@ -1,15 +1,15 @@
 = ArkCore -- General information =
 
-Copyright (C) ArkCore  (http://www.arkania.net)
+Copyright (C) ArkCORE  (http://www.arkania.net)
 Copyright (C) VoragineCore (http://www.projectvoragine.com)
 Copyright (C) TrinityCore (http://www.trinitycore.org)
 Copyright (C) Arcemu (http://www.arcemu.org)
 Copyright (C) Mangos (http://www.getmangos.com)
 Copyright (C) Skyfire (http://www.projectskyfire.org)
-Copyright (C) Arkcore (http://forums.arkania.net)
+Copyright (C) TrilliumEMU (http://www.trilliumemu.org)
 
 
-  ArkCore is free software; you can redistribute it and/or modify
+  ArkCORE is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
@@ -23,8 +23,8 @@ Copyright (C) Arkcore (http://forums.arkania.net)
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  In addition, as a special exception, the ArkCore project
-  gives permission to link the code of its release of ArkCore with
+  In addition, as a special exception, the ArkCORE project
+  gives permission to link the code of its release of ArkCORE with
   the OpenSSL project's "OpenSSL" library (or with modified versions of
   it that use the same license as the "OpenSSL" library), and distribute
   the linked executables.  You must obey the GNU General Public License
@@ -33,11 +33,11 @@ Copyright (C) Arkcore (http://forums.arkania.net)
   file, but you are not obligated to do so.  If you do not wish to do
   so, delete this exception statement from your version.
 
-ArkCore is a World of Warcraft game server application. It is derived
+ArkCORE is a World of Warcraft game server application. It is derived
 from TrinityCore, the Massive Network Game Object Server, and is based on the
 code of that project.
 
-For further information on the ArkCore project, please visit our
+For further information on the ArkCORE project, please visit our
 project website at http://www.arkania.net
 
 API documentation can be obtained by running the "make doc" command inside
