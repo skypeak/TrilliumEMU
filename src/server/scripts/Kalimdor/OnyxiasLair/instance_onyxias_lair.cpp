@@ -116,8 +116,8 @@ public:
 
                 //Get all immediatly nearby floors
                 std::list<GameObject*> nearFloorList;
-                Trillium::GameObjectInRangeCheck check(pFloorEruption->GetPositionX(), pFloorEruption->GetPositionY(), pFloorEruption->GetPositionZ(), 15);
-                Trillium::GameObjectListSearcher<Trillium::GameObjectInRangeCheck> searcher(pFloorEruption, nearFloorList, check);
+                Arkcore::GameObjectInRangeCheck check(pFloorEruption->GetPositionX(), pFloorEruption->GetPositionY(), pFloorEruption->GetPositionZ(), 15);
+                Arkcore::GameObjectListSearcher<Arkcore::GameObjectInRangeCheck> searcher(pFloorEruption, nearFloorList, check);
                 pFloorEruption->VisitNearbyGridObject(999, searcher);
                 //remove all that are not present on FloorEruptionGUID[1] and update treeLen on each GUID
                 for (std::list<GameObject*>::const_iterator itr = nearFloorList.begin(); itr != nearFloorList.end(); ++itr)

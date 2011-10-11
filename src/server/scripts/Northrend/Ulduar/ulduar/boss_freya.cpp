@@ -452,8 +452,8 @@ class boss_freya : public CreatureScript
                         {
                             // On every player
                             std::list<Player*> PlayerList;
-                            Trillium::AnyPlayerInObjectRangeCheck checker(me, 50.0f);
-                            Trillium::PlayerListSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, PlayerList, checker);
+                            Arkcore::AnyPlayerInObjectRangeCheck checker(me, 50.0f);
+                            Arkcore::PlayerListSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, PlayerList, checker);
                             me->VisitNearbyWorldObject(50.0f, searcher);
                             for (std::list<Player*>::const_iterator itr = PlayerList.begin(); itr != PlayerList.end(); ++itr)
                                 (*itr)->CastSpell(*itr, SPELL_SUMMON_NATURE_BOMB, true);

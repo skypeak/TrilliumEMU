@@ -50,6 +50,12 @@ set(scripts_STAT_SRCS
   EasternKingdoms/Gnomeregan/instance_gnomeregan.cpp
   EasternKingdoms/Gnomeregan/gnomeregan.cpp
   EasternKingdoms/Gnomeregan/gnomeregan.h
+  EasternKingdoms/GrimBatol/grim_batol.h
+  EasternKingdoms/GrimBatol/boss_drahga_shadowburner.cpp
+  EasternKingdoms/GrimBatol/boss_erudax.cpp
+  EasternKingdoms/GrimBatol/boss_forgemaster_throngus.cpp
+  EasternKingdoms/GrimBatol/boss_general_umbriss.cpp
+  EasternKingdoms/GrimBatol/instance_grim_batol.cpp    
   EasternKingdoms/BlackrockDepths/boss_high_interrogator_gerstahn.cpp
   EasternKingdoms/BlackrockDepths/boss_gorosh_the_dervish.cpp
   EasternKingdoms/BlackrockDepths/blackrock_depths.cpp
@@ -94,6 +100,13 @@ set(scripts_STAT_SRCS
   EasternKingdoms/Stratholme/boss_postmaster_malown.cpp
   EasternKingdoms/Stratholme/stratholme.h
   EasternKingdoms/Stratholme/stratholme.cpp
+  EasternKingdoms/ThroneOfTheTides/throne_of_the_tides.h
+  EasternKingdoms/ThroneOfTheTides/boss_commander_ulthok.cpp
+  EasternKingdoms/ThroneOfTheTides/boss_erunak_stonespeaker.cpp
+  EasternKingdoms/ThroneOfTheTides/boss_lady_nazjar.cpp
+  EasternKingdoms/ThroneOfTheTides/boss_mindbender_ghursha.cpp
+  EasternKingdoms/ThroneOfTheTides/boss_ozumat.cpp
+  EasternKingdoms/ThroneOfTheTides/instance_throne_of_the_tides.cpp 
   EasternKingdoms/SunkenTemple/sunken_temple.cpp
   EasternKingdoms/SunkenTemple/sunken_temple.h
   EasternKingdoms/SunkenTemple/instance_sunken_temple.cpp
@@ -132,6 +145,13 @@ set(scripts_STAT_SRCS
   EasternKingdoms/SunwellPlateau/boss_brutallus.cpp
   EasternKingdoms/SunwellPlateau/sunwell_plateau.cpp
   EasternKingdoms/SunwellPlateau/boss_felmyst.cpp
+  EasternKingdoms/TheStonecore/instance_the_stonecore.cpp
+  EasternKingdoms/TheStonecore/the_stonecore.cpp
+  EasternKingdoms/TheStonecore/boss_corborus.cpp 
+  EasternKingdoms/TheStonecore/boss_slabhide.cpp
+  EasternKingdoms/TheStonecore/boss_ozruk.cpp
+  EasternKingdoms/TheStonecore/boss_priestess_azil.cpp
+  EasternKingdoms/TheStonecore/the_stonecore.h    
   EasternKingdoms/Deadmines/deadmines.h
   EasternKingdoms/Deadmines/deadmines.cpp
   EasternKingdoms/Deadmines/boss_mr_smite.cpp
@@ -151,6 +171,14 @@ set(scripts_STAT_SRCS
   EasternKingdoms/ShadowfangKeep/shadowfang_keep.cpp
   EasternKingdoms/ShadowfangKeep/instance_shadowfang_keep.cpp
   EasternKingdoms/ShadowfangKeep/shadowfang_keep.h
+  EasternKingdoms/BlackwingDescent/instance_blackwing_descent.cpp
+  EasternKingdoms/BlackwingDescent/boss_omnotron.cpp
+  EasternKingdoms/BlackwingDescent/boss_nefarian.cpp
+  EasternKingdoms/BlackwingDescent/boss_maloriak.cpp
+  EasternKingdoms/BlackwingDescent/boss_magmaw.cpp
+  EasternKingdoms/BlackwingDescent/boss_chimaeron.cpp
+  EasternKingdoms/BlackwingDescent/boss_atramedes.cpp
+  EasternKingdoms/BlackwingDescent/blackwing_descent.h 
   EasternKingdoms/BlackwingLair/boss_chromaggus.cpp
   EasternKingdoms/BlackwingLair/boss_razorgore.cpp
   EasternKingdoms/BlackwingLair/boss_firemaw.cpp

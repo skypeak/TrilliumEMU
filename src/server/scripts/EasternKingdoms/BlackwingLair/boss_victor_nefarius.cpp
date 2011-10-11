@@ -224,7 +224,7 @@ public:
         {
             DoScriptText(SAY_GAMESBEGIN_2, me);
 
-            //Trillium::Singleton<MapManager>::Instance().GetMap(me->GetMapId(), me)->GetPlayers().begin();
+            //Arkcore::Singleton<MapManager>::Instance().GetMap(me->GetMapId(), me)->GetPlayers().begin();
             /*
             list <Player*>::const_iterator i = sMapMgr->GetMap(me->GetMapId(), me)->GetPlayers().begin();
 
@@ -336,7 +336,7 @@ public:
                         //Make super invis
                         DoCast(me, 8149);
 
-                        //Teleport self to a hiding spot (this causes errors in the Trillium log but no real issues)
+                        //Teleport self to a hiding spot (this causes errors in the Arkcore log but no real issues)
                         DoTeleportTo(HIDE_X, HIDE_Y, HIDE_Z);
                         me->AddUnitState(UNIT_STAT_FLEEING);
 

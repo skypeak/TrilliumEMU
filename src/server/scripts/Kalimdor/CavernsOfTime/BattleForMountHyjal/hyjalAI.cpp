@@ -930,17 +930,17 @@ void hyjalAI::JustDied(Unit* /*killer*/)
 }
 void hyjalAI::HideNearPos(float x, float y)
 {
-    CellPair pair(Trillium::ComputeCellPair(x, y));
+    CellPair pair(Arkcore::ComputeCellPair(x, y));
     Cell cell(pair);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     // First get all creatures.
     std::list<Creature*> creatures;
-    Trillium::AllFriendlyCreaturesInGrid creature_check(me);
-    Trillium::CreatureListSearcher<Trillium::AllFriendlyCreaturesInGrid> creature_searcher(me, creatures, creature_check);
+    Arkcore::AllFriendlyCreaturesInGrid creature_check(me);
+    Arkcore::CreatureListSearcher<Arkcore::AllFriendlyCreaturesInGrid> creature_searcher(me, creatures, creature_check);
     TypeContainerVisitor
-        <Trillium::CreatureListSearcher<Trillium::AllFriendlyCreaturesInGrid>,
+        <Arkcore::CreatureListSearcher<Arkcore::AllFriendlyCreaturesInGrid>,
         GridTypeMapContainer> creature_visitor(creature_searcher);
 
                                                             // Get Creatures
@@ -957,14 +957,14 @@ void hyjalAI::HideNearPos(float x, float y)
 }
 void hyjalAI::RespawnNearPos(float x, float y)
 {
-    CellPair p(Trillium::ComputeCellPair(x, y));
+    CellPair p(Arkcore::ComputeCellPair(x, y));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
-    Trillium::RespawnDo u_do;
-    Trillium::WorldObjectWorker<Trillium::RespawnDo> worker(me, u_do);
-    TypeContainerVisitor<Trillium::WorldObjectWorker<Trillium::RespawnDo>, GridTypeMapContainer > obj_worker(worker);
+    Arkcore::RespawnDo u_do;
+    Arkcore::WorldObjectWorker<Arkcore::RespawnDo> worker(me, u_do);
+    TypeContainerVisitor<Arkcore::WorldObjectWorker<Arkcore::RespawnDo>, GridTypeMapContainer > obj_worker(worker);
     cell.Visit(p, obj_worker, *me->GetMap());
 }
 void hyjalAI::WaypointReached(uint32 i)
@@ -988,17 +988,17 @@ void hyjalAI::WaypointReached(uint32 i)
         }
         //do some talking
         //all alive guards walk near here
-        CellPair pair(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+        CellPair pair(Arkcore::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
         Cell cell(pair);
         cell.data.Part.reserved = ALL_DISTRICT;
         cell.SetNoCreate();
 
         // First get all creatures.
         std::list<Creature*> creatures;
-        Trillium::AllFriendlyCreaturesInGrid creature_check(me);
-        Trillium::CreatureListSearcher<Trillium::AllFriendlyCreaturesInGrid> creature_searcher(me, creatures, creature_check);
+        Arkcore::AllFriendlyCreaturesInGrid creature_check(me);
+        Arkcore::CreatureListSearcher<Arkcore::AllFriendlyCreaturesInGrid> creature_searcher(me, creatures, creature_check);
         TypeContainerVisitor
-            <Trillium::CreatureListSearcher<Trillium::AllFriendlyCreaturesInGrid>,
+            <Arkcore::CreatureListSearcher<Arkcore::AllFriendlyCreaturesInGrid>,
             GridTypeMapContainer> creature_visitor(creature_searcher);
 
         cell.Visit(pair, creature_visitor, *(me->GetMap()));
@@ -1030,16 +1030,16 @@ void hyjalAI::DoOverrun(uint32 faction, const uint32 diff)
     {
         if (TeleportTimer <= diff)
         {
-            CellPair pair(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+            CellPair pair(Arkcore::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
             Cell cell(pair);
             cell.data.Part.reserved = ALL_DISTRICT;
             cell.SetNoCreate();
 
             std::list<Creature*> creatures;
-            Trillium::AllFriendlyCreaturesInGrid creature_check(me);
-            Trillium::CreatureListSearcher<Trillium::AllFriendlyCreaturesInGrid> creature_searcher(me, creatures, creature_check);
+            Arkcore::AllFriendlyCreaturesInGrid creature_check(me);
+            Arkcore::CreatureListSearcher<Arkcore::AllFriendlyCreaturesInGrid> creature_searcher(me, creatures, creature_check);
             TypeContainerVisitor
-                <Trillium::CreatureListSearcher<Trillium::AllFriendlyCreaturesInGrid>,
+                <Arkcore::CreatureListSearcher<Arkcore::AllFriendlyCreaturesInGrid>,
                 GridTypeMapContainer> creature_visitor(creature_searcher);
 
             cell.Visit(pair, creature_visitor, *(me->GetMap()));

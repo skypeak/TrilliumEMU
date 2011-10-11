@@ -362,7 +362,7 @@ public:
             if (targets.empty())
                 return false;
 
-            targets.sort(Trillium::ObjectDistanceOrderPred(me));
+            targets.sort(Arkcore::ObjectDistanceOrderPred(me));
             Unit* target = targets.front();
             if (target)
             {

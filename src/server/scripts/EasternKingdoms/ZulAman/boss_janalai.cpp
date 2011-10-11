@@ -229,15 +229,15 @@ class boss_janalai : public CreatureScript
                 me->GetPosition(x, y, z);
 
                 {
-                    CellPair pair(Trillium::ComputeCellPair(x, y));
+                    CellPair pair(Arkcore::ComputeCellPair(x, y));
                     Cell cell(pair);
                     cell.data.Part.reserved = ALL_DISTRICT;
                     cell.SetNoCreate();
 
-                    Trillium::AllCreaturesOfEntryInRange check(me, MOB_EGG, 100);
-                    Trillium::CreatureListSearcher<Trillium::AllCreaturesOfEntryInRange> searcher(me, templist, check);
+                    Arkcore::AllCreaturesOfEntryInRange check(me, MOB_EGG, 100);
+                    Arkcore::CreatureListSearcher<Arkcore::AllCreaturesOfEntryInRange> searcher(me, templist, check);
 
-                    TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::AllCreaturesOfEntryInRange>, GridTypeMapContainer> cSearcher(searcher);
+                    TypeContainerVisitor<Arkcore::CreatureListSearcher<Arkcore::AllCreaturesOfEntryInRange>, GridTypeMapContainer> cSearcher(searcher);
 
                     cell.Visit(pair, cSearcher, *(me->GetMap()));
                 }
@@ -263,15 +263,15 @@ class boss_janalai : public CreatureScript
                 me->GetPosition(x, y, z);
 
                 {
-                    CellPair pair(Trillium::ComputeCellPair(x, y));
+                    CellPair pair(Arkcore::ComputeCellPair(x, y));
                     Cell cell(pair);
                     cell.data.Part.reserved = ALL_DISTRICT;
                     cell.SetNoCreate();
 
-                    Trillium::AllCreaturesOfEntryInRange check(me, MOB_FIRE_BOMB, 100);
-                    Trillium::CreatureListSearcher<Trillium::AllCreaturesOfEntryInRange> searcher(me, templist, check);
+                    Arkcore::AllCreaturesOfEntryInRange check(me, MOB_FIRE_BOMB, 100);
+                    Arkcore::CreatureListSearcher<Arkcore::AllCreaturesOfEntryInRange> searcher(me, templist, check);
 
-                    TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::AllCreaturesOfEntryInRange>, GridTypeMapContainer> cSearcher(searcher);
+                    TypeContainerVisitor<Arkcore::CreatureListSearcher<Arkcore::AllCreaturesOfEntryInRange>, GridTypeMapContainer> cSearcher(searcher);
 
                     cell.Visit(pair, cSearcher, *(me->GetMap()));
                 }
@@ -515,15 +515,15 @@ class mob_janalai_hatcher : public CreatureScript
                 me->GetPosition(x, y, z);
 
                 {
-                    CellPair pair(Trillium::ComputeCellPair(x, y));
+                    CellPair pair(Arkcore::ComputeCellPair(x, y));
                     Cell cell(pair);
                     cell.data.Part.reserved = ALL_DISTRICT;
                     cell.SetNoCreate();
 
-                    Trillium::AllCreaturesOfEntryInRange check(me, 23817, 50);
-                    Trillium::CreatureListSearcher<Trillium::AllCreaturesOfEntryInRange> searcher(me, templist, check);
+                    Arkcore::AllCreaturesOfEntryInRange check(me, 23817, 50);
+                    Arkcore::CreatureListSearcher<Arkcore::AllCreaturesOfEntryInRange> searcher(me, templist, check);
 
-                    TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::AllCreaturesOfEntryInRange>, GridTypeMapContainer> cSearcher(searcher);
+                    TypeContainerVisitor<Arkcore::CreatureListSearcher<Arkcore::AllCreaturesOfEntryInRange>, GridTypeMapContainer> cSearcher(searcher);
 
                     cell.Visit(pair, cSearcher, *(me->GetMap()));
                 }

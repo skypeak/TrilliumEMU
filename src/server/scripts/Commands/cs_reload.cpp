@@ -145,7 +145,7 @@ public:
             { "spell_target_position",        SEC_ADMINISTRATOR, true,  &HandleReloadSpellTargetPositionCommand,        "", NULL },
             { "spell_threats",                SEC_ADMINISTRATOR, true,  &HandleReloadSpellThreatsCommand,               "", NULL },
             { "spell_group_stack_rules",      SEC_ADMINISTRATOR, true,  &HandleReloadSpellGroupStackRulesCommand,       "", NULL },
-            { "trillium_string",              SEC_ADMINISTRATOR, true,  &HandleReloadTrilliumStringCommand,              "", NULL },
+            { "arkcore_string",              SEC_ADMINISTRATOR, true,  &HandleReloadArkcoreStringCommand,              "", NULL },
             { "waypoint_scripts",             SEC_ADMINISTRATOR, true,  &HandleReloadWpScriptsCommand,                  "", NULL },
             { "vehicle_accessory",            SEC_ADMINISTRATOR, true,  &HandleReloadVehicleAccessoryCommand,           "", NULL },
             { "vehicle_template_accessory",   SEC_ADMINISTRATOR, true,  &HandleReloadVehicleTemplateAccessoryCommand,   "", NULL },
@@ -187,7 +187,7 @@ public:
         HandleReloadMailLevelRewardCommand(handler, "");
         HandleReloadCommandCommand(handler, "");
         HandleReloadReservedNameCommand(handler, "");
-        HandleReloadTrilliumStringCommand(handler, "");
+        HandleReloadArkcoreStringCommand(handler, "");
         HandleReloadGameTeleCommand(handler, "");
 
         HandleReloadVehicleAccessoryCommand(handler, "");
@@ -710,11 +710,11 @@ public:
         return true;
     }
 
-    static bool HandleReloadTrilliumStringCommand(ChatHandler* handler, const char* /*args*/)
+    static bool HandleReloadArkcoreStringCommand(ChatHandler* handler, const char* /*args*/)
     {
-        sLog->outString("Re-Loading trillium_string Table!");
-        sObjectMgr->LoadTrilliumStrings();
-        handler->SendGlobalGMSysMessage("DB table `trillium_string` reloaded.");
+        sLog->outString("Re-Loading arkcore_string Table!");
+        sObjectMgr->LoadArkcoreStrings();
+        handler->SendGlobalGMSysMessage("DB table `arkcore_string` reloaded.");
         return true;
     }
 

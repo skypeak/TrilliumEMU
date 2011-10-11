@@ -482,14 +482,14 @@ public:
             float x, y, z;
             me->GetPosition(x, y, z);
 
-            CellPair pair(Trillium::ComputeCellPair(x, y));
+            CellPair pair(Arkcore::ComputeCellPair(x, y));
             Cell cell(pair);
             cell.data.Part.reserved = ALL_DISTRICT;
             cell.SetNoCreate();
 
-            Trillium::AllCreaturesOfEntryInRange check(me, entry, 100);
-            Trillium::CreatureListSearcher<Trillium::AllCreaturesOfEntryInRange> searcher(me, templist, check);
-            TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::AllCreaturesOfEntryInRange>, GridTypeMapContainer> cSearcher(searcher);
+            Arkcore::AllCreaturesOfEntryInRange check(me, entry, 100);
+            Arkcore::CreatureListSearcher<Arkcore::AllCreaturesOfEntryInRange> searcher(me, templist, check);
+            TypeContainerVisitor<Arkcore::CreatureListSearcher<Arkcore::AllCreaturesOfEntryInRange>, GridTypeMapContainer> cSearcher(searcher);
             cell.Visit(pair, cSearcher, *(me->GetMap()));
 
             for (std::list<Creature*>::const_iterator i = templist.begin(); i != templist.end(); ++i)

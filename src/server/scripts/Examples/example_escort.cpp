@@ -219,10 +219,10 @@ class example_escort : public CreatureScript
                         pEscortAI->Start(false, true, player->GetGUID());
                     break;
                 default:
-                    return false;                                   // nothing defined      -> trillium core handling
+                    return false;                                   // nothing defined      -> arkcore core handling
             }
 
-            return true;                                            // no default handling  -> prevent trillium core handling
+            return true;                                            // no default handling  -> prevent arkcore core handling
         }
 };
 

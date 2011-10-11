@@ -173,7 +173,7 @@ public:
                 if (pUnit && pUnit->isAlive())
                     targets.push_back(pUnit);
             }
-            targets.sort(Trillium::ObjectDistanceOrderPred(me));
+            targets.sort(Arkcore::ObjectDistanceOrderPred(me));
             Unit *target = targets.front();
             if (target && me->IsWithinDistInMap(target, me->GetAttackDistance(target)))
             {
