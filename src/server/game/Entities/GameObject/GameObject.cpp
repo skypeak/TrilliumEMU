@@ -437,8 +437,8 @@ void GameObject::Update(uint32 diff)
                     // search unfriendly creature
                     if (owner)                    // hunter trap
                     {
-                        Trillium::AnyUnfriendlyNoTotemUnitInObjectRangeCheck checker(this, owner, radius);
-                        Trillium::UnitSearcher<Trillium::AnyUnfriendlyNoTotemUnitInObjectRangeCheck> searcher(this, ok, checker);
+                        Arkcore::AnyUnfriendlyNoTotemUnitInObjectRangeCheck checker(this, owner, radius);
+                        Arkcore::UnitSearcher<Arkcore::AnyUnfriendlyNoTotemUnitInObjectRangeCheck> searcher(this, ok, checker);
                         VisitNearbyGridObject(radius, searcher);
                         if (!ok) VisitNearbyWorldObject(radius, searcher);
                     }
@@ -447,8 +447,8 @@ void GameObject::Update(uint32 diff)
                         // environmental damage spells already have around enemies targeting but this not help in case not existed GO casting support
                         // affect only players
                         Player* player = NULL;
-                        Trillium::AnyPlayerInObjectRangeCheck checker(this, radius);
-                        Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(this, player, checker);
+                        Arkcore::AnyPlayerInObjectRangeCheck checker(this, radius);
+                        Arkcore::PlayerSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(this, player, checker);
                         VisitNearbyWorldObject(radius, searcher);
                         ok = player;
                     }
@@ -940,14 +940,14 @@ void GameObject::TriggeringLinkedGameObject(uint32 trapEntry, Unit* target)
     GameObject* trapGO = NULL;
     {
         // using original GO distance
-        CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
+        CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
         Cell cell(p);
         cell.data.Part.reserved = ALL_DISTRICT;
 
-        Trillium::NearestGameObjectEntryInObjectRangeCheck go_check(*target, trapEntry, range);
-        Trillium::GameObjectLastSearcher<Trillium::NearestGameObjectEntryInObjectRangeCheck> checker(this, trapGO, go_check);
+        Arkcore::NearestGameObjectEntryInObjectRangeCheck go_check(*target, trapEntry, range);
+        Arkcore::GameObjectLastSearcher<Arkcore::NearestGameObjectEntryInObjectRangeCheck> checker(this, trapGO, go_check);
 
-        TypeContainerVisitor<Trillium::GameObjectLastSearcher<Trillium::NearestGameObjectEntryInObjectRangeCheck>, GridTypeMapContainer > object_checker(checker);
+        TypeContainerVisitor<Arkcore::GameObjectLastSearcher<Arkcore::NearestGameObjectEntryInObjectRangeCheck>, GridTypeMapContainer > object_checker(checker);
         cell.Visit(p, object_checker, *GetMap(), *target, range);
     }
 
@@ -960,13 +960,13 @@ GameObject* GameObject::LookupFishingHoleAround(float range)
 {
     GameObject* ok = NULL;
 
-    CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
+    CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
-    Trillium::NearestGameObjectFishingHole u_check(*this, range);
-    Trillium::GameObjectSearcher<Trillium::NearestGameObjectFishingHole> checker(this, ok, u_check);
+    Arkcore::NearestGameObjectFishingHole u_check(*this, range);
+    Arkcore::GameObjectSearcher<Arkcore::NearestGameObjectFishingHole> checker(this, ok, u_check);
 
-    TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::NearestGameObjectFishingHole>, GridTypeMapContainer > grid_object_checker(checker);
+    TypeContainerVisitor<Arkcore::GameObjectSearcher<Arkcore::NearestGameObjectFishingHole>, GridTypeMapContainer > grid_object_checker(checker);
     cell.Visit(p, grid_object_checker, *GetMap(), *this, range);
 
     return ok;
@@ -1220,17 +1220,15 @@ void GameObject::Use(Unit* user)
                 TriggeringLinkedGameObject(trapEntry, user);
 
             SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_IN_USE);
-            SetLootState(GO_ACTIVATED);
-
-            uint32 time_to_restore = info->GetAutoCloseTime();
+            SetLootState(GO_ACTIVATED);          
 
             // this appear to be ok, however others exist in addition to this that should have custom (ex: 190510, 188692, 187389)
-            if (time_to_restore && info->goober.customAnim)
+            if (info->goober.customAnim)
                 SendCustomAnim(GetGoAnimProgress());
             else
                 SetGoState(GO_STATE_ACTIVE);
 
-            m_cooldownTime = time(NULL) + time_to_restore;
+            m_cooldownTime = time(NULL) + info->GetAutoCloseTime();
 
             // cast this spell later if provided
             spellId = info->goober.spellId;
@@ -1671,7 +1669,7 @@ void GameObject::SendCustomAnim(uint32 anim)
 
 bool GameObject::IsInRange(float x, float y, float z, float radius) const
 {
-    GameObjectDisplayInfoEntry const* info = sGameObjectDisplayInfoStore.LookupEntry(GetUInt32Value(GAMEOBJECT_DISPLAYID));
+    GameObjectDisplayInfoEntry const* info = sGameObjectDisplayInfoStore.LookupEntry(m_goInfo->displayId);
     if (!info)
         return IsWithinDist3d(x, y, z, radius);
 
