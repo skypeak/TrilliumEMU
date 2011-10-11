@@ -159,14 +159,14 @@ class SmartScript
         {
             GameObject* gameObject = NULL;
 
-            CellPair p(Trillium::ComputeCellPair(searchObject->GetPositionX(), searchObject->GetPositionY()));
+            CellPair p(Arkcore::ComputeCellPair(searchObject->GetPositionX(), searchObject->GetPositionY()));
             Cell cell(p);
             cell.data.Part.reserved = ALL_DISTRICT;
 
-            Trillium::GameObjectWithDbGUIDCheck goCheck(*searchObject, guid);
-            Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck> checker(searchObject, gameObject, goCheck);
+            Arkcore::GameObjectWithDbGUIDCheck goCheck(*searchObject, guid);
+            Arkcore::GameObjectSearcher<Arkcore::GameObjectWithDbGUIDCheck> checker(searchObject, gameObject, goCheck);
 
-            TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > objectChecker(checker);
+            TypeContainerVisitor<Arkcore::GameObjectSearcher<Arkcore::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > objectChecker(checker);
             cell.Visit(p, objectChecker, *searchObject->GetMap());
 
             return gameObject;
@@ -175,14 +175,14 @@ class SmartScript
         Creature* FindCreatureNear(WorldObject* searchObject, uint32 guid) const
         {
             Creature* crea = NULL;
-            CellPair p(Trillium::ComputeCellPair(searchObject->GetPositionX(), searchObject->GetPositionY()));
+            CellPair p(Arkcore::ComputeCellPair(searchObject->GetPositionX(), searchObject->GetPositionY()));
             Cell cell(p);
             cell.data.Part.reserved = ALL_DISTRICT;
 
-            Trillium::CreatureWithDbGUIDCheck target_check(searchObject, guid);
-            Trillium::CreatureSearcher<Trillium::CreatureWithDbGUIDCheck> checker(searchObject, crea, target_check);
+            Arkcore::CreatureWithDbGUIDCheck target_check(searchObject, guid);
+            Arkcore::CreatureSearcher<Arkcore::CreatureWithDbGUIDCheck> checker(searchObject, crea, target_check);
 
-            TypeContainerVisitor<Trillium::CreatureSearcher <Trillium::CreatureWithDbGUIDCheck>, GridTypeMapContainer > unit_checker(checker);
+            TypeContainerVisitor<Arkcore::CreatureSearcher <Arkcore::CreatureWithDbGUIDCheck>, GridTypeMapContainer > unit_checker(checker);
             cell.Visit(p, unit_checker, *searchObject->GetMap());
 
             return crea;

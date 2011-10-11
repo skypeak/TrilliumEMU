@@ -697,7 +697,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
 
             me->DoFleeToGetAssistance();
             if (e.action.flee.withEmote)
-                sCreatureTextMgr->SendChatString(me, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_FLEE), CHAT_MSG_MONSTER_EMOTE);
+                sCreatureTextMgr->SendChatString(me, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_FLEE), CHAT_MSG_MONSTER_EMOTE);
             sLog->outDebug(LOG_FILTER_DATABASE_AI, "SmartScript::ProcessAction:: SMART_ACTION_FLEE_FOR_ASSIST: Creature %u DoFleeToGetAssistance", me->GetGUIDLow());
             break;
         }
@@ -2164,8 +2164,8 @@ ObjectList* SmartScript::GetWorldObjectsInDist(float dist)
     WorldObject* obj = GetBaseObject();
     if (obj)
     {
-        Trillium::AllWorldObjectsInRange u_check(obj, dist);
-        Trillium::WorldObjectListSearcher<Trillium::AllWorldObjectsInRange> searcher(obj, *targets, u_check);
+        Arkcore::AllWorldObjectsInRange u_check(obj, dist);
+        Arkcore::WorldObjectListSearcher<Arkcore::AllWorldObjectsInRange> searcher(obj, *targets, u_check);
         obj->VisitNearbyObject(dist, searcher);
     }
     return targets;
@@ -2882,17 +2882,17 @@ uint32 SmartScript::DoChat(int8 id, uint64 whisperGuid)
 Unit* SmartScript::DoSelectLowestHpFriendly(float range, uint32 MinHPDiff)
 {
     if (!me) return NULL;
-    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    CellPair p(Arkcore::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     Unit* unit = NULL;
 
-    Trillium::MostHPMissingInRange u_check(me, range, MinHPDiff);
-    Trillium::UnitLastSearcher<Trillium::MostHPMissingInRange> searcher(me, unit, u_check);
+    Arkcore::MostHPMissingInRange u_check(me, range, MinHPDiff);
+    Arkcore::UnitLastSearcher<Arkcore::MostHPMissingInRange> searcher(me, unit, u_check);
 
-    TypeContainerVisitor<Trillium::UnitLastSearcher<Trillium::MostHPMissingInRange>, GridTypeMapContainer >  grid_unit_searcher(searcher);
+    TypeContainerVisitor<Arkcore::UnitLastSearcher<Arkcore::MostHPMissingInRange>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
     cell.Visit(p, grid_unit_searcher, *me->GetMap(), *me, range);
     return unit;
@@ -2901,15 +2901,15 @@ Unit* SmartScript::DoSelectLowestHpFriendly(float range, uint32 MinHPDiff)
 void SmartScript::DoFindFriendlyCC(std::list<Creature*>& _list, float range)
 {
     if (!me) return;
-    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    CellPair p(Arkcore::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
-    Trillium::FriendlyCCedInRange u_check(me, range);
-    Trillium::CreatureListSearcher<Trillium::FriendlyCCedInRange> searcher(me, _list, u_check);
+    Arkcore::FriendlyCCedInRange u_check(me, range);
+    Arkcore::CreatureListSearcher<Arkcore::FriendlyCCedInRange> searcher(me, _list, u_check);
 
-    TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::FriendlyCCedInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
+    TypeContainerVisitor<Arkcore::CreatureListSearcher<Arkcore::FriendlyCCedInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
 
     cell.Visit(p, grid_creature_searcher, *me->GetMap());
 }
@@ -2917,15 +2917,15 @@ void SmartScript::DoFindFriendlyCC(std::list<Creature*>& _list, float range)
 void SmartScript::DoFindFriendlyMissingBuff(std::list<Creature*>& list, float range, uint32 spellid)
 {
     if (!me) return;
-    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    CellPair p(Arkcore::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
-    Trillium::FriendlyMissingBuffInRange u_check(me, range, spellid);
-    Trillium::CreatureListSearcher<Trillium::FriendlyMissingBuffInRange> searcher(me, list, u_check);
+    Arkcore::FriendlyMissingBuffInRange u_check(me, range, spellid);
+    Arkcore::CreatureListSearcher<Arkcore::FriendlyMissingBuffInRange> searcher(me, list, u_check);
 
-    TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::FriendlyMissingBuffInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
+    TypeContainerVisitor<Arkcore::CreatureListSearcher<Arkcore::FriendlyMissingBuffInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
 
     cell.Visit(p, grid_creature_searcher, *me->GetMap());
 }
