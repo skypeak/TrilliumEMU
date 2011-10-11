@@ -18,24 +18,20 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
- 
- 
-#include "ScriptPCH.h"
-#include "throne_of_the_tides.h"
 
-class boss_commander_ulthok : public CreatureScript
+class boss_erunak_stonespeaker : public CreatureScript
 {
 public:
-    boss_commander_ulthok() : CreatureScript("boss_commander_ulthok") { }
+    boss_erunak_stonespeaker() : CreatureScript("boss_erunak_stonespeaker") { }
 
     CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_commander_ulthokAI (creature);
+        return new boss_erunak_stonespeakerAI (creature);
     }
 
-    struct boss_commander_ulthokAI : public ScriptedAI
+    struct boss_erunak_stonespeakerAI : public ScriptedAI
     {
-        boss_commander_ulthokAI(Creature* creature) : ScriptedAI(creature)
+        boss_erunak_stonespeakerAI(Creature* creature) : ScriptedAI(creature)
         {
             pInstance = creature->GetInstanceScript();
         }
@@ -56,7 +52,7 @@ public:
     };
 };
 
-void AddSC_boss_ulthok()
+void AddSC_boss_erunak_stonespeaker()
 {
-    new boss_commander_ulthok();
+    new boss_erunak_stonespeaker();
 }

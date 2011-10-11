@@ -19,23 +19,22 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
  
- 
 #include "ScriptPCH.h"
 #include "throne_of_the_tides.h"
 
-class boss_commander_ulthok : public CreatureScript
+class boss_lady_nazjar : public CreatureScript
 {
 public:
-    boss_commander_ulthok() : CreatureScript("boss_commander_ulthok") { }
+    boss_lady_nazjar() : CreatureScript("boss_lady_nazjar") { }
 
     CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_commander_ulthokAI (creature);
+        return new boss_lady_nazjarAI (creature);
     }
 
-    struct boss_commander_ulthokAI : public ScriptedAI
+    struct boss_lady_nazjarAI : public ScriptedAI
     {
-        boss_commander_ulthokAI(Creature* creature) : ScriptedAI(creature)
+        boss_lady_nazjarAI(Creature* creature) : ScriptedAI(creature)
         {
             pInstance = creature->GetInstanceScript();
         }
@@ -56,7 +55,7 @@ public:
     };
 };
 
-void AddSC_boss_ulthok()
+void AddSC_boss_nazjar()
 {
-    new boss_commander_ulthok();
+    new boss_lady_nazjar();
 }
