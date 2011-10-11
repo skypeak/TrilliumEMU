@@ -112,7 +112,7 @@ WrongPass.BanType = 0
 #        Example:     "./authserver.pid"  - (Enabled)
 #        Default:     ""                  - (Disabled)
 
-PidFile = "pids/auth.pid"
+PidFile = "auth.pid"
 
 #
 #    Log.Directory

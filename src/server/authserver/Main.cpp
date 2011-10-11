@@ -48,7 +48,7 @@ bool stopEvent = false;                                     // Setting it to tru
 LoginDatabaseWorkerPool LoginDatabase;                      // Accessor to the auth server database
 
 // Handle authserver's termination signals
-class AuthServerSignalHandler : public Trillium::SignalHandler
+class AuthServerSignalHandler : public Arkcore::SignalHandler
 {
 public:
     virtual void HandleSignal(int SigNum)
@@ -103,6 +103,17 @@ extern int main(int argc, char **argv)
     sLogMgr->Initialize();
     sLogMgr->WriteLn(SERVER_LOG, LOGL_STRING, "%s (authserver)", _FULLVERSION);
     sLogMgr->WriteLn(SERVER_LOG, LOGL_STRING, "<Ctrl-C> to stop.\n");
+	sLog->outString("   ###    ########  ##    ##  ######   #######  ########  ######## ");
+    sLog->outString("  ## ##   ##     ## ##   ##  ##    ## ##     ## ##     ## ##       ");
+    sLog->outString(" ##   ##  ##     ## ##  ##   ##       ##     ## ##     ## ##       ");
+    sLog->outString("##     ## ########  #####    ##       ##     ## ########  ######   ");
+    sLog->outString("######### ##   ##   ##  ##   ##       ##     ## ##   ##   ##       ");
+    sLog->outString("##     ## ##    ##  ##   ##  ##    ## ##     ## ##    ##  ##       ");
+    sLog->outString("##     ## ##     ## ##    ##  ######   #######  ##     ## ######## ");                                   
+	sLog->outString(" ");
+	sLog->outString("World of Warcraft: Cataclysm Emulator Framework");
+	sLog->outString("Arkania Community 2011 (c) ");
+	sLog->outString("Website: http://arkania.net ");
     sLogMgr->WriteLn(SERVER_LOG, LOGL_STRING, "Using configuration file %s.", cfg_file);
 
     sLogMgr->WriteLn(SERVER_LOG, LOGL_INFO, "%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));
