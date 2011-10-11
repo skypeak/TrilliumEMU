@@ -600,7 +600,7 @@ WorldObject* Spell::FindCorpseUsing()
     // non-standard target selection
     float max_range = m_spellInfo->GetMaxRange(false);
 
-    CellPair p(Trillium::ComputeCellPair(m_caster->GetPositionX(), m_caster->GetPositionY()));
+    CellPair p(Arkcore::ComputeCellPair(m_caster->GetPositionX(), m_caster->GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
@@ -608,14 +608,14 @@ WorldObject* Spell::FindCorpseUsing()
     WorldObject* result = NULL;
 
     T u_check(m_caster, max_range);
-    Trillium::WorldObjectSearcher<T> searcher(m_caster, result, u_check);
+    Arkcore::WorldObjectSearcher<T> searcher(m_caster, result, u_check);
 
-    TypeContainerVisitor<Trillium::WorldObjectSearcher<T>, GridTypeMapContainer > grid_searcher(searcher);
+    TypeContainerVisitor<Arkcore::WorldObjectSearcher<T>, GridTypeMapContainer > grid_searcher(searcher);
     cell.Visit(p, grid_searcher, *m_caster->GetMap(), *m_caster, max_range);
 
     if (!result)
     {
-        TypeContainerVisitor<Trillium::WorldObjectSearcher<T>, WorldTypeMapContainer > world_searcher(searcher);
+        TypeContainerVisitor<Arkcore::WorldObjectSearcher<T>, WorldTypeMapContainer > world_searcher(searcher);
         cell.Visit(p, world_searcher, *m_caster->GetMap(), *m_caster, max_range);
     }
 
@@ -1454,7 +1454,7 @@ SpellMissInfo Spell::DoSpellHitOnUnit(Unit *unit, const uint32 effectMask, bool 
         if (m_spellInfo->Speed > 0.0f && unit->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE) && unit->GetCharmerOrOwnerGUID() != m_caster->GetGUID())
             return SPELL_MISS_EVADE;
 
-        if (m_caster->IsValidAttackTarget(unit))
+        if (m_caster->_IsValidAttackTarget(unit, m_spellInfo))
         {
             unit->RemoveAurasWithInterruptFlags(AURA_INTERRUPT_FLAG_HITBYSPELL);
             //TODO: This is a hack. But we do not know what types of stealth should be interrupted by CC
@@ -1834,7 +1834,7 @@ void Spell::SearchChainTarget(std::list<Unit*> &TagUnitMap, float max_range, uin
         }
         else
         {
-            tempUnitMap.sort(Trillium::ObjectDistanceOrderPred(cur));
+            tempUnitMap.sort(Arkcore::ObjectDistanceOrderPred(cur));
             next = tempUnitMap.begin();
 
             if (cur->GetDistance(*next) > CHAIN_SPELL_JUMP_RADIUS)      // Don't search beyond the max jump radius
@@ -1892,7 +1892,7 @@ void Spell::SearchAreaTarget(std::list<Unit*> &TagUnitMap, float radius, SpellNo
             break;
     }
 
-    Trillium::SpellNotifierCreatureAndPlayer notifier(m_caster, TagUnitMap, radius, type, TargetType, pos, entry, m_spellInfo);
+    Arkcore::SpellNotifierCreatureAndPlayer notifier(m_caster, TagUnitMap, radius, type, TargetType, pos, entry, m_spellInfo);
     if ((m_spellInfo->AttributesEx3 & SPELL_ATTR3_ONLY_TARGET_PLAYERS) || (TargetType == SPELL_TARGETS_ENTRY && !entry))
         m_caster->GetMap()->VisitWorld(pos->m_positionX, pos->m_positionY, radius, notifier);
     else
@@ -1920,8 +1920,8 @@ void Spell::SearchGOAreaTarget(std::list<GameObject*> &TagGOMap, float radius, S
             break;
     }
 
-    Trillium::GameObjectInRangeCheck check(pos->m_positionX, pos->m_positionY, pos->m_positionZ, radius, entry);
-    Trillium::GameObjectListSearcher<Trillium::GameObjectInRangeCheck> searcher(m_caster, TagGOMap, check);
+    Arkcore::GameObjectInRangeCheck check(pos->m_positionX, pos->m_positionY, pos->m_positionZ, radius, entry);
+    Arkcore::GameObjectListSearcher<Arkcore::GameObjectInRangeCheck> searcher(m_caster, TagGOMap, check);
     m_caster->GetMap()->VisitGrid(pos->m_positionX, pos->m_positionY, radius, searcher);
 }
 
@@ -2007,16 +2007,16 @@ WorldObject* Spell::SearchNearbyTarget(float range, SpellTargets TargetType, Spe
         case SPELL_TARGETS_ENEMY:
         {
             Unit* target = NULL;
-            Trillium::AnyUnfriendlyUnitInObjectRangeCheck u_check(m_caster, m_caster, range);
-            Trillium::UnitLastSearcher<Trillium::AnyUnfriendlyUnitInObjectRangeCheck> searcher(m_caster, target, u_check);
+            Arkcore::AnyUnfriendlyUnitInObjectRangeCheck u_check(m_caster, m_caster, range);
+            Arkcore::UnitLastSearcher<Arkcore::AnyUnfriendlyUnitInObjectRangeCheck> searcher(m_caster, target, u_check);
             m_caster->VisitNearbyObject(range, searcher);
             return target;
         }
         case SPELL_TARGETS_ALLY:
         {
             Unit* target = NULL;
-            Trillium::AnyFriendlyUnitInObjectRangeCheck u_check(m_caster, m_caster, range);
-            Trillium::UnitLastSearcher<Trillium::AnyFriendlyUnitInObjectRangeCheck> searcher(m_caster, target, u_check);
+            Arkcore::AnyFriendlyUnitInObjectRangeCheck u_check(m_caster, m_caster, range);
+            Arkcore::UnitLastSearcher<Arkcore::AnyFriendlyUnitInObjectRangeCheck> searcher(m_caster, target, u_check);
             m_caster->VisitNearbyObject(range, searcher);
             return target;
         }
@@ -2581,7 +2581,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                     {
                         case 46584: // Raise Dead
                         {
-                            if (WorldObject* result = FindCorpseUsing<Trillium::RaiseDeadObjectCheck> ())
+                            if (WorldObject* result = FindCorpseUsing<Arkcore::RaiseDeadObjectCheck> ())
                             {
                                 switch (result->GetTypeId())
                                 {
@@ -2609,7 +2609,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                             {
                                 CleanupTargetList();
 
-                                WorldObject* result = FindCorpseUsing <Trillium::ExplodeCorpseObjectCheck> ();
+                                WorldObject* result = FindCorpseUsing <Arkcore::ExplodeCorpseObjectCheck> ();
 
                                 if (result)
                                 {
@@ -2819,7 +2819,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                 {
                     if (unitList.size() > maxSize)
                     {
-                        unitList.sort(Trillium::HealthPctOrderPred());
+                        unitList.sort(Arkcore::HealthPctOrderPred());
                         unitList.resize(maxSize);
                     }
                 }
@@ -2833,7 +2833,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
 
                     if (unitList.size() > maxSize)
                     {
-                        unitList.sort(Trillium::PowerPctOrderPred((Powers)power));
+                        unitList.sort(Arkcore::PowerPctOrderPred((Powers)power));
                         unitList.resize(maxSize);
                     }
                 }
@@ -2849,7 +2849,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
 
                 if (m_spellInfo->Id == 5246) //Intimidating Shout
                     unitList.remove(m_targets.GetUnitTarget());
-                Trillium::RandomResizeList(unitList, maxTargets);
+                Arkcore::RandomResizeList(unitList, maxTargets);
             }
 
             //CallScriptAfterUnitTargetSelectHandlers(unitList, SpellEffectEntry*);
@@ -2867,7 +2867,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                     if ((*j)->IsAffectedOnSpell(m_spellInfo))
                         maxTargets += (*j)->GetAmount();
 
-                Trillium::RandomResizeList(gobjectList, maxTargets);
+                Arkcore::RandomResizeList(gobjectList, maxTargets);
             }
             for (std::list<GameObject*>::iterator itr = gobjectList.begin(); itr != gobjectList.end(); ++itr)
                 AddGOTarget(*itr, effectMask);
@@ -5751,15 +5751,15 @@ SpellCastResult Spell::CheckItems()
     // check spell focus object
     if (m_spellInfo->RequiresSpellFocus)
     {
-        CellPair p(Trillium::ComputeCellPair(m_caster->GetPositionX(), m_caster->GetPositionY()));
+        CellPair p(Arkcore::ComputeCellPair(m_caster->GetPositionX(), m_caster->GetPositionY()));
         Cell cell(p);
         cell.data.Part.reserved = ALL_DISTRICT;
 
         GameObject* ok = NULL;
-        Trillium::GameObjectFocusCheck go_check(m_caster, m_spellInfo->RequiresSpellFocus);
-        Trillium::GameObjectSearcher<Trillium::GameObjectFocusCheck> checker(m_caster, ok, go_check);
+        Arkcore::GameObjectFocusCheck go_check(m_caster, m_spellInfo->RequiresSpellFocus);
+        Arkcore::GameObjectSearcher<Arkcore::GameObjectFocusCheck> checker(m_caster, ok, go_check);
 
-        TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::GameObjectFocusCheck>, GridTypeMapContainer > object_checker(checker);
+        TypeContainerVisitor<Arkcore::GameObjectSearcher<Arkcore::GameObjectFocusCheck>, GridTypeMapContainer > object_checker(checker);
         Map& map = *m_caster->GetMap();
         cell.Visit(p, object_checker, map, *m_caster, m_caster->GetVisibilityRange());
 
@@ -6617,7 +6617,7 @@ void Spell::SelectTrajTargets()
     if (unitList.empty())
         return;
 
-    unitList.sort(Trillium::ObjectDistanceOrderPred(m_caster));
+    unitList.sort(Arkcore::ObjectDistanceOrderPred(m_caster));
 
     float b = tangent(m_targets.GetElevation());
     float a = (dz - dist2d * b) / (dist2d * dist2d);
