@@ -146,7 +146,8 @@ m_PlayerDamageReq(0), m_lootMoney(0), m_lootRecipient(0), m_lootRecipientGroup(0
 m_respawnDelay(300), m_corpseDelay(60), m_respawnradius(0.0f), m_reactState(REACT_AGGRESSIVE),
 m_defaultMovementType(IDLE_MOTION_TYPE), m_DBTableGuid(0), m_equipmentId(0), m_AlreadyCallAssistance(false),
 m_AlreadySearchedAssistance(false), m_regenHealth(true), m_AI_locked(false), m_meleeDamageSchoolMask(SPELL_SCHOOL_MASK_NORMAL),
-m_creatureInfo(NULL), m_creatureData(NULL), m_formation(NULL)
+m_creatureInfo(NULL), m_creatureData(NULL), m_formation(NULL),
+MapCreature()
 {
     m_regenTimer = CREATURE_REGEN_INTERVAL;
     m_valuesCount = UNIT_END;
@@ -663,14 +664,14 @@ void Creature::DoFleeToGetAssistance()
     {
         Creature* pCreature = NULL;
 
-        CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
+        CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
         Cell cell(p);
         cell.data.Part.reserved = ALL_DISTRICT;
         cell.SetNoCreate();
-        Trillium::NearestAssistCreatureInCreatureRangeCheck u_check(this, getVictim(), radius);
-        Trillium::CreatureLastSearcher<Trillium::NearestAssistCreatureInCreatureRangeCheck> searcher(this, pCreature, u_check);
+        Arkcore::NearestAssistCreatureInCreatureRangeCheck u_check(this, getVictim(), radius);
+        Arkcore::CreatureLastSearcher<Arkcore::NearestAssistCreatureInCreatureRangeCheck> searcher(this, pCreature, u_check);
 
-        TypeContainerVisitor<Trillium::CreatureLastSearcher<Trillium::NearestAssistCreatureInCreatureRangeCheck>, GridTypeMapContainer > grid_creature_searcher(searcher);
+        TypeContainerVisitor<Arkcore::CreatureLastSearcher<Arkcore::NearestAssistCreatureInCreatureRangeCheck>, GridTypeMapContainer > grid_creature_searcher(searcher);
 
         cell.Visit(p, grid_creature_searcher, *GetMap(), *this, radius);
 
@@ -1788,7 +1789,7 @@ SpellInfo const *Creature::reachWithSpellCure(Unit *pVictim)
 // select nearest hostile unit within the given distance (regardless of threat list).
 Unit* Creature::SelectNearestTarget(float dist) const
 {
-    CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
+    CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
@@ -1799,11 +1800,11 @@ Unit* Creature::SelectNearestTarget(float dist) const
         if (dist == 0.0f)
             dist = MAX_VISIBILITY_DISTANCE;
 
-        Trillium::NearestHostileUnitCheck u_check(this, dist);
-        Trillium::UnitLastSearcher<Trillium::NearestHostileUnitCheck> searcher(this, target, u_check);
+        Arkcore::NearestHostileUnitCheck u_check(this, dist);
+        Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitCheck> searcher(this, target, u_check);
 
-        TypeContainerVisitor<Trillium::UnitLastSearcher<Trillium::NearestHostileUnitCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
-        TypeContainerVisitor<Trillium::UnitLastSearcher<Trillium::NearestHostileUnitCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
+        TypeContainerVisitor<Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
+        TypeContainerVisitor<Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
         cell.Visit(p, world_unit_searcher, *GetMap(), *this, dist);
         cell.Visit(p, grid_unit_searcher, *GetMap(), *this, dist);
@@ -1815,7 +1816,7 @@ Unit* Creature::SelectNearestTarget(float dist) const
 // select nearest hostile unit within the given attack distance (i.e. distance is ignored if > than ATTACK_DISTANCE), regardless of threat list.
 Unit* Creature::SelectNearestTargetInAttackDistance(float dist) const
 {
-    CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
+    CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
@@ -1829,11 +1830,11 @@ Unit* Creature::SelectNearestTargetInAttackDistance(float dist) const
     }
 
     {
-        Trillium::NearestHostileUnitInAttackDistanceCheck u_check(this, dist);
-        Trillium::UnitLastSearcher<Trillium::NearestHostileUnitInAttackDistanceCheck> searcher(this, target, u_check);
+        Arkcore::NearestHostileUnitInAttackDistanceCheck u_check(this, dist);
+        Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitInAttackDistanceCheck> searcher(this, target, u_check);
 
-        TypeContainerVisitor<Trillium::UnitLastSearcher<Trillium::NearestHostileUnitInAttackDistanceCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
-        TypeContainerVisitor<Trillium::UnitLastSearcher<Trillium::NearestHostileUnitInAttackDistanceCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
+        TypeContainerVisitor<Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitInAttackDistanceCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
+        TypeContainerVisitor<Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitInAttackDistanceCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
         cell.Visit(p, world_unit_searcher, *GetMap(), *this, ATTACK_DISTANCE > dist ? ATTACK_DISTANCE : dist);
         cell.Visit(p, grid_unit_searcher, *GetMap(), *this, ATTACK_DISTANCE > dist ? ATTACK_DISTANCE : dist);
@@ -1846,8 +1847,8 @@ Player* Creature::SelectNearestPlayer(float distance) const
 {
     Player* target = NULL;
 
-    Trillium::NearestPlayerInObjectRangeCheck checker(this, distance);
-    Trillium::PlayerLastSearcher<Trillium::NearestPlayerInObjectRangeCheck> searcher(this, target, checker);
+    Arkcore::NearestPlayerInObjectRangeCheck checker(this, distance);
+    Arkcore::PlayerLastSearcher<Arkcore::NearestPlayerInObjectRangeCheck> searcher(this, target, checker);
     VisitNearbyObject(distance, searcher);
 
     return target;
@@ -1878,15 +1879,15 @@ void Creature::CallAssistance()
             std::list<Creature*> assistList;
 
             {
-                CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
+                CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
                 Cell cell(p);
                 cell.data.Part.reserved = ALL_DISTRICT;
                 cell.SetNoCreate();
 
-                Trillium::AnyAssistCreatureInRangeCheck u_check(this, getVictim(), radius);
-                Trillium::CreatureListSearcher<Trillium::AnyAssistCreatureInRangeCheck> searcher(this, assistList, u_check);
+                Arkcore::AnyAssistCreatureInRangeCheck u_check(this, getVictim(), radius);
+                Arkcore::CreatureListSearcher<Arkcore::AnyAssistCreatureInRangeCheck> searcher(this, assistList, u_check);
 
-                TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::AnyAssistCreatureInRangeCheck>, GridTypeMapContainer >  grid_creature_searcher(searcher);
+                TypeContainerVisitor<Arkcore::CreatureListSearcher<Arkcore::AnyAssistCreatureInRangeCheck>, GridTypeMapContainer >  grid_creature_searcher(searcher);
 
                 cell.Visit(p, grid_creature_searcher, *GetMap(), *this, radius);
             }
@@ -1911,15 +1912,15 @@ void Creature::CallForHelp(float fRadius)
     if (fRadius <= 0.0f || !getVictim() || isPet() || isCharmed())
         return;
 
-    CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
+    CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
-    Trillium::CallOfHelpCreatureInRangeDo u_do(this, getVictim(), fRadius);
-    Trillium::CreatureWorker<Trillium::CallOfHelpCreatureInRangeDo> worker(this, u_do);
+    Arkcore::CallOfHelpCreatureInRangeDo u_do(this, getVictim(), fRadius);
+    Arkcore::CreatureWorker<Arkcore::CallOfHelpCreatureInRangeDo> worker(this, u_do);
 
-    TypeContainerVisitor<Trillium::CreatureWorker<Trillium::CallOfHelpCreatureInRangeDo>, GridTypeMapContainer >  grid_creature_searcher(worker);
+    TypeContainerVisitor<Arkcore::CreatureWorker<Arkcore::CallOfHelpCreatureInRangeDo>, GridTypeMapContainer >  grid_creature_searcher(worker);
 
     cell.Visit(p, grid_creature_searcher, *GetMap(), *this, fRadius);
 }
