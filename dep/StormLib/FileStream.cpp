@@ -20,6 +20,7 @@
 //-----------------------------------------------------------------------------
 // Local defines
 
+#define O_LARGEFILE 0100000
 #ifndef INVALID_HANDLE_VALUE
 #define INVALID_HANDLE_VALUE ((HANDLE)-1)
 #endif
@@ -477,7 +478,7 @@ static bool File_Read(
         // we have to update the file position
         if(*pByteOffset != pStream->RawFilePos)
         {
-            lseek64((intptr_t)pStream->hFile, (off64_t)(*pByteOffset), SEEK_SET);
+            lseek((intptr_t)pStream->hFile, (off_t)(*pByteOffset), SEEK_SET);
             pStream->RawFilePos = *pByteOffset;
         }
 
@@ -567,7 +568,7 @@ static bool File_Write(
         // we have to update the file position
         if(*pByteOffset != pStream->RawFilePos)
         {
-            lseek64((intptr_t)pStream->hFile, (off64_t)(*pByteOffset), SEEK_SET);
+            lseek((intptr_t)pStream->hFile, (off_t)(*pByteOffset), SEEK_SET);
             pStream->RawFilePos = *pByteOffset;
         }
 
@@ -622,9 +623,9 @@ static bool File_GetSize(
 #endif
 
 #ifdef PLATFORM_LINUX
-    struct stat64 fileinfo;
+    struct stat fileinfo;
 
-    if(fstat64((intptr_t)pStream->hFile, &fileinfo) == -1)
+    if(fstat((intptr_t)pStream->hFile, &fileinfo) == -1)
     {
         nLastError = errno;
         return false;
