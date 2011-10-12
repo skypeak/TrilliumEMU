@@ -2909,7 +2909,7 @@ void AuraEffect::HandleAuraMounted(AuraApplication const* aurApp, uint8 mode, bo
             target->Mount(player->getGender() == GENDER_FEMALE ? 29423 : 29422, 0, GetMiscValue());
             target->Mount(player->getGender() == GENDER_MALE ? 29422 : 29423, 0, GetMiscValue());
             return;
-        }		
+        }
 
         // Festive Holiday Mount
         if (target->HasAura(62061))

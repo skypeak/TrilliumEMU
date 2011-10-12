@@ -732,6 +732,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                     // TODO: should this be put on taken but not done?
                     if (found)
                         damage += m_spellInfo->Effects[EFFECT_1].CalcValue();
+
                 }
                 break;
             }
