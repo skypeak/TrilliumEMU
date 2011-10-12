@@ -141,7 +141,7 @@ CREATE TABLE `realmlist` (
 
 /*Data for the table `realmlist` */
 
-insert  into `realmlist`(`id`,`name`,`address`,`port`,`icon`,`color`,`timezone`,`allowedSecurityLevel`,`population`,`gamebuild`) values (1,'Aerie Peak','127.0.0.1',8085,0,1,1,0,0,14480);
+insert  into `realmlist`(`id`,`name`,`address`,`port`,`icon`,`color`,`timezone`,`allowedSecurityLevel`,`population`,`gamebuild`) values (1,'ArkCORE','127.0.0.1',8085,0,1,1,0,0,14480);
 
 /*Table structure for table `uptime` */
 

@@ -47,7 +47,6 @@ class ObjectGridLoader
         void Visit(DynamicObjectMapType&) const {}
 
         void LoadN(void);
-        template<class T> static void SetObjectCell(T* obj, CellPair const& cellPair);		
 
     private:
         Cell i_cell;
