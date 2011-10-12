@@ -62,7 +62,7 @@ void GuardAI::MoveInLineOfSight(Unit* unit)
 
     if (!me->getVictim() && me->IsValidAttackTarget(unit) &&
         (unit->IsHostileToPlayers() || me->IsHostileTo(unit)) &&
-        unit->isInAccessiblePlacefor (me))
+        unit->isInAccessiblePlaceFor (me))
     {
         float attackRadius = me->GetAttackDistance(unit);
         if (me->IsWithinDistInMap(unit, attackRadius))
