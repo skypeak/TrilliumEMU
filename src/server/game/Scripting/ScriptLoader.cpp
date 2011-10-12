@@ -89,6 +89,12 @@ void AddSC_boss_vanndar();
 void AddSC_instance_baradin_hold();          //Baradin Hold
 void AddSC_boss_argaloth();
 void AddSC_boss_occuthar();
+void AddSC_instance_blackrock_caverns();     //Blackrock Caverns
+void AddSC_boss_romogg_bonecrusher();
+void AddSC_boss_karsh_steelbender();
+void AddSC_boss_corla_herald_of_twilight();
+void AddSC_boss_beauty();
+void AddSC_boss_ascendant_lord_obsidius();
 void AddSC_blackrock_depths();               //Blackrock Depths
 void AddSC_boss_ambassador_flamelash();
 void AddSC_boss_anubshiah();
@@ -263,9 +269,32 @@ void AddSC_boss_wushoolay();
 void AddSC_instance_zulgurub();
 
 
+//void AddSC_alterac_mountains();
+void AddSC_arathi_highlands();
+void AddSC_blasted_lands();
+void AddSC_boss_kruul();
+void AddSC_burning_steppes();
+void AddSC_duskwood();
+void AddSC_eastern_plaguelands();
 void AddSC_eversong_woods();
 void AddSC_ghostlands();
+void AddSC_gilneas();
+void AddSC_hinterlands();
+void AddSC_ironforge();
 void AddSC_isle_of_queldanas();
+void AddSC_loch_modan();
+void AddSC_redridge_mountains();
+void AddSC_searing_gorge();
+void AddSC_silvermoon_city();
+void AddSC_silverpine_forest();
+void AddSC_stormwind_city();
+void AddSC_stranglethorn_vale();
+void AddSC_swamp_of_sorrows();
+void AddSC_tirisfal_glades();
+void AddSC_undercity();
+void AddSC_western_plaguelands();
+void AddSC_westfall();
+void AddSC_wetlands();
 
 
 //kalimdor
@@ -307,6 +336,10 @@ void AddSC_boss_ammunae();
 void AddSC_boss_setesh();
 void AddSC_boss_rajh();
 void AddSC_boss_isiset();
+void AddSC_lost_city_of_the_tolvir();        //Lost City of the Tol'vir
+void AddSC_instance_lost_city_of_the_tolvir();
+void AddSC_boss_lockmaw();
+void AddSC_boss_high_prophet_barim();
 void AddSC_boss_celebras_the_cursed();       //Maraudon
 void AddSC_boss_landslide();
 void AddSC_boss_noxxion();
@@ -334,14 +367,35 @@ void AddSC_boss_skeram();
 void AddSC_boss_twinemperors();
 void AddSC_mob_anubisath_sentinel();
 void AddSC_instance_temple_of_ahnqiraj();
+void AddSC_instance_the_vortex_pinnacle();   //The Vortex Pinnacle
 void AddSC_wailing_caverns();                //Wailing caverns
 void AddSC_instance_wailing_caverns();
 void AddSC_zulfarrak();                     //Zul'Farrak generic
 void AddSC_instance_zulfarrak();            //Zul'Farrak instance script
 
-
+void AddSC_ashenvale();
+void AddSC_azshara();
 void AddSC_azuremyst_isle();
 void AddSC_bloodmyst_isle();
+void AddSC_boss_azuregos();
+void AddSC_darkshore();
+void AddSC_desolace();
+void AddSC_durotar();
+void AddSC_dustwallow_marsh();
+void AddSC_felwood();
+void AddSC_feralas();
+void AddSC_moonglade();
+void AddSC_mulgore();
+void AddSC_orgrimmar();
+void AddSC_silithus();
+void AddSC_stonetalon_mountains();
+void AddSC_tanaris();
+void AddSC_teldrassil();
+void AddSC_the_barrens();
+void AddSC_thousand_needles();
+void AddSC_thunder_bluff();
+void AddSC_ungoro_crater();
+void AddSC_winterspring();
 
 
 //northrend
@@ -694,6 +748,12 @@ void AddEasternKingdomsScripts()
     AddSC_instance_baradin_hold();          //Baradin Hold
     AddSC_boss_argaloth();
     AddSC_boss_occuthar();
+	AddSC_instance_blackrock_caverns();     //Blackrock Caverns
+    AddSC_boss_romogg_bonecrusher();
+    AddSC_boss_karsh_steelbender();
+    AddSC_boss_corla_herald_of_twilight();
+    AddSC_boss_beauty();
+    AddSC_boss_ascendant_lord_obsidius();
     AddSC_blackrock_depths();               //Blackrock Depths
     AddSC_boss_ambassador_flamelash();
     AddSC_boss_anubshiah();
@@ -867,9 +927,32 @@ void AddEasternKingdomsScripts()
     AddSC_boss_wushoolay();
     AddSC_instance_zulgurub();
 
+    //AddSC_alterac_mountains();
+    AddSC_arathi_highlands();
+    AddSC_blasted_lands();
+    AddSC_boss_kruul();
+    AddSC_burning_steppes();
+    AddSC_duskwood();
+    AddSC_eastern_plaguelands();
     AddSC_eversong_woods();
     AddSC_ghostlands();
+    AddSC_gilneas();
+    AddSC_hinterlands();
+    AddSC_ironforge();
     AddSC_isle_of_queldanas();
+    AddSC_loch_modan();
+    AddSC_redridge_mountains();
+    AddSC_searing_gorge();
+    AddSC_silvermoon_city();
+    AddSC_silverpine_forest();
+    AddSC_stormwind_city();
+    AddSC_stranglethorn_vale();
+    AddSC_swamp_of_sorrows();
+    AddSC_tirisfal_glades();
+    AddSC_undercity();
+    AddSC_western_plaguelands();
+    AddSC_westfall();
+    AddSC_wetlands();
 
 #endif
 }
@@ -914,7 +997,11 @@ void AddKalimdorScripts()
     AddSC_boss_ammunae();
     AddSC_boss_setesh();
     AddSC_boss_rajh();
-    AddSC_boss_isiset();	
+    AddSC_boss_isiset();
+	AddSC_lost_city_of_the_tolvir();           //Lost City of the Tol'vir
+    AddSC_instance_lost_city_of_the_tolvir();
+    AddSC_boss_lockmaw();
+    AddSC_boss_high_prophet_barim();
     AddSC_boss_celebras_the_cursed();       //Maraudon
     AddSC_boss_landslide();
     AddSC_boss_noxxion();
@@ -942,14 +1029,35 @@ void AddKalimdorScripts()
     AddSC_boss_twinemperors();
     AddSC_mob_anubisath_sentinel();
     AddSC_instance_temple_of_ahnqiraj();
+	AddSC_instance_the_vortex_pinnacle();   //The Vortex Pinnacle
     AddSC_wailing_caverns();                //Wailing caverns
     AddSC_instance_wailing_caverns();
     AddSC_zulfarrak();                      //Zul'Farrak generic
     AddSC_instance_zulfarrak();             //Zul'Farrak instance script
 
-
+    AddSC_ashenvale();
+    AddSC_azshara();
     AddSC_azuremyst_isle();
     AddSC_bloodmyst_isle();
+    AddSC_boss_azuregos();
+    AddSC_darkshore();
+    AddSC_desolace();
+    AddSC_durotar();
+    AddSC_dustwallow_marsh();
+    AddSC_felwood();
+    AddSC_feralas();
+    AddSC_moonglade();
+    AddSC_mulgore();
+    AddSC_orgrimmar();
+    AddSC_silithus();
+    AddSC_stonetalon_mountains();
+    AddSC_tanaris();
+    AddSC_teldrassil();
+    AddSC_the_barrens();
+    AddSC_thousand_needles();
+    AddSC_thunder_bluff();
+    AddSC_ungoro_crater();
+    AddSC_winterspring();
 
 #endif
 }

@@ -10,8 +10,31 @@
 
 set(scripts_STAT_SRCS
   ${scripts_STAT_SRCS}
-  EasternKingdoms/ghostlands.cpp
-  EasternKingdoms/eversong_woods.cpp
+  EasternKingdoms/Zones/burning_steppes.cpp
+  EasternKingdoms/Zones/ghostlands.cpp
+  EasternKingdoms/Zones/eversong_woods.cpp
+  EasternKingdoms/Zones/isle_of_queldanas.cpp
+  EasternKingdoms/Zones/boss_kruul.cpp
+  EasternKingdoms/Zones/searing_gorge.cpp
+  EasternKingdoms/Zones/wetlands.cpp
+  EasternKingdoms/Zones/arathi_highlands.cpp
+  EasternKingdoms/Zones/redridge_mountains.cpp
+  EasternKingdoms/Zones/ironforge.cpp
+  EasternKingdoms/Zones/eastern_plaguelands.cpp
+  EasternKingdoms/Zones/tirisfal_glades.cpp
+  EasternKingdoms/Zones/swamp_of_sorrows.cpp
+  EasternKingdoms/Zones/stranglethorn_vale.cpp
+  EasternKingdoms/Zones/duskwood.cpp
+  EasternKingdoms/Zones/undercity.cpp
+  EasternKingdoms/Zones/silvermoon_city.cpp
+  EasternKingdoms/Zones/loch_modan.cpp
+  EasternKingdoms/Zones/hinterlands.cpp
+  EasternKingdoms/Zones/western_plaguelands.cpp
+  EasternKingdoms/Zones/alterac_mountains.cpp
+  EasternKingdoms/Zones/westfall.cpp
+  EasternKingdoms/Zones/blasted_lands.cpp
+  EasternKingdoms/Zones/stormwind_city.cpp
+  EasternKingdoms/Zones/silverpine_forest.cpp
   EasternKingdoms/AlteracValley/boss_galvangar.cpp
   EasternKingdoms/AlteracValley/boss_balinda.cpp
   EasternKingdoms/AlteracValley/boss_drekthar.cpp
@@ -31,7 +54,6 @@ set(scripts_STAT_SRCS
   EasternKingdoms/Scholomance/instance_scholomance.cpp
   EasternKingdoms/Scholomance/boss_lorekeeper_polkelt.cpp
   EasternKingdoms/Scholomance/boss_ras_frostwhisper.cpp
-  EasternKingdoms/isle_of_queldanas.cpp
   EasternKingdoms/ZulGurub/boss_hakkar.cpp
   EasternKingdoms/ZulGurub/boss_mandokir.cpp
   EasternKingdoms/ZulGurub/boss_marli.cpp
@@ -217,6 +239,13 @@ set(scripts_STAT_SRCS
   EasternKingdoms/BaradinHold/boss_argaloth.cpp
   EasternKingdoms/BaradinHold/boss_occu'thar.cpp
   EasternKingdoms/BaradinHold/baradin_hold.h
+  EasternKingdoms/BlackrockCaverns/blackrock_caverns.h
+  EasternKingdoms/BlackrockCaverns/boss_ascendant_lord_obsidius.cpp
+  EasternKingdoms/BlackrockCaverns/boss_beauty.cpp
+  EasternKingdoms/BlackrockCaverns/boss_corla_herald_of_twilight.cpp
+  EasternKingdoms/BlackrockCaverns/boss_karsh_steelbender.cpp
+  EasternKingdoms/BlackrockCaverns/boss_romogg_bonecrusher.cpp 
+  EasternKingdoms/BlackrockCaverns/instance_blackrock_caverns.cpp
   EasternKingdoms/BastionOfTwilight/instance_bastion_of_twilight.cpp
   EasternKingdoms/BastionOfTwilight/boss_council_of_ascendents.cpp
   EasternKingdoms/BastionOfTwilight/boss_halfus_wyrmbreaker.cpp

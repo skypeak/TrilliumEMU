@@ -10,8 +10,29 @@
 
 set(scripts_STAT_SRCS
   ${scripts_STAT_SRCS}
-  Kalimdor/bloodmyst_isle.cpp
-  Kalimdor/azuremyst_isle.cpp
+  Kalimdor/Zones/thunder_bluff.cpp
+  Kalimdor/Zones/azshara.cpp
+  Kalimdor/Zones/orgrimmar.cpp
+  Kalimdor/Zones/desolace.cpp
+  Kalimdor/Zones/feralas.cpp
+  Kalimdor/Zones/stonetalon_mountains.cpp
+  Kalimdor/Zones/silithus.cpp
+  Kalimdor/Zones/moonglade.cpp
+  Kalimdor/Zones/bloodmyst_isle.cpp
+  Kalimdor/Zones/azuremyst_isle.cpp
+  Kalimdor/Zones/mulgore.cpp
+  Kalimdor/Zones/darkshore.cpp
+  Kalimdor/Zones/the_barrens.cpp
+  Kalimdor/Zones/ungoro_crater.cpp
+  Kalimdor/Zones/durotar.cpp
+  Kalimdor/Zones/felwood.cpp
+  Kalimdor/Zones/boss_azuregos.cpp
+  Kalimdor/Zones/tanaris.cpp
+  Kalimdor/Zones/dustwallow_marsh.cpp
+  Kalimdor/Zones/winterspring.cpp
+  Kalimdor/Zones/thousand_needles.cpp
+  Kalimdor/Zones/ashenvale.cpp
+  Kalimdor/Zones/teldrassil.cpp
   Kalimdor/RazorfenDowns/razorfen_downs.cpp
   Kalimdor/RazorfenDowns/instance_razorfen_downs.cpp
   Kalimdor/RazorfenDowns/boss_amnennar_the_coldbringer.cpp
@@ -57,6 +78,11 @@ set(scripts_STAT_SRCS
   Kalimdor/BlackfathomDeeps/blackfathom_deeps.cpp
   Kalimdor/BlackfathomDeeps/boss_aku_mai.cpp
   Kalimdor/BlackfathomDeeps/blackfathom_deeps.h
+  Kalimdor/LostCityOfTheTolvir/instance_lost_city_of_the_tolvir.cpp
+  Kalimdor/LostCityOfTheTolvir/lost_city_of_the_tolvir.cpp
+  Kalimdor/LostCityOfTheTolvir/lost_city_of_the_tolvir.h
+  Kalimdor/LostCityOfTheTolvir/boss_lockmaw.cpp
+  Kalimdor/LostCityOfTheTolvir/boss_high_prophet_barim.cpp
   Kalimdor/HallsOfOrigination/boss_ammunae.cpp
   Kalimdor/HallsOfOrigination/boss_anraphet.cpp
   Kalimdor/HallsOfOrigination/boss_earthrager_ptah.cpp
@@ -82,6 +108,8 @@ set(scripts_STAT_SRCS
   Kalimdor/TempleOfAhnQiraj/boss_skeram.cpp
   Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp
   Kalimdor/TempleOfAhnQiraj/boss_bug_trio.cpp
+  Kalimdor/TheVortexPinnacle/the_vortex_pinnacle.h
+  Kalimdor/TheVortexPinnacle/instance_the_vortex_pinnacle.cpp  
   Kalimdor/RuinsOfAhnQiraj/boss_buru.cpp
   Kalimdor/RuinsOfAhnQiraj/instance_ruins_of_ahnqiraj.cpp
   Kalimdor/RuinsOfAhnQiraj/boss_rajaxx.cpp
