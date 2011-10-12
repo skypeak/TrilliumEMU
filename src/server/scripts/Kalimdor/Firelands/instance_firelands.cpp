@@ -18,3 +18,11 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+ /* Script complete: 1% */
+
+#include "ObjectMgr.h"
+#include "ScriptMgr.h"
+#include "InstanceScript.h"
+#include "CreatureAI.h"
+#include "firelands.h"
