@@ -2022,7 +2022,7 @@ bool Creature::canCreatureAttack(Unit const *pVictim, bool force) const
     if (!IsValidAttackTarget(pVictim))
         return false;
 
-    if (!pVictim->isInAccessiblePlacefor (this))
+    if (!pVictim->isInAccessiblePlaceFor (this))
         return false;
 
     if (IsAIEnabled && !AI()->CanAIAttack(pVictim))

@@ -3159,7 +3159,7 @@ void Unit::SetFacingToObject(WorldObject* pObject)
     SendMessageToSet(&data, false);
 }
 
-bool Unit::isInAccessiblePlacefor (Creature const* c) const
+bool Unit::isInAccessiblePlaceFor (Creature const* c) const
 {
     if (IsInWater())
         return c->canSwim();
@@ -13028,7 +13028,7 @@ Unit* Creature::SelectVictim()
             {
                 --aura;
                 caster = (*aura)->GetCaster();
-                if (caster && canSeeOrDetect(caster, true) && IsValidAttackTarget(caster) && caster->isInAccessiblePlacefor (ToCreature()))
+                if (caster && canSeeOrDetect(caster, true) && IsValidAttackTarget(caster) && caster->isInAccessiblePlaceFor (ToCreature()))
                 {
                     target = caster;
                     break;
