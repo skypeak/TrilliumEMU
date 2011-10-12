@@ -188,7 +188,7 @@ void HostileReference::updateOnlineStatus()
         )
     {
         Creature* creature = getSourceUnit()->ToCreature();
-        online = getTarget()->isInAccessiblePlacefor (creature);
+        online = getTarget()->isInAccessiblePlaceFor (creature);
         if (!online)
         {
             if (creature->IsWithinCombatRange(getTarget(), creature->m_CombatDistance))
