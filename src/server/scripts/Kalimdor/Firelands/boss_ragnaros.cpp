@@ -112,7 +112,7 @@ return;
 
 if(SulfurasSmash_Timer <=uiDiff)
 {
-if (Unit *pTarget = SelectUnit(SELECT_TARGET_RANDOM, 0))
+if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0))
 DoCast(pTarget, SPELL_SULFURAS_SMASH);
 
 SulfurasSmash_Timer = 60000;
@@ -128,5 +128,5 @@ DoMeleeAttackIfReady();
 void AddSC_boss_ragnaros_cata()
 {
     new boss_ragnaros_cata();
-    new npc_living_meteor();
+    //new npc_living_meteor();
 }
