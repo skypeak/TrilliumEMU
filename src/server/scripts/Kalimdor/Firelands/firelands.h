@@ -72,17 +72,17 @@ DATA_PHASE,
 
 enum MovePoints
 {
-POINT_RAGNAROS_DOWN //end of each phase
-POINT_RAGNAROS_UP //start of each next phase
-POINT_RAGNAROS_STANDUP //only on heroic mode
-POINT_SULFURAS_SMASH //target for smashes
+POINT_RAGNAROS_DOWN, //end of each phase
+POINT_RAGNAROS_UP, //start of each next phase
+POINT_RAGNAROS_STANDUP, //only on heroic mode
+POINT_SULFURAS_SMASH, //target for smashes
 };
 
 enum Actions
 {
-ACTION_RAGNAROS_DOWN //end of each phase
-ACTION_RAGNAROS_UP //start of each next phase
-ACTION_RAGNAROS_STANDUP //only on heroic mode
-ACTION_SULFURAS_SMASH //target for smashes
+ACTION_RAGNAROS_DOWN, //end of each phase
+ACTION_RAGNAROS_UP, //start of each next phase
+ACTION_RAGNAROS_STANDUP, //only on heroic mode
+ACTION_SULFURAS_SMASH, //target for smashes
 };
 #endif 
