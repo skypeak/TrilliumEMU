@@ -19,6 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "gamePCH.h"
+#include "Object.h" 
 #include "Common.h"
 #include "Language.h"
 #include "DatabaseEnv.h"
@@ -7815,7 +7817,7 @@ void Player::_ApplyItemMods(Item *item, uint8 slot, bool apply)
 
     ApplyItemEquipSpell(item, apply);
     ApplyEnchantment(item, apply);
-
+	
     sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "_ApplyItemMods complete.");
 }
 
@@ -8582,6 +8584,7 @@ void Player::_RemoveAllItemMods()
                 _ApplyWeaponDependentAuraMods(m_items[i], WeaponAttackType(attacktype), false);
 
             _ApplyItemBonuses(proto, i, false);
+			
         }
     }
 
@@ -8608,6 +8611,7 @@ void Player::_ApplyAllItemMods()
                 _ApplyWeaponDependentAuraMods(m_items[i], WeaponAttackType(attacktype), true);
 
             _ApplyItemBonuses(proto, i, true);
+
         }
     }
 
@@ -12436,8 +12440,9 @@ void Player::RemoveItem(uint8 bag, uint8 slot, bool update)
                             RecalculateRating(CR_ARMOR_PENETRATION);
                         default:
                             break;
-                    }
+                    }				
                 }
+				
             }
 
             m_items[slot] = NULL;
@@ -12543,6 +12548,7 @@ void Player::DestroyItem(uint8 bag, uint8 slot, bool update)
                     RemoveItemsSetItem(this, pProto);
 
                 _ApplyItemMods(pItem, slot, false);
+							
             }
 
             if (slot < EQUIPMENT_SLOT_END)
@@ -13649,6 +13655,12 @@ void Player::ApplyEnchantment(Item *item, EnchantmentSlot slot, bool apply, bool
 
     if (slot >= MAX_ENCHANTMENT_SLOT)
         return;
+		
+    if (slot == REFORGE_ENCHANTMENT_SLOT)
+    {
+        ApplyItemReforge(item, apply);
+        return;
+    }		
 
     uint32 enchant_id = item->GetEnchantmentId(slot);
     if (!enchant_id)
@@ -14012,6 +14024,100 @@ void Player::ApplyEnchantment(Item *item, EnchantmentSlot slot, bool apply, bool
     }
 }
 
+void Player::ApplyItemReforge(Item *item, bool apply)
+{
+    if (!item || !item->IsEquipped() || item->IsBroken())
+        return;
+
+    uint32 reforge_id = item->GetEnchantmentId(REFORGE_ENCHANTMENT_SLOT);
+    if (!reforge_id)
+    return;
+    ItemReforgeEntry const *reforge = sItemReforgeStore.LookupEntry(reforge_id);
+    if (!reforge)
+        return;
+
+    int32 statBaseValue = 0;
+
+    for (int32 i = 0; i < MAX_ITEM_PROTO_STATS; i++)
+    {
+    if (item->GetTemplate()->ItemStat[i].ItemStatType == reforge->newstat)
+    {
+      sLog->outError("ApplyItemReforge : new stat %u already exists on item %u", reforge->newstat, item->GetEntry());
+      return;
+    }
+
+        if (item->GetTemplate()->ItemStat[i].ItemStatType == reforge->oldstat)
+            statBaseValue = item->GetTemplate()->ItemStat[i].ItemStatValue;
+    }
+
+    if (!statBaseValue)
+    {
+        sLog->outError("ApplyItemReforge : old stat %u not found on item %u", reforge->oldstat, item->GetEntry());
+        return;
+    }
+
+  int32 statValue[2];
+  int32 statType[2];
+
+    statValue[0] = int32(statBaseValue * reforge->oldstat_coef);  // old stat value: apply:minus unapply:plus
+    statValue[1] = int32(statValue[0] * reforge->newstat_coef);   // new stat value: apply:plus  unapply:minus
+
+    statType[0] = reforge->oldstat;
+    statType[1] = reforge->newstat;
+
+    sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "ApplyItemReforge : item %u, reforge id %u, stat value %d, old stat %u (x%.1f %d), new stat %u (x%.1f %d), apply %d",
+        item->GetEntry(), reforge_id, statBaseValue,
+        reforge->oldstat, reforge->oldstat_coef, statValue[0],
+        reforge->newstat, reforge->newstat_coef, statValue[1],
+        apply);
+
+    for (int32 i = 0; i < 2; i++)
+    {
+        switch (statType[i])
+        {
+        case ITEM_MOD_SPIRIT:
+            sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "+ %u SPIRIT", statValue[i]);
+            HandleStatModifier(UNIT_MOD_STAT_SPIRIT, TOTAL_VALUE, float(statValue[i]), (i == 0) ? (!apply) : apply);
+            ApplyStatBuffMod(STAT_SPIRIT, (float)statValue[i], (i == 0) ? (!apply) : apply);
+        case  ITEM_MOD_DODGE_RATING:
+            ApplyRatingMod(CR_DODGE, statValue[i], (i == 0) ? (!apply) : apply);
+            sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "+ %u DODGE", statValue[i]);
+            break;
+        case ITEM_MOD_PARRY_RATING:
+            ApplyRatingMod(CR_PARRY, statValue[i], (i == 0) ? (!apply) : apply);
+            sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "+ %u PARRY", statValue[i]);
+            break;
+        case ITEM_MOD_HIT_RATING:
+            ApplyRatingMod(CR_HIT_MELEE, statValue[i], (i == 0) ? (!apply) : apply);
+            ApplyRatingMod(CR_HIT_RANGED, statValue[i], (i == 0) ? (!apply) : apply);
+            ApplyRatingMod(CR_HIT_SPELL, statValue[i], (i == 0) ? (!apply) : apply);
+            sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "+ %u HIT", statValue[i]);
+            break;
+        case ITEM_MOD_CRIT_RATING:
+            ApplyRatingMod(CR_CRIT_MELEE, statValue[i], (i == 0) ? (!apply) : apply);
+            ApplyRatingMod(CR_CRIT_RANGED, statValue[i], (i == 0) ? (!apply) : apply);
+            ApplyRatingMod(CR_CRIT_SPELL, statValue[i], (i == 0) ? (!apply) : apply);
+            sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "+ %u CRITICAL", statValue[i]);
+            break;
+        case ITEM_MOD_HASTE_RATING:
+            ApplyRatingMod(CR_HASTE_MELEE, statValue[i], (i == 0) ? (!apply) : apply);
+            ApplyRatingMod(CR_HASTE_RANGED, statValue[i], (i == 0) ? (!apply) : apply);
+            ApplyRatingMod(CR_HASTE_SPELL, statValue[i], (i == 0) ? (!apply) : apply);
+            sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "+ %u HASTE", statValue[i]);
+            break;
+        case ITEM_MOD_EXPERTISE_RATING:
+            ApplyRatingMod(CR_EXPERTISE, statValue[i], (i == 0) ? (!apply) : apply);
+            sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "+ %u EXPERTISE", statValue[i]);
+            break;
+        case ITEM_MOD_MASTERY_RATING:
+            ApplyRatingMod(CR_MASTERY, int32(statValue[i]), (i == 0) ? (!apply) : apply);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 void Player::UpdateSkillEnchantments(uint16 skill_id, uint16 curr_value, uint16 new_value)
 {
     for (uint8 i = 0; i < INVENTORY_SLOT_BAG_END; ++i)
@@ -14195,6 +14301,7 @@ void Player::PrepareGossipMenu(WorldObject* source, uint32 menuId /*= 0*/, bool 
                 case GOSSIP_OPTION_PETITIONER:
                 case GOSSIP_OPTION_TABARDDESIGNER:
                 case GOSSIP_OPTION_AUCTIONEER:
+				case GOSSIP_OPTION_REFORGE:
                     break;                                  // no checks
                 case GOSSIP_OPTION_OUTDOORPVP:
                     if (!sOutdoorPvPMgr->CanTalkTo(this, creature, itr->second))
@@ -14419,9 +14526,13 @@ void Player::OnGossipSelect(WorldObject* source, uint32 gossipListId, uint32 men
             GetSession()->SendBattlegGroundList(guid, bgTypeId);
             break;
         }
+        case GOSSIP_OPTION_REFORGE:
+            GetSession()->SendShowReforge(guid);
+            break;		
     }
 
-    ModifyMoney(-cost);
+    ModifyMoney(-int32(cost));
+	
 }
 
 uint32 Player::GetGossipTextId(WorldObject* source)

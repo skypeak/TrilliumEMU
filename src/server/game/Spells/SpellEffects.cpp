@@ -292,6 +292,25 @@ void Spell::EffectInstaKill(SpellEffIndex /*effIndex*/)
     if (!unitTarget || !unitTarget->isAlive())
         return;
 
+    // Demonic Sacrifice
+    if (m_spellInfo->Id == 18788 && unitTarget->GetTypeId() == TYPEID_UNIT)
+    {
+        uint32 entry = unitTarget->GetEntry();
+        uint32 spellID;
+        switch (entry)
+        {
+            case   416: spellID = 18789; break;               //imp
+            case   417: spellID = 18792; break;               //fellhunter
+            case  1860: spellID = 18790; break;               //void
+            case  1863: spellID = 18791; break;               //succubus
+            case 17252: spellID = 35701; break;               //fellguard
+            default:
+                sLog->outError("EffectInstaKill: Unhandled creature entry (%u) case.", entry);
+                return;
+        }
+
+        m_caster->CastSpell(m_caster, spellID, true);
+    }
     if (m_caster == unitTarget)                              // prevent interrupt message
         finish();
 
@@ -317,6 +336,8 @@ void Spell::EffectEnvironmentalDMG(SpellEffIndex /*effIndex*/)
 
     m_caster->CalcAbsorbResist(unitTarget, m_spellInfo->GetSchoolMask(), SPELL_DIRECT_DAMAGE, damage, &absorb, &resist, m_spellInfo);
 
+
+
     m_caster->SendSpellNonMeleeDamageLog(unitTarget, m_spellInfo->Id, damage, m_spellInfo->GetSchoolMask(), absorb, resist, false, 0, false);
     if (unitTarget->GetTypeId() == TYPEID_PLAYER)
         unitTarget->ToPlayer()->EnvironmentalDamage(DAMAGE_FIRE, damage);
@@ -326,6 +347,8 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
 {
     if (effectHandleMode != SPELL_EFFECT_HANDLE_LAUNCH_TARGET)
         return;
+
+
 
     bool apply_direct_bonus = true;
 
@@ -456,6 +479,15 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                     case 62775: // Tympanic Tantrum
                     {
                         damage = unitTarget->CountPctFromMaxHealth(damage);
+                        break;
+                    }
+                    // Crystalspawn Giant - Quake
+                    case 81008:
+                    case 92631:
+                    {
+                        //avoid damage when players jumps
+                        if (unitTarget->GetUnitMovementFlags() == MOVEMENTFLAG_FALLING_FAR || unitTarget->GetTypeId() != TYPEID_PLAYER)
+                            return;
                         break;
                     }
                     // Gargoyle Strike
@@ -1912,6 +1944,9 @@ void Spell::EffectTriggerRitualOfSummoning(SpellEffIndex effIndex)
 
     finish();
 
+
+
+
     m_caster->CastSpell((Unit*)NULL, spellInfo, false);
 }
 
@@ -2294,6 +2329,8 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
         }
     }
 
+
+
     if (unitTarget && unitTarget->isAlive() && damage >= 0)
     {
         // Try to get original caster
@@ -2647,6 +2684,8 @@ void Spell::EffectPersistentAA(SpellEffIndex effIndex)
     {
         Unit* caster = m_caster->GetEntry() == WORLD_TRIGGER ? m_originalCaster : m_caster;
         float radius = m_spellInfo->Effects[effIndex].CalcRadius(caster);
+
+
 
         // Caster not in world, might be spell triggered from aura removal
         if (!caster->IsInWorld())
@@ -4072,6 +4111,8 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex)
     if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
         return;
 
+
+
     if (!unitTarget || !unitTarget->isAlive())
         return;
 
@@ -5314,6 +5355,8 @@ void Spell::EffectAddComboPoints(SpellEffIndex /*effIndex*/)
     if (damage <= 0)
         return;
 
+
+
     m_caster->m_movedPlayer->AddComboPoints(unitTarget, damage, this);
 }
 
@@ -5467,6 +5510,8 @@ void Spell::EffectActivateObject(SpellEffIndex /*effIndex*/)
 {
     if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
         return;
+
+
 
     if (!gameObjTarget)
         return;
@@ -5863,6 +5908,8 @@ void Spell::EffectQuestComplete(SpellEffIndex effIndex)
     if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
         return;
 
+
+
     if (!unitTarget || unitTarget->GetTypeId() != TYPEID_PLAYER)
         return;
 
@@ -5966,16 +6013,22 @@ void Spell::EffectCharge(SpellEffIndex /*effIndex*/)
     {
         if (!unitTarget)
             return;
+    // temp to try and stop the stair climbing agro...
+    float angle = unitTarget->GetAngle(m_caster) - unitTarget->GetOrientation();
+    Position pos;
+	
+    unitTarget->GetContactPoint(m_caster, pos.m_positionX, pos.m_positionY, pos.m_positionZ);
+    unitTarget->GetFirstCollisionPosition(pos, unitTarget->GetObjectSize(), angle);
 
-        float x, y, z;
-        unitTarget->GetContactPoint(m_caster, x, y, z);
-        m_caster->GetMotionMaster()->MoveCharge(x, y, z);
+    m_caster->GetMotionMaster()->MoveCharge(pos.m_positionX, pos.m_positionY, pos.m_positionZ + unitTarget->GetObjectSize());
     }
 
     if (effectHandleMode == SPELL_EFFECT_HANDLE_HIT_TARGET)
     {
         if (!unitTarget)
             return;
+
+
 
         // not all charge effects used in negative spells
         if (!m_spellInfo->IsPositive() && m_caster->GetTypeId() == TYPEID_PLAYER)
