@@ -495,7 +495,7 @@ void WorldSession::HandleBuyItemInSlotOpcode(WorldPacket & recv_data)
     uint32 item, slot, count;
     uint8 bagslot, unk;
 
-    recv_data >> vendorguid >> item  >> slot >> bagguid >> bagslot >> count >> unk;
+    recv_data >> vendorguid >> unk >> item  >> slot >> count >> bagguid >> bagslot;
 
     // client expects count starting at 1, and we send vendorslot+1 to client already
     if (slot > 0)
@@ -512,9 +512,9 @@ void WorldSession::HandleBuyItemInSlotOpcode(WorldPacket & recv_data)
     {
         for (int i = INVENTORY_SLOT_BAG_START; i < INVENTORY_SLOT_BAG_END; ++i)
         {
-            if (Bag* pBag = _player->GetBagByPos(i))
+            if (Bag* currentBag = _player->GetBagByPos(i))
             {
-                if (bagguid == pBag->GetGUID())
+                if (bagguid == currentBag->GetGUID())
                 {
                     bag = i;
                     break;
@@ -533,12 +533,14 @@ void WorldSession::HandleBuyItemInSlotOpcode(WorldPacket & recv_data)
 void WorldSession::HandleBuyItemOpcode(WorldPacket & recv_data)
 {
     sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_BUY_ITEM");
-    uint64 vendorguid;
-    uint8 unk, unk2;
+    uint64 vendorguid, unk1;
     uint32 item, slot, count;
-    uint64 unk1;
+    uint8 unk2, unk;
 
-    recv_data >> vendorguid >> item >> slot >> count >> unk >> unk1 >> unk2;
+    recv_data >> vendorguid;
+    recv_data >> unk;
+    recv_data >> item >> slot >> count;
+    recv_data >> unk1 >> unk2;
 
     // client expects count starting at 1, and we send vendorslot+1 to client already
     if (slot > 0)
@@ -1234,4 +1236,77 @@ void WorldSession::HandleItemTextQuery(WorldPacket & recv_data )
     }
 
     SendPacket(&data);
+}
+
+void WorldSession::HandleReforgeOpcode(WorldPacket & recv_data )
+{
+    sLog->outDebug(LOG_FILTER_NETWORKIO, "Received packet CMSG_REFORGE");
+
+    uint32 slot, reforgeEntry, bag;
+    int64 vendor_GUID;
+
+    recv_data >> slot;
+    recv_data >> reforgeEntry;
+    recv_data >> vendor_GUID;
+    recv_data >> bag;
+
+    Item *item = _player->GetItemByPos(bag, slot);
+
+    if (!item)
+    {
+        sLog->outDebug(LOG_FILTER_NETWORKIO, "Item reforge: item not found!");
+        return;
+    }
+    if ((item->GetUInt32Value(ITEM_FIELD_ENCHANTMENT_9_1)) && reforgeEntry)  // prevent hackers and exploiting
+    {
+        sLog->outError("Item %u was been alrdy reforged!");
+        return;
+    }
+
+    Creature *creature = GetPlayer()->GetNPCIfCanInteractWith(vendor_GUID, UNIT_NPC_FLAG_REFORGER);
+    if (!creature)
+    {
+        sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: HandleReforgeOpcode - Unit (GUID: %u) not found or you can not interact with him.", uint32(GUID_LOPART(vendor_GUID)));
+        _player->SendSellError(SELL_ERR_CANT_FIND_VENDOR, NULL, item->GetGUID(), 0);
+        return;
+    }
+
+    ItemTemplate const* proto = item->GetTemplate();
+    if (!proto)
+    {
+        // this can't happen
+        return;
+    }
+
+    if (proto->ItemLevel < 200)
+    {
+        // client should have already checked this so no client message is needed
+        sLog->outError("Item %u level %u too low to reforge", proto->ItemId, proto->ItemLevel);
+        return;
+    }
+
+    if (reforgeEntry)
+    {
+        int32 price = proto->SellPrice;
+        if (price < 1 * GOLD)
+            price = 1 * GOLD; // blizz: minimum reforge cost is 1 gold
+
+        if (!_player->HasEnoughMoney(price))
+        {
+            _player->SendBuyError(BUY_ERR_NOT_ENOUGHT_MONEY, creature, item->GetEntry(), 0);
+            return;
+        }
+
+        _player->ModifyMoney(-price);
+    }
+
+    // remove old reforge before applying new if equipped
+    _player->ApplyEnchantment(item, REFORGE_ENCHANTMENT_SLOT, false);
+
+    item->SetEnchantment(REFORGE_ENCHANTMENT_SLOT, reforgeEntry, 0, 0);
+
+    // add new reforge if equipped
+    _player->ApplyEnchantment(item, REFORGE_ENCHANTMENT_SLOT, true);
+
+    item->SetSoulboundTradeable(NULL, _player, false);
 }
