@@ -164,6 +164,7 @@ void AddSC_boss_vexallus();
 void AddSC_boss_priestess_delrissa();
 void AddSC_instance_magisters_terrace();
 void AddSC_magisters_terrace();
+//void AddSC_boss_ragnaros_cata();             //Firelands
 void AddSC_boss_lucifron();                  //Molten core
 void AddSC_boss_magmadar();
 void AddSC_boss_gehennas();
@@ -276,6 +277,7 @@ void AddSC_boss_kruul();
 void AddSC_burning_steppes();
 void AddSC_duskwood();
 void AddSC_eastern_plaguelands();
+void AddSC_elwynn_forest();
 void AddSC_eversong_woods();
 void AddSC_ghostlands();
 void AddSC_gilneas();
@@ -823,7 +825,8 @@ void AddEasternKingdomsScripts()
     AddSC_boss_priestess_delrissa();
     AddSC_instance_magisters_terrace();
     AddSC_magisters_terrace();
-    AddSC_boss_lucifron();                  //Molten core
+    //AddSC_boss_ragnaros_cata();             //Firelands
+	AddSC_boss_lucifron();                  //Molten core
     AddSC_boss_magmadar();
     AddSC_boss_gehennas();
     AddSC_boss_garr();

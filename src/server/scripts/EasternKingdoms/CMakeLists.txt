@@ -10,6 +10,7 @@
 
 set(scripts_STAT_SRCS
   ${scripts_STAT_SRCS}
+  EasternKingdoms/Zones/elwynn_forest.cpp
   EasternKingdoms/Zones/burning_steppes.cpp
   EasternKingdoms/Zones/ghostlands.cpp
   EasternKingdoms/Zones/eversong_woods.cpp

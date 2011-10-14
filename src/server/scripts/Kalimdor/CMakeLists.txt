@@ -127,15 +127,15 @@ set(scripts_STAT_SRCS
   Kalimdor/OnyxiasLair/boss_onyxia.cpp
   Kalimdor/OnyxiasLair/onyxias_lair.h
   Kalimdor/OnyxiasLair/instance_onyxias_lair.cpp
-  Kalimdor/Firelands/boss_alysrazar.cpp
-  Kalimdor/Firelands/boss_baloroc_the_doorkeeper.cpp
-  Kalimdor/Firelands/boss_beth'tilac.cpp
-  Kalimdor/Firelands/boss_majordomus.cpp
-  Kalimdor/Firelands/boss_ragnaros.cpp
-  Kalimdor/Firelands/boss_rhyolith.cpp
-  Kalimdor/Firelands/boss_shannox.cpp
-  Kalimdor/Firelands/firelands.h
-  Kalimdor/Firelands/instance_firelands.cpp
+  #Kalimdor/Firelands/boss_alysrazar.cpp
+  #Kalimdor/Firelands/boss_baloroc_the_doorkeeper.cpp
+  #Kalimdor/Firelands/boss_beth'tilac.cpp
+  #Kalimdor/Firelands/boss_majordomus.cpp
+  #Kalimdor/Firelands/boss_ragnaros.cpp
+  #Kalimdor/Firelands/boss_rhyolith.cpp
+  #Kalimdor/Firelands/boss_shannox.cpp
+  #Kalimdor/Firelands/firelands.h
+  #Kalimdor/Firelands/instance_firelands.cpp
 )
 
 message("  -> Prepared: Kalimdor")
