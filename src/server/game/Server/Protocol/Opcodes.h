@@ -1306,7 +1306,7 @@ enum Opcodes
     CMSG_GROUP_SET_ROLES                             = 0x102A0, //
     CMSG_WORLD_LOGIN                                 = 0x04011, // 14480
     CMSG_RETURN_TO_GRAVEYARD                         = 0x0B8EB, // 14480
-	CMSG_REFORGE                                     = 0x00313, // 4.0.6a 13623
+	CMSG_REFORGE                                     = 0x02869, // 14333
 	SMSG_SHOW_REFORGE                                = 0x00C5C, // 4.0.6a 13623
     CMSG_VIOLENCE_LEVEL                              = 0x08842, // 14480
     CMSG_LOG_DISCONNECT                              = 0x00920, // 14480
