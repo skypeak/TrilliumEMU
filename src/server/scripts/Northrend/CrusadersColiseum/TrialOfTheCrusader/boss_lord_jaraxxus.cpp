@@ -177,9 +177,7 @@ public:
 
         void UpdateAI(const uint32 uiDiff)
         {
-            if (!UpdateVictim())
-                return;
-
+            
             if (m_uiSummonInfernalEruptionTimer <= uiDiff)
             {
                 DoScriptText(EMOTE_INFERNAL_ERUPTION, me);
@@ -490,7 +488,13 @@ public:
                 return;
 
             if (m_pInstance && m_pInstance->GetData(TYPE_JARAXXUS) != IN_PROGRESS)
+            {
                 me->DespawnOrUnsummon();
+                return;
+            }
+
+            if (!UpdateVictim())
+                return;
 
             if (m_uiShivanSlashTimer <= uiDiff)
             {
