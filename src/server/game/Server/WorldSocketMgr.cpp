@@ -247,8 +247,7 @@ WorldSocketMgr::StartReactiveIO (ACE_UINT16 port, const char* address)
 
     m_NetThreads = new ReactorRunnable[m_NetThreadsCount];
 
-    sLog->outBasic ("= Worldserver is ready for connections! =");
-    sLog->outBasic ("Max allowed socket connections %d", ACE::max_handles());
+    sLog->outBasic ("Worldserver is ready for connections, max allowed: %d", ACE::max_handles());
 
     // -1 means use default
     m_SockOutKBuff = ConfigMgr::GetIntDefault ("Network.OutKBuff", -1);

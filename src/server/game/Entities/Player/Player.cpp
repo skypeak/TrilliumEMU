@@ -2519,8 +2519,13 @@ void Player::RegenerateAll()
         }
 
         Regenerate(POWER_RAGE);
+        
+        if (getClass() == CLASS_PALADIN)
+            Regenerate(POWER_HOLY_POWER);
         if (getClass() == CLASS_DEATH_KNIGHT)
             Regenerate(POWER_RUNIC_POWER);
+        if (getClass() == CLASS_HUNTER)
+            Regenerate(POWER_FOCUS);
 
         m_regenTimerCount -= 2000;
     }
@@ -2566,7 +2571,15 @@ void Player::Regenerate(Powers power)
                 float RageDecreaseRate = sWorld->getRate(RATE_POWER_RAGE_LOSS);
                 addvalue += -20 * RageDecreaseRate * haste;               // 2 rage by tick (= 2 seconds => 1 rage/sec)
             }
-        }   break;
+             break;
+
+        }
+        case POWER_HOLY_POWER:                              // Regenerate holy power
+        {
+            if (!isInCombat())
+                addvalue += -0.2f;               // remove 1 each 10 sec
+            break;
+        }
         case POWER_ENERGY:                                  // Regenerate energy (rogue)
             addvalue += 0.01f * m_regenTimer * sWorld->getRate(RATE_POWER_ENERGY);
             break;
@@ -2577,15 +2590,18 @@ void Player::Regenerate(Powers power)
                 float RunicPowerDecreaseRate = sWorld->getRate(RATE_POWER_RUNICPOWER_LOSS);
                 addvalue += -30 * RunicPowerDecreaseRate;         // 3 RunicPower by tick
             }
-        }   break;
+            break;
+        }
         case POWER_RUNE:
         case POWER_FOCUS:
+			addvalue += 0.01f * 800 * haste;
         case POWER_HAPPINESS:
         case POWER_HEALTH:
             break;
         default:
             break;
     }
+	
 
     // Mana regen calculated in Player::UpdateManaRegen()
     if (power != POWER_MANA)
@@ -23715,8 +23731,12 @@ bool Player::IsKnowHowFlyIn(uint32 mapid, uint32 zone, uint32 spellId) const
     if (zone == 5638 && spellId == 82724) 
         return true;
 
-    // continent checked in SpellInfo::CheckLocation at cast and area update
+	// continent checked in SpellMgr::GetSpellAllowedInLocationError at cast and area update
     uint32 v_map = GetVirtualMapForMapAndZone(mapid, zone);
+    return (v_map != 571 || HasSpell(54197)) && (v_map != 0 || HasSpell(90267)); // Cold Weather Flying		
+
+    // continent checked in SpellInfo::CheckLocation at cast and area update
+    // uint32 v_map = GetVirtualMapForMapAndZone(mapid, zone);
     switch (v_map)
     {
     case 0:   // Eastern Kingdoms
@@ -25324,16 +25344,6 @@ void Player::_SaveInstanceTimeRestrictions(SQLTransaction& trans)
     }
 }
 
-bool Player::IsInWhisperWhiteList(uint64 guid)
-{
-    for (WhisperListContainer::const_iterator itr = WhisperList.begin(); itr != WhisperList.end(); ++itr)
-    {
-        if (*itr == guid)
-            return true;
-    }
-    return false;
-}
-
 void Player::SetInGuild(uint32 GuildId)
 {
     m_guildId = GuildId;
@@ -25348,4 +25358,14 @@ void Player::SetInGuild(uint32 GuildId)
         SetUInt64Value(OBJECT_FIELD_DATA, 0);
         SetUInt32Value(OBJECT_FIELD_TYPE, GetUInt32Value(OBJECT_FIELD_TYPE) & ~TYPEMASK_IN_GUILD);
     }
+}
+
+bool Player::IsInWhisperWhiteList(uint64 guid)
+{
+    for (WhisperListContainer::const_iterator itr = WhisperList.begin(); itr != WhisperList.end(); ++itr)
+    {
+        if (*itr == guid)
+            return true;
+    }
+    return false;
 }

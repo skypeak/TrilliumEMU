@@ -851,6 +851,11 @@ class WorldObject : public Object, public WorldLocation
         //mapId/instanceId should be set in SetMap() function!
         void SetLocationMapId(uint32 _mapId) { m_mapId = _mapId; }
         void SetLocationInstanceId(uint32 _instanceId) { m_InstanceId = _instanceId; }
+        virtual bool IsNeverVisible() const { return !IsInWorld(); }
+        virtual bool IsAlwaysVisibleFor(WorldObject const* /*seer*/) const { return false; }
+        virtual bool IsInvisibleDueToDespawn() const { return false; }
+        //difference from IsAlwaysVisibleFor: 1. after distance check; 2. use owner or charmer as seer
+        virtual bool IsAlwaysDetectableFor(WorldObject const* /*seer*/) const { return false; }
 
     private:
         Map * m_currMap;                                    //current object's Map location
