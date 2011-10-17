@@ -131,8 +131,8 @@ DataStorage <ItemExtendedCostEntry>        sItemExtendedCostStore(ItemExtendedCo
 DataStorage <ItemLimitCategoryEntry>       sItemLimitCategoryStore(ItemLimitCategoryEntryfmt);
 DataStorage <ItemRandomPropertiesEntry>    sItemRandomPropertiesStore(ItemRandomPropertiesfmt);
 DataStorage <ItemRandomSuffixEntry>        sItemRandomSuffixStore(ItemRandomSuffixfmt);
-DataStorage <ItemSetEntry>                 sItemSetStore(ItemSetEntryfmt);
 DataStorage <ItemReforgeEntry>             sItemReforgeStore(ItemReforgefmt);
+DataStorage <ItemSetEntry>                 sItemSetStore(ItemSetEntryfmt);
 DataStorage <LFGDungeonEntry>              sLFGDungeonStore(LFGDungeonEntryfmt);
 
 DataStorage <LockEntry>                    sLockStore(LockEntryfmt);

@@ -100,8 +100,8 @@ ItemSparseInfo::ItemSparseInfo(ItemEntry const* itemEntry)
     ItemLimitCategory;
     HolidayId;
     StatScalingFactor;
-    field_130; // related to archaeology (?)
-    field_131; // related to archaeology
+    archaeologyUnk; // related to archeology (?)
+    FindingsCount; // related to archeology
 }
 
 ItemSparseEntry const* ItemSparseInfo::GetSparseInfo() const

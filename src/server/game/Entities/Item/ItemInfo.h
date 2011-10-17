@@ -113,8 +113,8 @@ public:
     int32 ItemLimitCategory;
     int32 HolidayId;
     float StatScalingFactor;
-    int32 field_130; // related to archaeology (?)
-    int32 field_131; // related to archaeology
+    uint32 archaeologyUnk; // related to archeology
+    uint32 FindingsCount;
 
     ItemSparseInfo(ItemEntry const* itemEntry);
     ItemSparseEntry const* GetSparseInfo() const;
