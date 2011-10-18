@@ -486,7 +486,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                     case 92631:
                     {
                         //avoid damage when players jumps
-                        if (unitTarget->GetUnitMovementFlags() == MOVEMENTFLAG_FALLING_FAR || unitTarget->GetTypeId() != TYPEID_PLAYER)
+                        if (unitTarget->GetUnitMovementFlags() == MOVEMENTFLAG_JUMPING || unitTarget->GetTypeId() != TYPEID_PLAYER)
                             return;
                         break;
                     }
