@@ -1,9 +1,7 @@
 /*
- * Copyright (C) 2005 - 2011 MaNGOS <http://www.getmangos.org/>
- *
- * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
- *
  * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+
+ * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -22,7 +20,7 @@
 #include "ScriptPCH.h"
 #include "nexus.h"
 
-#define NUMBER_OF_ENCOUNTERS      4
+#define NUMBER_OF_ENCOUNTERS      5 
 
 enum Factions
 {
@@ -34,24 +32,26 @@ class instance_nexus : public InstanceMapScript
 public:
     instance_nexus() : InstanceMapScript("instance_nexus", 576) { }
 
-    InstanceScript *GetInstanceScript(InstanceMap *pMap) const
+    InstanceScript* GetInstanceScript(InstanceMap* pMap) const
     {
         return new instance_nexus_InstanceMapScript(pMap);
     }
 
     struct instance_nexus_InstanceMapScript : public InstanceScript
     {
-        instance_nexus_InstanceMapScript(Map *pMap) : InstanceScript(pMap) {}
+        instance_nexus_InstanceMapScript(Map* pMap) : InstanceScript(pMap) {}
 
         uint32 m_auiEncounter[NUMBER_OF_ENCOUNTERS];
 
         uint64 Anomalus;
         uint64 Keristrasza;
+        uint64 Commander;
 
         uint64 AnomalusContainmentSphere;
         uint64 OrmoroksContainmentSphere;
         uint64 TelestrasContainmentSphere;
 
+        std::set<uint64> FrayerGUIDlist;
         std::string strInstData;
 
         void Initialize()
@@ -60,6 +60,8 @@ public:
 
             Anomalus = 0;
             Keristrasza = 0;
+            Commander = 0;
+            FrayerGUIDlist.clear();
         }
 
         void OnCreatureCreate(Creature* creature)
@@ -80,8 +82,21 @@ public:
                 case 26723:
                     Keristrasza = creature->GetGUID();
                     break;
+                // Crystalline Frayer
+                case 26793:
+                    if (GetData(DATA_ORMOROK_EVENT) == DONE)
+                    {
+                        creature->UpdateEntry(29911);
+                        creature->setFaction(35); 
+                    }
+                    else
+                    {
+                        if (creature->isAlive())
+                            FrayerGUIDlist.insert(creature->GetGUID());
+                    }
+                    break;
                 // Alliance npcs are spawned by default, if you are alliance, you will fight against horde npcs.
-                case 26800:
+                case 26800: //Alliance Berserker ---> Horde Berserker
                 {
                     if (ServerAllowsTwoSideGroups())
                         creature->setFaction(FACTION_HOSTILE_FOR_ALL);
@@ -89,7 +104,7 @@ public:
                         creature->UpdateEntry(26799, HORDE);
                     break;
                 }
-                case 26802:
+                case 26802: //Alliance Ranger ---> Horde Ranger
                 {
                     if (ServerAllowsTwoSideGroups())
                         creature->setFaction(FACTION_HOSTILE_FOR_ALL);
@@ -97,7 +112,7 @@ public:
                         creature->UpdateEntry(26801, HORDE);
                     break;
                 }
-                case 26805:
+                case 26805: //Alliance Cleric ---> Horde Cleric
                 {
                     if (ServerAllowsTwoSideGroups())
                         creature->setFaction(FACTION_HOSTILE_FOR_ALL);
@@ -105,7 +120,7 @@ public:
                         creature->UpdateEntry(26803, HORDE);
                     break;
                 }
-                case 27949:
+                case 27949: //Alliance Commander ---> Horde Commander
                 {
                     if (ServerAllowsTwoSideGroups())
                         creature->setFaction(FACTION_HOSTILE_FOR_ALL);
@@ -113,18 +128,19 @@ public:
                         creature->UpdateEntry(27947, HORDE);
                     break;
                 }
-                case 26796:
+                case 26796: //Boss Stoutbeard ---> Boss Kolurg
                 {
                     if (ServerAllowsTwoSideGroups())
                         creature->setFaction(FACTION_HOSTILE_FOR_ALL);
                     if (TeamInInstance == ALLIANCE)
                         creature->UpdateEntry(26798, HORDE);
+                    Commander = creature->GetGUID();
                     break;
                 }
             }
         }
 
-        void OnGameObjectCreate(GameObject* go)
+        void OnGameObjectCreate(GameObject *go)
         {
             switch (go->GetEntry())
             {
@@ -152,14 +168,31 @@ public:
             }
         }
 
+        void ConvertFrayer()
+        {
+            if (!FrayerGUIDlist.empty())   
+                for (std::set<uint64>::const_iterator itr = FrayerGUIDlist.begin(); itr != FrayerGUIDlist.end(); ++itr)
+                {
+                    Creature* pFrayer = instance->GetCreature(*itr);
+                    if (pFrayer && pFrayer->isAlive())
+                    {
+                        pFrayer->UpdateEntry(29911);
+                        pFrayer->RemoveAllAuras();
+                        pFrayer->setFaction(35);
+                        pFrayer->AI()->EnterEvadeMode();
+                    }
+                }
+        }
+
         uint32 GetData(uint32 identifier)
         {
-            switch (identifier)
+            switch(identifier)
             {
-                case DATA_MAGUS_TELESTRA_EVENT: return m_auiEncounter[0];
-                case DATA_ANOMALUS_EVENT:       return m_auiEncounter[1];
-                case DATA_ORMOROK_EVENT:        return m_auiEncounter[2];
-                case DATA_KERISTRASZA_EVENT:    return m_auiEncounter[3];
+                case DATA_COMMANDER:            return m_auiEncounter[0];
+                case DATA_MAGUS_TELESTRA_EVENT: return m_auiEncounter[1]; 
+                case DATA_ANOMALUS_EVENT:       return m_auiEncounter[2]; 
+                case DATA_ORMOROK_EVENT:        return m_auiEncounter[3]; 
+                case DATA_KERISTRASZA_EVENT:    return m_auiEncounter[4]; 
             }
             return 0;
         }
@@ -168,39 +201,42 @@ public:
         {
             switch (identifier)
             {
+                case DATA_COMMANDER:
+                    m_auiEncounter[0] = data;
+                    break;
                 case DATA_MAGUS_TELESTRA_EVENT:
                 {
                     if (data == DONE)
                     {
-                        GameObject* Sphere = instance->GetGameObject(TelestrasContainmentSphere);
+                        GameObject *Sphere = instance->GetGameObject(TelestrasContainmentSphere);
                         if (Sphere)
                             Sphere->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_NOT_SELECTABLE);
                     }
-                    m_auiEncounter[0] = data;
+                    m_auiEncounter[1] = data; 
                     break;
                 }
                 case DATA_ANOMALUS_EVENT:
                 {
                     if (data == DONE)
                     {
-                        if (GameObject* Sphere = instance->GetGameObject(AnomalusContainmentSphere))
+                        if (GameObject *Sphere = instance->GetGameObject(AnomalusContainmentSphere))
                             Sphere->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_NOT_SELECTABLE);
                     }
-                    m_auiEncounter[1] = data;
+                    m_auiEncounter[2] = data; 
                     break;
                 }
                 case DATA_ORMOROK_EVENT:
                 {
                     if (data == DONE)
                     {
-                        if (GameObject* Sphere = instance->GetGameObject(OrmoroksContainmentSphere))
+                        if (GameObject *Sphere = instance->GetGameObject(OrmoroksContainmentSphere))
                             Sphere->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_NOT_SELECTABLE);
                     }
-                    m_auiEncounter[2] = data;
+                    m_auiEncounter[3] = data;
                     break;
                 }
                 case DATA_KERISTRASZA_EVENT:
-                    m_auiEncounter[3] = data;
+                    m_auiEncounter[4] = data; 
                     break;
             }
 
@@ -210,7 +246,7 @@ public:
 
                 std::ostringstream saveStream;
                 saveStream << m_auiEncounter[0] << ' ' << m_auiEncounter[1] << ' ' << m_auiEncounter[2] << ' '
-                    << m_auiEncounter[3];
+                    << m_auiEncounter[3] << ' ' << m_auiEncounter[4];
 
                 strInstData = saveStream.str();
 
@@ -221,8 +257,9 @@ public:
 
         uint64 GetData64(uint32 uiIdentifier)
         {
-            switch (uiIdentifier)
+            switch(uiIdentifier)
             {
+                case DATA_COMMANDER:                return Commander;
                 case DATA_ANOMALUS:                 return Anomalus;
                 case DATA_KERISTRASZA:              return Keristrasza;
                 case ANOMALUS_CONTAINMET_SPHERE:    return AnomalusContainmentSphere;
@@ -248,7 +285,7 @@ public:
             OUT_LOAD_INST_DATA(chrIn);
 
             std::istringstream loadStream(chrIn);
-            loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3];
+            loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3] >> m_auiEncounter[4];
 
             for (uint8 i = 0; i < NUMBER_OF_ENCOUNTERS; ++i)
                 if (m_auiEncounter[i] == IN_PROGRESS)

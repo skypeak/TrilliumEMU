@@ -1,9 +1,7 @@
 /*
- * Copyright (C) 2005 - 2011 MaNGOS <http://www.getmangos.org/>
- *
- * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
- *
  * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+
+ * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -30,10 +28,11 @@ enum Spells
     H_SPELL_FIREBOMB                              = 56934,
     SPELL_GRAVITY_WELL                            = 47756,
     SPELL_TELESTRA_BACK                           = 47714,
-
     SPELL_FIRE_MAGUS_VISUAL                       = 47705,
     SPELL_FROST_MAGUS_VISUAL                      = 47706,
-    SPELL_ARCANE_MAGUS_VISUAL                     = 47704
+    SPELL_ARCANE_MAGUS_VISUAL                     = 47704,
+    SPELL_CRITTER                                 = 47731,
+    SPELL_TIMESTOP                                = 47736
 };
 
 enum Creatures
@@ -50,7 +49,7 @@ enum Yells
     SAY_DEATH                                     = -1576002,
     SAY_MERGE                                     = -1576003,
     SAY_SPLIT_1                                   = -1576004,
-    SAY_SPLIT_2                                   = -1576005,
+    SAY_SPLIT_2                                   = -1576005
 };
 
 #define ACTION_MAGUS_DEAD                         1
@@ -111,7 +110,7 @@ public:
 
             for (uint8 n = 0; n < 3; ++n)
                 time[n] = 0;
-
+				
             splitPersonality = 0;
             bIsWaitingToAppear = false;
 
@@ -244,10 +243,7 @@ public:
                     me->GetMap()->CreatureRelocation(me, CenterOfRoom.GetPositionX(), CenterOfRoom.GetPositionY(), CenterOfRoom.GetPositionZ(), CenterOfRoom.GetOrientation());
                     DoCast(me, SPELL_TELESTRA_BACK);
                     me->SetVisible(true);
-                    if (Phase == 1)
-                        Phase = 2;
-                    if (Phase == 3)
-                        Phase = 4;
+                    Phase++;
                     uiFireMagusGUID = 0;
                     uiFrostMagusGUID = 0;
                     uiArcaneMagusGUID = 0;
@@ -276,7 +272,7 @@ public:
                 return;
             }
 
-            if (IsHeroic() && (Phase == 2) && HealthBelowPct(10))
+        if (IsHeroic() && (Phase == 2) && HealthBelowPct(15))
             {
                 Phase = 3;
                 me->CastStop();
@@ -338,7 +334,7 @@ public:
         }
     };
 
-};
+};	  
 
 class achievement_split_personality : public AchievementCriteriaScript
 {
@@ -360,8 +356,94 @@ class achievement_split_personality : public AchievementCriteriaScript
         }
 };
 
+class boss_magus_telestra_arcane : public CreatureScript
+{
+public:
+    boss_magus_telestra_arcane() : CreatureScript("boss_magus_telestra_arcane") { }
+
+    struct boss_magus_telestra_arcaneAI : public ScriptedAI
+    {
+        boss_magus_telestra_arcaneAI(Creature* c) : ScriptedAI(c)
+        {
+            pInstance = c->GetInstanceScript();
+        }
+
+        InstanceScript* pInstance;
+        uint32 uiCritterTimer;
+        uint32 uiTimeStopTimer;
+
+        void Reset()
+        {
+            uiCritterTimer = urand(3000, 6000);
+            uiTimeStopTimer = urand(7000, 10000);
+        }
+
+        void UpdateAI(const uint32 diff)
+        {
+            if (!UpdateVictim())
+                return;
+
+            if (uiCritterTimer<=diff)
+            {
+                DoCast(SPELL_CRITTER);
+                    uiCritterTimer = urand(5000, 8000);
+            }else uiCritterTimer-=diff;
+
+            if (uiTimeStopTimer<=diff)
+            {
+                DoCastAOE(SPELL_TIMESTOP);
+                uiTimeStopTimer = urand(15000, 18000);
+            } else uiTimeStopTimer-=diff;
+
+            DoMeleeAttackIfReady();
+        }
+    };
+
+    CreatureAI* GetAI(Creature* pCreature) const
+    {
+        return new boss_magus_telestra_arcaneAI(pCreature);
+    }
+};
+
+class spell_nexus_critter_targeting : public SpellScriptLoader
+{
+    public:
+        spell_nexus_critter_targeting() : SpellScriptLoader("spell_nexus_critter_targeting") { }
+
+        class spell_nexus_critter_targeting_SpellScript : public SpellScript
+        {
+            PrepareSpellScript(spell_nexus_critter_targeting_SpellScript);
+
+            void FilterTargetsInitial(std::list<Unit*>& unitList)
+            {
+                sharedUnitList = unitList;
+            }
+
+            void FilterTargetsSubsequent(std::list<Unit*>& unitList)
+            {
+                unitList = sharedUnitList;
+            }
+
+            void Register()
+            {
+                OnUnitTargetSelect += SpellUnitTargetFn(spell_nexus_critter_targeting_SpellScript::FilterTargetsInitial, EFFECT_0, TARGET_UNIT_SRC_AREA_ENEMY);
+                OnUnitTargetSelect += SpellUnitTargetFn(spell_nexus_critter_targeting_SpellScript::FilterTargetsSubsequent, EFFECT_1, TARGET_UNIT_SRC_AREA_ENEMY);
+                OnUnitTargetSelect += SpellUnitTargetFn(spell_nexus_critter_targeting_SpellScript::FilterTargetsSubsequent, EFFECT_2, TARGET_UNIT_SRC_AREA_ENEMY);
+            }
+
+            std::list<Unit*> sharedUnitList;
+        };
+
+        SpellScript* GetSpellScript() const
+        {
+            return new spell_nexus_critter_targeting_SpellScript();
+        }
+};
+
 void AddSC_boss_magus_telestra()
 {
     new boss_magus_telestra();
-    new achievement_split_personality();
+    new achievement_split_personality();	
+    new boss_magus_telestra_arcane();
+    new spell_nexus_critter_targeting();
 }
