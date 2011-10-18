@@ -1,9 +1,7 @@
 /*
- * Copyright (C) 2005 - 2011 MaNGOS <http://www.getmangos.org/>
- *
- * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
- *
  * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+
+ * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -39,6 +37,8 @@ enum
     TYPE_EVENT_NPC              = 102,
     TYPE_NORTHREND_BEASTS       = 103,
 
+    DATA_HEALTH_TWIN_SHARED     = 201,
+
     DATA_SNOBOLD_COUNT                   = 301,
     DATA_MISTRESS_OF_PAIN_COUNT          = 302,
     DATA_TRIBUTE_TO_IMMORTALITY_ELEGIBLE = 303,
@@ -50,13 +50,6 @@ enum
     SPELL_JARAXXUS_CHAINS       = 67924,
 
     DESPAWN_TIME                = 300000,
-};
-
-const Position ToCSpawnLoc[]=
-{
-    {563.912f, 261.625f, 394.73f, 4.70437f},  //  0 Center
-    {575.451f, 261.496f, 394.73f,  4.6541f},  //  1 Left
-    {549.951f,  261.55f, 394.73f, 4.74835f},  //  2 Right
 };
 
 const Position ToCCommonLoc[]=
@@ -232,9 +225,6 @@ enum eCreature
     NPC_LIGHTBANE               = 34497,
     NPC_DARKBANE                = 34496,
 
-    NPC_DARK_ESSENCE            = 34567,
-    NPC_LIGHT_ESSENCE           = 34568,
-
     NPC_ANUBARAK                = 34564,
 };
 
@@ -296,6 +286,12 @@ enum eAchievementData
 
     // Timed events
     EVENT_START_TWINS_FIGHT                 = 21853
+};
+
+enum eDestructibleBuildingsFaction
+{
+    GO_ALLIANCE_FACTION = 1732,
+    GO_HORDE_FACTION    = 1735,
 };
 
 #endif
