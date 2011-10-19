@@ -274,7 +274,7 @@ inline void LoadData(uint32& availableDbcLocales, StoreProblemList& errors, Data
         if (FILE* f = fopen(dataFilename.c_str(), "rb"))
         {
             char buf[100];
-            snprintf(buf, 100, " (exists, but has %d fields instead of " SIZEFMTD ") Possible wrong client version.", storage.GetFieldCount(), strlen(storage.GetFormat()));
+            snprintf(buf, 100, " (exists, but has %d fields instead of " SIZEFMTD ") Check that spell_dbc table are up to-date, or be sure that datastores are from the correct supported client.", storage.GetFieldCount(), strlen(storage.GetFormat()));
             errors.push_back(dataFilename + buf);
             fclose(f);
         }
