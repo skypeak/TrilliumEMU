@@ -981,24 +981,24 @@ public:
 						case RACE_WORGEN:
                             switch(ExecuteSpeech_Counter)
                             {
-                                case 0: DoScriptText(SAY_EXEC_START_1, me, pPlayer); break;
+                                case 0: DoScriptText(SAY_EXEC_START_1, me, player); break;
                                 case 1: me->SetStandState(UNIT_STAND_STATE_STAND); break;
-                                case 2: DoScriptText(SAY_EXEC_PROG_1, me, pPlayer); break;
-                                case 3: DoScriptText(SAY_EXEC_NAME_1, me, pPlayer); break;
-                                case 4: DoScriptText(SAY_EXEC_RECOG_1, me, pPlayer); break;
-                                case 5: DoScriptText(SAY_EXEC_NOREM_11, me, pPlayer); break;                       // SQL Part Implemented in Cataclysm
-                                case 6: DoScriptText(SAY_EXEC_THINK_12, me, pPlayer); break;                         // SQL Part Implemented in Cataclysm
-                                case 7: DoScriptText(SAY_EXEC_LISTEN_1, me, pPlayer); break;
+                                case 2: DoScriptText(SAY_EXEC_PROG_1, me, player); break;
+                                case 3: DoScriptText(SAY_EXEC_NAME_1, me, player); break;
+                                case 4: DoScriptText(SAY_EXEC_RECOG_1, me, player); break;
+                                case 5: DoScriptText(SAY_EXEC_NOREM_11, me, player); break;                       // SQL Part Implemented in Cataclysm
+                                case 6: DoScriptText(SAY_EXEC_THINK_12, me, player); break;                         // SQL Part Implemented in Cataclysm
+                                case 7: DoScriptText(SAY_EXEC_LISTEN_1, me, player); break;
                                 case 8:
                                     if (Creature* Plaguefist = GetClosestCreatureWithEntry(me, NPC_PLAGUEFIST, 85.0f))
-                                        DoScriptText(SAY_PLAGUEFIST, Plaguefist, pPlayer);
+                                        DoScriptText(SAY_PLAGUEFIST, Plaguefist, player);
                                     break;
                                 case 9:
-                                    DoScriptText(SAY_EXEC_TIME_12, me, pPlayer);
+                                    DoScriptText(SAY_EXEC_TIME_12, me, player);
                                     me->SetStandState(UNIT_STAND_STATE_KNEEL);
                                     me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
                                     break;
-                                case 10: DoScriptText(SAY_EXEC_WAITING, me, pPlayer); break;
+                                case 10: DoScriptText(SAY_EXEC_WAITING, me, player); break;
                                 case 11:
                                     DoScriptText(EMOTE_DIES, me);
                                     me->setDeathState(JUST_DIED);
@@ -1009,24 +1009,24 @@ public:
 						case RACE_GOBLIN:
                             switch(ExecuteSpeech_Counter)
                             {
-                                case 0: DoScriptText(SAY_EXEC_START_4, me, pPlayer); break;                               // SQL Part Implemented in Cataclysm
+                                case 0: DoScriptText(SAY_EXEC_START_4, me, player); break;                               // SQL Part Implemented in Cataclysm
                                 case 1: me->SetStandState(UNIT_STAND_STATE_STAND); break;
-                                case 2: DoScriptText(SAY_EXEC_PROG_8, me, pPlayer); break;                                // SQL Part Implemented in Cataclysm
-                                case 3: DoScriptText(SAY_EXEC_NAME_1, me, pPlayer); break;                                // SQL Part Implemented in Cataclysm
-                                case 4: DoScriptText(SAY_EXEC_RECOG_1, me, pPlayer); break;
-                                case 5: DoScriptText(SAY_EXEC_NOREM_11, me, pPlayer); break;                           // SQL Part Implemented in Cataclysm
-                                case 6: DoScriptText(SAY_EXEC_THINK_11, me, pPlayer); break;                             // SQL Part Implemented in Cataclysm
-                                case 7: DoScriptText(SAY_EXEC_LISTEN_5, me, pPlayer); break;                              // SQL Part Implemented in Cataclysm
+                                case 2: DoScriptText(SAY_EXEC_PROG_8, me, player); break;                                // SQL Part Implemented in Cataclysm
+                                case 3: DoScriptText(SAY_EXEC_NAME_1, me, player); break;                                // SQL Part Implemented in Cataclysm
+                                case 4: DoScriptText(SAY_EXEC_RECOG_1, me, player); break;
+                                case 5: DoScriptText(SAY_EXEC_NOREM_11, me, player); break;                           // SQL Part Implemented in Cataclysm
+                                case 6: DoScriptText(SAY_EXEC_THINK_11, me, player); break;                             // SQL Part Implemented in Cataclysm
+                                case 7: DoScriptText(SAY_EXEC_LISTEN_5, me, player); break;                              // SQL Part Implemented in Cataclysm
                                 case 8:
                                     if (Creature* Plaguefist = GetClosestCreatureWithEntry(me, NPC_PLAGUEFIST, 85.0f))
-                                        DoScriptText(SAY_PLAGUEFIST, Plaguefist, pPlayer);
+                                        DoScriptText(SAY_PLAGUEFIST, Plaguefist, player);
                                     break;
                                 case 9:
-                                    DoScriptText(SAY_EXEC_TIME_11, me, pPlayer);
+                                    DoScriptText(SAY_EXEC_TIME_11, me, player);
                                     me->SetStandState(UNIT_STAND_STATE_KNEEL);
                                     me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
                                     break;
-                                case 10: DoScriptText(SAY_EXEC_WAITING, me, pPlayer); break;
+                                case 10: DoScriptText(SAY_EXEC_WAITING, me, player); break;
                                 case 11:
                                     DoScriptText(EMOTE_DIES, me);
                                     me->setDeathState(JUST_DIED);
