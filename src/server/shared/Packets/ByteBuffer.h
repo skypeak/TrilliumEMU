@@ -663,4 +663,3 @@ inline void ByteBuffer::read_skip<std::string>()
     read_skip<char*>();
 }
 #endif
-
