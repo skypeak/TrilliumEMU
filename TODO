@@ -1,0 +1,20 @@
+-----------------------
+Current ArkCORE Issues - Not a complete list
+-----------------------
+
+- Vendors [not complete]
+- Transport system [not complete]
+- Spells DBC [almost complete]
+- Random client crashs related to ByteBufferException DATATYPES [unidentified]
+- Grab 4.2.0a Opcodes [almost complete]
+- Guild system [not complete]
+- Reforge system [almost complete]
+- Auction House [almost complete]
+- Party system [not complete]
+- Battlegrounds/arenas [not complete]
+- Pet system [almost complete]
+- Exp 3 / based on creature class level stats calculation [almost complete]
+- Conclude reforge system [almost complete]
+- item2 [almost complete]
+- Unable to loot game object. [unidentified]
+- Taxi system [unidentified]
