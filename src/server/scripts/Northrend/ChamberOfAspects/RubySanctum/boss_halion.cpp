@@ -1474,7 +1474,7 @@ class spell_halion_combustion_consumption_summon : public SpellScriptLoader
 
             void Register()
             {
-                OnEffect += SpellEffectFn(spell_halion_combustion_consumption_summon_SpellScript::HandleSummon, EFFECT_0, SPELL_EFFECT_SUMMON);
+                OnEffectHitTarget += SpellEffectFn(spell_halion_combustion_consumption_summon_SpellScript::HandleSummon, EFFECT_0, SPELL_EFFECT_SUMMON);
             }
         };
 
