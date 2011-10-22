@@ -1490,6 +1490,10 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
 
                 m_caster->SetPower(POWER_RAGE, uint32(newRage));
 
+				// Glyph of Execution bonus
+				if (AuraEffect * aurEff = m_caster->GetAuraEffect(58367, EFFECT_0))
+					rageUsed += aurEff->GetAmount() * 10;
+				
                 bp = damage + int32(rageUsed * m_spellInfo->Effects[effIndex].DamageMultiplier + m_caster->GetTotalAttackPowerValue(BASE_ATTACK) * 0.2f);
                 break;
             }
