@@ -19,6 +19,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "gamePCH.h" 
 #include "Common.h"
 #include "DatabaseEnv.h"
 #include "WorldPacket.h"
@@ -844,14 +845,94 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                 }
                 break;
             }
-            case SPELLFAMILY_MAGE:
-            {
-                // Deep Freeze should deal damage to permanently stun-immune targets.
-                if (m_spellInfo->Id == 71757)
-                    if (unitTarget->GetTypeId() != TYPEID_UNIT || !(unitTarget->IsImmunedToSpellEffect(sSpellMgr->GetSpellInfo(44572), 0)))
-                        return;
-                break;
+        case SPELLFAMILY_MAGE:
+        {
+		    // Deep Freeze should deal damage to permanently stun-immune targets.
+            if (m_spellInfo->Id == 71757)
+			{	
+				if (unitTarget->GetTypeId() != TYPEID_UNIT || !(unitTarget->IsImmunedToSpellEffect(sSpellMgr->GetSpellInfo(44572), 0)))
+                return;	
             }
+            // Cone of Cold
+            if (m_spellInfo->SpellFamilyFlags[0] & SPELLFAMILYFLAG1_MAGE_CONEOFCOLD)
+            {
+                if (m_caster->HasAura(11190)) // Improved Cone of Cold Rank 1
+                {
+					int32 bp = 0; // formula here
+                    m_caster->CastCustomSpell(unitTarget, 83301, &bp, NULL, NULL, true, 0);
+                }
+                if (m_caster->HasAura(12489)) // Improved Cone of Cold Rank 2
+                {
+					int32 bp = 0; //formula here
+                    m_caster->CastCustomSpell(unitTarget, 83302, &bp, NULL, NULL, true, 0);
+                }
+            }
+            switch (m_spellInfo->Id)
+            {
+                case 1459: // Arcane Brilliance
+                {
+                    if (m_caster->GetTypeId() == TYPEID_PLAYER)
+                    {
+                        std::list<Unit*> PartyMembers;
+                        m_caster->GetPartyMembers(PartyMembers);
+                        bool Continue = false;
+                        uint32 player = 0;
+                        for (std::list<Unit*>::iterator itr = PartyMembers.begin(); itr != PartyMembers.end(); ++itr) // If caster is in party with a player
+                        {
+                            ++player;
+                            if (Continue == false && player > 1)
+                                Continue = true;
+                        }
+                        if (Continue == true)
+                            m_caster->CastSpell(unitTarget, 79058, true); // Arcane Brilliance (For all)
+                        else
+                            m_caster->CastSpell(unitTarget, 79057, true); // Arcane Brilliance (Only for caster)
+                    }
+                    break;
+                }
+                case 42955: // Conjure Refreshment
+                {
+                    if (m_caster->getLevel() > 33 && m_caster->getLevel() < 44)
+                        m_caster->CastSpell(m_caster, 92739, true);
+                    if (m_caster->getLevel() > 43 && m_caster->getLevel() < 54)
+                        m_caster->CastSpell(m_caster, 92799, true);
+                    if (m_caster->getLevel() > 53 && m_caster->getLevel() < 65)
+                        m_caster->CastSpell(m_caster, 92802, true);
+                    if (m_caster->getLevel() > 64 && m_caster->getLevel() < 74)
+                        m_caster->CastSpell(m_caster, 92805, true);
+                    if (m_caster->getLevel() > 73 && m_caster->getLevel() < 80)
+                        m_caster->CastSpell(m_caster, 74625, true);
+                    if (m_caster->getLevel() > 79 && m_caster->getLevel() < 85)
+                        m_caster->CastSpell(m_caster, 92822, true);
+                    if (m_caster->getLevel() == 85)
+                        m_caster->CastSpell(m_caster, 92727, true);
+                    break;
+                }
+                case 82731: // Flame Orb
+                {
+                    if (m_caster->GetTypeId() == TYPEID_PLAYER)
+                        m_caster->CastSpell(m_caster, 84765, true); // Summon Flame Orb
+                    break;
+                }
+                case 43987: // Ritual of Refreshment
+                {
+                    if (m_caster->GetTypeId() == TYPEID_PLAYER)
+                    {
+                        m_caster->ToPlayer()->RemoveSpellCooldown(74650, true); // Rank 1
+                        m_caster->ToPlayer()->RemoveSpellCooldown(92824, true); // Rank 2
+                        m_caster->ToPlayer()->RemoveSpellCooldown(92827, true); // Rank 3
+                        if (m_caster->getLevel() > 75 && m_caster->getLevel() < 80)
+                            m_caster->CastSpell(m_caster, 74650, true);
+                        if (m_caster->getLevel() > 80 && m_caster->getLevel() < 85)
+                            m_caster->CastSpell(m_caster, 92824, true);
+                        if (m_caster->getLevel() == 85)
+                            m_caster->CastSpell(m_caster, 92827, true);
+                    }
+                    break;
+                }
+            }
+            break;
+		  }
         }
 
         if (m_originalCaster && damage > 0 && apply_direct_bonus)
@@ -881,7 +962,8 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
         {
             switch (m_spellInfo->Id)
             {
-                case 31225:                                 // Shimmering Vessel (restore creature to life)
+                case 8593:                                  // Symbol of life (restore creature to life)
+				case 31225:                                 // Shimmering Vessel (restore creature to life)
                 {
                     if (!unitTarget || unitTarget->GetTypeId() != TYPEID_UNIT)
                         return;
@@ -919,7 +1001,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                     m_caster->CastCustomSpell(unitTarget, 12721, &damage, NULL, NULL, true);
                     return;
                 }
-                case 13567:                                 // Dummy Trigger
+                case 13567: 						// Dummy Trigger
                 {
                     // can be used for different aura triggering, so select by aura
                     if (!m_triggeredByAuraSpell || !unitTarget)
@@ -927,7 +1009,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
 
                     switch (m_triggeredByAuraSpell->Id)
                     {
-                        case 26467:                         // Persistent Shield
+                        case 26467: 				// Persistent Shield
                             m_caster->CastCustomSpell(unitTarget, 26470, &damage, NULL, NULL, true);
                             break;
                         default:
@@ -936,7 +1018,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                     }
                     return;
                 }
-                case 17251:                                 // Spirit Healer Res
+                case 17251: 						// Spirit Healer Res
                 {
                     if (!unitTarget || !m_originalCaster)
                         return;
@@ -949,7 +1031,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                     }
                     return;
                 }
-                case 23019:                                 // Crystal Prison Dummy DND
+                case 23019: 						// Crystal Prison Dummy DND
                 {
                     if (!unitTarget || !unitTarget->isAlive() || unitTarget->GetTypeId() != TYPEID_UNIT || unitTarget->ToCreature()->isPet())
                         return;
@@ -960,10 +1042,9 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                     sLog->outDebug(LOG_FILTER_SPELLS_AURAS, "SummonGameObject at SpellEfects.cpp EffectDummy for Spell 23019");
 
                     creatureTarget->DespawnOrUnsummon();
-
                     return;
                 }
-                case 23448:                                 // Transporter Arrival - Ultrasafe Transporter: Gadgetzan - backfires
+                case 23448:  							// Transporter Arrival - Ultrasafe Transporter: Gadgetzan - backfires
                 {
                     int32 r = irand(0, 119);
                     if (r < 20)                           // Transporter Malfunction - 1/6 polymorph
@@ -974,8 +1055,8 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                         m_caster->CastSpell(m_caster, 36902, true);
                     return;
                 }
-                case 23453:                                 // Gnomish Transporter - Ultrasafe Transporter: Gadgetzan
-                    if (roll_chance_i(50))                // Gadgetzan Transporter         - success
+                case 23453:                               	 // Gnomish Transporter - Ultrasafe Transporter: Gadgetzan
+                    if (roll_chance_i(50))               	 // Gadgetzan Transporter         - success
                         m_caster->CastSpell(m_caster, 23441, true);
                     else                                    // Gadgetzan Transporter Failure - failure
                         m_caster->CastSpell(m_caster, 23446, true);
