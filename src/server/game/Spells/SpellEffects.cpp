@@ -1511,6 +1511,14 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                     m_caster->CastCustomSpell(unitTarget, 23885, &damage, NULL, NULL, true, NULL);
                     return;
                 }
+                // Intercept
+                case 20252:
+                {
+                    //Juggernaut CD part
+                    if (m_caster->HasAura(64976))
+                        m_caster->ToPlayer()->AddSpellCooldown(100, 0, time(NULL) + 13); //15 - 2 from Juggernaut
+                    return;
+                }				
                 // Rallying Cry
                 case 97463:
                 {
