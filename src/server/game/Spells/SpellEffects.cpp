@@ -2693,6 +2693,40 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
             unitTarget->RemoveAura(48920);
 
         m_damage -= addhealth;
+		
+        // Word of Glory
+        if (m_spellInfo->Id == 85673)
+        {
+            int32 dmg;
+            switch (m_caster->GetPower(POWER_HOLY_POWER))
+            {
+                case 0: // 1 hp
+                    dmg = int32(addhealth + 1*(m_caster->SpellBaseHealingBonus(SPELL_SCHOOL_MASK_HOLY) * 0.85));
+                    addhealth = dmg;
+                    break;
+                case 1: // 2 hp
+                    dmg = int32(addhealth + 2*(m_caster->SpellBaseHealingBonus(SPELL_SCHOOL_MASK_HOLY) * 0.85));
+                    addhealth = dmg;
+                    break;
+                case 2: // 3hp
+                    dmg = int32(addhealth + 3*(m_caster->SpellBaseHealingBonus(SPELL_SCHOOL_MASK_HOLY) * 0.85));
+                    addhealth = dmg;
+                    break;
+            }
+
+            if (m_caster->ToPlayer()->HasAuraType(SPELL_AURA_MASTERY))
+            {
+                if (m_caster->ToPlayer()->getClass() == CLASS_PALADIN)
+                {
+                    if (m_caster->ToPlayer()->TalentBranchSpec(m_caster->ToPlayer()->GetActiveSpec()) == PALADIN_HOLY)
+                    {
+                        int32 bp0 = int32(m_caster->ToPlayer()->GetHealingDoneInPastSecs(15) * (12.0f + (1.5f * m_caster->ToPlayer()->GetMasteryPoints())) /100);
+                        m_caster->CastCustomSpell(m_caster, 86273, &bp0, NULL, NULL, true);
+                        caster->ToPlayer()->ResetHealingDoneInPastSecs(15);
+                    }
+                }
+            }
+        }		
     }
 }
 
