@@ -400,6 +400,8 @@ class WorldSession
         bool IsARecruiter() { return isRecruiter; }
 
         uint64 GetRealGUID(uint8 packetGuid, uint8 byte, std::string ErrorMessage);
+		uint64 GetRealGOGUID() { return realgoguid; }
+        uint64 GetRealGOEntry() { return realgoentry; }
     public:                                                 // opcodes handlers
 
         void Handle_NULL(WorldPacket& recvPacket);          // not used
@@ -962,6 +964,8 @@ class WorldSession
         AddonsList m_addonsList;
         uint32 recruiterId;
         bool isRecruiter;
+        uint64 realgoguid;
+        uint32 realgoentry;
         ACE_Based::LockedQueue<WorldPacket*, ACE_Thread_Mutex> _recvQueue;
 };
 #endif
