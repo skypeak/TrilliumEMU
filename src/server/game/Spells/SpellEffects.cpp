@@ -669,7 +669,28 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                     int32 energy = -(m_caster->ModifyPower(POWER_ENERGY, -30));
                     damage += int32(energy * multiple);
                     damage += int32(CalculatePctN(m_caster->ToPlayer()->GetComboPoints() * ap, 7));
+
                 }
+                // Starfire
+                else if (m_spellInfo->SpellFamilyFlags[0] & 0x00000004)
+                {
+                    if (m_caster->GetTypeId() == TYPEID_PLAYER)
+                    {
+                        if (m_caster->ToPlayer()->TalentBranchSpec(m_caster->ToPlayer()->GetActiveSpec()) == DRUID_BALANCE)
+                        {
+                            if (m_caster->HasAura(48517))
+                            {
+                                m_caster->RemoveAurasDueToSpell(48517);
+                                m_caster->SetEclipsePower(0);
+                            }
+                            if (m_caster->GetEclipsePower() >= -20)
+                                if (m_caster->HasAura(48518))
+                                        m_caster->RemoveAurasDueToSpell(48518);
+
+                            m_caster->SetEclipsePower(int32(m_caster->GetEclipsePower() + 20));
+                        }
+                    }
+                }				
                 // Wrath
                 else if (m_spellInfo->SpellFamilyFlags[0] & 0x00000001)
                 {
