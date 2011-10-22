@@ -62,8 +62,8 @@ Position const SavianaRagefireLandPos = {3151.07f, 636.443f, 79.54f, 4.69f};
 
 class boss_saviana_ragefire : public CreatureScript
 {
-    public:
-        boss_saviana_ragefire() : CreatureScript("boss_saviana_ragefire") { }
+public:
+    boss_saviana_ragefire() : CreatureScript("boss_saviana_ragefire") { }
 
         struct boss_saviana_ragefireAI : public BossAI
         {
@@ -71,8 +71,8 @@ class boss_saviana_ragefire : public CreatureScript
             {
             }
 
-            void Reset()
-            {
+        void Reset()
+        {
                 _Reset();
                 me->SetReactState(REACT_AGGRESSIVE);
             }
@@ -96,7 +96,7 @@ class boss_saviana_ragefire : public CreatureScript
             void MovementInform(uint32 type, uint32 point)
             {
                 if (type != POINT_MOTION_TYPE)
-                    return;
+                return;
 
                 switch (point)
                 {
@@ -109,16 +109,16 @@ class boss_saviana_ragefire : public CreatureScript
                         me->RemoveUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
                         me->SetReactState(REACT_AGGRESSIVE);
                         if (me->GetMotionMaster()->GetCurrentMovementGeneratorType() == POINT_MOTION_TYPE)
-                            me->GetMotionMaster()->MovementExpired();
+                    me->GetMotionMaster()->MovementExpired();
                         DoStartMovement(me->getVictim());
-                        break;
+                       break;
                     default:
-                        break;
+                       break;
                 }
-            }
+        }
 
-            void JustReachedHome()
-            {
+        void JustReachedHome()
+        {
                 _JustReachedHome();
                 me->SetFlying(false);
                 me->RemoveUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
@@ -131,9 +131,9 @@ class boss_saviana_ragefire : public CreatureScript
             }
 
             void UpdateAI(uint32 const diff)
-            {
-                if (!UpdateVictim())
-                    return;
+        {
+            if (!UpdateVictim())
+                return;
 
                 events.Update(diff);
 
@@ -152,28 +152,28 @@ class boss_saviana_ragefire : public CreatureScript
                             me->GetMotionMaster()->MovePoint(POINT_FLIGHT, SavianaRagefireFlyPos);
                             events.ScheduleEvent(EVENT_FLIGHT, 50000);
                             events.DelayEvents(12500, EVENT_GROUP_LAND_PHASE);
-                            break;
+                     break;
                         }
                         case EVENT_CONFLAGRATION:
                             DoCast(me, SPELL_CONFLAGRATION, true);
-                            break;
+                     break;
                         case EVENT_ENRAGE:
                             DoCast(me, SPELL_ENRAGE);
                             Talk(EMOTE_ENRAGED);
                             events.ScheduleEvent(EVENT_ENRAGE, urand(15000, 20000), EVENT_GROUP_LAND_PHASE);
-                            break;
+                     break;
                         case EVENT_FLAME_BREATH:
                             DoCastVictim(SPELL_FLAME_BREATH);
                             events.ScheduleEvent(EVENT_FLAME_BREATH, urand(20000, 30000), EVENT_GROUP_LAND_PHASE);
-                            break;
-                        default:
-                            break;
+                     break;
+                default:
+                    break;
                     }
-                }
-
-                DoMeleeAttackIfReady();
             }
-        };
+
+            DoMeleeAttackIfReady();
+        }
+    };
 
         CreatureAI* GetAI(Creature* creature) const
         {
@@ -192,6 +192,7 @@ class ConflagrationTargetSelector
         }
 };
 
+// 74452
 class spell_saviana_conflagration_init : public SpellScriptLoader
 {
     public:
@@ -203,10 +204,10 @@ class spell_saviana_conflagration_init : public SpellScriptLoader
 
             void FilterTargets(std::list<Unit*>& unitList)
             {
-                unitList.remove_if (ConflagrationTargetSelector());
+                unitList.remove_if(ConflagrationTargetSelector());
                 uint8 maxSize = uint8(GetCaster()->GetMap()->GetSpawnMode() & 1 ? 6 : 3);
                 if (unitList.size() > maxSize)
-                    Arkcore::RandomResizeList(unitList, maxSize);
+                    Trinity::RandomResizeList(unitList, maxSize);
             }
 
             void HandleDummy(SpellEffIndex effIndex)
@@ -219,7 +220,7 @@ class spell_saviana_conflagration_init : public SpellScriptLoader
             void Register()
             {
                 OnUnitTargetSelect += SpellUnitTargetFn(spell_saviana_conflagration_init_SpellScript::FilterTargets, EFFECT_0, TARGET_UNIT_SRC_AREA_ENEMY);
-                OnEffectHitTarget += SpellEffectFn(spell_saviana_conflagration_init_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
+                OnEffect += SpellEffectFn(spell_saviana_conflagration_init_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
             }
         };
 
@@ -229,6 +230,7 @@ class spell_saviana_conflagration_init : public SpellScriptLoader
         }
 };
 
+// 74455
 class spell_saviana_conflagration_throwback : public SpellScriptLoader
 {
     public:
@@ -247,7 +249,7 @@ class spell_saviana_conflagration_throwback : public SpellScriptLoader
 
             void Register()
             {
-                OnEffectHitTarget += SpellEffectFn(spell_saviana_conflagration_throwback_SpellScript::HandleScript, EFFECT_0, SPELL_EFFECT_SCRIPT_EFFECT);
+                OnEffect += SpellEffectFn(spell_saviana_conflagration_throwback_SpellScript::HandleScript, EFFECT_0, SPELL_EFFECT_SCRIPT_EFFECT);
             }
         };
 
