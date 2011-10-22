@@ -2281,6 +2281,20 @@ class Unit : public WorldObject
             }
             return 0;
         };
+        uint32 m_heal_done[120];
+        uint32 m_damage_done[120];
+        uint32 m_damage_taken[120];
+        int32 DmgandHealDoneTimer;
+        uint32 GetHealingDoneInPastSecs(uint32 secs);
+        uint32 GetDamageDoneInPastSecs(uint32 secs);
+        uint32 GetDamageTakenInPastSecs(uint32 secs);
+        void ResetDamageDoneInPastSecs(uint32 secs);
+        void ResetHealingDoneInPastSecs(uint32 secs);
+
+        float m_AbsorbHeal;
+        float GetAbsorbHeal() const { return m_AbsorbHeal; };
+        void SetAbsorbHeal(float heal) { m_AbsorbHeal = heal; };
+		
     protected:
         explicit Unit ();
 
