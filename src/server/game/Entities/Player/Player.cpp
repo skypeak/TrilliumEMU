@@ -6113,15 +6113,15 @@ void Player::SetRegularAttackTime()
 {
     for (uint8 i = 0; i < MAX_ATTACK; ++i)
     {
+		uint32 attackTime = BASE_ATTACK_TIME;
         Item *tmpitem = GetWeaponForAttack(WeaponAttackType(i), true);
         if (tmpitem && !tmpitem->IsBroken())
         {
             ItemTemplate const *proto = tmpitem->GetTemplate();
             if (proto->Delay)
-                SetAttackTime(WeaponAttackType(i), proto->Delay);
+                attackTime = proto->Delay;
         }
-        else
-            SetAttackTime(WeaponAttackType(i), BASE_ATTACK_TIME);  // If there is no weapon reset attack time to base (might have been changed from forms)
+            SetAttackTime(WeaponAttackType(i), attackTime);  // If there is no weapon reset attack time to base (might have been changed from forms)
     }
 }
 
