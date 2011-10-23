@@ -510,19 +510,61 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                 else if (m_spellInfo->SpellFamilyFlags[1] & 0x200 && m_spellInfo->Category == 1209)
                     damage += int32(m_caster->ApplyEffectModifiers(m_spellInfo, effIndex, float(m_caster->GetShieldBlockValue())));
                 // Victory Rush
-                else if (m_spellInfo->SpellFamilyFlags[1] & 0x100)
-                    ApplyPctF(damage, m_caster->GetTotalAttackPowerValue(BASE_ATTACK));
+               else if (m_spellInfo->SpellFamilyFlags[1] & 0x100)
+               {
+                   damage = uint32(damage * m_caster->GetTotalAttackPowerValue(BASE_ATTACK) / 100);
+                   m_caster->RemoveAurasDueToSpell(32216); // Victorious
+               }
+               // Cleave
+               else if (m_spellInfo->Id == 845)
+                   damage = uint32(6+ m_caster->GetTotalAttackPowerValue(BASE_ATTACK)* 0.45);			   
                 // Juggernaut - Intercept Share CD
                 else if (m_caster->HasAura(64976) && m_spellInfo->Id == 20253)
                     m_caster->CastSpell(m_caster, 96215, false);
-                // Shockwave
-                else if (m_spellInfo->Id == 46968)
+               // Intercept
+               else if (m_spellInfo->Id == 20253)
+                   damage = uint32(1 + m_caster->GetTotalAttackPowerValue(BASE_ATTACK) * 0.12);
+                else if (m_spellInfo->Id ==5308) // Execute
+                {
+                    float ap = m_caster->GetTotalAttackPowerValue(BASE_ATTACK);
+                    damage = uint32 (10 + ap * 0.437 * 100 / 100);
+                    uint32 power = m_caster->GetPower(POWER_RAGE);
+                    if(power > 0)
+                    {
+                        uint32 mod = power > 20 ? 20 : power;
+                        uint32 bonus_rage = 0;
+
+                        if(m_caster->HasAura(29723))
+                            bonus_rage = 5;
+                        if(m_caster->HasAura(29725))
+                            bonus_rage = 10;
+
+                        damage += uint32 ((ap * 0.874 * 100 / 100 - 1) * mod / 100.0f);
+                        m_caster->SetPower(POWER_RAGE, (power - mod) + bonus_rage);
+                    }
+                }
+                else if (m_spellInfo->Id == 78) // Heroic Strike
+                    damage = uint32(8 + (m_caster->GetTotalAttackPowerValue(BASE_ATTACK) * 60) / 100);
+                else if (m_spellInfo->Id == 46968) // Shockwave
                 {
                     int32 pct = m_caster->CalculateSpellDamage(unitTarget, m_spellInfo, 2);
                     if (pct > 0)
                         damage += int32(CalculatePctN(m_caster->GetTotalAttackPowerValue(BASE_ATTACK), pct));
                     break;
                 }
+                else if (m_spellInfo->Id == 6343)
+                {
+                    uint32 trig_spell;
+                    if (m_caster->HasAura(80979))
+                        trig_spell = 87095;
+                    else if (m_caster->HasAura(80980))
+                        trig_spell = 87096;
+                    else
+                        break;
+
+                    if(urand(0,1))
+                        m_caster->CastSpell(m_caster, trig_spell, true);
+                }				
                 break;
             }
             case SPELLFAMILY_WARLOCK:
