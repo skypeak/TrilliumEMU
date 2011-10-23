@@ -401,7 +401,7 @@ class WorldSession
 
         uint64 GetRealGUID(uint8 packetGuid, uint8 byte, std::string ErrorMessage);
 		uint64 GetRealGOGUID() { return realgoguid; }
-        uint64 GetRealGOEntry() { return realgoentry; }
+        uint32 GetRealGOEntry() { return realgoentry; }
     public:                                                 // opcodes handlers
 
         void Handle_NULL(WorldPacket& recvPacket);          // not used
