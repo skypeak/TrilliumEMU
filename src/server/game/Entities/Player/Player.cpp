@@ -31,6 +31,7 @@
 #include "WorldPacket.h"
 #include "WorldSession.h"
 #include "UpdateMask.h"
+#include "ClassPlayer.h"
 #include "Player.h"
 #include "Vehicle.h"
 #include "SkillDiscovery.h"
@@ -16764,7 +16765,7 @@ float Player::GetFloatValueFromArray(Tokens const& data, uint16 index)
     return result;
 }
 
-bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder)
+bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder, WorldSession *session)
 {
     ////                                                     0     1        2     3     4        5      6    7      8     9           10              11
     //QueryResult *result = CharacterDatabase.PQuery("SELECT guid, account, name, race, class, gender, level, xp, money, playerBytes, playerBytes2, playerFlags, "
@@ -16789,6 +16790,46 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder)
     Field* fields = result->Fetch();
 
     uint32 dbAccountId = fields[1].GetUInt32();
+	
+	uint8 pClass = fields[4].GetUInt8();
+
+    Player* player = NULL;
+    switch(pClass)
+    {
+        case CLASS_WARRIOR:
+            player = new WarriorPlayer(session);
+            break;
+        case CLASS_PALADIN:
+            player = new PaladinPlayer(session);
+            break;
+        case CLASS_HUNTER:
+            player = new HunterPlayer(session);
+            break;
+        case CLASS_ROGUE:
+            player = new RoguePlayer(session);
+            break;
+        case CLASS_PRIEST:
+            player = new PriestPlayer(session);
+            break;
+        case CLASS_DEATH_KNIGHT:
+            player = new DKPlayer(session);
+            break;
+        case CLASS_SHAMAN:
+            player = new ShamanPlayer(session);
+            break;
+        case CLASS_MAGE:
+            player = new MagePlayer(session);
+            break;
+        case CLASS_WARLOCK:
+            player = new WarlockPlayer(session);
+            break;
+        case CLASS_DRUID:
+            player = new DruidPlayer(session);
+            break;
+        default:
+            printf("\nClass %u doesn't exist.\n", pClass);
+            break;
+    }
 
     // check if the character's account in the db and the logged in account match.
     // player should be able to load/delete character only with correct account!

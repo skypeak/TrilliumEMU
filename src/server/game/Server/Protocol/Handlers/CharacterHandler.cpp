@@ -31,6 +31,7 @@
 #include "DatabaseEnv.h"
 
 #include "ArenaTeam.h"
+#include "ClassPlayer.h"
 #include "Chat.h"
 #include "Group.h"
 #include "Guild.h"
@@ -930,7 +931,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder * holder)
     ChatHandler chH = ChatHandler(pCurrChar);
 
     // "GetAccountId() == db stored account id" checked in LoadFromDB (prevent login not own character using cheating tools)
-    if (!pCurrChar->LoadFromDB(GUID_LOPART(playerGuid), holder))
+    if (!pCurrChar->LoadFromDB(GUID_LOPART(playerGuid), holder, this))
     {
         KickPlayer();                                       // disconnect client, player no set to session and it will not deleted or saved at kick
         delete pCurrChar;                                   // delete it manually
@@ -958,6 +959,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder * holder)
     SendAccountDataTimes(PER_CHARACTER_CACHE_MASK);
 
     data.Initialize(SMSG_FEATURE_SYSTEM_STATUS, 6);         // added in 2.2.0
+	// 4.2.0 data: 00 02 1D 00 00 00
     data << uint8(2);                                       // unknown value
     data << uint8(0);                                       // enable(1)/disable(0) voice chat interface in client
     data << uint32(0);                                      // unk 4.2.0
