@@ -213,8 +213,8 @@ void WorldSession::HandleGameObjectQueryOpcode(WorldPacket & recv_data)
         data.append(info->raw.data, MAX_GAMEOBJECT_DATA);
         data << float(info->size);                          // go size
         for (uint32 i = 0; i < MAX_GAMEOBJECT_QUEST_ITEMS; ++i)
-            data << uint32(info->questItems[i]);            // itemId[6], quest drop
-        data << uint32(info->unk2);                         // Found in 420, date from gameobjectcache.wdb
+        data << uint32(info->questItems[i]);           		 // itemId[6], quest drop
+        data << uint32(info->unk2);                          // Found in 420, date from gameobjectcache.wdb
         SendPacket(&data);
         sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Sent SMSG_GAMEOBJECT_QUERY_RESPONSE");
     }
