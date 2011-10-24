@@ -1,6 +1,15 @@
--- ----------------------------
--- Records of creature_onkill_currency
--- ----------------------------
+-- Create a Deleted Table :)
+
+DROP TABLE IF EXISTS `creature_onkill_currency`;
+CREATE TABLE `creature_onkill_currency` (
+  `creature_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Creature Identifier',
+  `type` mediumint(8) NOT NULL DEFAULT '0',
+  `amount` mediumint(8) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`creature_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Creature OnKill Currency gain';
+
+-- Implemented the Boss Currency Loots from Valor Points and Justice Points
+INSERT INTO `creature_onkill_currency` VALUES ('0', '0', '0');
 INSERT INTO `creature_onkill_currency` VALUES ('37226', '395', '16');
 INSERT INTO `creature_onkill_currency` VALUES ('23576', '395', '70');
 INSERT INTO `creature_onkill_currency` VALUES ('24239', '395', '70');
@@ -111,3 +120,36 @@ INSERT INTO `creature_onkill_currency` VALUES ('23953', '395', '16');
 INSERT INTO `creature_onkill_currency` VALUES ('23954', '395', '16');
 INSERT INTO `creature_onkill_currency` VALUES ('24200', '395', '16');
 INSERT INTO `creature_onkill_currency` VALUES ('24201', '395', '16');
+INSERT INTO `creature_onkill_currency` VALUES ('41270', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('41376', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('41378', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('41442', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('41570', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('42166', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('42178', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('42179', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('42180', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('43296', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('43324', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('43686', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('43687', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('43688', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('43689', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('43735', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('44600', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('45213', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('45870', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('45871', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('45872', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('45992', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('45993', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('46753', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('47120', '396', '35');
+INSERT INTO `creature_onkill_currency` VALUES ('52363', '396', '120');
+INSERT INTO `creature_onkill_currency` VALUES ('52409', '396', '120');
+INSERT INTO `creature_onkill_currency` VALUES ('52498', '396', '120');
+INSERT INTO `creature_onkill_currency` VALUES ('52530', '396', '120');
+INSERT INTO `creature_onkill_currency` VALUES ('52558', '396', '120');
+INSERT INTO `creature_onkill_currency` VALUES ('52571', '396', '120');
+INSERT INTO `creature_onkill_currency` VALUES ('53494', '396', '120');
+INSERT INTO `creature_onkill_currency` VALUES ('53691', '396', '120');
