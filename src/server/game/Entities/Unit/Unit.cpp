@@ -14565,7 +14565,7 @@ void Unit::ProcDamageAndSpellfor (bool isVictim, Unit* pTarget, uint32 procFlag,
                 }
                 case SPELL_AURA_PROC_TRIGGER_DAMAGE:
                 {
-                    if(!target) //Crash: spell 49065 casted by GO
+                    if(!ptarget) //Crash: spell 49065 casted by GO
                         return;                	
                     sLog->outDebug(LOG_FILTER_SPELLS_AURAS, "ProcDamageAndSpell: doing %u damage from spell id %u (triggered by %s aura of spell %u)", triggeredByAura->GetAmount() , spellInfo->Id, (isVictim?"a victim's":"an attacker's"), triggeredByAura->GetId());
                     SpellNonMeleeDamage damageInfo(this, pTarget, spellInfo->Id, spellInfo->SchoolMask);
