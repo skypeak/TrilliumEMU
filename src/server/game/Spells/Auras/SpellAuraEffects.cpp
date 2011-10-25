@@ -799,7 +799,7 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
 
                 uint32 spellId = 0;
                 uint32 plrskill = plr->GetSkillValue(SKILL_RIDING);
-                uint32 map = plr->GetMapId();
+                uint32 map = GetVirtualMapForMapAndZone(plr->GetMapId(), plr->GetZoneId());
                 uint32 maxSkill = 0;
                 for (int i = 0; i < MAX_MOUNT_TYPE_COLUMN; i++)
                 {
@@ -1932,7 +1932,7 @@ void AuraEffect::HandlePhase(AuraApplication const* aurApp, uint8 mode, bool app
 
     // no-phase is also phase state so same code for apply and remove
     uint32 newPhase = 0;
-    uint32 MapID;
+    uint32 MapID = target->GetMapId();
     Unit::AuraEffectList const& phases = target->GetAuraEffectsByType(SPELL_AURA_PHASE);
     if (!phases.empty())
         for (Unit::AuraEffectList::const_iterator itr = phases.begin(); itr != phases.end(); ++itr)
