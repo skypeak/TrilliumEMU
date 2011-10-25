@@ -485,6 +485,7 @@ m_caster((info->AttributesEx6 & SPELL_ATTR6_CAST_BY_CHARMER && caster->GetCharme
     m_delayAtDamageCount = 0;
 
     m_applyMultiplierMask = 0;
+	m_effectMask = 0;
     m_auraScaleMask = 0;
 
     // Get data for type of attack
@@ -4453,6 +4454,10 @@ void Spell::HandleThreatSpells()
 
 void Spell::HandleEffects(Unit* pUnitTarget, Item* pItemTarget, GameObject* pGOTarget, uint32 i, SpellEffectHandleMode mode)
 {
+    //effect has been handled, skip it
+    if (m_effectMask & (1<<i))
+        return;
+
     effectHandleMode = mode;
     unitTarget = pUnitTarget;
     itemTarget = pItemTarget;

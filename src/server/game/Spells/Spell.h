@@ -658,6 +658,7 @@ class Spell
         SpellInfo const* m_triggeredByAuraSpell;
 
         bool m_skipCheck;
+		uint32 m_effectMask;
         uint8 m_auraScaleMask;
 
         ByteBuffer * m_effectExecuteData[MAX_SPELL_EFFECTS];
