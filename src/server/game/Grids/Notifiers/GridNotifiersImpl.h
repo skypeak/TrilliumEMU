@@ -31,8 +31,7 @@
 #include "SpellAuras.h"
 
 template<class T>
-inline void
-Arkcore::VisibleNotifier::Visit(GridRefManager<T> &m)
+inline void Arkcore::VisibleNotifier::Visit(GridRefManager<T> &m)
 {
     for (typename GridRefManager<T>::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
@@ -41,8 +40,7 @@ Arkcore::VisibleNotifier::Visit(GridRefManager<T> &m)
     }
 }
 
-inline void
-Arkcore::ObjectUpdater::Visit(CreatureMapType &m)
+inline void Arkcore::ObjectUpdater::Visit(CreatureMapType &m)
 {
     for (CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
         if (iter->getSource()->IsInWorld())

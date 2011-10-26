@@ -33,8 +33,7 @@
 
 using namespace Arkcore;
 
-void
-VisibleNotifier::SendToSelf()
+void VisibleNotifier::SendToSelf()
 {
     // at this moment i_clientGUIDs have guids that not iterate at grid level checks
     // but exist one case when this possible and object not out of range: transports
@@ -80,8 +79,7 @@ VisibleNotifier::SendToSelf()
         i_player.SendInitialVisiblePackets(*it);
 }
 
-void
-VisibleChangesNotifier::Visit(PlayerMapType &m)
+void VisibleChangesNotifier::Visit(PlayerMapType &m)
 {
     for (PlayerMapType::iterator iter=m.begin(); iter != m.end(); ++iter)
     {
@@ -98,8 +96,7 @@ VisibleChangesNotifier::Visit(PlayerMapType &m)
     }
 }
 
-void
-VisibleChangesNotifier::Visit(CreatureMapType &m)
+void VisibleChangesNotifier::Visit(CreatureMapType &m)
 {
     for (CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
         if (!iter->getSource()->GetSharedVisionList().empty())
@@ -109,8 +106,7 @@ VisibleChangesNotifier::Visit(CreatureMapType &m)
                     (*i)->UpdateVisibilityOf(&i_object);
 }
 
-void
-VisibleChangesNotifier::Visit(DynamicObjectMapType &m)
+void VisibleChangesNotifier::Visit(DynamicObjectMapType &m)
 {
     for (DynamicObjectMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
         if (IS_PLAYER_GUID(iter->getSource()->GetCasterGUID()))
@@ -131,7 +127,7 @@ inline void CreatureUnitRelocationWorker(Creature* c, Unit* u)
 
 void PlayerRelocationNotifier::Visit(PlayerMapType &m)
 {
-    for (PlayerMapType::iterator iter=m.begin(); iter != m.end(); ++iter)
+    for (PlayerMapType::iterator iter= m.begin(); iter != m.end(); ++iter)
     {
         Player* plr = iter->getSource();
 
@@ -248,8 +244,7 @@ void AIRelocationNotifier::Visit(CreatureMapType &m)
     }
 }
 
-void
-MessageDistDeliverer::Visit(PlayerMapType &m)
+void MessageDistDeliverer::Visit(PlayerMapType &m)
 {
     for (PlayerMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
@@ -318,8 +313,7 @@ void MessageDistDeliverer::Visit(DynamicObjectMapType &m)
 }
 
 /*
-void
-MessageDistDeliverer::VisitObject(Player* plr)
+void MessageDistDeliverer::VisitObject(Player* plr)
 {
     if (!i_ownTeamOnly || (i_source.GetTypeId() == TYPEID_PLAYER && plr->GetTeam() == ((Player&)i_source).GetTeam()))
     {
@@ -328,8 +322,8 @@ MessageDistDeliverer::VisitObject(Player* plr)
 }
 */
 
-template<class T> void
-ObjectUpdater::Visit(GridRefManager<T> &m)
+template<class T> 
+void ObjectUpdater::Visit(GridRefManager<T> &m)
 {
     for (typename GridRefManager<T>::iterator iter = m.begin(); iter != m.end(); ++iter)
     {

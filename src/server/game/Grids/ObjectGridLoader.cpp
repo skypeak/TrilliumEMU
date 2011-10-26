@@ -152,8 +152,7 @@ void LoadHelper(CellCorpseSet const& cell_corpses, CellPair &cell, CorpseMapType
     }
 }
 
-void
-ObjectGridLoader::Visit(GameObjectMapType &m)
+void ObjectGridLoader::Visit(GameObjectMapType &m)
 {
     uint32 x = (i_cell.GridX()*MAX_NUMBER_OF_CELLS) + i_cell.CellX();
     uint32 y = (i_cell.GridY()*MAX_NUMBER_OF_CELLS) + i_cell.CellY();
@@ -165,8 +164,7 @@ ObjectGridLoader::Visit(GameObjectMapType &m)
     LoadHelper(cell_guids.gameobjects, cell_pair, m, i_gameObjects, i_map);
 }
 
-void
-ObjectGridLoader::Visit(CreatureMapType &m)
+void ObjectGridLoader::Visit(CreatureMapType &m)
 {
     uint32 x = (i_cell.GridX()*MAX_NUMBER_OF_CELLS) + i_cell.CellX();
     uint32 y = (i_cell.GridY()*MAX_NUMBER_OF_CELLS) + i_cell.CellY();
@@ -178,8 +176,7 @@ ObjectGridLoader::Visit(CreatureMapType &m)
     LoadHelper(cell_guids.creatures, cell_pair, m, i_creatures, i_map);
 }
 
-void
-ObjectWorldLoader::Visit(CorpseMapType &m)
+void ObjectWorldLoader::Visit(CorpseMapType &m)
 {
     uint32 x = (i_cell.GridX()*MAX_NUMBER_OF_CELLS) + i_cell.CellX();
     uint32 y = (i_cell.GridY()*MAX_NUMBER_OF_CELLS) + i_cell.CellY();
@@ -191,8 +188,7 @@ ObjectWorldLoader::Visit(CorpseMapType &m)
     LoadHelper(cell_guids.corpses, cell_pair, m, i_corpses, i_map);
 }
 
-void
-ObjectGridLoader::Load(GridType &grid)
+void ObjectGridLoader::Load(GridType &grid)
 {
     {
         TypeContainerVisitor<ObjectGridLoader, GridTypeMapContainer > loader(*this);
@@ -236,16 +232,14 @@ void ObjectGridUnloader::MoveToRespawnN()
     }
 }
 
-void
-ObjectGridUnloader::Unload(GridType &grid)
+void ObjectGridUnloader::Unload(GridType &grid)
 {
     TypeContainerVisitor<ObjectGridUnloader, GridTypeMapContainer > unloader(*this);
     grid.Visit(unloader);
 }
 
 template<class T>
-void
-ObjectGridUnloader::Visit(GridRefManager<T> &m)
+void ObjectGridUnloader::Visit(GridRefManager<T> &m)
 {
     while (!m.isEmpty())
     {
@@ -258,15 +252,13 @@ ObjectGridUnloader::Visit(GridRefManager<T> &m)
     }
 }
 
-void
-ObjectGridStoper::Stop(GridType &grid)
+void ObjectGridStoper::Stop(GridType &grid)
 {
     TypeContainerVisitor<ObjectGridStoper, GridTypeMapContainer > stoper(*this);
     grid.Visit(stoper);
 }
 
-void
-ObjectGridStoper::Visit(CreatureMapType &m)
+void ObjectGridStoper::Visit(CreatureMapType &m)
 {
     // stop any fights at grid de-activation and remove dynobjects created at cast by creatures
     for (CreatureMapType::iterator iter=m.begin(); iter != m.end(); ++iter)
@@ -281,23 +273,20 @@ ObjectGridStoper::Visit(CreatureMapType &m)
     }
 }
 
-void
-ObjectGridCleaner::Stop(GridType &grid)
+void ObjectGridCleaner::Stop(GridType &grid)
 {
     TypeContainerVisitor<ObjectGridCleaner, GridTypeMapContainer > stoper(*this);
     grid.Visit(stoper);
 }
 
-void
-ObjectGridCleaner::Visit(CreatureMapType &m)
+void ObjectGridCleaner::Visit(CreatureMapType &m)
 {
     for (CreatureMapType::iterator iter=m.begin(); iter != m.end(); ++iter)
         iter->getSource()->CleanupsBeforeDelete();
 }
 
 template<class T>
-void
-ObjectGridCleaner::Visit(GridRefManager<T> &m)
+void ObjectGridCleaner::Visit(GridRefManager<T> &m)
 {
     for (typename GridRefManager<T>::iterator iter = m.begin(); iter != m.end(); ++iter)
         iter->getSource()->RemoveFromWorld();
