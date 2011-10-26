@@ -466,8 +466,10 @@ enum SMART_ACTION
     SMART_ACTION_ADD_DYNAMIC_FLAG                   = 95,     // Flags
     SMART_ACTION_REMOVE_DYNAMIC_FLAG                = 96,     // Flags
     SMART_ACTION_JUMP_TO_POS                        = 97,     // speedXY, speedZ, targetX, targetY, targetZ
-
-    SMART_ACTION_END                                = 98,
+    SMART_ACTION_LEAVE_VEHICLE                      = 98,
+    SMART_ACTION_REMOVE_PASSENGERS                  = 99,
+    SMART_ACTION_END                                = 100,
+	
 };
 
 struct SmartAction
