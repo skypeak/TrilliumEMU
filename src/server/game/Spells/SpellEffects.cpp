@@ -1524,6 +1524,30 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                     unitTarget->Kill(unitTarget);
                     return;
                 }
+                case 69228:                                 // Throw Torch
+                {
+                    uint32 KillCredit = 0;
+                    switch (unitTarget->GetEntry())
+                    {
+                        case 36727: KillCredit = unitTarget->GetEntry(); break;
+                        case 37155: KillCredit = unitTarget->GetEntry(); break;
+                        case 37156: KillCredit = unitTarget->GetEntry(); break;
+                        default: break;
+                    }
+                    unitTarget->CastSpell(unitTarget, 42345, true);
+                    unitTarget->CastSpell(unitTarget, 42726, true);
+                    m_caster->ToPlayer()->KilledMonsterCredit(KillCredit, NULL);
+                }
+                case 79751:                                 // Destroy Mechano-Tank
+                {
+                    if (m_caster->GetTypeId() != TYPEID_PLAYER)
+                        return;
+                    if (unitTarget->GetEntry() != 42224)
+                        return;
+
+                    m_caster->Kill(unitTarget, false);
+                    m_caster->ToPlayer()->KilledMonsterCredit(unitTarget->GetEntry(), unitTarget->GetGUID());
+                }
                 case 93072:                                 // Get Our Boys Back
                 {
                     if (Creature* Injured = m_caster->FindNearestCreature(50047, 3.0f, true))
@@ -1588,7 +1612,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                 if (m_caster->HasAura(64976))
                 {
                     m_caster->CastSpell(m_caster, 65156, true);
-                    m_caster->CastSpell(m_caster, 96216, false);
+                    m_caster->ToPlayer()->AddSpellCooldown(20252, 0, time(NULL) + 30);
                 }
                 return;
             }
