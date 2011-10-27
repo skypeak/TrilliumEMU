@@ -813,7 +813,26 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
 
         if (victim->GetTypeId() == TYPEID_PLAYER)
             victim->ToPlayer()->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_TOTAL_DAMAGE_RECEIVED, damage);
+			
+		// Maelstrom Weapon
+        if (GetTypeId() == TYPEID_PLAYER)
+        {
+            if (damagetype == DIRECT_DAMAGE )
+            {
+                if (this->ToPlayer()->HasAura(51528))
+                    if (roll_chance_f(10.0f))
+                        this->CastSpell(this, 53817, true);
 
+                if (this->ToPlayer()->HasAura(51529))
+                    if (roll_chance_f(20.0f))
+                        this->CastSpell(this, 53817, true);
+
+                if (this->ToPlayer()->HasAura(51530))
+                    if (roll_chance_f(30.0f))
+                        this->CastSpell(this, 53817, true);
+            }
+        }			
+			
         victim->ModifyHealth(- (int32)damage);
 
         if (damagetype == DIRECT_DAMAGE || damagetype == SPELL_DIRECT_DAMAGE)
