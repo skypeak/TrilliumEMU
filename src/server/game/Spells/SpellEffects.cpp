@@ -458,6 +458,13 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                         damage = (distance > radius) ? 0 : int32(m_spellInfo->Effects[EFFECT_0].CalcValue(m_caster) * distance);
                         break;
                     }
+                    // Rocket Barrage, Goblin racial spell
+                    case 69041:
+                    {
+                        damage = uint32(1 + (0.25f * m_caster->GetTotalAttackPowerValue(BASE_ATTACK)) +
+                            (0.429f * m_caster->SpellBaseDamageBonus(SPELL_SCHOOL_MASK_FIRE)) +
+                            (m_caster->getLevel() * 2) + (m_caster->GetStat(STAT_INTELLECT) * 0.50193f));
+                    }					
                     // TODO: add spell specific target requirement hook for spells
                     // Shadowbolts only affects targets with Shadow Mark (Gothik)
                     case 27831:
@@ -471,7 +478,6 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                         damage = unitTarget->CountPctFromMaxHealth(50);
                         break;
                     }
-                    case 20625: // Ritual of Doom Sacrifice
                     case 29142: // Eyesore Blaster
                     case 35139: // Throw Boom's Doom
                     case 42393: // Brewfest - Attack Keg
@@ -654,12 +660,14 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                 {
                     switch (m_spellInfo->Id)
                     {
-                        case   585:  /* Smite */
-                        case 73510:  /* Mind Spike */
-                            {
-                                m_caster->CastSpell(m_caster, 81209, true); // Chakra : Chastise
-                                break;
-                            }
+                        // Smite
+                        case 585:
+                            m_caster->CastSpell(m_caster, 81209, true); // Chakra: Chastise
+                            break;
+                        // Mind Spike
+                        case 73510:
+                            m_caster->CastSpell(m_caster, 81209, true); // Chakra: Chastise
+                            break;
                         default:
                             break;
                     }
@@ -681,6 +689,21 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                             m_caster->ToPlayer()->RemoveSpellCooldown(32379, true); // Shadow Word: Death
                         }
                     }
+                }
+                // Mind Blast - applies Mind Trauma if:
+                else if (m_spellInfo->Id == 8092)
+                {
+                    // We are in Shadow Form
+                    if (m_caster->GetShapeshiftForm() == FORM_SHADOW)
+                        // We have Improved Mind Blast
+                        if (AuraEffect * aurEff = m_caster->GetDummyAuraEffect(SPELLFAMILY_PRIEST, 95, 0))
+                            // Chance has been successfully rolled
+                            if (roll_chance_i(aurEff->GetAmount()))
+                                m_caster->CastSpell(unitTarget, 48301, true);
+
+                    //Mind Melt Aura remove
+                    m_caster->RemoveAurasDueToSpell(87160);
+                    m_caster->RemoveAurasDueToSpell(81292);
                 }
                 // Improved Mind Blast (Mind Blast in shadow form bonus)
                 else if (m_caster->GetShapeshiftForm() == FORM_SHADOW && (m_spellInfo->SpellFamilyFlags[0] & 0x00002000))
@@ -2227,6 +2250,9 @@ void Spell::EffectForceCast(SpellEffIndex effIndex)
         switch (m_spellInfo->Id)
         {
             case 52588: // Skeletal Gryphon Escape
+                unitTarget->RemoveAura(damage);
+                unitTarget->CastSpell(unitTarget, spellInfo, true);
+                return;
             case 48598: // Ride Flamebringer Cue
                 unitTarget->RemoveAura(damage);
                 break;
@@ -2240,6 +2266,14 @@ void Spell::EffectForceCast(SpellEffIndex effIndex)
                 break;
         }
     }
+	
+    switch (triggered_spell_id)
+    {
+        case 62056: case 63985:         // Stone Grip Forcecast (10m, 25m)
+            unitTarget->CastSpell(unitTarget, spellInfo, true);     // Don't send m_originalCasterGUID param here or underlying
+            return;                                                 // AureEffect::HandleAuraControlVehicle will fail on caster == target
+    }
+	
     CustomSpellValues values;
     // set basepoints for trigger with value effect
     if (m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_FORCE_CAST_WITH_VALUE)
