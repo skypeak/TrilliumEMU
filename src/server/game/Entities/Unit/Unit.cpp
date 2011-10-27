@@ -840,9 +840,9 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
 
         if (victim->GetTypeId() != TYPEID_PLAYER)
             victim->AddThreat(this, (float)damage, damageSchoolMask, spellProto);
-        else                                                // victim is a player
+        else    // victim is a player
         {
-            // random durability for items (HIT TAKEN)
+				// random durability for items (HIT TAKEN)
             if (roll_chance_f(sWorld->getRate(RATE_DURABILITY_LOSS_DAMAGE)))
             {
                 EquipmentSlots slot = EquipmentSlots(urand(0, EQUIPMENT_SLOT_END-1));
