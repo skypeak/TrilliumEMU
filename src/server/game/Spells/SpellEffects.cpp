@@ -2626,15 +2626,26 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
     {
         switch (m_spellInfo->Id)
         {
-            case  2050: /* Heal */
-            case  2060: /* Greater Heal*/
-            case  2061: /* Flash Heal */
-            case 32546: /* Binding Heal */
-               m_caster->CastSpell(m_caster, 81208, true); /* Chakra: Serenity */
-               break;
-            case 596: /* Prayer of Healing */
-               m_caster->CastSpell(m_caster, 81206, true); /* Chakra: Sanctuary */
-               break;
+            // Heal
+            case 2050:
+                m_caster->CastSpell(m_caster, 81208, true); // Chakra: Serenity
+                break;
+            // Greater Heal
+            case 2060:
+                m_caster->CastSpell(m_caster, 81208, true); // Chakra: Serenity
+                break;
+            // Flash Heal
+            case 2061:
+                m_caster->CastSpell(m_caster, 81208, true); // Chakra: Serenity
+                break;
+            // Binding Heal
+            case 32546:
+                m_caster->CastSpell(m_caster, 81208, true); // Chakra: Serenity
+                break;
+            // Prayer of Healing
+            case 596:
+                m_caster->CastSpell(m_caster, 81206, true); // Chakra: Sanctuary
+                break;
         }
     }
 
