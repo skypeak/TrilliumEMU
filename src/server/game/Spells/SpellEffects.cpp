@@ -2766,7 +2766,52 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
                 damageAmount+= aurEff->GetAmount();
                 m_caster->RemoveAurasDueToSpell(45062);
             }
+        // Word of Glory
+        if (m_spellInfo->Id == 85673)
+        {
+            int32 dmg;
+            switch (m_caster->GetPower(POWER_HOLY_POWER))
+            {
+                case 0: // 1 hp
+                    dmg = int32(addhealth + 1*(m_caster->SpellBaseHealingBonus(SPELL_SCHOOL_MASK_HOLY) * 0.85));
+                    addhealth = dmg;
+                    break;
+                case 1: // 2 hp
+                    dmg = int32(addhealth + 2*(m_caster->SpellBaseHealingBonus(SPELL_SCHOOL_MASK_HOLY) * 0.85));
+                    addhealth = dmg;
+                    break;
+                case 2: // 3hp
+                    dmg = int32(addhealth + 3*(m_caster->SpellBaseHealingBonus(SPELL_SCHOOL_MASK_HOLY) * 0.85));
+                    addhealth = dmg;
+                    break;
+            }
 
+            if (m_caster->ToPlayer()->HasAuraType(SPELL_AURA_MASTERY))
+            {
+                if (m_caster->ToPlayer()->getClass() == CLASS_PALADIN)
+                {
+                    if (m_caster->ToPlayer()->TalentBranchSpec(m_caster->ToPlayer()->GetActiveSpec()) == PALADIN_HOLY)
+                    {
+                        int32 bp0 = int32(m_caster->ToPlayer()->GetHealingDoneInPastSecs(15) * (12.0f + (1.5f * m_caster->ToPlayer()->GetMasteryPoints())) /100);
+                        m_caster->CastCustomSpell(m_caster, 86273, &bp0, NULL, NULL, true);
+                        caster->ToPlayer()->ResetHealingDoneInPastSecs(15);
+                    }
+                }
+            }
+        }
+
+        //Echo of Light
+        if (m_caster->getClass() == CLASS_PRIEST)
+        {
+            if (m_caster->HasAuraType(SPELL_AURA_MASTERY))
+            {
+                if (m_caster->ToPlayer()->TalentBranchSpec(m_caster->ToPlayer()->GetActiveSpec()) == PRIEST_HOLY)
+                {
+                    int32 bp0 = int32 (addhealth * (10.0f + (1.25f * m_caster->ToPlayer()->GetMasteryPoints())) / 100);
+                    m_caster->CastCustomSpell(m_caster, 77489, &bp0, NULL, NULL, true);
+                }
+            }
+        }
             addhealth += damageAmount;
         }
         // Swiftmend - consumes Regrowth or Rejuvenation
@@ -2860,53 +2905,6 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
         if (unitTarget->HasAura(48920) && (unitTarget->GetHealth() + addhealth >= unitTarget->GetMaxHealth()))
             unitTarget->RemoveAura(48920);
 	
-        // Word of Glory
-        if (m_spellInfo->Id == 85673)
-        {
-            int32 dmg;
-            switch (m_caster->GetPower(POWER_HOLY_POWER))
-            {
-                case 0: // 1 hp
-                    dmg = int32(addhealth + 1*(m_caster->SpellBaseHealingBonus(SPELL_SCHOOL_MASK_HOLY) * 0.85));
-                    addhealth = dmg;
-                    break;
-                case 1: // 2 hp
-                    dmg = int32(addhealth + 2*(m_caster->SpellBaseHealingBonus(SPELL_SCHOOL_MASK_HOLY) * 0.85));
-                    addhealth = dmg;
-                    break;
-                case 2: // 3hp
-                    dmg = int32(addhealth + 3*(m_caster->SpellBaseHealingBonus(SPELL_SCHOOL_MASK_HOLY) * 0.85));
-                    addhealth = dmg;
-                    break;
-            }
-
-            if (m_caster->ToPlayer()->HasAuraType(SPELL_AURA_MASTERY))
-            {
-                if (m_caster->ToPlayer()->getClass() == CLASS_PALADIN)
-                {
-                    if (m_caster->ToPlayer()->TalentBranchSpec(m_caster->ToPlayer()->GetActiveSpec()) == PALADIN_HOLY)
-                    {
-                        int32 bp0 = int32(m_caster->ToPlayer()->GetHealingDoneInPastSecs(15) * (12.0f + (1.5f * m_caster->ToPlayer()->GetMasteryPoints())) /100);
-                        m_caster->CastCustomSpell(m_caster, 86273, &bp0, NULL, NULL, true);
-                        caster->ToPlayer()->ResetHealingDoneInPastSecs(15);
-                    }
-                }
-            }
-        }
-		
-        // Echo of Light
-        if (m_caster->getClass() == CLASS_PRIEST)
-        {
-            if (m_caster->HasAuraType(SPELL_AURA_MASTERY))
-            {
-                if (m_caster->ToPlayer()->TalentBranchSpec(m_caster->ToPlayer()->GetActiveSpec()) == PALADIN_HOLY)
-                {
-                    int32 bp0 = int32 (addhealth * (10.0f + (1.25f * m_caster->ToPlayer()->GetMasteryPoints())) / 100);
-                    m_caster->CastCustomSpell(m_caster, 77489, &bp0, NULL, NULL, true);
-                }
-            }
-        }
-
         m_damage -= addhealth;		
     }
 }
@@ -4691,12 +4689,41 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex)
         }
         case SPELLFAMILY_PALADIN:
         {
+            // Seal of Command - Increase damage by 36% on every swing
+            if (m_spellInfo->SpellFamilyFlags[0] & 0x2000000)
+            {
+                totalDamagePercentMod *= 1.36f;            //136% damage
+            }
+
+            // Templar's Verdict
+            if (m_spellInfo->Id == 85256)
+            {
+                switch (m_caster->GetPower(POWER_HOLY_POWER))
+                {
+                    // 1 Holy Power
+                    case 0:
+                        (m_caster->HasAura(31866 || 31867 || 31868)) ? totalDamagePercentMod += 0.3f : 0; //Crusade Rank 1, 2, 3 - 133%
+                    break;
+                    // 2 Holy Power
+                    case 1:
+                        totalDamagePercentMod += 2.0f; // 3*30 = 90%
+                        (m_caster->HasAura(31866 || 31867 || 31868)) ? totalDamagePercentMod += 0.3f : 0; //Crusade Rank 1, 2, 3 - 133%
+                    break;
+                    // 3 Holy Power
+                    case 2:
+                        totalDamagePercentMod += 6.5f; // 7.5*30 = 225%
+                        (m_caster->HasAura(31866 || 31867 || 31868)) ? totalDamagePercentMod += 0.9f : 0; //Crusade Rank 1, 2, 3  - 199%
+                    break;
+                }
+                (m_caster->HasAura(63220)) ? totalDamagePercentMod *= 1.15f : 0 ; // Glyphe of Templar's Verdict
+            }
+
             // Seal of Command Unleashed
-            if (m_spellInfo->Id == 20467)
+            /*if (m_spellInfo->Id == 20467)
             {
                 spell_bonus += int32(0.08f * m_caster->GetTotalAttackPowerValue(BASE_ATTACK));
-                spell_bonus += int32(0.13f * m_caster->SpellBaseDamageBonus(m_spellInfo->GetSchoolMask()));
-            }
+                spell_bonus += int32(0.13f * m_caster->SpellBaseDamageBonus(GetSpellSchoolMask(m_spellInfo)));
+            }*/
             break;
         }
         case SPELLFAMILY_SHAMAN:
@@ -4725,9 +4752,64 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex)
         }
         case SPELLFAMILY_HUNTER:
         {
-            // Kill Shot - bonus damage from Ranged Attack Power
-            if (m_spellInfo->SpellFamilyFlags[1] & 0x800000)
-                spell_bonus += int32(0.4f * m_caster->GetTotalAttackPowerValue(RANGED_ATTACK));
+            float shotMod = 0;
+            switch(m_spellInfo->Id)
+            {
+                case 53351: // Kill Shot
+                {
+                    // "You attempt to finish the wounded target off, firing a long range attack dealing % weapon damage plus RAP*0.30+543."
+                    shotMod = 0.3f;
+                    break;
+                }
+                case 56641: // Steady Shot
+                {
+                    // "A steady shot that causes % weapon damage plus RAP*0.021+280. Generates 9 Focus."
+                    // focus effect done in dummy
+                    shotMod = 0.021f;
+                    break;
+                }
+                case 19434: // Aimed Shot
+                {
+                    // "A powerful aimed shot that deals % ranged weapon damage plus (RAP * 0.724)+776."
+                    shotMod = 0.724f;
+                    break;
+                }
+                case 77767: // Cobra Shot
+                {
+                    // "Deals weapon damage plus (276 + (RAP * 0.017)) in the form of Nature damage and increases the duration of your Serpent Sting on the target by 6 sec. Generates 9 Focus."
+                    shotMod = 0.017f;
+                    break;
+                }
+                case 3044: // Arcane Shot
+                case 63741: // Chimera Shot
+                {
+                    // "An instant shot that causes % weapon damage plus (RAP * 0.0483)+289 as Arcane damage."
+                    if (m_spellInfo->SpellFamilyFlags[0] & 0x800)
+                        shotMod = 0.0483f;
+
+                    // "An instant shot that causes ranged weapon damage plus RAP*0.732+1620, refreshing the duration of  your Serpent Sting and healing you for 5% of your total health."
+                    if (m_spellInfo->SpellFamilyFlags[2] & 0x1)
+                        shotMod = 0.732f;
+
+                    // Marked for Death 1, 2
+                    if (m_caster->HasAuraEffect(53241, 0, 0))
+                        if (roll_chance_i(m_spellInfo->Effects[EFFECT_0].BasePoints))
+                        {
+                            m_caster->CastSpell(m_caster->ToPlayer()->GetSelectedUnit(), 88691, true);
+                            break;
+                        }
+                    if (m_caster->HasAuraEffect(53243, 0, 0))
+                        if (roll_chance_i(m_spellInfo->Effects[EFFECT_0].BasePoints))
+                        {
+                            m_caster->CastSpell(m_caster->ToPlayer()->GetSelectedUnit(), 88691, true);
+                            break;
+                        }
+                    break;
+                }
+                default:
+                    break;
+            }
+            spell_bonus += int32((shotMod*m_caster->GetTotalAttackPowerValue(RANGED_ATTACK)));
             break;
         }
         case SPELLFAMILY_DEATHKNIGHT:
