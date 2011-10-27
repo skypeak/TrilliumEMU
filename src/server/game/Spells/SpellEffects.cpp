@@ -850,7 +850,15 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
             }
             case SPELLFAMILY_HUNTER:
             {
-                //Gore
+                // Rapid Recuperation
+                if (m_caster->HasAura(3045))
+                    if (m_caster->HasAura(53228))                // Rank 1
+                        m_caster->CastSpell(m_caster, 53230, true);
+                    else
+                    if (m_caster->HasAura(53232))                // Rank 2
+                        m_caster->CastSpell(m_caster, 54227, true);
+
+				//Gore
                 if (m_spellInfo->SpellIconID == 1578)
                 {
                     if (m_caster->HasAura(57627))           // Charge 6 sec post-affect
