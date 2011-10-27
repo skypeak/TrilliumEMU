@@ -897,12 +897,22 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                     damage += count * int32(average * IN_MILLISECONDS) / m_caster->GetAttackTime(BASE_ATTACK);
                     break;
                 }
-                // Shield of Righteousness
-                if (m_spellInfo->SpellFamilyFlags[EFFECT_1] & 0x100000)
+                //Shield of  Righteous
+                if (m_spellInfo->Id == 53600)
                 {
-                    damage += CalculatePctN(m_caster->GetShieldBlockValue(), m_spellInfo->Effects[EFFECT_1].CalcValue());
-                    break;
-                }
+                    switch(m_caster->GetPower(POWER_HOLY_POWER))
+                    {
+                    case 0:
+                        damage = int32(damage * 1.16f);
+                        break;
+                    case 1:
+                        damage = int32((damage * 1.16f) * 3);
+                        break;
+                    case 2:
+                        damage = int32((damage * 1.16f) * 6);
+                        break;
+                 }
+               }
                 break;
             }
             case SPELLFAMILY_DEATHKNIGHT:
