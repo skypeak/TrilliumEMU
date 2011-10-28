@@ -3353,6 +3353,9 @@ void Spell::SendLoot(uint64 guid, LootType loottype)
                     gameObjTarget->TriggeringLinkedGameObject(trapEntry, m_caster);
                 return;
 
+            case GAMEOBJECT_TYPE_GOOBER:
+                gameObjTarget->Use(m_caster);
+                return;
             case GAMEOBJECT_TYPE_CHEST:
                 // TODO: possible must be moved to loot release (in different from linked triggering)
                 if (gameObjTarget->GetGOInfo()->chest.eventId)
@@ -4572,12 +4575,10 @@ void Spell::EffectTaunt(SpellEffIndex /*effIndex*/)
         unitTarget->ToCreature()->AI()->AttackStart(m_caster);
 }
 
-void Spell::EffectWeaponDmg(SpellEffIndex effIndex)
+void Spell::EffectWeaponDmg(SpellEffIndex effIndex) // Damage made by Weapons
 {
     if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
         return;
-
-
 
     if (!unitTarget || !unitTarget->isAlive())
         return;
@@ -4688,7 +4689,34 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex)
             break;
         }
         case SPELLFAMILY_PALADIN:
-        {
+		{
+		
+			switch (m_spellInfo->Id)
+			{
+				case 35395:     // Crusader Strike
+			 {
+				m_caster->CastSpell(m_caster, 85705, true);
+				break;
+			 }
+				case 8676:
+			 {
+            if (m_caster->GetTypeId() == TYPEID_PLAYER)
+                if (Item* item = m_caster->ToPlayer()->GetWeaponForAttack(m_attackType, true))
+                    if (item->GetTemplate()->SubClass == ITEM_SUBCLASS_WEAPON_DAGGER)
+                        damage += m_spellInfo->Effects[effIndex].BasePoints;
+			 }
+				case 20243:
+			 {
+			if(Aura* aura = unitTarget->GetAura(7386))
+             {
+                uint8 stackAmount = aura->GetStackAmount();
+                if(stackAmount == 0)
+                    stackAmount = 1;
+
+                damage *= stackAmount;
+                  }
+		       }
+		    }
             // Seal of Command - Increase damage by 36% on every swing
             if (m_spellInfo->SpellFamilyFlags[0] & 0x2000000)
             {
