@@ -745,6 +745,9 @@ void Aura::SetDuration(int32 duration, bool withMods)
 void Aura::RefreshDuration()
 {
     SetDuration(GetMaxDuration());
+    for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+        if (m_effects[i])
+            m_effects[i]->ResetPeriodic();
 
     if (m_spellInfo->ManaPerSecond || m_spellInfo->ManaPerSecondPerLevel)
         m_timeCla = 1 * IN_MILLISECONDS;
@@ -1653,8 +1656,33 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                      // aura removed - remove death runes
                     target->ToPlayer()->RemoveRunesByAuraEffect(GetEffect(0));
                 }
+                switch(GetId())
+                {
+                    case 50514: // Summon Gargoyle
+                        if (removeMode != AURA_REMOVE_BY_EXPIRE)
+                            break;
+                        target->CastSpell(target, GetEffect(0)->GetAmount(), true, NULL, GetEffect(0));
+                        break;
+                }
                 break;
             case SPELLFAMILY_HUNTER:
+                // Wyvern Sting
+                // If implemented through spell_linked_spell it can't proc from breaking by damage
+                if (!onReapply && GetSpellInfo()->SpellFamilyFlags[1] & 0x1000 && caster)
+                {
+                    uint32 spell_id = 0;
+                    switch(GetId())
+                    {
+                        case 19386: spell_id = 24131; break;
+                        case 24132: spell_id = 24134; break;
+                        case 24133: spell_id = 24135; break;
+                        case 27068: spell_id = 27069; break;
+                        case 49011: spell_id = 49009; break;
+                        case 49012: spell_id = 49010; break;
+                    }
+                    caster->CastSpell(target, spell_id, true);
+                }
+                break;			
                 // Glyph of Freezing Trap
                 if (GetSpellInfo()->SpellFamilyFlags[0] & 0x00000008)
                     if (caster && caster->HasAura(56845))
@@ -1677,6 +1705,32 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                     break;
             }
             break;
+        case SPELLFAMILY_DRUID:
+            // Enrage
+            if (GetSpellInfo()->SpellFamilyFlags[0] & 0x80000)
+            {
+                if (target->HasAura(70726)) // Druid T10 Feral 4P Bonus
+                {
+                    if (apply)
+                        target->CastSpell(target, 70725, true);
+                }
+                else // armor reduction implemented here
+                    if (AuraEffect * auraEff = target->GetAuraEffectOfRankedSpell(1178, 0))
+                    {
+                        int32 value = auraEff->GetAmount();
+                        int32 mod;
+                        switch (auraEff->GetId())
+                        {
+                            case 1178: mod = 27; break;
+                            case 9635: mod = 16; break;
+                        }
+                        mod = value / 100 * mod;
+                        value = value + (apply ? -mod : mod);
+                        auraEff->ChangeAmount(value);
+                    }
+                break;
+            }
+            break;			
         case SPELLFAMILY_ROGUE:
             // Stealth
             if (GetSpellInfo()->SpellFamilyFlags[0] & 0x00400000)
@@ -1883,9 +1937,44 @@ bool Aura::CanBeAppliedOn(Unit* target)
         return CheckAreaTarget(target);
 }
 
-bool Aura::CheckAreaTarget(Unit* target)
+bool Aura::CheckAreaTarget(Unit *target)
 {
-    return CallScriptCheckAreaTargetHandlers(target);
+    // for owner check use Spell::CheckTarget
+    ASSERT(GetOwner() != target);
+
+    // some special cases
+    switch(GetId())
+    {
+        case 45828: // AV Marshal's HP/DMG auras
+        case 45829:
+        case 45830:
+        case 45821:
+        case 45822: // AV Warmaster's HP/DMG auras
+        case 45823:
+        case 45824:
+        case 45826:
+            switch(target->GetEntry())
+            {
+                // alliance
+                case 14762: // Dun Baldar North Marshal
+                case 14763: // Dun Baldar South Marshal
+                case 14764: // Icewing Marshal
+                case 14765: // Stonehearth Marshal
+                case 11948: // Vandar Stormspike
+                // horde
+                case 14772: // East Frostwolf Warmaster
+                case 14776: // Tower Point Warmaster
+                case 14773: // Iceblood Warmaster
+                case 14777: // West Frostwolf Warmaster
+                case 11946: // Drek'thar
+                    return true;
+                default:
+                    return false;
+                    break;
+            }
+            break;
+    }
+    return true;
 }
 
 bool Aura::CanStackWith(Aura const* existingAura) const
