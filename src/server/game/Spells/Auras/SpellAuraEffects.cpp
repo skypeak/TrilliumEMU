@@ -585,6 +585,18 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                         DoneActualBenefit *= caster->GetTotalAuraMultiplier(SPELL_AURA_MOD_HEALING_DONE_PERCENT);
                         amount = int32(DoneActualBenefit);
 
+                        if (caster->ToPlayer()->HasAuraType(SPELL_AURA_MASTERY))
+                        {
+                            if (caster->ToPlayer()->getClass() == CLASS_PRIEST)
+                            {
+                                if (caster->ToPlayer()->TalentBranchSpec(caster->ToPlayer()->GetActiveSpec()) == PRIEST_DISCIPLINE)
+                                {
+                                    int32 bp = int32(amount * (0.2f + (0.025f * caster->ToPlayer()->GetMasteryPoints())));
+                                    amount += bp;
+                                }
+                            }
+                        }						
+						
                         return amount;
                     }
                     break;
@@ -819,6 +831,38 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
             }
             break;
         }
+        case SPELL_AURA_MOD_RESISTANCE_EXCLUSIVE:
+        {
+            if (caster)
+            {
+                int32 resist = caster->getLevel();
+                if ( resist <= 70 )
+                {
+                }
+                else if ( resist > 70 && resist < 81 )
+                {
+                    resist += (resist-70)*5;
+                }
+                else if ( resist > 80 && resist <= 85 )
+                {
+                    resist += ((resist-70)*5 + (resist-80)*7);
+                }
+                switch( GetId() )
+                {
+                    case 20043: // Aspect of the Wild
+                    case 8185: // Elemental Resistance
+                    case 19891: // Resistance Aura
+                    case 79106: // Shadow Protection
+                        amount = resist;
+                        break;
+                    case 79060: // Mark of the Wild
+                    case 79062: // Blessing of Kings
+                        amount = resist / 2;
+                        break;
+                }
+                break;
+            }
+        }		
         default:
             break;
     }
@@ -4109,7 +4153,20 @@ void AuraEffect::HandleAuraModIncreaseEnergy(AuraApplication const* aurApp, uint
 
     UnitMods unitMod = UnitMods(UNIT_MOD_POWER_START + powerType);
 
-    target->HandleStatModifier(unitMod, TOTAL_VALUE, float(GetAmount()), apply);
+    // Special case with temporary increase max/current power (percent)
+    if (GetId() == 64904)                                     // Hymn of Hope
+    {
+        if (mode & AURA_EFFECT_HANDLE_CHANGE_AMOUNT_MASK)
+        {
+            int32 change = target->GetPower(powerType) + (apply ? GetAmount() : -GetAmount());
+            if (change < 0)
+                change = 0;
+            target->SetPower(powerType, change);
+        }
+    }	
+	
+    // generic flat case
+	target->HandleStatModifier(unitMod, TOTAL_VALUE, float(GetAmount()), apply);
 }
 
 void AuraEffect::HandleAuraModIncreaseEnergyPercent(AuraApplication const* aurApp, uint8 mode, bool apply) const
