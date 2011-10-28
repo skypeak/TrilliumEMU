@@ -81,7 +81,6 @@ class SystemMgr
         typedef UNORDERED_MAP<uint32, ScriptPointVector> PointMoveMap;
 
         //Database
-        void LoadVersion();
         void LoadScriptTexts();
         void LoadScriptTextsCustom();
         void LoadScriptWaypoints();
