@@ -1612,7 +1612,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                 if (m_caster->HasAura(64976))
                 {
                     m_caster->CastSpell(m_caster, 65156, true);
-                    m_caster->ToPlayer()->AddSpellCooldown(20252, 0, time(NULL) + 30);
+                    m_caster->CastSpell(m_caster, 96216, false);
                 }
                 return;
             }
@@ -2099,8 +2099,8 @@ void Spell::EffectTriggerSpell(SpellEffIndex effIndex)
                 if (unitTarget->ToPlayer()->HasSpellCooldown(1784))
                     unitTarget->ToPlayer()->RemoveSpellCooldown(1784);
 
-                unitTarget->CastSpell(unitTarget, 1784, true);
-                return;
+                triggered_spell_id = 1784;
+                break;
             }
             // Demonic Empowerment -- succubus
             case 54437:
@@ -2110,8 +2110,8 @@ void Spell::EffectTriggerSpell(SpellEffIndex effIndex)
                 unitTarget->RemoveAurasByType(SPELL_AURA_MOD_STUN);
 
                 // Cast Lesser Invisibility
-                unitTarget->CastSpell(unitTarget, 7870, true);
-                return;
+                triggered_spell_id = 7870;
+                break;
             }
             // just skip
             case 23770:                                         // Sayge's Dark Fortune of *
@@ -2720,30 +2720,17 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
     {
         switch (m_spellInfo->Id)
         {
-            // Heal
-            case 2050:
-                m_caster->CastSpell(m_caster, 81208, true); // Chakra: Serenity
-                break;
-            // Greater Heal
-            case 2060:
-                m_caster->CastSpell(m_caster, 81208, true); // Chakra: Serenity
-                break;
-            // Flash Heal
-            case 2061:
-                m_caster->CastSpell(m_caster, 81208, true); // Chakra: Serenity
-                break;
-            // Binding Heal
-            case 32546:
-                m_caster->CastSpell(m_caster, 81208, true); // Chakra: Serenity
-                break;
-            // Prayer of Healing
-            case 596:
-                m_caster->CastSpell(m_caster, 81206, true); // Chakra: Sanctuary
-                break;
+            case  2050:     // Heal
+            case  2060:     // Greater Heal
+            case  2061:     // Flash Heal
+            case 32546:     // Binding Heal
+               m_caster->CastSpell(m_caster, 81208, true); // Chakra: Serenity
+               break;
+            case 596:       // Prayer of Healing
+               m_caster->CastSpell(m_caster, 81206, true); // Chakra: Sanctuary
+               break;
         }
     }
-
-
 
     if (unitTarget && unitTarget->isAlive() && damage >= 0)
     {
@@ -5362,20 +5349,20 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                     // Triggered spell id dependent on riding skill and zone
                     bool canFly = true;
                     uint32 v_map = GetVirtualMapForMapAndZone(unitTarget->GetMapId(), unitTarget->GetZoneId());
-                    if (v_map != 530 && v_map != 571 && v_map != 0)
+                    if (v_map != 0 && v_map != 1 && v_map != 530 && v_map != 571)
                         canFly = false;
 
                     if (canFly && v_map == 571 && !unitTarget->ToPlayer()->HasSpell(54197))
                         canFly = false;
 
-                    if (canFly && v_map == 0 && !unitTarget->ToPlayer()->HasSpell(90267))
+                    if (canFly && v_map == 0 && v_map == 1 && !unitTarget->ToPlayer()->HasSpell(90267))
                         canFly = false;
 
                     float x, y, z;
                     unitTarget->GetPosition(x, y, z);
                     uint32 areaFlag = unitTarget->GetBaseMap()->GetAreaFlag(x, y, z);
                     AreaTableEntry const *pArea = sAreaStore.LookupEntry(areaFlag);
-                    if (canFly && (pArea && pArea->flags & AREA_FLAG_NO_FLY_ZONE) || !pArea)
+                    if (!pArea || (canFly && (pArea->flags & AREA_FLAG_NO_FLY_ZONE)))
                         canFly = false;
 
                     switch(unitTarget->ToPlayer()->GetBaseSkillValue(SKILL_RIDING))
@@ -5412,20 +5399,20 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                     // Triggered spell id dependent on riding skill and zone
                     bool canFly = true;
                     uint32 v_map = GetVirtualMapForMapAndZone(unitTarget->GetMapId(), unitTarget->GetZoneId());
-                    if (v_map != 530 && v_map != 571 && v_map != 0)
+                    if (v_map != 0 && v_map != 1 && v_map != 530 && v_map != 571)
                         canFly = false;
 
                     if (canFly && v_map == 571 && !unitTarget->ToPlayer()->HasSpell(54197))
                         canFly = false;
 
-                    if (canFly && v_map == 0 && !unitTarget->ToPlayer()->HasSpell(90267))
+                    if (canFly && v_map == 0 && v_map == 1 && !unitTarget->ToPlayer()->HasSpell(90267))
                         canFly = false;
 
                     float x, y, z;
                     unitTarget->GetPosition(x, y, z);
                     uint32 areaFlag = unitTarget->GetBaseMap()->GetAreaFlag(x, y, z);
                     AreaTableEntry const *pArea = sAreaStore.LookupEntry(areaFlag);
-                    if (canFly && (pArea && pArea->flags & AREA_FLAG_NO_FLY_ZONE) || !pArea)
+                    if (!pArea || (canFly && (pArea->flags & AREA_FLAG_NO_FLY_ZONE)))
                         canFly = false;
 
                     switch(unitTarget->ToPlayer()->GetBaseSkillValue(SKILL_RIDING))
@@ -5640,6 +5627,24 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                     if (unitTarget)
                         unitTarget->CastSpell(m_caster, damage, true);
                     return;
+                case 54729: // Winged Steed of the Ebon Blade
+                {
+                    if (!unitTarget || unitTarget->GetTypeId() != TYPEID_PLAYER)
+                        return;
+
+                    // Prevent stacking of mounts and client crashes upon dismounting
+                    unitTarget->RemoveAurasByType(SPELL_AURA_MOUNTED);
+
+                    // Triggered spell id dependent on riding skill
+                    if (uint16 skillval = unitTarget->ToPlayer()->GetSkillValue(SKILL_RIDING))
+                    {
+                        if (skillval >= 300)
+                            unitTarget->CastSpell(unitTarget, 54727, true);
+                        else
+                            unitTarget->CastSpell(unitTarget, 54726, true);
+                    }
+                    return;
+                }					
                 case 58418:                                 // Portal to Orgrimmar
                 case 58420:                                 // Portal to Stormwind
                 {
@@ -5674,7 +5679,25 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                         }
                     }
                     return;
-                case 63845: // Create Lance
+                case 58983: // Big Blizzard Bear
+                {
+                    if (!unitTarget || unitTarget->GetTypeId() != TYPEID_PLAYER)
+                        return;
+
+                    // Prevent stacking of mounts and client crashes upon dismounting
+                    unitTarget->RemoveAurasByType(SPELL_AURA_MOUNTED);
+
+                    // Triggered spell id dependent on riding skill
+                    if (uint16 skillval = unitTarget->ToPlayer()->GetSkillValue(SKILL_RIDING))
+                    {
+                        if (skillval >= 150)
+                            unitTarget->CastSpell(unitTarget, 58999, true);
+                        else
+                            unitTarget->CastSpell(unitTarget, 58997, true);
+                    }
+                    return;
+                }
+				case 63845: // Create Lance
                 {
                     if (m_caster->GetTypeId() != TYPEID_PLAYER)
                         return;
