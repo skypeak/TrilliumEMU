@@ -8986,9 +8986,25 @@ bool Unit::HandleProcTriggerSpell(Unit* victim, uint32 damage, AuraEffect* trigg
                 return false;
             break;
         }
-        default:
-            break;
     }
+    // Sword Specialization
+    if (auraSpellInfo->SpellFamilyName == SPELLFAMILY_GENERIC && auraSpellInfo->SpellIconID == 1462 && procSpell)
+    {
+        if (Player* player = ToPlayer())
+        {
+            if (cooldown && player->HasSpellCooldown(16459))
+                return false;
+
+            // this required for attacks like Mortal Strike
+            player->RemoveSpellCooldown(procSpell->Id);
+
+            CastSpell(victim, procSpell->Id, true);
+
+            if (cooldown)
+                player->AddSpellCooldown(16459, 0, time(NULL) + cooldown);
+            return true;
+        }
+    }	
 
     // Blade Barrier
     if (auraSpellInfo->SpellFamilyName == SPELLFAMILY_DEATHKNIGHT && auraSpellInfo->SpellIconID == 85)
