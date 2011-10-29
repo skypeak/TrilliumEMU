@@ -887,7 +887,7 @@ void BattlegroundMgr::CreateInitialBattlegrounds()
     sLog->outString();
 }
 
-void BattlegroundMgr::BuildBattlegroundListPacket(WorldPacket *data, uint64 guid, Player* plr, BattlegroundTypeId bgTypeId, uint8 fromWhere)
+void BattlegroundMgr::BuildBattlegroundListPacket(WorldPacket *data, uint64 guid, Player* plr, BattlegroundTypeId bgTypeId)
 {
     if (!plr)
         return;
@@ -901,16 +901,15 @@ void BattlegroundMgr::BuildBattlegroundListPacket(WorldPacket *data, uint64 guid
 
     data->Initialize(SMSG_BATTLEFIELD_LIST);
     *data << uint64(guid);                                  // battlemaster guid
-    *data << uint8(fromWhere);                              // from where you joined
     *data << uint32(bgTypeId);                              // battleground id
     *data << uint8(0);                                      // unk
     *data << uint8(0);                                      // unk
 
     // Rewards
-    *data << uint8(plr->GetRandomWinner());               // 3.3.3 hasWin
-    *data << uint32(winner_kills);                           // 3.3.3 winHonor
-    *data << uint32(winner_arena);                           // 3.3.3 winArena
-    *data << uint32(loser_kills);                          // 3.3.3 lossHonor
+    *data << uint8(plr->GetRandomWinner());               	// 3.3.3 hasWin
+    *data << uint32(winner_kills);                          // 3.3.3 winHonor
+    *data << uint32(winner_arena);                          // 3.3.3 winArena
+    *data << uint32(loser_kills);                          	// 3.3.3 lossHonor
 
     uint8 isRandom = bgTypeId == BATTLEGROUND_RB;
 
@@ -918,13 +917,13 @@ void BattlegroundMgr::BuildBattlegroundListPacket(WorldPacket *data, uint64 guid
     if (isRandom)
     {
         // Rewards (random)
-        *data << uint8(plr->GetRandomWinner());           // 3.3.3 hasWin_Random
-        *data << uint32(winner_kills);                       // 3.3.3 winHonor_Random
-        *data << uint32(winner_arena);                       // 3.3.3 winArena_Random
-        *data << uint32(loser_kills);                      // 3.3.3 lossHonor_Random
+        *data << uint8(plr->GetRandomWinner());             // 3.3.3 hasWin_Random
+        *data << uint32(winner_kills);                      // 3.3.3 winHonor_Random
+        *data << uint32(winner_arena);                      // 3.3.3 winArena_Random
+        *data << uint32(loser_kills);                       // 3.3.3 lossHonor_Random
     }
 
-    if (bgTypeId == BATTLEGROUND_AA)                         // arena
+    if (bgTypeId == BATTLEGROUND_AA)                        // arena
     {
         *data << uint32(0);                                 // unk (count?)
     }
