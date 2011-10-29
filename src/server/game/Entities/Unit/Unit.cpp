@@ -1143,7 +1143,10 @@ void Unit::CalculateSpellDamageTaken(SpellNonMeleeDamage *damageInfo, int32 dama
                 damage -= damageInfo->blocked;
             }
 
-             ApplyResilience(victim, &damage);
+            if (attackType != RANGED_ATTACK)
+                ApplyResilience(victim, &damage, CR_CRIT_TAKEN_MELEE);
+            else
+                ApplyResilience(victim, &damage, CR_CRIT_TAKEN_RANGED);
         }
         break;
         // Magical Attacks
@@ -1157,7 +1160,7 @@ void Unit::CalculateSpellDamageTaken(SpellNonMeleeDamage *damageInfo, int32 dama
                 damage = SpellCriticalDamageBonus(spellInfo, damage, victim);
             }
 
-            ApplyResilience(victim, &damage);
+            ApplyResilience(victim, &damage, CR_CRIT_TAKEN_SPELL);
             break;
         }
         default:
@@ -1372,7 +1375,10 @@ void Unit::CalculateMeleeDamage(Unit* victim, uint32 damage, CalcDamageInfo *dam
     }
 
     int32 resilienceReduction = damageInfo->damage;
-    ApplyResilience(victim, &resilienceReduction);
+    if (attackType != RANGED_ATTACK)
+        ApplyResilience(victim, &resilienceReduction, CR_CRIT_TAKEN_MELEE);
+    else
+        ApplyResilience(victim, &resilienceReduction, CR_CRIT_TAKEN_RANGED);
     resilienceReduction = damageInfo->damage - resilienceReduction;
     damageInfo->damage      -= resilienceReduction;
     damageInfo->cleanDamage += resilienceReduction;
@@ -2844,13 +2850,14 @@ float Unit::GetUnitCriticalChance(WeaponAttackType attackType, const Unit* victi
     // reduce crit chance from Rating for players
     if (attackType != RANGED_ATTACK)
     {
-        ApplyResilience(victim, NULL);
         // Glyph of barkskin
         if (victim->HasAura(63057) && victim->HasAura(22812))
             crit -= 25.0f;
+        if (victim->HasAura(50365)) // Improved Blood Presence (Rank 1)
+            crit -= 3.0f;
+        if (victim->HasAura(50371)) // Improved Blood Presence (Rank 2)
+            crit -= 6.0f;
     }
-    else
-        ApplyResilience(victim, NULL);
 
     // Apply crit chance from defence skill
     crit += (int32(GetMaxSkillValueForLevel(victim)) - int32(victim->GetDefenseSkillValue(this))) * 0.04f;
@@ -6192,6 +6199,14 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 triggered_spell_id = 47753;
                 break;
             }
+            //Mind Melt
+            case 87160:
+            case 81292:
+            {
+                if(procSpell->Id != 73510)
+                    return false;
+                break;
+            }
             // Body and Soul
             if (dummySpell->SpellIconID == 2218)
             {
@@ -9021,6 +9036,19 @@ bool Unit::HandleProcTriggerSpell(Unit* victim, uint32 damage, AuraEffect* trigg
                 ToPlayer()->AddSpellCooldown(trigger_spell_id, 0, time(NULL) + cooldown);
             return true;
         }
+        // Will of Necropolis
+        case 81162:
+            if (HealthBelowPct(29) || (!HealthBelowPctDamaged(30, damage)))
+                return false;
+            else
+            {
+                if (!ToPlayer()->HasSpellCooldown(trigger_spell_id))
+                {
+                    AddAura(trigger_spell_id, this);
+                    ToPlayer()->AddSpellCooldown(trigger_spell_id, 0, time(NULL) + 15);
+                }
+            }
+            break;		
         case 92184: // Lead Plating
         case 92233: // Tectonic Shift
         case 92355: // Turn of the Worm
@@ -11117,7 +11145,6 @@ bool Unit::isSpellCrit(Unit* victim, SpellInfo const* spellProto, SpellSchoolMas
                     crit_chance += victim->GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_ATTACKER_SPELL_CRIT_CHANCE, schoolMask);
                     // Modify critical chance by victim SPELL_AURA_MOD_ATTACKER_SPELL_AND_WEAPON_CRIT_CHANCE
                     crit_chance += victim->GetTotalAuraModifier(SPELL_AURA_MOD_ATTACKER_SPELL_AND_WEAPON_CRIT_CHANCE);
-                    ApplyResilience(victim, NULL);
                 }
                 // scripted (increase crit chance ... against ... target by x%
                 AuraEffectList const& mOverrideClassScript = GetAuraEffectsByType(SPELL_AURA_OVERRIDE_CLASS_SCRIPTS);
@@ -16626,7 +16653,7 @@ void Unit::SendPlaySpellImpact(uint64 guid, uint32 id)
     SendMessageToSet(&data, false);
 }
 
-void Unit::ApplyResilience(Unit const* victim, int32* damage) const
+void Unit::ApplyResilience(Unit const* victim, int32* damage, CombatRating type) const
 {
     // player mounted on multi-passenger mount is also classified as vehicle
     if (IsVehicle() || (victim->IsVehicle() && victim->GetTypeId() != TYPEID_PLAYER))
@@ -16648,7 +16675,29 @@ void Unit::ApplyResilience(Unit const* victim, int32* damage) const
         return;
 
     if (source && damage)
-        *damage -= target->ToPlayer()->GetPlayerDamageReduction(*damage);
+    switch (type)
+    {
+    case CR_CRIT_TAKEN_MELEE:
+        if (source && damage)
+        {
+            *damage -= target->GetMeleeDamageReduction(*damage);
+        }
+        break;
+    case CR_CRIT_TAKEN_RANGED:
+        if (source && damage)
+        {
+            *damage -= target->GetRangedDamageReduction(*damage);
+        }
+        break;
+    case CR_CRIT_TAKEN_SPELL:
+        if (source && damage)
+        {
+            *damage -= target->GetSpellDamageReduction(*damage);
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 // Melee based spells can be miss, parry or dodge on this step

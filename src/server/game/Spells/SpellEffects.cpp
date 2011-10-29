@@ -642,7 +642,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
             }
             case SPELLFAMILY_PRIEST:
             {
-                /* Evangelism */
+                // Evangelism
                 if (m_caster->HasAura(81659)) //Rank 1
                 {
                     if (m_spellInfo->Id == 585 || m_spellInfo->Id == 14914)

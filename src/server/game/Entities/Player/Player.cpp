@@ -1834,6 +1834,9 @@ void Player::Update(uint32 p_time)
     //because we don't want player's ghost teleported from graveyard
     if (IsHasDelayedTeleport() && isAlive())
         TeleportTo(m_teleport_dest, m_teleport_options);
+
+    if (getLevel() >= 80)
+        RemoveOrAddMasterySpells();		
 }
 
 void Player::setDeathState(DeathState s)
@@ -25431,4 +25434,77 @@ bool Player::IsInWhisperWhiteList(uint64 guid)
             return true;
     }
     return false;
+}
+
+void Player::RemoveOrAddMasterySpells()
+{
+    if (!isAlive())
+        return;
+
+    if (!HasAuraType(SPELL_AURA_MASTERY) || TalentBranchSpec(GetActiveSpec()) == 0)
+    {
+        if (HasAura(77514))
+            RemoveAurasDueToSpell(77514);
+        if (HasAura(77515))
+            RemoveAurasDueToSpell(77515);
+
+        if (HasAura(77493))
+            RemoveAurasDueToSpell(77493);
+
+        if (HasAura(76658))
+            RemoveAurasDueToSpell(76658);
+
+        if (HasAura(76657))
+            RemoveAurasDueToSpell(76657);
+
+        if (HasAura(76595))
+            RemoveAurasDueToSpell(76595);
+
+        if (HasAura(76671))
+            RemoveAurasDueToSpell(76671);
+
+        if (HasAura(77220))
+            RemoveAurasDueToSpell(77220);
+
+        if (HasAura(76857))
+            RemoveAurasDueToSpell(76857);
+    }
+    else if (HasAuraType(SPELL_AURA_MASTERY))
+    {
+        if (TalentBranchSpec(GetActiveSpec()) == DEATH_KNIGHT_FROST)
+            if (!HasAura(77514))
+             AddAura(77514, this);
+
+        if (TalentBranchSpec(GetActiveSpec()) == DEATH_KNIGHT_UNHOLY)
+            if (!HasAura(77515))
+                AddAura(77515, this);
+
+        if (TalentBranchSpec(GetActiveSpec()) == DRUID_FERAL_COMBAT)
+            if (!HasAura(77493))
+                AddAura(77493, this);
+
+        if (TalentBranchSpec(GetActiveSpec()) == HUNTER_SURVIVAL)
+            if (!HasAura(76658))
+                AddAura(76658, this);
+
+        if (TalentBranchSpec(GetActiveSpec()) == HUNTER_BEAST_MASTERY)
+            if (!HasAura(76657))
+                AddAura(76657, this);
+
+        if (TalentBranchSpec(GetActiveSpec()) == MAGE_FIRE)
+            if (!HasAura(76595))
+                AddAura(76595, this);
+
+        if (TalentBranchSpec(GetActiveSpec()) == PALADIN_PROTECTION)
+            if (!HasAura(76671))
+                AddAura(76671, this);
+
+        if (TalentBranchSpec(GetActiveSpec()) == WARLOCK_DESTRUCTION)
+            if (!HasAura(77220))
+                AddAura(77220, this);
+
+        if (TalentBranchSpec(GetActiveSpec()) == WARRIOR_PROTECTION)
+            if (!HasAura(76857))
+                AddAura(76857, this);
+    }	
 }

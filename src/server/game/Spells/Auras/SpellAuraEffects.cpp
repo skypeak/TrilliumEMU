@@ -373,7 +373,7 @@ pAuraEffectHandler AuraEffectHandler[TOTAL_AURAS]=
     &AuraEffect::HandlePreventResurrection,                       //314 SPELL_AURA_PREVENT_RESURRECTION todo
     &AuraEffect::HandleNoImmediateEffect,                         //315 SPELL_AURA_UNDERWATER_WALKING todo
     &AuraEffect::HandleNoImmediateEffect,                         //316 SPELL_AURA_PERIODIC_HASTE implemented in AuraEffect::CalculatePeriodic
-    &AuraEffect::HandleNULL,                                      //317
+    &AuraEffect::HandleNoImmediateEffect,                         //317 SPELL_AURA_MASTERY
     &AuraEffect::HandleMastery,                                   //318 SPELL_AURA_MASTERY
     &AuraEffect::HandleNULL,                                      //319
     &AuraEffect::HandleNULL,                                      //320
@@ -1420,7 +1420,7 @@ void AuraEffect::PeriodicTick(AuraApplication * aurApp, Unit* caster) const
         case SPELL_AURA_PERIODIC_DAMAGE_PERCENT:
             HandlePeriodicDamageAurasTick(target, caster);
 
-            /* Dark Evangelism */
+            // Dark Evangelism
             if (target->HasAura(15407)) //Mind Flay
             {
                 if (caster->HasAura(81659)) //Rank 1
@@ -6529,7 +6529,7 @@ void AuraEffect::HandlePeriodicDamageAurasTick(Unit* target, Unit* caster) const
         damage = caster->SpellCriticalDamageBonus(m_spellInfo, damage, target);
 
     int32 dmg = damage;
-    caster->ApplyResilience(target, &dmg);
+    caster->ApplyResilience(target, &dmg, CR_CRIT_TAKEN_SPELL);
     damage = dmg;
 
     caster->CalcAbsorbResist(target, GetSpellInfo()->GetSchoolMask(), DOT, damage, &absorb, &resist, GetSpellInfo());
@@ -6594,7 +6594,7 @@ void AuraEffect::HandlePeriodicHealthLeechAuraTick(Unit* target, Unit* caster) c
     }
 
     int32 dmg = damage;
-    caster->ApplyResilience(target, &dmg);
+    caster->ApplyResilience(target, &dmg, CR_CRIT_TAKEN_SPELL);
     damage = dmg;
 
     caster->CalcAbsorbResist(target, GetSpellInfo()->GetSchoolMask(), DOT, damage, &absorb, &resist, m_spellInfo);

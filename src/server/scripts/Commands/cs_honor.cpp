@@ -49,7 +49,7 @@ public:
         };
         return commandTable;
     }
-    static bool HandleHonorAddCommand(ChatHandler* handler, const char* args)
+    static bool HandleHonorAddCommand(ChatHandler* handler, char const* args)
     {
         if (!*args)
             return false;
@@ -70,7 +70,7 @@ public:
         target->RewardHonor(NULL, 1, amount);
         return true;
     }
-    static bool HandleHonorAddKillCommand(ChatHandler* handler, const char* /*args*/)
+    static bool HandleHonorAddKillCommand(ChatHandler* handler, char const* /*args*/)
     {
         Unit* target = handler->getSelectedUnit();
         if (!target)
@@ -87,7 +87,7 @@ public:
         handler->GetSession()->GetPlayer()->RewardHonor(target, 1);
         return true;
     }
-    static bool HandleHonorUpdateCommand(ChatHandler* handler, const char* /*args*/)
+    static bool HandleHonorUpdateCommand(ChatHandler* handler, char const* /*args*/)
     {
         Player* target = handler->getSelectedPlayer();
         if (!target)
