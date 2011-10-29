@@ -278,6 +278,7 @@ class WorldSession
 
         void LogoutPlayer(bool Save);
         void KickPlayer();
+		void HandleMoveToGraveyard(WorldPacket &recv_data);
 
         void QueuePacket(WorldPacket* new_packet);
         bool Update(uint32 diff, PacketFilter& updater);
@@ -770,6 +771,7 @@ class WorldSession
         void HandlePVPLogDataOpcode(WorldPacket &recv_data);
         void HandleBattleFieldPortOpcode(WorldPacket &recv_data);
         void HandleBattlefieldListOpcode(WorldPacket &recv_data);
+		void WorldQueryBattlefieldState(WorldPacket &recv_data);
         void HandleLeaveBattlefieldOpcode(WorldPacket &recv_data);
         void HandleBattlemasterJoinArena(WorldPacket &recv_data);
         void HandleReportPvPAFK(WorldPacket &recv_data);
@@ -904,6 +906,9 @@ class WorldSession
 
         void HandleViolenceLevelOpcode(WorldPacket& recvPacket);
         void HandleSendCemetryListResponse(WorldPacket& recvPacket);
+		
+		void PlayerRequestCemeteryList(WorldPacket& recvPacket);
+		void PlayerViolenceLevel(WorldPacket& recvPacket);		
 
     private:
         void InitializeQueryCallbackParameters();

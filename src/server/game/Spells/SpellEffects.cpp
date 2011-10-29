@@ -3343,6 +3343,7 @@ void Spell::SendLoot(uint64 guid, LootType loottype)
             case GAMEOBJECT_TYPE_GOOBER:
                 gameObjTarget->Use(m_caster);
                 return;
+				
             case GAMEOBJECT_TYPE_CHEST:
                 // TODO: possible must be moved to loot release (in different from linked triggering)
                 if (gameObjTarget->GetGOInfo()->chest.eventId)
