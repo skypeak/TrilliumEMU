@@ -719,7 +719,8 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( CMSG_MOVE_WATER_WALK_ACK,                     STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleMoveWaterWalkAck          );
     DEFINE_OPCODE_HANDLER( CMSG_MOVE_NOT_ACTIVE_MOVER,                   STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleMoveNotActiveMover        );
     DEFINE_OPCODE_HANDLER( SMSG_PLAY_SOUND,                              STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
-    DEFINE_OPCODE_HANDLER( CMSG_BATTLEFIELD_STATUS,                      STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleBattlefieldStatusOpcode   );
+    DEFINE_OPCODE_HANDLER( CMSG_BATTLEFIELD_STATE,                       STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::WorldQueryBattlefieldState     	);
+	DEFINE_OPCODE_HANDLER( CMSG_BATTLEFIELD_STATUS,                      STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleBattlefieldStatusOpcode   );
     DEFINE_OPCODE_HANDLER( SMSG_BATTLEFIELD_STATUS1,                     STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( SMSG_BATTLEFIELD_STATUS2,                     STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( SMSG_BATTLEFIELD_STATUS3,                     STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
@@ -1275,9 +1276,9 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( CMSG_SET_PRIMARY_TALENT_TREE,                 STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( CMSG_GROUP_SET_ROLES,                         STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( SMSG_UNKNOWN_1310,                            STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
-    DEFINE_OPCODE_HANDLER( CMSG_RETURN_TO_GRAVEYARD,                     STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
+    DEFINE_OPCODE_HANDLER( CMSG_RETURN_TO_GRAVEYARD,                     STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleMoveToGraveyard           );
 	DEFINE_OPCODE_HANDLER( CMSG_REFORGE,                                 STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleReforgeOpcode             );
-    DEFINE_OPCODE_HANDLER( CMSG_VIOLENCE_LEVEL,                          STATUS_UNHANDLED,PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
+    DEFINE_OPCODE_HANDLER( CMSG_VIOLENCE_LEVEL,                          STATUS_AUTHED,   PROCESS_THREADUNSAFE,  &WorldSession::PlayerViolenceLevel             );
     DEFINE_OPCODE_HANDLER( CMSG_LOG_DISCONNECT,                          STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( MSG_CHECK_CONNECTION,                         STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_EarlyProccess            );
     DEFINE_OPCODE_HANDLER( SMSG_COMPRESSED_CHAR_ENUM,                    STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
@@ -1285,7 +1286,7 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( CMSG_REQUEST_CATEGORY_COOLDOWNS,              STATUS_UNHANDLED,PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( CMSG_CUF_PROFILES_SAVE,                       STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( SMSG_CUF_PROFILES_LOAD,                       STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
-    DEFINE_OPCODE_HANDLER( CMSG_REQUEST_CEMETERY_LIST,                   STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
+    DEFINE_OPCODE_HANDLER( CMSG_REQUEST_CEMETERY_LIST,                   STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::PlayerRequestCemeteryList       );
     DEFINE_OPCODE_HANDLER( SMSG_REQUEST_CEMETERY_LIST_RESPONSE,          STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::HandleSendCemetryListResponse   );
 #undef DEFINE_OPCODE_HANDLER
 }

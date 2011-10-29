@@ -1685,4 +1685,18 @@ void WorldSession::HandleSendCemetryListResponse(WorldPacket& recvPacket)
     recvPacket >> unk;
 
     // TODO Implement it.
+
+}
+
+void WorldSession::PlayerRequestCemeteryList(WorldPacket& recvPacket)
+{
+  // Empty Opcode
+  sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_REQUEST_CEMETERY_LIST");
+}
+
+void WorldSession::PlayerViolenceLevel(WorldPacket& recvPacket)
+{
+  sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_VIOLENCE_LEVEL");
+  recvPacket.read_skip<uint8>();    // violenceLevel
+
 }

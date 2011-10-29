@@ -729,7 +729,8 @@ enum Opcodes
     CMSG_MOVE_WATER_WALK_ACK                         = 0x10133, //
     CMSG_MOVE_NOT_ACTIVE_MOVER                       = 0x10134, //
     SMSG_PLAY_SOUND                                  = 0x02622, // 14480
-    CMSG_BATTLEFIELD_STATUS                          = 0x050D0, // 14480
+    CMSG_BATTLEFIELD_STATE	                         = 0x03620, // 14480
+	CMSG_BATTLEFIELD_STATUS                          = 0x050D0, // 14480
     SMSG_BATTLEFIELD_STATUS1                         = 0x00B07, // 14480
     SMSG_BATTLEFIELD_STATUS2                         = 0x04B05, // 14480
     SMSG_BATTLEFIELD_STATUS3                         = 0x04F63, // 14480
@@ -1166,7 +1167,7 @@ enum Opcodes
     CMSG_PET_LEARN_TALENT                            = 0x0F2E2, // 14480
     CMSG_PET_UNLEARN_TALENTS                         = 0x1023D, //
     SMSG_SET_PHASE_SHIFT                             = 0x0DB05, // 14480
-    SMSG_ALL_ACHIEVEMENT_DATA                        = 0x00B63, // 14480
+    SMSG_ALL_ACHIEVEMENT_DATA                        = 0x0c303, //0x00B63, // 14480
     CMSG_FORCE_SAY_CHEAT                             = 0x10240, //
     SMSG_HEALTH_UPDATE                               = 0x0B66A, // 14480
     SMSG_POWER_UPDATE                                = 0x0B6BE, // 14480
