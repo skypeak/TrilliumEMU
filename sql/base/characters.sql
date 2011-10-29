@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v9.10 
-MySQL - 5.5.8 : Database - 420_tcharacters
+MySQL - 5.5.8 : Database - ark_characters
 *********************************************************************
 */
 
@@ -12,7 +12,7 @@ MySQL - 5.5.8 : Database - 420_tcharacters
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`420_tcharacters` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`ark_characters` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 /*Table structure for table `account_data` */
 
@@ -71,6 +71,8 @@ CREATE TABLE `addons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Addons';
 
 /*Data for the table `addons` */
+
+insert  into `addons`(`name`,`crc`) values ('Blizzard_AchievementUI',1276933997),('Blizzard_ArchaeologyUI',1276933997),('Blizzard_ArenaUI',1276933997),('Blizzard_AuctionUI',1276933997),('Blizzard_BarbershopUI',1276933997),('Blizzard_BattlefieldMinimap',1276933997),('Blizzard_BindingUI',1276933997),('Blizzard_Calendar',1276933997),('Blizzard_ClientSavedVariables',1276933997),('Blizzard_CombatLog',1276933997),('Blizzard_CombatText',1276933997),('Blizzard_CompactRaidFrames',1276933997),('Blizzard_CUFProfiles',1276933997),('Blizzard_DebugTools',1276933997),('Blizzard_GlyphUI',1276933997),('Blizzard_GMChatUI',1276933997),('Blizzard_GMSurveyUI',1276933997),('Blizzard_GuildBankUI',1276933997),('Blizzard_GuildControlUI',1276933997),('Blizzard_GuildUI',1276933997),('Blizzard_InspectUI',1276933997),('Blizzard_ItemSocketingUI',1276933997),('Blizzard_LookingForGuildUI',1276933997),('Blizzard_MacroUI',1276933997),('Blizzard_MovePad',1276933997),('Blizzard_RaidUI',1276933997),('Blizzard_ReforgingUI',1276933997),('Blizzard_TalentUI',1276933997),('Blizzard_TimeManager',1276933997),('Blizzard_TokenUI',1276933997),('Blizzard_TradeSkillUI',1276933997),('Blizzard_TrainerUI',1276933997);
 
 /*Table structure for table `arena_team` */
 
@@ -1386,6 +1388,8 @@ CREATE TABLE `pool_quest_save` (
 
 /*Data for the table `pool_quest_save` */
 
+insert  into `pool_quest_save`(`pool_id`,`quest_id`) values (34771,14144),(34880,14152),(34882,14102),(34912,14092),(34914,14076),(35094,14108);
+
 /*Table structure for table `reserved_name` */
 
 DROP TABLE IF EXISTS `reserved_name`;
@@ -1409,6 +1413,8 @@ CREATE TABLE `worldstates` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Variable Saves';
 
 /*Data for the table `worldstates` */
+
+insert  into `worldstates`(`entry`,`value`,`comment`) values (20002,1320528848,NULL),(20003,1319968800,NULL),(20004,1320528848,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
