@@ -14451,7 +14451,11 @@ void Player::OnGossipSelect(WorldObject* source, uint32 gossipListId, uint32 men
         return;
 
     int32 cost = int32(item->BoxMoney);
-    if (!HasEnoughMoney(cost))
+    bool nocost = false;
+    if (cost == 0)
+        nocost = true;
+
+    if (nocost == false && !HasEnoughMoney(cost))
     {
         SendBuyError(BUY_ERR_NOT_ENOUGHT_MONEY, 0, 0, 0);
         PlayerTalkClass->SendCloseGossip();
@@ -14564,7 +14568,8 @@ void Player::OnGossipSelect(WorldObject* source, uint32 gossipListId, uint32 men
             break;		
     }
 
-    ModifyMoney(-int32(cost));
+    if (nocost == false)
+        ModifyMoney(-int32(cost));
 	
 }
 
