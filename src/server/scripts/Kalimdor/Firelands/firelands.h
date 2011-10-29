@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /* Script complete: 10% */
 
 #ifndef DEF_FIRELANDS_H
@@ -85,4 +85,4 @@ ACTION_RAGNAROS_UP //start of each next phase
 ACTION_RAGNAROS_STANDUP //only on heroic mode
 ACTION_SULFURAS_SMASH //target for smashes
 };
-#endif 
+#endif
