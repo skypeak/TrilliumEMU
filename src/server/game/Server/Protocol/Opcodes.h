@@ -449,7 +449,7 @@ enum Opcodes
     SMSG_SHOWTAXINODES                               = 0x0AA7F, // 4.2.0:14480
     CMSG_TAXINODE_STATUS_QUERY                       = 0x06622, // 4.2.0:14480
     SMSG_TAXINODE_STATUS                             = 0x0226A, // 4.2.0:14480
-    CMSG_TAXIQUERYAVAILABLENODES                     = 0x100BF, //
+    CMSG_TAXIQUERYAVAILABLENODES                     = -1, //
     CMSG_ACTIVATETAXI                                = 0x0A2AF, // 4.2.0:14480
     SMSG_ACTIVATETAXIREPLY                           = 0x0AEB2, // 4.2.0:14480
     SMSG_NEW_TAXI_PATH                               = 0x06AA6, // 4.2.0:14480
@@ -625,8 +625,9 @@ enum Opcodes
     CMSG_AUCTION_LIST_BIDDER_ITEMS                   = 0x0BAF6, // 4.2.0:14480
     SMSG_AUCTION_BIDDER_LIST_RESULT                  = 0x06AB7, // 4.2.0:14480
     SMSG_SET_FLAT_SPELL_MODIFIER                     = 0x0B6EB, // 4.2.0:14480
-    SMSG_SET_PCT_SPELL_MODIFIER                      = 0x0FAAF, // 4.2.0:14480
-    UMSG_SET_AMMO                                    = 0x100BF, // 4.2.0:14480          =*UNUSED*=
+    SMSG_OPEN_LFG_DUNGEON_FINDER                     = 0x08efa, // 4.2.0:14480
+	SMSG_SET_PCT_SPELL_MODIFIER                      = 0x0FAAF, // 4.2.0:14480
+    CMSG_SET_AMMO                                    = 0x100BF, // 4.2.0:14480          =*UNUSED*=
     SMSG_CORPSE_RECLAIM_DELAY                        = 0x0F623, // 4.2.0:14480
     CMSG_SET_ACTIVE_MOVER                            = 0x0B633, // 4.2.0:14480
     CMSG_PET_CANCEL_AURA                             = 0x066F6, // 4.2.0:14480
@@ -1019,7 +1020,8 @@ enum Opcodes
     CMSG_GUILD_BANK_BUY_TAB                          = 0x036B3, // 4.2.0:14480
     CMSG_GUILD_BANK_UPDATE_TAB                       = 0x0727B, // 4.2.0:14480
     CMSG_GUILD_BANK_DEPOSIT_MONEY                    = 0x02A2F, // 4.2.0:14480
-    CMSG_GUILD_BANK_WITHDRAW_MONEY                   = 0x022EE, // 4.2.0:14480
+    CMSG_GUILD_CHALLENGE_UPDATE_REQUEST              = 0x08441, // 4.2.0:14480
+	CMSG_GUILD_BANK_WITHDRAW_MONEY                   = 0x022EE, // 4.2.0:14480
     CMSG_GUILD_BANK_NOTE                             = 0x06E26, // 4.2.0:14480
     MSG_GUILD_BANK_LOG_QUERY                         = 0x072EA, // 4.2.0:14480
     CMSG_SET_CHANNEL_WATCH                           = 0x101E0, //
