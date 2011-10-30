@@ -351,7 +351,7 @@ m_owner(owner), m_timeCla(0), m_updateTargetMapInterval(0),
 m_casterLevel(caster ? caster->getLevel() : m_spellInfo->SpellLevel), m_procCharges(0), m_stackAmount(1),
 m_isRemoved(false), m_isSingleTarget(false), m_isUsingCharges(false)
 {
-    if (m_spellInfo->ManaPerSecond || m_spellInfo->ManaPerSecondPerLevel)
+    if (m_spellInfo->ManaPerSecond)
         m_timeCla = 1 * IN_MILLISECONDS;
 
     m_maxDuration = CalcMaxDuration(caster);
@@ -689,35 +689,39 @@ void Aura::Update(uint32 diff, Unit* caster)
                 m_timeCla -= diff;
             else if (caster)
             {
-                if (int32 manaPerSecond = m_spellInfo->ManaPerSecond + m_spellInfo->ManaPerSecondPerLevel * caster->getLevel())
-                {
-                    m_timeCla += 1000 - diff;
+        if(m_spellInfo->ManaPerSecond > 0)
+        {
+          if (int32 manaPerSecond = m_spellInfo->ManaPerSecond * caster->getLevel())
+          {
+            m_timeCla += 1000 - diff;
 
-                    Powers powertype = Powers(m_spellInfo->PowerType);
-                    if (powertype == POWER_HEALTH)
-                    {
-                        if (int32(caster->GetHealth()) > manaPerSecond)
-                            caster->ModifyHealth(-manaPerSecond);
-                        else
-                        {
-                            Remove();
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        if (int32(caster->GetPower(powertype)) >= manaPerSecond)
-                            caster->ModifyPower(powertype, -manaPerSecond);
-                        else
-                        {
-                            Remove();
-                            return;
-                        }
-                    }
-                }
+            Powers powertype = Powers(m_spellInfo->PowerType);
+            if (powertype == POWER_HEALTH)
+            {
+              if (int32(caster->GetHealth()) > manaPerSecond)
+                caster->ModifyHealth(-manaPerSecond);
+              else
+              {
+                Remove();
+                return;
+              }
             }
+
+            else
+            {
+              if (int32(caster->GetPower(powertype)) >= manaPerSecond)
+                caster->ModifyPower(powertype, -manaPerSecond);
+              else
+              {
+                Remove();
+                return;
+              }
+            }
+          }
         }
+      }
     }
+  }
 }
 
 int32 Aura::CalcMaxDuration(Unit* caster) const
@@ -760,7 +764,7 @@ void Aura::RefreshDuration()
         if (m_effects[i])
             m_effects[i]->ResetPeriodic();
 
-    if (m_spellInfo->ManaPerSecond || m_spellInfo->ManaPerSecondPerLevel)
+    if (m_spellInfo->ManaPerSecond)
         m_timeCla = 1 * IN_MILLISECONDS;
 }
 
