@@ -1589,6 +1589,11 @@ void Player::Update(uint32 p_time)
     if (now > m_Last_tick)
         UpdateItemDuration(uint32(now - m_Last_tick));
 
+    if (now > m_Save_Time)
+    {
+        SaveToDB();
+        m_Save_Time = now + 360;		
+	}	
     // check every second
     if (now > m_Last_tick + 1)
         UpdateSoulboundTradeItems();
