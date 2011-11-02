@@ -168,7 +168,7 @@ Unit* ObjectAccessor::FindUnit(uint64 guid)
 
 Player* ObjectAccessor::FindPlayerByName(const char* name)
 {
-    ACE_GUARD_RETURN(LockType, g, *HashMapHolder<Player>::GetLock(), NULL);
+    ARKCORE_READ_GUARD(HashMapHolder<Player>::LockType, *HashMapHolder<Player>::GetLock());
     HashMapHolder<Player>::MapType& m = HashMapHolder<Player>::GetContainer();
     for (HashMapHolder<Player>::MapType::iterator iter = m.begin(); iter != m.end(); ++iter)
         if (iter->second->IsInWorld() && strcmp(name, iter->second->GetName()) == 0)
@@ -179,7 +179,7 @@ Player* ObjectAccessor::FindPlayerByName(const char* name)
 
 void ObjectAccessor::SaveAllPlayers()
 {
-    ACE_GUARD(LockType, g, *HashMapHolder<Player>::GetLock());
+    ARKCORE_READ_GUARD(HashMapHolder<Player>::LockType, *HashMapHolder<Player>::GetLock());
     HashMapHolder<Player>::MapType& m = HashMapHolder<Player>::GetContainer();
     for (HashMapHolder<Player>::MapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         itr->second->SaveToDB();

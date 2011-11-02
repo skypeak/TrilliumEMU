@@ -206,4 +206,16 @@ typedef std::vector<std::string> StringVector;
 #endif
 
 #define MAX_QUERY_LEN 32*1024
+#define ARKCORE_GUARD(MUTEX, LOCK) \
+  ACE_Guard< MUTEX > ARKCORE_GUARD_OBJECT (LOCK); \
+    if (ARKCORE_GUARD_OBJECT.locked() == 0) ASSERT(false);
+
+# define ARKCORE_WRITE_GUARD(MUTEX, LOCK) \
+  ACE_Write_Guard< MUTEX > ARKCORE_GUARD_OBJECT (LOCK); \
+    if (ARKCORE_GUARD_OBJECT.locked() == 0) ASSERT(false);
+
+# define ARKCORE_READ_GUARD(MUTEX, LOCK) \
+  ACE_Read_Guard< MUTEX > ARKCORE_GUARD_OBJECT (LOCK); \
+    if (ARKCORE_GUARD_OBJECT.locked() == 0) ASSERT(false);
+
 #endif

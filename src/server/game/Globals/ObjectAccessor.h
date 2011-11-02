@@ -55,19 +55,19 @@ class HashMapHolder
 
         static void Insert(T* o)
         {
-            ACE_GUARD(LockType, Guard, i_lock);
+            ARKCORE_WRITE_GUARD(LockType, i_lock);
             m_objectMap[o->GetGUID()] = o;
         }
 
         static void Remove(T* o)
         {
-            ACE_GUARD(LockType, Guard, i_lock);
+            ARKCORE_WRITE_GUARD(LockType, i_lock);
             m_objectMap.erase(o->GetGUID());
         }
 
         static T* Find(uint64 guid)
         {
-            ACE_GUARD_RETURN(LockType, Guard, i_lock, NULL);
+            ARKCORE_READ_GUARD(LockType, i_lock);
             typename MapType::iterator itr = m_objectMap.find(guid);
             return (itr != m_objectMap.end()) ? itr->second : NULL;
         }
