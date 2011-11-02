@@ -449,7 +449,7 @@ enum Opcodes
     SMSG_SHOWTAXINODES                               = 0x0AA7F, // 4.2.0:14480
     CMSG_TAXINODE_STATUS_QUERY                       = 0x06622, // 4.2.0:14480
     SMSG_TAXINODE_STATUS                             = 0x0226A, // 4.2.0:14480
-    CMSG_TAXIQUERYAVAILABLENODES                     = -1, //
+    CMSG_TAXIQUERYAVAILABLENODES                     = 0x00000, // Not handled
     CMSG_ACTIVATETAXI                                = 0x0A2AF, // 4.2.0:14480
     SMSG_ACTIVATETAXIREPLY                           = 0x0AEB2, // 4.2.0:14480
     SMSG_NEW_TAXI_PATH                               = 0x06AA6, // 4.2.0:14480
