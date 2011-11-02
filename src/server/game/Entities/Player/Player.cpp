@@ -642,15 +642,8 @@ UpdateMask Player::updateVisualBits;
 
 // we can disable this warning for this since it only
 // causes undefined behavior when passed to the base class constructor
-#ifdef _MSC_VER
-#pragma warning(disable:4355)
-#endif
-Player::Player (WorldSession *session): Unit(), m_achievementMgr(this), m_reputationMgr(this)
+Player::Player(WorldSession *session): Unit(), m_achievementMgr(this), m_reputationMgr(this)
 {
-#ifdef _MSC_VER
-#pragma warning(default:4355)
-#endif
-
     m_speakTime = 0;
     m_speakCount = 0;
 
@@ -804,15 +797,17 @@ Player::Player (WorldSession *session): Unit(), m_achievementMgr(this), m_reputa
     m_activeSpec = 0;
     m_specsCount = 1;
 
-    for (uint8 i = 0; i < MAX_TALENT_SPECS; ++i)
+    for (uint8 i = 0; i < MAX_TALENT_SPECS; i++)
     {
         for (uint8 g = 0; g < MAX_GLYPH_SLOT_INDEX; ++g)
             m_Glyphs[i][g] = 0;
 
         m_talents[i] = new PlayerTalentMap();
         m_branchSpec[i] = 0;
-
-        m_freeTalentPoints = 0;
+    }
+    for (uint8 i = 0; i < MAX_TALENT_TABS; i++)
+    {
+        m_talentSpec[MAX_TALENT_TABS] = 0;
     }
 
     for (uint8 i = 0; i < BASEMOD_END; ++i)
@@ -16874,9 +16869,6 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder, WorldSession *sessi
     _LoadIntoDataField(fields[55].GetCString(), PLAYER_EXPLORED_ZONES_1, PLAYER_EXPLORED_ZONES_SIZE);
     _LoadIntoDataField(fields[57].GetCString(), PLAYER__FIELD_KNOWN_TITLES, KNOWN_TITLES_SIZE*2);
 
-    if (m_achievementMgr.GetAchievementPoints())
-        fields[57].GetUInt32();
-
     SetFloatValue(UNIT_FIELD_BOUNDINGRADIUS, DEFAULT_WORLD_OBJECT_SIZE);
     SetFloatValue(UNIT_FIELD_COMBATREACH, 1.5f);
     SetFloatValue(UNIT_FIELD_HOVERHEIGHT, 1.0f);
@@ -18858,7 +18850,7 @@ void Player::SaveToDB()
     GetSession()->SaveTutorialsData(trans);                 // changed only while character in game
     _SaveGlyphs(trans);
     _SaveInstanceTimeRestrictions(trans);
-    _SaveCurrency(trans);
+    _SaveCurrency();
     _SaveConquestPointsWeekCap();
 
     // check if stats should only be saved on logout
@@ -19286,16 +19278,16 @@ void Player::_SaveSpells(SQLTransaction& trans)
     }
 }
 
-void Player::_SaveCurrency(SQLTransaction& trans)
+void Player::_SaveCurrency()
 {
     for (PlayerCurrenciesMap::iterator itr = m_currencies.begin(); itr != m_currencies.end();)
     {
         if (itr->second.state == PLAYERCURRENCY_CHANGED)
-            trans->PAppend("UPDATE character_currency SET count = '%u', thisweek = '%u' WHERE guid = '%u' AND currency = '%u'",
-                itr->second.totalCount, itr->second.weekCount, GetGUIDLow(), itr->first);
+            CharacterDatabase.PExecute("UPDATE character_currency SET `count` = '%u', thisweek = '%u' WHERE guid = '%u' AND currency = '%u'",
+            itr->second.totalCount, itr->second.weekCount, GetGUIDLow(), itr->first);
         else if (itr->second.state == PLAYERCURRENCY_NEW)
-            trans->PAppend("INSERT INTO character_currency (guid, currency, count, thisweek) VALUES ('%u','%u','%u','%u')",
-                 GetGUIDLow(), itr->first, itr->second.totalCount, itr->second.weekCount);
+            CharacterDatabase.PExecute("INSERT INTO character_currency (guid, currency, `count`, thisweek) VALUES ('%u', '%u', '%u', '%u')",
+            GetGUIDLow(), itr->first, itr->second.totalCount, itr->second.weekCount);
 
         if (itr->second.state == PLAYERCURRENCY_REMOVED)
             m_currencies.erase(itr++);
@@ -22401,7 +22393,7 @@ void Player::ResetCurrencyWeekCap()
     m_maxWeekRating[CP_SOURCE_ARENA] = 0; // player must win at least 1 arena for week to change m_conquestPointsWeekCap
 
     _SaveConquestPointsWeekCap();
-    /*_SaveCurrency();*/ //Temp build fix.
+    _SaveCurrency();
     SendCurrencies();
 
     // Arena Teams
