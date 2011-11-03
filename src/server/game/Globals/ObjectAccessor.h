@@ -238,42 +238,41 @@ class ObjectAccessor
 
         void AddUpdateObject(Object* obj)
         {
-            ACE_GUARD(LockType, Guard, i_updateGuard);
+            ARKCORE_GUARD(ACE_Thread_Mutex, i_objectLock);
             i_objects.insert(obj);
         }
 
         void RemoveUpdateObject(Object* obj)
         {
-            ACE_GUARD(LockType, Guard, i_updateGuard);
+            ARKCORE_GUARD(ACE_Thread_Mutex, i_objectLock);
             i_objects.erase(obj);
         }
 
         void Update(uint32 diff);
 
+		//Thread safe
         Corpse* GetCorpseForPlayerGUID(uint64 guid);
         void RemoveCorpse(Corpse* corpse);
         void AddCorpse(Corpse* corpse);
         void AddCorpsesToGrid(GridPair const& gridpair, GridType& grid, Map* map);
         Corpse* ConvertCorpseForPlayer(uint64 player_guid, bool insignia = false);
+		//Thread unsafe
         void RemoveOldCorpses();
-
-        typedef ACE_Thread_Mutex LockType;
 
     protected:
         void UnloadAll();
 
     private:
 
-        Player2CorpsesMapType i_player2corpse;
-
         static void _buildChangeObjectForPlayer(WorldObject*, UpdateDataMapType&);
         static void _buildPacket(Player*, Object*, UpdateDataMapType&);
         void _update();
 
         std::set<Object*> i_objects;
+		Player2CorpsesMapType i_player2corpse;
 
-        LockType i_updateGuard;
-        LockType i_corpseGuard;
+        ACE_Thread_Mutex i_objectLock;
+        ACE_RW_Thread_Mutex i_corpseLock;
 };
 
 #define sObjectAccessor ACE_Singleton<ObjectAccessor, ACE_Thread_Mutex>::instance()
