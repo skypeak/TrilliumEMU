@@ -862,6 +862,11 @@ struct SmartAction
         {
             uint32 withEmote;
         } flee;
+		
+        struct
+        {
+            uint32 GoRespawnTime;
+        } RespawnTarget;		
 
         struct
         {

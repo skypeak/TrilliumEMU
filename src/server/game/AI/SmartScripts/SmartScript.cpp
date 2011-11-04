@@ -1340,7 +1340,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
                 if (IsCreature(*itr))
                     (*itr)->ToCreature()->Respawn();
                 else if (IsGameObject(*itr))
-                    (*itr)->ToGameObject()->Respawn();
+                    (*itr)->ToGameObject()->SetRespawnTime(e.action.RespawnTarget.GoRespawnTime);
             }
 
             delete targets;
