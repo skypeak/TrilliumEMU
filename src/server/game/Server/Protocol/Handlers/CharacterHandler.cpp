@@ -214,7 +214,7 @@ bool LoginQueryHolder::Initialize()
 
 void WorldSession::HandleCharEnum(QueryResult result)
 {
-    WorldPacket data(SMSG_CHAR_ENUM, 270);
+    WorldPacket data(SMSG_CHAR_ENUM, 300);
 
     data << uint8(0x80); // 0 causes the client to free memory of charlist
     data << uint32(0); // unk loop counter
