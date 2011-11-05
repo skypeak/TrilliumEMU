@@ -217,6 +217,7 @@ public:
     uint32 GetNextSurveyID() { return ++_lastSurveyId; }
 
     void Initialize();
+	void ResetTickets();
 
     void ShowList(ChatHandler& handler, bool onlineOnly) const;
     void ShowClosedList(ChatHandler& handler) const;

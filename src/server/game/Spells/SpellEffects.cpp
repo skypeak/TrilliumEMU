@@ -1075,7 +1075,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
 
 void Spell::EffectDummy(SpellEffIndex effIndex)
 {
-    if (effectHandleMode == SPELL_EFFECT_HANDLE_LAUNCH_TARGET)
+    if (effectHandleMode != SPELL_EFFECT_HANDLE_LAUNCH_TARGET)
         return;
 
     if (!unitTarget && !gameObjTarget && !itemTarget)

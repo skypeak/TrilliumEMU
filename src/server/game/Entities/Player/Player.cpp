@@ -9169,11 +9169,7 @@ void Player::SendInitWorldStates(uint32 zoneid, uint32 areaid)
         case 3698:
         case 3702:
         case 3968:
-            NumberOfFields = 11;
-            break;
         case 4378:
-            NumberOfFields = 11;
-            break;
         case 3703:
             NumberOfFields = 11;
             break;
@@ -9184,8 +9180,6 @@ void Player::SendInitWorldStates(uint32 zoneid, uint32 areaid)
             NumberOfFields = 28;
             break;
         case 4812:  // Icecrown Citadel
-            NumberOfFields = 13;
-            break;
         case 4100:  // The Culling of Stratholme
             NumberOfFields = 13;
             break;
@@ -21024,16 +21018,25 @@ bool Player::BuyItemFromVendorSlot(uint64 vendorguid, uint32 vendorslot, uint32 
         }
     }
 
-    uint64 price  = crItem->IsGoldRequired(pProto) ? pProto->BuyPrice * count : 0;
+    uint64 price = 0;
+    if (crItem->IsGoldRequired(pProto) && pProto->BuyPrice > 0) //Assume price cannot be negative (do not know why it is int32)
+    {
+        uint32 maxCount = MAX_MONEY_AMOUNT / pProto->BuyPrice;
+        if ((uint32)count > maxCount)
+        {
+            sLog->outError("Player %s tried to buy %u item id %u, causing overflow", GetName(), (uint32)count, pProto->ItemId);
+            count = (uint8)maxCount;
+        }
+        price = pProto->BuyPrice * count; //it should not exceed MAX_MONEY_AMOUNT
 
-    // reputation discount
-    if (price)
+        // reputation discount
         price = uint32(floor(price * GetReputationPriceDiscount(pCreature)));
 
-    if (!HasEnoughMoney(price))
-    {
-        SendBuyError(BUY_ERR_NOT_ENOUGHT_MONEY, pCreature, item, 0);
-        return false;
+        if (!HasEnoughMoney(price))
+        {
+            SendBuyError(BUY_ERR_NOT_ENOUGHT_MONEY, pCreature, item, 0);
+            return false;
+        }
     }
 
     if ((bag == NULL_BAG && slot == NULL_SLOT) || IsInventoryPos(bag, slot))
