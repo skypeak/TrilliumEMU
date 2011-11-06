@@ -1733,8 +1733,8 @@ class Player : public Unit, public GridObject<Player>
         void SetReputation(uint32 factionentry, uint32 value);
         uint32 GetReputation(uint32 factionentry);
         std::string GetGuildName();
-        uint32 GetFreeTalentPoints() const { return m_freeTalentPoints; }
-        void SetFreeTalentPoints(uint32 points) { m_freeTalentPoints = points; }
+        uint32 GetFreeTalentPoints() const { return talentPoints; }
+        void SetFreeTalentPoints(uint32 points) { talentPoints = points; }
         bool resetTalents(bool no_cost = false);
         uint32 resetTalentsCost() const;
         void InitTalentForLevel();
@@ -1744,8 +1744,6 @@ class Player : public Unit, public GridObject<Player>
         void LearnTalent(uint32 talentId, uint32 talentRank, bool learn);
         void LearnPetTalent(uint64 petGuid, uint32 talentId, uint32 talentRank);
 
-        void SetTalentBranchSpec(uint32 branchspec, uint8 spec) { m_branchSpec[spec] = branchspec; }
-        uint32 TalentBranchSpec(uint8 spec) { return m_branchSpec[spec]; }
         bool AddTalent(uint32 spell, uint8 spec, bool learning);
         bool HasTalent(uint32 spell_id, uint8 spec) const;
 
@@ -1758,6 +1756,10 @@ class Player : public Unit, public GridObject<Player>
         uint8 GetSpecsCount() { return m_specsCount; }
         void SetSpecsCount(uint8 count) { m_specsCount = count; }
         void ActivateSpec(uint8 spec);
+
+        // Branch Spec
+        void SetTalentBranchSpec(uint32 branchspec, uint8 spec) { m_branchSpec[spec] = branchspec; }
+        uint32 TalentBranchSpec(uint8 spec) { return m_branchSpec[spec]; }
 
         void InitGlyphsForLevel();
         void SetGlyphSlot(uint8 slot, uint32 slottype) { SetUInt32Value(PLAYER_FIELD_GLYPH_SLOTS_1 + slot, slottype); }
@@ -2759,8 +2761,6 @@ class Player : public Unit, public GridObject<Player>
         uint8 m_activeSpec;
         uint8 m_specsCount;
         uint32 m_branchSpec[MAX_TALENT_SPECS];              // tabId of the main talent branch
-        uint32 m_talentSpec[MAX_TALENT_TABS];               // S[1,MAX_TALENT_TABS] { (numTalentsInTab << (tabPageIndex*8) }
-        uint32 m_freeTalentPoints;
 
         uint32 m_emote;
 
@@ -2943,6 +2943,7 @@ class Player : public Unit, public GridObject<Player>
         InstanceTimeMap _instanceResetTimes;
         uint32 _pendingBindId;
         uint32 _pendingBindTimer;
+        uint32 talentPoints;
 };
 
 void AddItemsSetItem(Player*player, Item *item);

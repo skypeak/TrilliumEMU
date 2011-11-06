@@ -805,10 +805,6 @@ Player::Player(WorldSession *session): Unit(), m_achievementMgr(this), m_reputat
         m_talents[i] = new PlayerTalentMap();
         m_branchSpec[i] = 0;
     }
-    for (uint8 i = 0; i < MAX_TALENT_TABS; i++)
-    {
-        m_talentSpec[MAX_TALENT_TABS] = 0;
-    }
 
     for (uint8 i = 0; i < BASEMOD_END; ++i)
     {
@@ -3604,7 +3600,7 @@ void Player::AddNewMailDeliverTime(time_t deliver_time)
 
 bool Player::AddTalent(uint32 spell_id, uint8 spec, bool learning)
 {
-    SpellInfo const *spellInfo = sSpellMgr->GetSpellInfo(spell_id);
+    SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(spell_id);
     if (!spellInfo)
     {
         // do character spell book cleanup (all characters)
@@ -18891,8 +18887,8 @@ void Player::SaveToDB()
     _SaveDailyQuestStatus(trans);
     _SaveWeeklyQuestStatus(trans);
     _SaveTalents(trans);
-    _SaveSpells(trans);
     _SaveTalentBranchSpecs(trans);
+    _SaveSpells(trans);
     _SaveSpellCooldowns(trans);
     _SaveActions(trans);
     _SaveAuras(trans);
@@ -24117,7 +24113,7 @@ bool Player::HasAchieved(uint32 entry)
     return false;
 }
 
-void Player::LearnTalent(uint32 talentId, uint32 talentRank, bool learn /*= true*/)
+void Player::LearnTalent(uint32 talentId, uint32 talentRank, bool learn)
 {
     uint32 CurTalentPoints = GetFreeTalentPoints();
 
@@ -24137,25 +24133,24 @@ void Player::LearnTalent(uint32 talentId, uint32 talentRank, bool learn /*= true
     if (!talentTabInfo)
         return;
 
-    if (talentTabInfo->TalentTabID != TalentBranchSpec(m_activeSpec) && learn)
+    if (learn && talentTabInfo->TalentTabID != TalentBranchSpec(m_activeSpec))
     {
-        uint32 pointInBS = (m_talentSpec[m_activeSpec] >> (talentTabInfo->tabpage*8)) & 0xFF;
+        uint32 pointsinBranchSpec = 0;
         for (PlayerTalentMap::iterator itr = m_talents[m_activeSpec]->begin(); itr != m_talents[m_activeSpec]->end(); itr++)
         {
             for (uint32 i = 0; i < sTalentStore.GetNumRows(); i++)
             {
-                const TalentEntry * thisTalent = sTalentStore.LookupEntry(i);
-                if (thisTalent)
+                if (TalentEntry const* thisTalent = sTalentStore.LookupEntry(i))
                 {
-                    int thisrank = -1; // Set to -1 because of for ()
-
+                    int thisrank = -1;
                     for (int z = 0; z < 5; z++)
-
+                    {
                         if (thisTalent->RankID[z] == itr->first)
                         {
                             thisrank = z;
                             break;
                         }
+                    }
 
                     if (thisrank != -1)
                     {
@@ -24171,13 +24166,13 @@ void Player::LearnTalent(uint32 talentId, uint32 talentRank, bool learn /*= true
                                 }
                             }
                             if (curtalent_maxrank != -1 && thisrank == curtalent_maxrank)
-                                pointInBS += curtalent_maxrank + 1;
+                                pointsinBranchSpec += curtalent_maxrank + 1;
                         }
                     }
                 }
             }
         }
-        if (pointInBS < 31)
+        if (pointsinBranchSpec < 31)
             return;
     }
 
@@ -24207,13 +24202,13 @@ void Player::LearnTalent(uint32 talentId, uint32 talentRank, bool learn /*= true
     // Check if it requires another talent
     if (talentInfo->DependsOn > 0)
     {
-        if (TalentEntry const *depTalentInfo = sTalentStore.LookupEntry(talentInfo->DependsOn))
+        if (TalentEntry const* TalentInfo = sTalentStore.LookupEntry(talentInfo->DependsOn))
         {
             bool hasEnoughRank = false;
             for (uint8 rank = talentInfo->DependsOnRank; rank < MAX_TALENT_RANK; rank++)
             {
-                if (depTalentInfo->RankID[rank] != 0)
-                    if (HasSpell(depTalentInfo->RankID[rank]))
+                if (TalentInfo->RankID[rank] != 0)
+                    if (HasSpell(TalentInfo->RankID[rank]))
                         hasEnoughRank = true;
             }
             if (!hasEnoughRank)
@@ -24270,8 +24265,6 @@ void Player::LearnTalent(uint32 talentId, uint32 talentRank, bool learn /*= true
     // learn! (other talent ranks will unlearned at learning)
     learnSpell(spellid, false);
     AddTalent(spellid, m_activeSpec, true);
-
-    m_talentSpec[m_activeSpec] += 1 << (talentTabInfo->tabpage*8);
 
     sLog->outDetail("TalentID: %u Rank: %u Spell: %u Spec: %u\n", talentId, talentRank, spellid, m_activeSpec);
 
@@ -24414,6 +24407,7 @@ void Player::LearnPetTalent(uint64 petGuid, uint32 talentId, uint32 talentRank)
     pet->SetFreeTalentPoints(CurTalentPoints - (talentRank - curtalent_maxrank + 1));
 }
 
+// Todo: Drop it.
 void Player::AddKnownCurrency(uint32 itemId)
 {
     //if (CurrencyTypesEntry const* ctEntry = sCurrencyTypesStore.LookupEntry(itemId))
@@ -24478,9 +24472,6 @@ bool Player::canSeeSpellClickOn(Creature const *c) const
 
 void Player::BuildPlayerTalentsInfoData(WorldPacket *data)
 {
-    for (uint8 i = 0; i < MAX_TALENT_SPECS; ++i)
-        m_talentSpec[i] = 0;
-
     *data << uint32(GetFreeTalentPoints());                 // unspentTalentPoints
     *data << uint8(m_specsCount);                           // talent group count (0, 1 or 2)
     *data << uint8(m_activeSpec);                           // talent group index (0 or 1)
@@ -24514,8 +24505,6 @@ void Player::BuildPlayerTalentsInfoData(WorldPacket *data)
                     // skip another tab talents
                     if (talentInfo->TalentTab != talentTabId)
                         continue;
-
-                    m_talentSpec[specIdx] += ((i+1) << i*8); // 8 bits per tab, higher 8 bits are free
 
                     // find max talent rank (0~4)
                     int8 curtalent_maxrank = -1;
@@ -24559,7 +24548,7 @@ void Player::BuildPetTalentsInfoData(WorldPacket *data)
     size_t countPos = data->wpos();
     *data << uint8(talentIdCount);                          // [PH], talentIdCount
 
-    Pet *pet = GetPet();
+    Pet* pet = GetPet();
     if (!pet)
         return;
 
@@ -24902,32 +24891,6 @@ void Player::_SaveGlyphs(SQLTransaction& trans)
     }
 }
 
-void Player::_SaveTalentBranchSpecs(SQLTransaction& trans)
-{
-    trans->PAppend("DELETE FROM character_talentbranchspec WHERE guid='%u'", GetGUIDLow());
-    for (uint8 spec = 0; spec < m_specsCount; ++spec)
-        trans->PAppend("INSERT INTO character_talentbranchspec VALUES('%u', '%u', '%u')",
-					   GetGUIDLow(), spec, TalentBranchSpec(spec));
-}
-
-void Player::_LoadTalentBranchSpecs(PreparedQueryResult result)
-{
-    //              0             1
-	// "SELECT talentbranchSpec, spec FROM character_talentbranchspec WHERE guid = '%u'", GUID_LOPART(m_guid));
-	if (result)
-	{
-		do
-		{
-           Field* fields = result->Fetch();
-
-		   uint32 talentbranchspec = fields[0].GetUInt32();
-		   uint8 spec = fields[1].GetUInt32();
-           SetTalentBranchSpec(talentbranchspec, spec);
-        }
-		while (result->NextRow());
-    }
-}
-
 void Player::_LoadTalents(PreparedQueryResult result)
 {
     // SetPQuery(PLAYER_LOGIN_QUERY_LOADTALENTS, "SELECT spell, spec FROM character_talent WHERE guid = '%u'", GUID_LOPART(m_guid));
@@ -24963,6 +24926,32 @@ void Player::_SaveTalents(SQLTransaction& trans)
             }
         }
     }
+}
+
+void Player::_LoadTalentBranchSpecs(PreparedQueryResult result)
+{
+    //              0             1
+    // SetPQuery(CHAR_LOAD_PLAYER_TALENTBRANCHSPECS, "SELECT talentbranchSpec, spec FROM character_talentbranchspec WHERE guid = '%u'", GUID_LOPART(m_guid));
+    if (result)
+    {
+        do
+        {
+            Field* fields = result->Fetch();
+
+            uint32 talentbranchspec = fields[0].GetUInt32();
+            uint8 spec = fields[1].GetUInt32();
+            SetTalentBranchSpec(talentbranchspec, spec);
+        }
+        while (result->NextRow());
+    }
+}
+
+void Player::_SaveTalentBranchSpecs(SQLTransaction& trans)
+{
+    trans->PAppend("DELETE FROM character_talentbranchspec WHERE guid='%u'", GetGUIDLow());
+    for (uint8 spec = 0; spec < m_specsCount; ++spec)
+        trans->PAppend("INSERT INTO character_talentbranchspec VALUES('%u', '%u', '%u')",
+        GetGUIDLow(), spec, TalentBranchSpec(spec));
 }
 
 void Player::UpdateSpecCount(uint8 count)
@@ -25015,8 +25004,6 @@ void Player::ActivateSpec(uint8 spec)
     _SaveActions(trans);
     CharacterDatabase.CommitTransaction(trans);
 
-    UnsummonPetTemporaryIfAny();
-
     // TO-DO: We need more research to know what happens with warlock's reagent
     if (Pet* pet = GetPet())
         RemovePet(pet, PET_SLOT_ACTUAL_PET_SLOT, true);
@@ -25025,12 +25012,6 @@ void Player::ActivateSpec(uint8 spec)
     ClearAllReactives();
     UnsummonAllTotems();
     RemoveAllControlled();
-    /*RemoveAllAurasOnDeath();
-    if (GetPet())
-        GetPet()->RemoveAllAurasOnDeath();*/
-
-    //RemoveAllAuras(GetGUID(), NULL, false, true); // removes too many auras
-    //ExitVehicle(); // should be impossible to switch specs from inside a vehicle..
 
     // Let client clear his current Actions
     SendActionButtons(2);
@@ -25038,12 +25019,10 @@ void Player::ActivateSpec(uint8 spec)
     for (uint32 i = 0; i < sTalentStore.GetNumRows(); ++i)
     {
         TalentEntry const *talentInfo = sTalentStore.LookupEntry(i);
-
         if (!talentInfo)
             continue;
 
         TalentTabEntry const *talentTabInfo = sTalentTabStore.LookupEntry(talentInfo->TalentTab);
-
         if (!talentTabInfo)
             continue;
 
@@ -25070,6 +25049,13 @@ void Player::ActivateSpec(uint8 spec)
         }
     }
 
+    // set glyphs
+    for (uint8 slot = 0; slot < MAX_GLYPH_SLOT_INDEX; ++slot)
+        // remove secondary glyph
+        if (uint32 oldglyph = m_Glyphs[m_activeSpec][slot])
+            if (GlyphPropertiesEntry const *old_gp = sGlyphPropertiesStore.LookupEntry(oldglyph))
+                RemoveAurasDueToSpell(old_gp->SpellId);
+
     for (uint32 i = 0; i < sTalentTreePrimarySpellsStore.GetNumRows(); ++i)
     {
         TalentTreePrimarySpellsEntry const *talentInfo = sTalentTreePrimarySpellsStore.LookupEntry(i);
@@ -25079,13 +25065,6 @@ void Player::ActivateSpec(uint8 spec)
 
         removeSpell(talentInfo->Spell, false);
     }
-
-    // set glyphs
-    for (uint8 slot = 0; slot < MAX_GLYPH_SLOT_INDEX; ++slot)
-        // remove secondary glyph
-        if (uint32 oldglyph = m_Glyphs[m_activeSpec][slot])
-            if (GlyphPropertiesEntry const *old_gp = sGlyphPropertiesStore.LookupEntry(oldglyph))
-                RemoveAurasDueToSpell(old_gp->SpellId);
 
     SetActiveSpec(spec);
     uint32 spentTalents = 0;
@@ -25119,15 +25098,6 @@ void Player::ActivateSpec(uint8 spec)
                 spentTalents += (rank + 1);                  // increment the spentTalents count
             }
         }
-    }
-    for (uint32 i = 0; i < sTalentTreePrimarySpellsStore.GetNumRows(); ++i)
-    {
-        TalentTreePrimarySpellsEntry const *talentInfo = sTalentTreePrimarySpellsStore.LookupEntry(i);
-
-        if (!talentInfo || talentInfo->TalentTab != TalentBranchSpec(spec))
-            continue;
-
-        learnSpell(talentInfo->Spell, false);
     }
 
     // set glyphs

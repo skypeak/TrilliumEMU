@@ -42,8 +42,7 @@ void WorldSession::HandleLearnPreviewTalents(WorldPacket& recvPacket)
 {
     sLog->outDebug(LOG_FILTER_NETWORKIO, "CMSG_LEARN_PREVIEW_TALENTS");
 
-    uint32 spec;
-    uint32 talentsCount;
+    uint32 spec, talentsCount;
     recvPacket >> spec >> talentsCount;
 
     if (spec != ((uint32)-1))
@@ -72,10 +71,10 @@ void WorldSession::HandleLearnPreviewTalents(WorldPacket& recvPacket)
             {
                 TalentTreePrimarySpellsEntry const *talentInfo = sTalentTreePrimarySpellsStore.LookupEntry(i);
 
-                if (!talentInfo || talentInfo->TalentTab != specID)
+                if (!talentInfo || talentInfo->TalentTab != _player->TalentBranchSpec(_player->m_activeSpec))
                     continue;
 
-                _player->learnSpell(talentInfo->Spell, false);
+                _player->learnSpell(talentInfo->Spell, true);
             }
         }
         else if (_player->TalentBranchSpec(_player->m_activeSpec) != specID) //cheat
@@ -103,11 +102,13 @@ void WorldSession::HandleLearnPreviewTalents(WorldPacket& recvPacket)
             {
                 int thisrank = -1;
                 for (int j = 0; j < 5; j++)
+                {
                     if (thisTalent->RankID[j] == itr->first)
                     {
                         thisrank = j;
                         break;
                     }
+                }
                 if (thisrank != -1)
                 {
                     if (thisTalent->TalentTab == _player->TalentBranchSpec(_player->m_activeSpec))
