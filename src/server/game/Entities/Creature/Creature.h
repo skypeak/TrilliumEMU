@@ -755,7 +755,7 @@ class Creature : public Unit, public GridObject<Creature>, public MapCreature
         uint16 m_LootMode;                                  // bitmask, default LOOT_MODE_DEFAULT, determines what loot will be lootable
 
         bool IsInvisibleDueToDespawn() const;
-        bool canSeeAlways(WorldObject const* obj) const;
+        bool CanAlwaysSee(WorldObject const* obj) const;
     private:
         //WaypointMovementGenerator vars
         uint32 m_waypointID;
