@@ -248,8 +248,8 @@ void CreatureGroup::LeaderMoveTo(float x, float y, float z)
         float dy = y + sin(angle + pathangle) * dist;
         float dz = z;
 
-        Arkcore::NormalizeMapCoord(dx);
-        Arkcore::NormalizeMapCoord(dy);
+        Trillium::NormalizeMapCoord(dx);
+        Trillium::NormalizeMapCoord(dy);
 
         member->UpdateGroundPositionZ(dx, dy, dz);
 

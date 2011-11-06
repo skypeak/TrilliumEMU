@@ -53,7 +53,7 @@ extern int m_ServiceStatus;
 #endif
 
 /// Handle worldservers's termination signals
-class WorldServerSignalHandler : public Arkcore::SignalHandler
+class WorldServerSignalHandler : public Trillium::SignalHandler
 {
     public:
         virtual void HandleSignal(int SigNum)

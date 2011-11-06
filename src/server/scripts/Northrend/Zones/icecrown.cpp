@@ -3109,7 +3109,7 @@ class spell_flaming_spear_targeting : public SpellScriptLoader
                 if(pTargetList.empty())
                     return;
 
-                pTargetList.sort(Arkcore::ObjectDistanceOrderPred(GetCaster()));
+                pTargetList.sort(Trillium::ObjectDistanceOrderPred(GetCaster()));
 
                 std::list<Creature*>::iterator itr = pTargetList.begin();
                 uint8 i = 3;

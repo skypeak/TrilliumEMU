@@ -379,7 +379,7 @@ typedef UNORDERED_MAP<uint32/*(mapid, spawnMode) pair*/, CellObjectGuidsMap> Map
 
 typedef UNORDERED_MAP<uint64/*(instance, guid) pair*/, time_t> RespawnTimes;
 
-// Arkcore string ranges
+// Trillium string ranges
 #define MIN_TRILLIUMEMU_STRING_ID           1                    // 'TRILLIUMEMU_string'
 #define MAX_TRILLIUMEMU_STRING_ID           2000000000
 #define MIN_DB_SCRIPT_STRING_ID        MAX_TRILLIUMEMU_STRING_ID // 'db_script_string'
@@ -387,7 +387,7 @@ typedef UNORDERED_MAP<uint64/*(instance, guid) pair*/, time_t> RespawnTimes;
 #define MIN_CREATURE_AI_TEXT_STRING_ID (-1)                 // 'creature_ai_texts'
 #define MAX_CREATURE_AI_TEXT_STRING_ID (-1000000)
 
-// Arkcore Trainer Reference start range
+// Trillium Trainer Reference start range
 #define TRILLIUMEMU_TRAINER_START_REF      200000
 
 struct ArkcoreStringLocale

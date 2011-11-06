@@ -354,8 +354,8 @@ void ScriptedAI::DoTeleportAll(float x, float y, float z, float o)
 Unit* ScriptedAI::DoSelectLowestHpFriendly(float range, uint32 minHPDiff)
 {
     Unit* unit = NULL;
-    Arkcore::MostHPMissingInRange u_check(me, range, minHPDiff);
-    Arkcore::UnitLastSearcher<Arkcore::MostHPMissingInRange> searcher(me, unit, u_check);
+    Trillium::MostHPMissingInRange u_check(me, range, minHPDiff);
+    Trillium::UnitLastSearcher<Trillium::MostHPMissingInRange> searcher(me, unit, u_check);
     me->VisitNearbyObject(range, searcher);
 
     return unit;
@@ -364,8 +364,8 @@ Unit* ScriptedAI::DoSelectLowestHpFriendly(float range, uint32 minHPDiff)
 std::list<Creature*> ScriptedAI::DoFindFriendlyCC(float range)
 {
     std::list<Creature*> list;
-    Arkcore::FriendlyCCedInRange u_check(me, range);
-    Arkcore::CreatureListSearcher<Arkcore::FriendlyCCedInRange> searcher(me, list, u_check);
+    Trillium::FriendlyCCedInRange u_check(me, range);
+    Trillium::CreatureListSearcher<Trillium::FriendlyCCedInRange> searcher(me, list, u_check);
     me->VisitNearbyObject(range, searcher);
     return list;
 }
@@ -373,8 +373,8 @@ std::list<Creature*> ScriptedAI::DoFindFriendlyCC(float range)
 std::list<Creature*> ScriptedAI::DoFindFriendlyMissingBuff(float range, uint32 uiSpellid)
 {
     std::list<Creature*> list;
-    Arkcore::FriendlyMissingBuffInRange u_check(me, range, uiSpellid);
-    Arkcore::CreatureListSearcher<Arkcore::FriendlyMissingBuffInRange> searcher(me, list, u_check);
+    Trillium::FriendlyMissingBuffInRange u_check(me, range, uiSpellid);
+    Trillium::CreatureListSearcher<Trillium::FriendlyMissingBuffInRange> searcher(me, list, u_check);
     me->VisitNearbyObject(range, searcher);
     return list;
 }
@@ -383,14 +383,14 @@ Player* ScriptedAI::GetPlayerAtMinimumRange(float minimumRange)
 {
     Player* player = NULL;
 
-    CellPair pair(Arkcore::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    CellPair pair(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
     Cell cell(pair);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
-    Arkcore::PlayerAtMinimumRangeAway check(me, minimumRange);
-    Arkcore::PlayerSearcher<Arkcore::PlayerAtMinimumRangeAway> searcher(me, player, check);
-    TypeContainerVisitor<Arkcore::PlayerSearcher<Arkcore::PlayerAtMinimumRangeAway>, GridTypeMapContainer> visitor(searcher);
+    Trillium::PlayerAtMinimumRangeAway check(me, minimumRange);
+    Trillium::PlayerSearcher<Trillium::PlayerAtMinimumRangeAway> searcher(me, player, check);
+    TypeContainerVisitor<Trillium::PlayerSearcher<Trillium::PlayerAtMinimumRangeAway>, GridTypeMapContainer> visitor(searcher);
 
     cell.Visit(pair, visitor, *(me->GetMap()));
 

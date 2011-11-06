@@ -140,8 +140,8 @@ class boss_ammunae : public CreatureScript
             void RampartSummon(uint32 entry, float distance)
             {
                 std::list<Creature*> pCreatureList;
-                Arkcore::AllCreaturesOfEntryInRange checker(me, entry, distance);
-                Arkcore::CreatureListSearcher<Arkcore::AllCreaturesOfEntryInRange> searcher(me, pCreatureList, checker);
+                Trillium::AllCreaturesOfEntryInRange checker(me, entry, distance);
+                Trillium::CreatureListSearcher<Trillium::AllCreaturesOfEntryInRange> searcher(me, pCreatureList, checker);
                 me->VisitNearbyObject(distance, searcher);
                 if(pCreatureList.empty())
                     return;

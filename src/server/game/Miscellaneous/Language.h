@@ -917,7 +917,7 @@ enum ArkcoreStrings
     LANG_COMMAND_TICKETPENDING          = 2027,
     LANG_COMMAND_TICKETRESET            = 2028,
 
-    // Arkcore strings                    5000-9999
+    // Trillium strings                    5000-9999
     LANG_COMMAND_FREEZE                 = 5000,
     LANG_COMMAND_FREEZE_ERROR           = 5001,
     LANG_COMMAND_FREEZE_WRONG           = 5002,
@@ -950,7 +950,7 @@ enum ArkcoreStrings
     LANG_GOINFO_LOOTID                  = 5028,
     LANG_COMMAND_LOOKUP_MAX_RESULTS     = 5029,
     LANG_FLEE                           = 5030,
-    // Room for more Arkcore strings      5031-9999
+    // Room for more Trillium strings      5031-9999
 
     // Level requirement notifications
     LANG_SAY_REQ                        = 6604,

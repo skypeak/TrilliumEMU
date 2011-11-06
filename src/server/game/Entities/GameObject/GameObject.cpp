@@ -450,8 +450,8 @@ void GameObject::Update(uint32 diff)
                     // search unfriendly creature
                     if (owner)                    // hunter trap
                     {
-                        Arkcore::AnyUnfriendlyNoTotemUnitInObjectRangeCheck checker(this, owner, radius);
-                        Arkcore::UnitSearcher<Arkcore::AnyUnfriendlyNoTotemUnitInObjectRangeCheck> searcher(this, ok, checker);
+                        Trillium::AnyUnfriendlyNoTotemUnitInObjectRangeCheck checker(this, owner, radius);
+                        Trillium::UnitSearcher<Trillium::AnyUnfriendlyNoTotemUnitInObjectRangeCheck> searcher(this, ok, checker);
                         VisitNearbyGridObject(radius, searcher);
                         if (!ok) VisitNearbyWorldObject(radius, searcher);
                     }
@@ -460,8 +460,8 @@ void GameObject::Update(uint32 diff)
                         // environmental damage spells already have around enemies targeting but this not help in case not existed GO casting support
                         // affect only players
                         Player* player = NULL;
-                        Arkcore::AnyPlayerInObjectRangeCheck checker(this, radius);
-                        Arkcore::PlayerSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(this, player, checker);
+                        Trillium::AnyPlayerInObjectRangeCheck checker(this, radius);
+                        Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(this, player, checker);
                         VisitNearbyWorldObject(radius, searcher);
                         ok = player;
                     }
@@ -953,14 +953,14 @@ void GameObject::TriggeringLinkedGameObject(uint32 trapEntry, Unit* target)
     GameObject* trapGO = NULL;
     {
         // using original GO distance
-        CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
+        CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
         Cell cell(p);
         cell.data.Part.reserved = ALL_DISTRICT;
 
-        Arkcore::NearestGameObjectEntryInObjectRangeCheck go_check(*target, trapEntry, range);
-        Arkcore::GameObjectLastSearcher<Arkcore::NearestGameObjectEntryInObjectRangeCheck> checker(this, trapGO, go_check);
+        Trillium::NearestGameObjectEntryInObjectRangeCheck go_check(*target, trapEntry, range);
+        Trillium::GameObjectLastSearcher<Trillium::NearestGameObjectEntryInObjectRangeCheck> checker(this, trapGO, go_check);
 
-        TypeContainerVisitor<Arkcore::GameObjectLastSearcher<Arkcore::NearestGameObjectEntryInObjectRangeCheck>, GridTypeMapContainer > object_checker(checker);
+        TypeContainerVisitor<Trillium::GameObjectLastSearcher<Trillium::NearestGameObjectEntryInObjectRangeCheck>, GridTypeMapContainer > object_checker(checker);
         cell.Visit(p, object_checker, *GetMap(), *target, range);
     }
 
@@ -973,13 +973,13 @@ GameObject* GameObject::LookupFishingHoleAround(float range)
 {
     GameObject* ok = NULL;
 
-    CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
+    CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
-    Arkcore::NearestGameObjectFishingHole u_check(*this, range);
-    Arkcore::GameObjectSearcher<Arkcore::NearestGameObjectFishingHole> checker(this, ok, u_check);
+    Trillium::NearestGameObjectFishingHole u_check(*this, range);
+    Trillium::GameObjectSearcher<Trillium::NearestGameObjectFishingHole> checker(this, ok, u_check);
 
-    TypeContainerVisitor<Arkcore::GameObjectSearcher<Arkcore::NearestGameObjectFishingHole>, GridTypeMapContainer > grid_object_checker(checker);
+    TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::NearestGameObjectFishingHole>, GridTypeMapContainer > grid_object_checker(checker);
     cell.Visit(p, grid_object_checker, *GetMap(), *this, range);
 
     return ok;

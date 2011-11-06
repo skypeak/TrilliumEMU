@@ -1585,7 +1585,7 @@ void ObjectMgr::AddCreatureToGrid(uint32 guid, CreatureData const* data)
     {
         if (mask & 1)
         {
-            CellPair cell_pair = Arkcore::ComputeCellPair(data->posX, data->posY);
+            CellPair cell_pair = Trillium::ComputeCellPair(data->posX, data->posY);
             uint32 cell_id = (cell_pair.y_coord*TOTAL_NUMBER_OF_CELLS_PER_MAP) + cell_pair.x_coord;
 
             CellObjectGuids& cell_guids = mMapObjectGuids[MAKE_PAIR32(data->mapid, i)][cell_id];
@@ -1601,7 +1601,7 @@ void ObjectMgr::RemoveCreatureFromGrid(uint32 guid, CreatureData const* data)
     {
         if (mask & 1)
         {
-            CellPair cell_pair = Arkcore::ComputeCellPair(data->posX, data->posY);
+            CellPair cell_pair = Trillium::ComputeCellPair(data->posX, data->posY);
             uint32 cell_id = (cell_pair.y_coord*TOTAL_NUMBER_OF_CELLS_PER_MAP) + cell_pair.x_coord;
 
             CellObjectGuids& cell_guids = mMapObjectGuids[MAKE_PAIR32(data->mapid, i)][cell_id];
@@ -1894,7 +1894,7 @@ void ObjectMgr::AddGameobjectToGrid(uint32 guid, GameObjectData const* data)
     {
         if (mask & 1)
         {
-            CellPair cell_pair = Arkcore::ComputeCellPair(data->posX, data->posY);
+            CellPair cell_pair = Trillium::ComputeCellPair(data->posX, data->posY);
             uint32 cell_id = (cell_pair.y_coord*TOTAL_NUMBER_OF_CELLS_PER_MAP) + cell_pair.x_coord;
 
             CellObjectGuids& cell_guids = mMapObjectGuids[MAKE_PAIR32(data->mapid, i)][cell_id];
@@ -1910,7 +1910,7 @@ void ObjectMgr::RemoveGameobjectFromGrid(uint32 guid, GameObjectData const* data
     {
         if (mask & 1)
         {
-            CellPair cell_pair = Arkcore::ComputeCellPair(data->posX, data->posY);
+            CellPair cell_pair = Trillium::ComputeCellPair(data->posX, data->posY);
             uint32 cell_id = (cell_pair.y_coord*TOTAL_NUMBER_OF_CELLS_PER_MAP) + cell_pair.x_coord;
 
             CellObjectGuids& cell_guids = mMapObjectGuids[MAKE_PAIR32(data->mapid, i)][cell_id];
@@ -4405,7 +4405,7 @@ void ObjectMgr::LoadScripts(ScriptsType type)
                     continue;
                 }
 
-                if (!Arkcore::IsValidMapCoord(tmp.TeleportTo.DestX, tmp.TeleportTo.DestY, tmp.TeleportTo.DestZ, tmp.TeleportTo.Orientation))
+                if (!Trillium::IsValidMapCoord(tmp.TeleportTo.DestX, tmp.TeleportTo.DestY, tmp.TeleportTo.DestZ, tmp.TeleportTo.Orientation))
                 {
                     sLog->outErrorDb("Table `%s` has invalid coordinates (X: %f Y: %f Z: %f O: %f) in SCRIPT_COMMAND_TELEPORT_TO for script id %u",
                         tableName.c_str(), tmp.TeleportTo.DestX, tmp.TeleportTo.DestY, tmp.TeleportTo.DestZ, tmp.TeleportTo.Orientation, tmp.id);
@@ -4503,7 +4503,7 @@ void ObjectMgr::LoadScripts(ScriptsType type)
 
             case SCRIPT_COMMAND_TEMP_SUMMON_CREATURE:
             {
-                if (!Arkcore::IsValidMapCoord(tmp.TempSummonCreature.PosX, tmp.TempSummonCreature.PosY, tmp.TempSummonCreature.PosZ, tmp.TempSummonCreature.Orientation))
+                if (!Trillium::IsValidMapCoord(tmp.TempSummonCreature.PosX, tmp.TempSummonCreature.PosY, tmp.TempSummonCreature.PosZ, tmp.TempSummonCreature.Orientation))
                 {
                     sLog->outErrorDb("Table `%s` has invalid coordinates (X: %f Y: %f Z: %f O: %f) in SCRIPT_COMMAND_TEMP_SUMMON_CREATURE for script id %u",
                         tableName.c_str(), tmp.TempSummonCreature.PosX, tmp.TempSummonCreature.PosY, tmp.TempSummonCreature.PosZ, tmp.TempSummonCreature.Orientation, tmp.id);
@@ -6988,7 +6988,7 @@ void ObjectMgr::LoadPointsOfInterest()
         POI.data                 = fields[5].GetUInt32();
         POI.icon_name            = fields[6].GetString();
 
-        if (!Arkcore::IsValidMapCoord(POI.x, POI.y))
+        if (!Trillium::IsValidMapCoord(POI.x, POI.y))
         {
             sLog->outErrorDb("Table `points_of_interest` (Entry: %u) have invalid coordinates (X: %f Y: %f), ignored.", point_id, POI.x, POI.y);
             continue;
@@ -7733,7 +7733,7 @@ bool ObjectMgr::LoadArkcoreStrings(char const* table, int32 min_value, int32 max
     {
 
         if (min_value == MIN_TRILLIUMEMU_STRING_ID)              // error only in case internal strings
-            sLog->outErrorDb(">> Loaded 0 arkcore strings. DB table `%s` is empty. Cannot continue.", table);
+            sLog->outErrorDb(">> Loaded 0 Trillium strings. DB table `%s` is empty. Cannot continue.", table);
         else
             sLog->outString(">> Loaded 0 string templates. DB table `%s` is empty.", table);
         sLog->outString();
@@ -7775,7 +7775,7 @@ bool ObjectMgr::LoadArkcoreStrings(char const* table, int32 min_value, int32 max
     } while (result->NextRow());
 
     if (min_value == MIN_TRILLIUMEMU_STRING_ID)
-        sLog->outString(">> Loaded %u Arkcore strings from table %s in %u ms", count, table, GetMSTimeDiffToNow(oldMSTime));
+        sLog->outString(">> Loaded %u Trillium strings from table %s in %u ms", count, table, GetMSTimeDiffToNow(oldMSTime));
     else
         sLog->outString(">> Loaded %u string templates from %s in %u ms", count, table, GetMSTimeDiffToNow(oldMSTime));
 
@@ -7796,7 +7796,7 @@ const char *ObjectMgr::GetArkcoreString(int32 entry, LocaleConstant locale_idx) 
     if (entry > 0)
         sLog->outErrorDb("Entry %i not found in `TRILLIUMEMU_string` table.", entry);
     else
-        sLog->outErrorDb("Arkcore string entry %i not found in DB.", entry);
+        sLog->outErrorDb("Trillium string entry %i not found in DB.", entry);
     return "<error>";
 }
 
@@ -8665,7 +8665,7 @@ bool LoadArkcoreStrings(char const* table, int32 start_value, int32 end_value)
     // start/end reversed for negative values
     if (start_value > MAX_DB_SCRIPT_STRING_ID || end_value >= start_value)
     {
-        sLog->outErrorDb("Table '%s' load attempted with range (%d - %d) reserved by Arkcore, strings not loaded.", table, start_value, end_value+1);
+        sLog->outErrorDb("Table '%s' load attempted with range (%d - %d) reserved by Trillium, strings not loaded.", table, start_value, end_value+1);
         return false;
     }
 

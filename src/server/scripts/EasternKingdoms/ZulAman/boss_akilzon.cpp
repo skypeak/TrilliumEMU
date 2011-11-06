@@ -183,7 +183,7 @@ class boss_akilzon : public CreatureScript
                     for (uint8 i = 2; i < StormCount; ++i)
                         bp0 *= 2;
 
-                    CellPair p(Arkcore::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+                    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
                     Cell cell(p);
                     cell.data.Part.reserved = ALL_DISTRICT;
                     cell.SetNoCreate();
@@ -191,11 +191,11 @@ class boss_akilzon : public CreatureScript
                     std::list<Unit* > tempUnitMap;
 
                     {
-                        Arkcore::AnyAoETargetUnitInObjectRangeCheck u_check(me, me, 999);
-                        Arkcore::UnitListSearcher<Arkcore::AnyAoETargetUnitInObjectRangeCheck> searcher(me, tempUnitMap, u_check);
+                        Trillium::AnyAoETargetUnitInObjectRangeCheck u_check(me, me, 999);
+                        Trillium::UnitListSearcher<Trillium::AnyAoETargetUnitInObjectRangeCheck> searcher(me, tempUnitMap, u_check);
 
-                        TypeContainerVisitor<Arkcore::UnitListSearcher<Arkcore::AnyAoETargetUnitInObjectRangeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
-                        TypeContainerVisitor<Arkcore::UnitListSearcher<Arkcore::AnyAoETargetUnitInObjectRangeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
+                        TypeContainerVisitor<Trillium::UnitListSearcher<Trillium::AnyAoETargetUnitInObjectRangeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
+                        TypeContainerVisitor<Trillium::UnitListSearcher<Trillium::AnyAoETargetUnitInObjectRangeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
                         cell.Visit(p, world_unit_searcher, *(me->GetMap()));
                         cell.Visit(p, grid_unit_searcher, *(me->GetMap()));

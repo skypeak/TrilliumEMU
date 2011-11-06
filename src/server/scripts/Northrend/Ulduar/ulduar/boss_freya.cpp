@@ -622,7 +622,7 @@ public:
                 if(uiNaturalBomb_Timer <= diff)
                 {
                     std::list<Player*> plrList = me->GetNearestPlayersList(500);
-                    Arkcore::RandomResizeList<Player*>(plrList, uint32(Is25ManRaid() ? urand(10, 15) : urand(4, 6)));
+                    Trillium::RandomResizeList<Player*>(plrList, uint32(Is25ManRaid() ? urand(10, 15) : urand(4, 6)));
                     for (std::list<Player*>::const_iterator itr = plrList.begin(); itr != plrList.end(); ++itr)
                         if (*itr)
                             me->CastSpell((*itr),SPELL_NATURE_BOMB_VISUAL,true);

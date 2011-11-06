@@ -207,7 +207,7 @@ class spell_saviana_conflagration_init : public SpellScriptLoader
                 unitList.remove_if(ConflagrationTargetSelector());
                 uint8 maxSize = uint8(GetCaster()->GetMap()->GetSpawnMode() & 1 ? 6 : 3);
                 if (unitList.size() > maxSize)
-                    Arkcore::RandomResizeList(unitList, maxSize);
+                    Trillium::RandomResizeList(unitList, maxSize);
             }
 
             void HandleDummy(SpellEffIndex effIndex)

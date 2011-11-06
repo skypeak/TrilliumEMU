@@ -73,8 +73,8 @@ RandomMovementGenerator<Creature>::_setRandomLocation(Creature &creature)
         ny = Y + distanceY;
 
         // prevent invalid coordinates generation
-        Arkcore::NormalizeMapCoord(nx);
-        Arkcore::NormalizeMapCoord(ny);
+        Trillium::NormalizeMapCoord(nx);
+        Trillium::NormalizeMapCoord(ny);
 
         dist = (nx - X)*(nx - X) + (ny - Y)*(ny - Y);
 

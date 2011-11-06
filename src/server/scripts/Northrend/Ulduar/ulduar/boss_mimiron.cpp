@@ -1760,8 +1760,8 @@ public:
         Unit* SelectPlayerTargetInRange(float range)
         {
             Player *target = NULL;
-            Arkcore::AnyPlayerInObjectRangeCheck u_check(me, range, true);
-            Arkcore::PlayerSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
+            Trillium::AnyPlayerInObjectRangeCheck u_check(me, range, true);
+            Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
             me->VisitNearbyObject(range, searcher);
             return target;
         }

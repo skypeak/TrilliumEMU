@@ -224,14 +224,14 @@ enum SpellTargets
     SPELL_TARGETS_GO
 };
 
-namespace Arkcore
+namespace Trillium
 {
     struct SpellNotifierCreatureAndPlayer;
 }
 
 class Spell
 {
-    friend struct Arkcore::SpellNotifierCreatureAndPlayer;
+    friend struct Trillium::SpellNotifierCreatureAndPlayer;
     friend void Unit::SetCurrentCastedSpell(Spell * pSpell);
     friend class SpellScript;
     public:
@@ -676,7 +676,7 @@ class Spell
 #endif
 };
 
-namespace Arkcore
+namespace Trillium
 {
     struct SpellNotifierCreatureAndPlayer
     {

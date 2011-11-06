@@ -563,8 +563,8 @@ public:
             if(m_guidFireCyclone == 0)
         {
             std::list<Creature*> pFireCyclonesList;
-            Arkcore::AllCreaturesOfEntryInRange checker(me, NPC_FIRE_CYCLONE, 200.0f);
-            Arkcore::CreatureListSearcher<Arkcore::AllCreaturesOfEntryInRange> searcher(me, pFireCyclonesList, checker);
+            Trillium::AllCreaturesOfEntryInRange checker(me, NPC_FIRE_CYCLONE, 200.0f);
+            Trillium::CreatureListSearcher<Trillium::AllCreaturesOfEntryInRange> searcher(me, pFireCyclonesList, checker);
             me->VisitNearbyObject(200.0f, searcher);
 
             if(pFireCyclonesList.empty())
@@ -579,7 +579,7 @@ public:
                 (*itr)->CastSpell((*itr), SPELL_LAVA_STRIKE_TRIGGER, true);
                 m_guidFireCyclone = (*itr)->GetGUID();
             }
-            
+
             if(Creature* LavaCyclon = Creature::GetCreature((*me),m_guidFireCyclone))
             {
                 if(summon)
@@ -931,7 +931,7 @@ struct dummy_dragonAI : public ScriptedAI
     }
 
     GameObject* DoSpawnGameobject(uint32 uiId, float fX, float fY, float fZ, float fAngle, uint32 uiDespawntime)
-    {   
+    {
         return me->SummonGameObject(uiId, me->GetPositionX()+fX, me->GetPositionY()+fY, me->GetPositionZ()+fZ, fAngle, 0,0,0,0, uiDespawntime);
     }
 
@@ -1530,7 +1530,7 @@ public:
              }
 
             me->SetPhaseMask(16,true);
-            
+
             //me->AddAura(SPELL_TWILIGHT_SHIFT_ENTER,me);
         }
 
@@ -2070,5 +2070,5 @@ void AddSC_boss_sartharion()
     new go_twilight_portal();
     new achievement_twilight_assist();
     new achievement_twilight_duo();
-    new achievement_twilight_zone();	
+    new achievement_twilight_zone();
 }

@@ -1077,8 +1077,8 @@ public:
         Player* SelectPlayerTargetInRange(float range)
         {
             Player *target = NULL;
-            Arkcore::AnyPlayerInObjectRangeCheck u_check(me, range, true);
-            Arkcore::PlayerSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
+            Trillium::AnyPlayerInObjectRangeCheck u_check(me, range, true);
+            Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
             me->VisitNearbyObject(range, searcher);
             return target;
         }
@@ -1763,8 +1763,8 @@ public:
         Unit* SelectPlayerTargetInRange(float range)
         {
             Player *target = NULL;
-            Arkcore::AnyPlayerInObjectRangeCheck u_check(me, range, true);
-            Arkcore::PlayerSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
+            Trillium::AnyPlayerInObjectRangeCheck u_check(me, range, true);
+            Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
             me->VisitNearbyObject(range, searcher);
             return target;
         }
@@ -1864,8 +1864,8 @@ public:
         Unit* SelectPlayerTargetInRange(float range)
         {
             Player *target = NULL;
-            Arkcore::AnyPlayerInObjectRangeCheck u_check(me, range, true);
-            Arkcore::PlayerSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
+            Trillium::AnyPlayerInObjectRangeCheck u_check(me, range, true);
+            Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
             me->VisitNearbyObject(range, searcher);
             return target;
         }
@@ -2301,8 +2301,8 @@ public:
         Unit* SelectPlayerTargetInRange(float range)
         {
             Player *target = NULL;
-            Arkcore::AnyPlayerInObjectRangeCheck u_check(me, range, true);
-            Arkcore::PlayerSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
+            Trillium::AnyPlayerInObjectRangeCheck u_check(me, range, true);
+            Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
             me->VisitNearbyObject(range, searcher);
             return target;
         }
@@ -2478,14 +2478,14 @@ public:
 
         void GetAliveSaronitCreatureListInGrid(std::list<Creature*>& lList, float fMaxSearchRange)
         {
-            CellPair pair(Arkcore::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+            CellPair pair(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
             Cell cell(pair);
             cell.data.Part.reserved = ALL_DISTRICT;
             cell.SetNoCreate();
 
             AllSaronitCreaturesInRange check(me, fMaxSearchRange);
-            Arkcore::CreatureListSearcher<AllSaronitCreaturesInRange> searcher(me, lList, check);
-            TypeContainerVisitor<Arkcore::CreatureListSearcher<AllSaronitCreaturesInRange>, GridTypeMapContainer> visitor(searcher);
+            Trillium::CreatureListSearcher<AllSaronitCreaturesInRange> searcher(me, lList, check);
+            TypeContainerVisitor<Trillium::CreatureListSearcher<AllSaronitCreaturesInRange>, GridTypeMapContainer> visitor(searcher);
 
             cell.Visit(pair, visitor, *(me->GetMap()));
         }

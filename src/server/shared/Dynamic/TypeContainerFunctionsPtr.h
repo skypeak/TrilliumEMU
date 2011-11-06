@@ -32,7 +32,7 @@
 #include "Utilities/TypeList.h"
 #include <map>
 
-namespace Arkcore
+namespace Trillium
 {
     /* ContainerMapList Helpers */
     // count functions
