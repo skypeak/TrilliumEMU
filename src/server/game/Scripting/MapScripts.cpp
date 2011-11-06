@@ -273,14 +273,14 @@ inline GameObject* Map::_FindGameObject(WorldObject* pSearchObject, uint32 guid)
 {
     GameObject *pGameObject = NULL;
 
-    CellPair p(Arkcore::ComputeCellPair(pSearchObject->GetPositionX(), pSearchObject->GetPositionY()));
+    CellPair p(Trillium::ComputeCellPair(pSearchObject->GetPositionX(), pSearchObject->GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
 
-    Arkcore::GameObjectWithDbGUIDCheck goCheck(*pSearchObject, guid);
-    Arkcore::GameObjectSearcher<Arkcore::GameObjectWithDbGUIDCheck> checker(pSearchObject, pGameObject, goCheck);
+    Trillium::GameObjectWithDbGUIDCheck goCheck(*pSearchObject, guid);
+    Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck> checker(pSearchObject, pGameObject, goCheck);
 
-    TypeContainerVisitor<Arkcore::GameObjectSearcher<Arkcore::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > objectChecker(checker);
+    TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > objectChecker(checker);
     cell.Visit(p, objectChecker, *pSearchObject->GetMap());
 
     return pGameObject;
@@ -814,14 +814,14 @@ void Map::ScriptsProcess()
                 {
                     WorldObject* wSource = dynamic_cast <WorldObject*> (source);
 
-                    CellPair p(Arkcore::ComputeCellPair(wSource->GetPositionX(), wSource->GetPositionY()));
+                    CellPair p(Trillium::ComputeCellPair(wSource->GetPositionX(), wSource->GetPositionY()));
                     Cell cell(p);
                     cell.data.Part.reserved = ALL_DISTRICT;
 
-                    Arkcore::CreatureWithDbGUIDCheck target_check(wSource, step.script->CallScript.CreatureEntry);
-                    Arkcore::CreatureSearcher<Arkcore::CreatureWithDbGUIDCheck> checker(wSource, cTarget, target_check);
+                    Trillium::CreatureWithDbGUIDCheck target_check(wSource, step.script->CallScript.CreatureEntry);
+                    Trillium::CreatureSearcher<Trillium::CreatureWithDbGUIDCheck> checker(wSource, cTarget, target_check);
 
-                    TypeContainerVisitor<Arkcore::CreatureSearcher <Arkcore::CreatureWithDbGUIDCheck>, GridTypeMapContainer > unit_checker(checker);
+                    TypeContainerVisitor<Trillium::CreatureSearcher <Trillium::CreatureWithDbGUIDCheck>, GridTypeMapContainer > unit_checker(checker);
                     cell.Visit(p, unit_checker, *wSource->GetMap());
                 }
                 else //check hashmap holders

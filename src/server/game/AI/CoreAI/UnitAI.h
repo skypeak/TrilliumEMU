@@ -171,7 +171,7 @@ class UnitAI
                 return NULL;
 
             if (targetType == SELECT_TARGET_NEAREST || targetType == SELECT_TARGET_FARTHEST)
-                targetList.sort(Arkcore::ObjectDistanceOrderPred(me));
+                targetList.sort(Trillium::ObjectDistanceOrderPred(me));
 
             switch (targetType)
             {
@@ -220,13 +220,13 @@ class UnitAI
                 return;
 
             if (targetType == SELECT_TARGET_NEAREST || targetType == SELECT_TARGET_FARTHEST)
-                targetList.sort(Arkcore::ObjectDistanceOrderPred(me));
+                targetList.sort(Trillium::ObjectDistanceOrderPred(me));
 
             if (targetType == SELECT_TARGET_FARTHEST || targetType == SELECT_TARGET_BOTTOMAGGRO)
                 targetList.reverse();
 
             if (targetType == SELECT_TARGET_RANDOM)
-                Arkcore::RandomResizeList(targetList, maxTargets);
+                Trillium::RandomResizeList(targetList, maxTargets);
             else
                 targetList.resize(maxTargets);
         }

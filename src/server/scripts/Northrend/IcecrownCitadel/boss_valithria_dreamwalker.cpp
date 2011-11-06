@@ -225,7 +225,7 @@ class ValithriaDespawner : public BasicEvent
 
         bool Execute(uint64 /*currTime*/, uint32 /*diff*/)
         {
-            Arkcore::CreatureWorker<ValithriaDespawner> worker(_creature, *this);
+            Trillium::CreatureWorker<ValithriaDespawner> worker(_creature, *this);
             _creature->VisitNearbyGridObject(333.0f, worker);
             return true;
         }
@@ -715,7 +715,7 @@ class npc_risen_archmage : public CreatureScript
                 {
                     std::list<Creature*> archmages;
                     RisenArchmageCheck check;
-                    Arkcore::CreatureListSearcher<RisenArchmageCheck> searcher(me, archmages, check);
+                    Trillium::CreatureListSearcher<RisenArchmageCheck> searcher(me, archmages, check);
                     me->VisitNearbyGridObject(100.0f, searcher);
                     for (std::list<Creature*>::iterator itr = archmages.begin(); itr != archmages.end(); ++itr)
                         (*itr)->AI()->DoAction(ACTION_ENTER_COMBAT);
@@ -1089,8 +1089,8 @@ class npc_dream_cloud : public CreatureScript
                         case EVENT_CHECK_PLAYER:
                         {
                             Player* player = NULL;
-                            Arkcore::AnyPlayerInObjectRangeCheck check(me, 5.0f);
-                            Arkcore::PlayerSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, player, check);
+                            Trillium::AnyPlayerInObjectRangeCheck check(me, 5.0f);
+                            Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, player, check);
                             me->VisitNearbyWorldObject(7.5f, searcher);
                             _events.ScheduleEvent(player ? EVENT_EXPLODE : EVENT_CHECK_PLAYER, 1000);
                             break;
@@ -1204,7 +1204,7 @@ class spell_dreamwalker_summoner : public SpellScriptLoader
 
             void FilterTargets(std::list<Unit*>& targets)
             {
-                targets.remove_if(Arkcore::UnitAuraCheck(true, SPELL_RECENTLY_SPAWNED));
+                targets.remove_if(Trillium::UnitAuraCheck(true, SPELL_RECENTLY_SPAWNED));
                 if (targets.empty())
                     return;
 
@@ -1253,8 +1253,8 @@ class spell_dreamwalker_summon_suppresser : public SpellScriptLoader
 
                 std::list<Creature*> summoners;
                 GetCreatureListWithEntryInGrid(summoners, caster, NPC_WORLD_TRIGGER, 100.0f);
-                summoners.remove_if(Arkcore::UnitAuraCheck(true, SPELL_RECENTLY_SPAWNED));
-                Arkcore::RandomResizeList(summoners, 2);
+                summoners.remove_if(Trillium::UnitAuraCheck(true, SPELL_RECENTLY_SPAWNED));
+                Trillium::RandomResizeList(summoners, 2);
                 if (summoners.empty())
                     return;
 

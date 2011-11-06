@@ -53,7 +53,7 @@ struct Position;
 class Battleground;
 class MapInstanced;
 class InstanceMap;
-namespace Arkcore { struct ObjectUpdater; }
+namespace Trillium { struct ObjectUpdater; }
 
 struct ScriptAction
 {
@@ -252,7 +252,7 @@ class Map : public GridRefManager<NGridType>
         template<class T> void AddToMap(T *);
         template<class T> void RemoveFromMap(T *, bool);
 
-        void VisitNearbyCellsOf(WorldObject* obj, TypeContainerVisitor<Arkcore::ObjectUpdater, GridTypeMapContainer> &gridVisitor, TypeContainerVisitor<Arkcore::ObjectUpdater, WorldTypeMapContainer> &worldVisitor);
+        void VisitNearbyCellsOf(WorldObject* obj, TypeContainerVisitor<Trillium::ObjectUpdater, GridTypeMapContainer> &gridVisitor, TypeContainerVisitor<Trillium::ObjectUpdater, WorldTypeMapContainer> &worldVisitor);
         virtual void Update(const uint32);
 
         float GetVisibilityRange() const { return m_VisibleDistance; }
@@ -266,13 +266,13 @@ class Map : public GridRefManager<NGridType>
 
         bool IsRemovalGrid(float x, float y) const
         {
-            GridPair p = Arkcore::ComputeGridPair(x, y);
+            GridPair p = Trillium::ComputeGridPair(x, y);
             return !getNGrid(p.x_coord, p.y_coord) || getNGrid(p.x_coord, p.y_coord)->GetGridState() == GRID_STATE_REMOVAL;
         }
 
         bool IsLoaded(float x, float y) const
         {
-            GridPair p = Arkcore::ComputeGridPair(x, y);
+            GridPair p = Trillium::ComputeGridPair(x, y);
             return loaded(p);
         }
 
@@ -639,7 +639,7 @@ template<class NOTIFIER>
 inline void
 Map::VisitAll(const float &x, const float &y, float radius, NOTIFIER &notifier)
 {
-    CellPair p(Arkcore::ComputeCellPair(x, y));
+    CellPair p(Trillium::ComputeCellPair(x, y));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
@@ -655,7 +655,7 @@ template<class NOTIFIER>
 inline void
 Map::VisitFirstFound(const float &x, const float &y, float radius, NOTIFIER &notifier)
 {
-    CellPair p(Arkcore::ComputeCellPair(x, y));
+    CellPair p(Trillium::ComputeCellPair(x, y));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
@@ -673,7 +673,7 @@ template<class NOTIFIER>
 inline void
 Map::VisitWorld(const float &x, const float &y, float radius, NOTIFIER &notifier)
 {
-    CellPair p(Arkcore::ComputeCellPair(x, y));
+    CellPair p(Trillium::ComputeCellPair(x, y));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
@@ -686,7 +686,7 @@ template<class NOTIFIER>
 inline void
 Map::VisitGrid(const float &x, const float &y, float radius, NOTIFIER &notifier)
 {
-    CellPair p(Arkcore::ComputeCellPair(x, y));
+    CellPair p(Trillium::ComputeCellPair(x, y));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();

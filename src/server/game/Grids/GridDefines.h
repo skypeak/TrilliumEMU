@@ -127,7 +127,7 @@ struct CoordPair
 typedef CoordPair<MAX_NUMBER_OF_GRIDS> GridPair;
 typedef CoordPair<TOTAL_NUMBER_OF_CELLS_PER_MAP> CellPair;
 
-namespace Arkcore
+namespace Trillium
 {
     template<class RET_TYPE, int CENTER_VAL>
         inline RET_TYPE Compute(float x, float y, float center_offset, float size)

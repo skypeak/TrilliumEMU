@@ -664,14 +664,14 @@ void Creature::DoFleeToGetAssistance()
     {
         Creature* pCreature = NULL;
 
-        CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
+        CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
         Cell cell(p);
         cell.data.Part.reserved = ALL_DISTRICT;
         cell.SetNoCreate();
-        Arkcore::NearestAssistCreatureInCreatureRangeCheck u_check(this, getVictim(), radius);
-        Arkcore::CreatureLastSearcher<Arkcore::NearestAssistCreatureInCreatureRangeCheck> searcher(this, pCreature, u_check);
+        Trillium::NearestAssistCreatureInCreatureRangeCheck u_check(this, getVictim(), radius);
+        Trillium::CreatureLastSearcher<Trillium::NearestAssistCreatureInCreatureRangeCheck> searcher(this, pCreature, u_check);
 
-        TypeContainerVisitor<Arkcore::CreatureLastSearcher<Arkcore::NearestAssistCreatureInCreatureRangeCheck>, GridTypeMapContainer > grid_creature_searcher(searcher);
+        TypeContainerVisitor<Trillium::CreatureLastSearcher<Trillium::NearestAssistCreatureInCreatureRangeCheck>, GridTypeMapContainer > grid_creature_searcher(searcher);
 
         cell.Visit(p, grid_creature_searcher, *GetMap(), *this, radius);
 
@@ -1786,7 +1786,7 @@ SpellInfo const *Creature::reachWithSpellCure(Unit *pVictim)
 // select nearest hostile unit within the given distance (regardless of threat list).
 Unit* Creature::SelectNearestTarget(float dist) const
 {
-    CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
+    CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
@@ -1797,11 +1797,11 @@ Unit* Creature::SelectNearestTarget(float dist) const
         if (dist == 0.0f)
             dist = MAX_VISIBILITY_DISTANCE;
 
-        Arkcore::NearestHostileUnitCheck u_check(this, dist);
-        Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitCheck> searcher(this, target, u_check);
+        Trillium::NearestHostileUnitCheck u_check(this, dist);
+        Trillium::UnitLastSearcher<Trillium::NearestHostileUnitCheck> searcher(this, target, u_check);
 
-        TypeContainerVisitor<Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
-        TypeContainerVisitor<Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
+        TypeContainerVisitor<Trillium::UnitLastSearcher<Trillium::NearestHostileUnitCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
+        TypeContainerVisitor<Trillium::UnitLastSearcher<Trillium::NearestHostileUnitCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
         cell.Visit(p, world_unit_searcher, *GetMap(), *this, dist);
         cell.Visit(p, grid_unit_searcher, *GetMap(), *this, dist);
@@ -1813,7 +1813,7 @@ Unit* Creature::SelectNearestTarget(float dist) const
 // select nearest hostile unit within the given attack distance (i.e. distance is ignored if > than ATTACK_DISTANCE), regardless of threat list.
 Unit* Creature::SelectNearestTargetInAttackDistance(float dist) const
 {
-    CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
+    CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
@@ -1827,11 +1827,11 @@ Unit* Creature::SelectNearestTargetInAttackDistance(float dist) const
     }
 
     {
-        Arkcore::NearestHostileUnitInAttackDistanceCheck u_check(this, dist);
-        Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitInAttackDistanceCheck> searcher(this, target, u_check);
+        Trillium::NearestHostileUnitInAttackDistanceCheck u_check(this, dist);
+        Trillium::UnitLastSearcher<Trillium::NearestHostileUnitInAttackDistanceCheck> searcher(this, target, u_check);
 
-        TypeContainerVisitor<Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitInAttackDistanceCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
-        TypeContainerVisitor<Arkcore::UnitLastSearcher<Arkcore::NearestHostileUnitInAttackDistanceCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
+        TypeContainerVisitor<Trillium::UnitLastSearcher<Trillium::NearestHostileUnitInAttackDistanceCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
+        TypeContainerVisitor<Trillium::UnitLastSearcher<Trillium::NearestHostileUnitInAttackDistanceCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
         cell.Visit(p, world_unit_searcher, *GetMap(), *this, ATTACK_DISTANCE > dist ? ATTACK_DISTANCE : dist);
         cell.Visit(p, grid_unit_searcher, *GetMap(), *this, ATTACK_DISTANCE > dist ? ATTACK_DISTANCE : dist);
@@ -1844,8 +1844,8 @@ Player* Creature::SelectNearestPlayer(float distance) const
 {
     Player* target = NULL;
 
-    Arkcore::NearestPlayerInObjectRangeCheck checker(this, distance);
-    Arkcore::PlayerLastSearcher<Arkcore::NearestPlayerInObjectRangeCheck> searcher(this, target, checker);
+    Trillium::NearestPlayerInObjectRangeCheck checker(this, distance);
+    Trillium::PlayerLastSearcher<Trillium::NearestPlayerInObjectRangeCheck> searcher(this, target, checker);
     VisitNearbyObject(distance, searcher);
 
     return target;
@@ -1876,15 +1876,15 @@ void Creature::CallAssistance()
             std::list<Creature*> assistList;
 
             {
-                CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
+                CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
                 Cell cell(p);
                 cell.data.Part.reserved = ALL_DISTRICT;
                 cell.SetNoCreate();
 
-                Arkcore::AnyAssistCreatureInRangeCheck u_check(this, getVictim(), radius);
-                Arkcore::CreatureListSearcher<Arkcore::AnyAssistCreatureInRangeCheck> searcher(this, assistList, u_check);
+                Trillium::AnyAssistCreatureInRangeCheck u_check(this, getVictim(), radius);
+                Trillium::CreatureListSearcher<Trillium::AnyAssistCreatureInRangeCheck> searcher(this, assistList, u_check);
 
-                TypeContainerVisitor<Arkcore::CreatureListSearcher<Arkcore::AnyAssistCreatureInRangeCheck>, GridTypeMapContainer >  grid_creature_searcher(searcher);
+                TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::AnyAssistCreatureInRangeCheck>, GridTypeMapContainer >  grid_creature_searcher(searcher);
 
                 cell.Visit(p, grid_creature_searcher, *GetMap(), *this, radius);
             }
@@ -1909,15 +1909,15 @@ void Creature::CallForHelp(float fRadius)
     if (fRadius <= 0.0f || !getVictim() || isPet() || isCharmed())
         return;
 
-    CellPair p(Arkcore::ComputeCellPair(GetPositionX(), GetPositionY()));
+    CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
     Cell cell(p);
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
-    Arkcore::CallOfHelpCreatureInRangeDo u_do(this, getVictim(), fRadius);
-    Arkcore::CreatureWorker<Arkcore::CallOfHelpCreatureInRangeDo> worker(this, u_do);
+    Trillium::CallOfHelpCreatureInRangeDo u_do(this, getVictim(), fRadius);
+    Trillium::CreatureWorker<Trillium::CallOfHelpCreatureInRangeDo> worker(this, u_do);
 
-    TypeContainerVisitor<Arkcore::CreatureWorker<Arkcore::CallOfHelpCreatureInRangeDo>, GridTypeMapContainer >  grid_creature_searcher(worker);
+    TypeContainerVisitor<Trillium::CreatureWorker<Trillium::CallOfHelpCreatureInRangeDo>, GridTypeMapContainer >  grid_creature_searcher(worker);
 
     cell.Visit(p, grid_creature_searcher, *GetMap(), *this, fRadius);
 }
@@ -2422,7 +2422,7 @@ void Creature::FarTeleportTo(Map* map, float X, float Y, float Z, float O)
 void Creature::SetPosition(float x, float y, float z, float o)
 {
     // prevent crash when a bad coord is sent by the client
-    if (!Arkcore::IsValidMapCoord(x, y, z, o))
+    if (!Trillium::IsValidMapCoord(x, y, z, o))
     {
         sLog->outDebug(LOG_FILTER_UNITS, "Creature::SetPosition(%f, %f, %f) .. bad coordinates!", x, y, z);
         return;

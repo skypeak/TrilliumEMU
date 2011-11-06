@@ -304,7 +304,7 @@ class AuraEffect
         void HandleRaidProcFromChargeWithValueAuraProc(AuraApplication* aurApp, ProcEventInfo& eventInfo);
 };
 
-namespace Arkcore
+namespace Trillium
 {
     // Binary predicate for sorting the priority of absorption aura effects
     class AbsorbAuraOrderPred

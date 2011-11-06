@@ -528,8 +528,8 @@ public:
             if (DispelTimer < uiDiff)
             {
                 std::list<Player*> players;
-                Arkcore::AnyPlayerInObjectRangeCheck checker(me, 30);
-                Arkcore::PlayerListSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, players, checker);
+                Trillium::AnyPlayerInObjectRangeCheck checker(me, 30);
+                Trillium::PlayerListSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, players, checker);
                 me->VisitNearbyWorldObject(30, searcher);
                 if (!players.empty())
                 {
@@ -598,8 +598,8 @@ public:
             if (StormTimer <= uiDiff)
             {
                 std::list<Player*> players;
-                Arkcore::AnyPlayerInObjectRangeCheck checker(me, 30);
-                Arkcore::PlayerListSearcher<Arkcore::AnyPlayerInObjectRangeCheck> searcher(me, players, checker);
+                Trillium::AnyPlayerInObjectRangeCheck checker(me, 30);
+                Trillium::PlayerListSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, players, checker);
                 me->VisitNearbyWorldObject(30, searcher);
                 if (!players.empty())
                 {

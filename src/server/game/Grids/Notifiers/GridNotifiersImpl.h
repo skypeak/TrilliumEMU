@@ -31,7 +31,7 @@
 #include "SpellAuras.h"
 
 template<class T>
-inline void Arkcore::VisibleNotifier::Visit(GridRefManager<T> &m)
+inline void Trillium::VisibleNotifier::Visit(GridRefManager<T> &m)
 {
     for (typename GridRefManager<T>::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
@@ -40,7 +40,7 @@ inline void Arkcore::VisibleNotifier::Visit(GridRefManager<T> &m)
     }
 }
 
-inline void Arkcore::ObjectUpdater::Visit(CreatureMapType &m)
+inline void Trillium::ObjectUpdater::Visit(CreatureMapType &m)
 {
     for (CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
         if (iter->getSource()->IsInWorld())
@@ -52,7 +52,7 @@ inline void Arkcore::ObjectUpdater::Visit(CreatureMapType &m)
 // WorldObject searchers & workers
 
 template<class Check>
-void Arkcore::WorldObjectSearcher<Check>::Visit(GameObjectMapType &m)
+void Trillium::WorldObjectSearcher<Check>::Visit(GameObjectMapType &m)
 {
     // already found
     if (i_object)
@@ -72,7 +72,7 @@ void Arkcore::WorldObjectSearcher<Check>::Visit(GameObjectMapType &m)
 }
 
 template<class Check>
-void Arkcore::WorldObjectSearcher<Check>::Visit(PlayerMapType &m)
+void Trillium::WorldObjectSearcher<Check>::Visit(PlayerMapType &m)
 {
     // already found
     if (i_object)
@@ -92,7 +92,7 @@ void Arkcore::WorldObjectSearcher<Check>::Visit(PlayerMapType &m)
 }
 
 template<class Check>
-void Arkcore::WorldObjectSearcher<Check>::Visit(CreatureMapType &m)
+void Trillium::WorldObjectSearcher<Check>::Visit(CreatureMapType &m)
 {
     // already found
     if (i_object)
@@ -112,7 +112,7 @@ void Arkcore::WorldObjectSearcher<Check>::Visit(CreatureMapType &m)
 }
 
 template<class Check>
-void Arkcore::WorldObjectSearcher<Check>::Visit(CorpseMapType &m)
+void Trillium::WorldObjectSearcher<Check>::Visit(CorpseMapType &m)
 {
     // already found
     if (i_object)
@@ -132,7 +132,7 @@ void Arkcore::WorldObjectSearcher<Check>::Visit(CorpseMapType &m)
 }
 
 template<class Check>
-void Arkcore::WorldObjectSearcher<Check>::Visit(DynamicObjectMapType &m)
+void Trillium::WorldObjectSearcher<Check>::Visit(DynamicObjectMapType &m)
 {
     // already found
     if (i_object)
@@ -152,7 +152,7 @@ void Arkcore::WorldObjectSearcher<Check>::Visit(DynamicObjectMapType &m)
 }
 
 template<class Check>
-void Arkcore::WorldObjectListSearcher<Check>::Visit(PlayerMapType &m)
+void Trillium::WorldObjectListSearcher<Check>::Visit(PlayerMapType &m)
 {
     for (PlayerMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
@@ -161,7 +161,7 @@ void Arkcore::WorldObjectListSearcher<Check>::Visit(PlayerMapType &m)
 }
 
 template<class Check>
-void Arkcore::WorldObjectListSearcher<Check>::Visit(CreatureMapType &m)
+void Trillium::WorldObjectListSearcher<Check>::Visit(CreatureMapType &m)
 {
     for (CreatureMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
@@ -170,7 +170,7 @@ void Arkcore::WorldObjectListSearcher<Check>::Visit(CreatureMapType &m)
 }
 
 template<class Check>
-void Arkcore::WorldObjectListSearcher<Check>::Visit(CorpseMapType &m)
+void Trillium::WorldObjectListSearcher<Check>::Visit(CorpseMapType &m)
 {
     for (CorpseMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
@@ -179,7 +179,7 @@ void Arkcore::WorldObjectListSearcher<Check>::Visit(CorpseMapType &m)
 }
 
 template<class Check>
-void Arkcore::WorldObjectListSearcher<Check>::Visit(GameObjectMapType &m)
+void Trillium::WorldObjectListSearcher<Check>::Visit(GameObjectMapType &m)
 {
     for (GameObjectMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
@@ -188,7 +188,7 @@ void Arkcore::WorldObjectListSearcher<Check>::Visit(GameObjectMapType &m)
 }
 
 template<class Check>
-void Arkcore::WorldObjectListSearcher<Check>::Visit(DynamicObjectMapType &m)
+void Trillium::WorldObjectListSearcher<Check>::Visit(DynamicObjectMapType &m)
 {
     for (DynamicObjectMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
@@ -199,7 +199,7 @@ void Arkcore::WorldObjectListSearcher<Check>::Visit(DynamicObjectMapType &m)
 // Gameobject searchers
 
 template<class Check>
-void Arkcore::GameObjectSearcher<Check>::Visit(GameObjectMapType &m)
+void Trillium::GameObjectSearcher<Check>::Visit(GameObjectMapType &m)
 {
     // already found
     if (i_object)
@@ -219,7 +219,7 @@ void Arkcore::GameObjectSearcher<Check>::Visit(GameObjectMapType &m)
 }
 
 template<class Check>
-void Arkcore::GameObjectLastSearcher<Check>::Visit(GameObjectMapType &m)
+void Trillium::GameObjectLastSearcher<Check>::Visit(GameObjectMapType &m)
 {
     for (GameObjectMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
     {
@@ -232,7 +232,7 @@ void Arkcore::GameObjectLastSearcher<Check>::Visit(GameObjectMapType &m)
 }
 
 template<class Check>
-void Arkcore::GameObjectListSearcher<Check>::Visit(GameObjectMapType &m)
+void Trillium::GameObjectListSearcher<Check>::Visit(GameObjectMapType &m)
 {
     for (GameObjectMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
@@ -243,7 +243,7 @@ void Arkcore::GameObjectListSearcher<Check>::Visit(GameObjectMapType &m)
 // Unit searchers
 
 template<class Check>
-void Arkcore::UnitSearcher<Check>::Visit(CreatureMapType &m)
+void Trillium::UnitSearcher<Check>::Visit(CreatureMapType &m)
 {
     // already found
     if (i_object)
@@ -263,7 +263,7 @@ void Arkcore::UnitSearcher<Check>::Visit(CreatureMapType &m)
 }
 
 template<class Check>
-void Arkcore::UnitSearcher<Check>::Visit(PlayerMapType &m)
+void Trillium::UnitSearcher<Check>::Visit(PlayerMapType &m)
 {
     // already found
     if (i_object)
@@ -283,7 +283,7 @@ void Arkcore::UnitSearcher<Check>::Visit(PlayerMapType &m)
 }
 
 template<class Check>
-void Arkcore::UnitLastSearcher<Check>::Visit(CreatureMapType &m)
+void Trillium::UnitLastSearcher<Check>::Visit(CreatureMapType &m)
 {
     for (CreatureMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
     {
@@ -296,7 +296,7 @@ void Arkcore::UnitLastSearcher<Check>::Visit(CreatureMapType &m)
 }
 
 template<class Check>
-void Arkcore::UnitLastSearcher<Check>::Visit(PlayerMapType &m)
+void Trillium::UnitLastSearcher<Check>::Visit(PlayerMapType &m)
 {
     for (PlayerMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
     {
@@ -309,7 +309,7 @@ void Arkcore::UnitLastSearcher<Check>::Visit(PlayerMapType &m)
 }
 
 template<class Check>
-void Arkcore::UnitListSearcher<Check>::Visit(PlayerMapType &m)
+void Trillium::UnitListSearcher<Check>::Visit(PlayerMapType &m)
 {
     for (PlayerMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
@@ -318,7 +318,7 @@ void Arkcore::UnitListSearcher<Check>::Visit(PlayerMapType &m)
 }
 
 template<class Check>
-void Arkcore::UnitListSearcher<Check>::Visit(CreatureMapType &m)
+void Trillium::UnitListSearcher<Check>::Visit(CreatureMapType &m)
 {
     for (CreatureMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
@@ -329,7 +329,7 @@ void Arkcore::UnitListSearcher<Check>::Visit(CreatureMapType &m)
 // Creature searchers
 
 template<class Check>
-void Arkcore::CreatureSearcher<Check>::Visit(CreatureMapType &m)
+void Trillium::CreatureSearcher<Check>::Visit(CreatureMapType &m)
 {
     // already found
     if (i_object)
@@ -349,7 +349,7 @@ void Arkcore::CreatureSearcher<Check>::Visit(CreatureMapType &m)
 }
 
 template<class Check>
-void Arkcore::CreatureLastSearcher<Check>::Visit(CreatureMapType &m)
+void Trillium::CreatureLastSearcher<Check>::Visit(CreatureMapType &m)
 {
     for (CreatureMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
     {
@@ -362,7 +362,7 @@ void Arkcore::CreatureLastSearcher<Check>::Visit(CreatureMapType &m)
 }
 
 template<class Check>
-void Arkcore::CreatureListSearcher<Check>::Visit(CreatureMapType &m)
+void Trillium::CreatureListSearcher<Check>::Visit(CreatureMapType &m)
 {
     for (CreatureMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
@@ -371,7 +371,7 @@ void Arkcore::CreatureListSearcher<Check>::Visit(CreatureMapType &m)
 }
 
 template<class Check>
-void Arkcore::PlayerListSearcher<Check>::Visit(PlayerMapType &m)
+void Trillium::PlayerListSearcher<Check>::Visit(PlayerMapType &m)
 {
     for (PlayerMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
@@ -380,7 +380,7 @@ void Arkcore::PlayerListSearcher<Check>::Visit(PlayerMapType &m)
 }
 
 template<class Check>
-void Arkcore::PlayerSearcher<Check>::Visit(PlayerMapType &m)
+void Trillium::PlayerSearcher<Check>::Visit(PlayerMapType &m)
 {
     // already found
     if (i_object)
@@ -400,7 +400,7 @@ void Arkcore::PlayerSearcher<Check>::Visit(PlayerMapType &m)
 }
 
 template<class Check>
-void Arkcore::PlayerLastSearcher<Check>::Visit(PlayerMapType& m)
+void Trillium::PlayerLastSearcher<Check>::Visit(PlayerMapType& m)
 {
     for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -413,7 +413,7 @@ void Arkcore::PlayerLastSearcher<Check>::Visit(PlayerMapType& m)
 }
 
 template<class Builder>
-void Arkcore::LocalizedPacketDo<Builder>::operator()(Player* p)
+void Trillium::LocalizedPacketDo<Builder>::operator()(Player* p)
 {
     LocaleConstant loc_idx = p->GetSession()->GetSessionDbLocaleIndex();
     uint32 cache_idx = loc_idx+1;
@@ -438,7 +438,7 @@ void Arkcore::LocalizedPacketDo<Builder>::operator()(Player* p)
 }
 
 template<class Builder>
-void Arkcore::LocalizedPacketListDo<Builder>::operator()(Player* p)
+void Trillium::LocalizedPacketListDo<Builder>::operator()(Player* p)
 {
     LocaleConstant loc_idx = p->GetSession()->GetSessionDbLocaleIndex();
     uint32 cache_idx = loc_idx+1;

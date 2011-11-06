@@ -2730,12 +2730,12 @@ class npc_terenas_menethil : public CreatureScript
 
                 AnyAlivePetOrPlayerInObjectFrontalConeCheck checker(caster);
                 std::list<Unit *> targets;
-                Arkcore::UnitListSearcher<AnyAlivePetOrPlayerInObjectFrontalConeCheck> searcher(caster, targets, checker);
+                Trillium::UnitListSearcher<AnyAlivePetOrPlayerInObjectFrontalConeCheck> searcher(caster, targets, checker);
 
-                TypeContainerVisitor<Arkcore::UnitListSearcher<AnyAlivePetOrPlayerInObjectFrontalConeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
-                TypeContainerVisitor<Arkcore::UnitListSearcher<AnyAlivePetOrPlayerInObjectFrontalConeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
+                TypeContainerVisitor<Trillium::UnitListSearcher<AnyAlivePetOrPlayerInObjectFrontalConeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
+                TypeContainerVisitor<Trillium::UnitListSearcher<AnyAlivePetOrPlayerInObjectFrontalConeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
-                CellPair p(Arkcore::ComputeCellPair(caster->GetPositionX(), caster->GetPositionY()));
+                CellPair p(Trillium::ComputeCellPair(caster->GetPositionX(), caster->GetPositionY()));
                 Cell cell(p);
                 cell.data.Part.reserved = ALL_DISTRICT;
                 cell.SetNoCreate();
@@ -2911,7 +2911,7 @@ class spell_lich_king_necrotic_plague : public SpellScriptLoader
                     if (InstanceScript *instance = target->GetInstanceScript())
                         instance->SetData(DATA_BEEN_WAITING_ACHIEVEMENT, DONE);
 
-                CellPair p(Arkcore::ComputeCellPair(target->GetPositionX(), target->GetPositionY()));
+                CellPair p(Trillium::ComputeCellPair(target->GetPositionX(), target->GetPositionY()));
                 Cell cell(p);
                 cell.data.Part.reserved = ALL_DISTRICT;
                 cell.SetNoCreate();
@@ -2920,10 +2920,10 @@ class spell_lich_king_necrotic_plague : public SpellScriptLoader
                 float dist = 10.0f;
                 AnyAliveCreatureOrPlayerInObjectRangeCheck checker(target, dist);
                 Unit* newTarget = NULL;
-                Arkcore::UnitLastSearcher<AnyAliveCreatureOrPlayerInObjectRangeCheck> searcher(target, newTarget, checker);
+                Trillium::UnitLastSearcher<AnyAliveCreatureOrPlayerInObjectRangeCheck> searcher(target, newTarget, checker);
 
-                TypeContainerVisitor<Arkcore::UnitLastSearcher<AnyAliveCreatureOrPlayerInObjectRangeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
-                TypeContainerVisitor<Arkcore::UnitLastSearcher<AnyAliveCreatureOrPlayerInObjectRangeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
+                TypeContainerVisitor<Trillium::UnitLastSearcher<AnyAliveCreatureOrPlayerInObjectRangeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
+                TypeContainerVisitor<Trillium::UnitLastSearcher<AnyAliveCreatureOrPlayerInObjectRangeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
                 cell.Visit(p, world_unit_searcher, *target->GetMap(), *target, dist);
                 cell.Visit(p, grid_unit_searcher, *target->GetMap(), *target, dist);
@@ -3025,11 +3025,11 @@ class spell_lich_king_defile : public SpellScriptLoader
                 m_radius = 8.0f + m_hitCount;
                 //Find targest
                 std::list<Unit *> targets;
-                Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck checker(caster, m_radius);
-                Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck> searcher(caster, targets, checker);
-                TypeContainerVisitor<Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
-                TypeContainerVisitor<Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
-                CellPair p(Arkcore::ComputeCellPair(caster->GetPositionX(), caster->GetPositionY()));
+                Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck checker(caster, m_radius);
+                Trillium::UnitListSearcher<Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck> searcher(caster, targets, checker);
+                TypeContainerVisitor<Trillium::UnitListSearcher<Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
+                TypeContainerVisitor<Trillium::UnitListSearcher<Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
+                CellPair p(Trillium::ComputeCellPair(caster->GetPositionX(), caster->GetPositionY()));
                 Cell cell(p);
                 cell.data.Part.reserved = ALL_DISTRICT;
                 cell.SetNoCreate();

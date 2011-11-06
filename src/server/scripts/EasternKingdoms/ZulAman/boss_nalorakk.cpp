@@ -158,15 +158,15 @@ class boss_nalorakk : public CreatureScript
                 me->GetPosition(x, y, z);
 
                 {
-                    CellPair pair(Arkcore::ComputeCellPair(x, y));
+                    CellPair pair(Trillium::ComputeCellPair(x, y));
                     Cell cell(pair);
                     cell.data.Part.reserved = ALL_DISTRICT;
                     cell.SetNoCreate();
 
-                    Arkcore::AllFriendlyCreaturesInGrid check(me);
-                    Arkcore::CreatureListSearcher<Arkcore::AllFriendlyCreaturesInGrid> searcher(me, templist, check);
+                    Trillium::AllFriendlyCreaturesInGrid check(me);
+                    Trillium::CreatureListSearcher<Trillium::AllFriendlyCreaturesInGrid> searcher(me, templist, check);
 
-                    TypeContainerVisitor<Arkcore::CreatureListSearcher<Arkcore::AllFriendlyCreaturesInGrid>, GridTypeMapContainer> cSearcher(searcher);
+                    TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::AllFriendlyCreaturesInGrid>, GridTypeMapContainer> cSearcher(searcher);
 
                     cell.Visit(pair, cSearcher, *(me->GetMap()));
                 }

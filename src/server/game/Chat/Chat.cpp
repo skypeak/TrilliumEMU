@@ -1225,8 +1225,8 @@ GameObject* ChatHandler::GetNearbyGameObject()
 
     Player* pl = m_session->GetPlayer();
     GameObject* obj = NULL;
-    Arkcore::NearestGameObjectCheck check(*pl);
-    Arkcore::GameObjectLastSearcher<Arkcore::NearestGameObjectCheck> searcher(pl, obj, check);
+    Trillium::NearestGameObjectCheck check(*pl);
+    Trillium::GameObjectLastSearcher<Trillium::NearestGameObjectCheck> searcher(pl, obj, check);
     pl->VisitNearbyGridObject(999, searcher);
     return obj;
 }
@@ -1243,14 +1243,14 @@ GameObject* ChatHandler::GetObjectGlobalyWithGuidOrNearWithDbGuid(uint32 lowguid
     if (!obj && sObjectMgr->GetGOData(lowguid))                   // guid is DB guid of object
     {
         // search near player then
-        CellPair p(Arkcore::ComputeCellPair(pl->GetPositionX(), pl->GetPositionY()));
+        CellPair p(Trillium::ComputeCellPair(pl->GetPositionX(), pl->GetPositionY()));
         Cell cell(p);
         cell.data.Part.reserved = ALL_DISTRICT;
 
-        Arkcore::GameObjectWithDbGUIDCheck go_check(*pl, lowguid);
-        Arkcore::GameObjectSearcher<Arkcore::GameObjectWithDbGUIDCheck> checker(pl, obj, go_check);
+        Trillium::GameObjectWithDbGUIDCheck go_check(*pl, lowguid);
+        Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck> checker(pl, obj, go_check);
 
-        TypeContainerVisitor<Arkcore::GameObjectSearcher<Arkcore::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > object_checker(checker);
+        TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > object_checker(checker);
         cell.Visit(p, object_checker, *pl->GetMap());
     }
 
