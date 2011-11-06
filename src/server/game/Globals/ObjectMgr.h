@@ -860,8 +860,8 @@ class ObjectMgr
         void LoadSpellScriptNames();
         void ValidateSpellScripts();
 
-        bool LoadArkcoreStrings(char const* table, int32 min_value, int32 max_value);
-        bool LoadArkcoreStrings() { return LoadArkcoreStrings("TRILLIUMEMU_string", MIN_TRILLIUMEMU_STRING_ID, MAX_TRILLIUMEMU_STRING_ID); }
+        bool LoadTrilliumStrings(char const* table, int32 min_value, int32 max_value);
+        bool LoadTrilliumStrings() { return LoadTrilliumStrings("core_strings", MIN_TRILLIUMEMU_STRING_ID, MAX_TRILLIUMEMU_STRING_ID); }
         void LoadDbScriptStrings();
         void LoadCreatureClassLevelStats();
         void LoadCreatureLocales();
@@ -1360,6 +1360,6 @@ class ObjectMgr
 #define sObjectMgr ACE_Singleton<ObjectMgr, ACE_Null_Mutex>::instance()
 
 // scripting access functions
-bool LoadArkcoreStrings(char const* table, int32 start_value = MAX_CREATURE_AI_TEXT_STRING_ID, int32 end_value = std::numeric_limits<int32>::min());
+bool LoadTrilliumStrings(char const* table, int32 start_value = MAX_CREATURE_AI_TEXT_STRING_ID, int32 end_value = std::numeric_limits<int32>::min());
 
 #endif

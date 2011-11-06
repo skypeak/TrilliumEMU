@@ -7685,7 +7685,7 @@ void ObjectMgr::LoadGameObjectForQuests()
     sLog->outString();
 }
 
-bool ObjectMgr::LoadArkcoreStrings(char const* table, int32 min_value, int32 max_value)
+bool ObjectMgr::LoadTrilliumStrings(char const* table, int32 min_value, int32 max_value)
 {
     uint32 oldMSTime = getMSTime();
 
@@ -8640,7 +8640,7 @@ void ObjectMgr::CheckScripts(ScriptsType type, std::set<int32>& ids)
 
 void ObjectMgr::LoadDbScriptStrings()
 {
-    LoadArkcoreStrings("db_script_string", MIN_DB_SCRIPT_STRING_ID, MAX_DB_SCRIPT_STRING_ID);
+    LoadTrilliumStrings("db_script_string", MIN_DB_SCRIPT_STRING_ID, MAX_DB_SCRIPT_STRING_ID);
 
     std::set<int32> ids;
 
@@ -8655,7 +8655,7 @@ void ObjectMgr::LoadDbScriptStrings()
         sLog->outErrorDb("Table `db_script_string` has unused string id  %u", *itr);
 }
 
-bool LoadArkcoreStrings(char const* table, int32 start_value, int32 end_value)
+bool LoadTrilliumStrings(char const* table, int32 start_value, int32 end_value)
 {
     // MAX_DB_SCRIPT_STRING_ID is max allowed negative value for scripts (scrpts can use only more deep negative values
     // start/end reversed for negative values
@@ -8665,7 +8665,7 @@ bool LoadArkcoreStrings(char const* table, int32 start_value, int32 end_value)
         return false;
     }
 
-    return sObjectMgr->LoadArkcoreStrings(table, start_value, end_value);
+    return sObjectMgr->LoadTrilliumStrings(table, start_value, end_value);
 }
 
 CreatureBaseStats const* ObjectMgr::GetCreatureBaseStats(uint8 level, uint8 unitClass)

@@ -713,7 +713,7 @@ public:
     static bool HandleReloadArkcoreStringCommand(ChatHandler* handler, const char* /*args*/)
     {
         sLog->outString("Re-Loading TRILLIUMEMU_string Table!");
-        sObjectMgr->LoadArkcoreStrings();
+        sObjectMgr->LoadTrilliumStrings();
         handler->SendGlobalGMSysMessage("DB table `TRILLIUMEMU_string` reloaded.");
         return true;
     }
