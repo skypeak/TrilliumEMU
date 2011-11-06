@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CREATUREAISELECTOR_H
-#define ARKCORE_CREATUREAISELECTOR_H
+#ifndef TRILLIUMEMU_CREATUREAISELECTOR_H
+#define TRILLIUMEMU_CREATUREAISELECTOR_H
 
 class CreatureAI;
 class Creature;

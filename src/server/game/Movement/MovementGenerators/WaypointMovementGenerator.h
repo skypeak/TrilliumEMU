@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_WAYPOINTMOVEMENTGENERATOR_H
-#define ARKCORE_WAYPOINTMOVEMENTGENERATOR_H
+#ifndef TRILLIUMEMU_WAYPOINTMOVEMENTGENERATOR_H
+#define TRILLIUMEMU_WAYPOINTMOVEMENTGENERATOR_H
 
 /** @page PathMovementGenerator is used to generate movements
  * of waypoints and flight paths.  Each serves the purpose

@@ -34,9 +34,9 @@
 #include "Log.h"
 #include "Master.h"
 
-#ifndef _ARKCORE_CORE_CONFIG
-# define _ARKCORE_CORE_CONFIG  "worldserver.conf"
-#endif //_ARKCORE_CORE_CONFIG
+#ifndef _TRILLIUMEMU_CORE_CONFIG
+# define _TRILLIUMEMU_CORE_CONFIG  "worldserver.conf"
+#endif //_TRILLIUMEMU_CORE_CONFIG
 
 #ifdef _WIN32
 #include "ServiceWin32.h"
@@ -76,7 +76,7 @@ void usage(const char *prog)
 extern int main(int argc, char **argv)
 {
     ///- Command line parsing to get the configuration file name
-    char const* cfg_file = _ARKCORE_CORE_CONFIG;
+    char const* cfg_file = _TRILLIUMEMU_CORE_CONFIG;
     int c = 1;
     while ( c < argc )
     {

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GUARDAI_H
-#define ARKCORE_GUARDAI_H
+#ifndef TRILLIUMEMU_GUARDAI_H
+#define TRILLIUMEMU_GUARDAI_H
 
 #include "ScriptedCreature.h"
 #include "Timer.h"

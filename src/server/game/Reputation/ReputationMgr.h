@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __ARKCORE_REPUTATION_MGR_H
-#define __ARKCORE_REPUTATION_MGR_H
+#ifndef __TRILLIUMEMU_REPUTATION_MGR_H
+#define __TRILLIUMEMU_REPUTATION_MGR_H
 
 #include "Common.h"
 #include "SharedDefines.h"

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_SKILLDISCOVERY_H
-#define ARKCORE_SKILLDISCOVERY_H
+#ifndef TRILLIUMEMU_SKILLDISCOVERY_H
+#define TRILLIUMEMU_SKILLDISCOVERY_H
 
 #include "Common.h"
 

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_RANDOMMOTIONGENERATOR_H
-#define ARKCORE_RANDOMMOTIONGENERATOR_H
+#ifndef TRILLIUMEMU_RANDOMMOTIONGENERATOR_H
+#define TRILLIUMEMU_RANDOMMOTIONGENERATOR_H
 
 #include "MovementGenerator.h"
 #include "DestinationHolder.h"

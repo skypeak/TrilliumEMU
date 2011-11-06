@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_OBJECTACCESSOR_H
-#define ARKCORE_OBJECTACCESSOR_H
+#ifndef TRILLIUMEMU_OBJECTACCESSOR_H
+#define TRILLIUMEMU_OBJECTACCESSOR_H
 
 #include "Define.h"
 #include <ace/Singleton.h>
@@ -55,19 +55,19 @@ class HashMapHolder
 
         static void Insert(T* o)
         {
-            ARKCORE_WRITE_GUARD(LockType, i_lock);
+            TRILLIUMEMU_WRITE_GUARD(LockType, i_lock);
             m_objectMap[o->GetGUID()] = o;
         }
 
         static void Remove(T* o)
         {
-            ARKCORE_WRITE_GUARD(LockType, i_lock);
+            TRILLIUMEMU_WRITE_GUARD(LockType, i_lock);
             m_objectMap.erase(o->GetGUID());
         }
 
         static T* Find(uint64 guid)
         {
-            ARKCORE_READ_GUARD(LockType, i_lock);
+            TRILLIUMEMU_READ_GUARD(LockType, i_lock);
             typename MapType::iterator itr = m_objectMap.find(guid);
             return (itr != m_objectMap.end()) ? itr->second : NULL;
         }
@@ -238,13 +238,13 @@ class ObjectAccessor
 
         void AddUpdateObject(Object* obj)
         {
-            ARKCORE_GUARD(ACE_Thread_Mutex, i_objectLock);
+            TRILLIUMEMU_GUARD(ACE_Thread_Mutex, i_objectLock);
             i_objects.insert(obj);
         }
 
         void RemoveUpdateObject(Object* obj)
         {
-            ARKCORE_GUARD(ACE_Thread_Mutex, i_objectLock);
+            TRILLIUMEMU_GUARD(ACE_Thread_Mutex, i_objectLock);
             i_objects.erase(obj);
         }
 

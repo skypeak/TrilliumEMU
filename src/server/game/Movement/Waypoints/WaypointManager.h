@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_WAYPOINTMANAGER_H
-#define ARKCORE_WAYPOINTMANAGER_H
+#ifndef TRILLIUMEMU_WAYPOINTMANAGER_H
+#define TRILLIUMEMU_WAYPOINTMANAGER_H
 
 #include <ace/Singleton.h>
 #include <ace/Null_Mutex.h>

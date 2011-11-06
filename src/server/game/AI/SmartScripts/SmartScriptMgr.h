@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_SMARTSCRIPTMGR_H
-#define ARKCORE_SMARTSCRIPTMGR_H
+#ifndef TRILLIUMEMU_SMARTSCRIPTMGR_H
+#define TRILLIUMEMU_SMARTSCRIPTMGR_H
 
 #include "Common.h"
 #include "Creature.h"

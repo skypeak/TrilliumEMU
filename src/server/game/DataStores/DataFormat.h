@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_DATAFORMAT_H
-#define ARKCORE_DATAFORMAT_H
+#ifndef TRILLIUMEMU_DATAFORMAT_H
+#define TRILLIUMEMU_DATAFORMAT_H
 
 const char Achievementfmt[]="niixsxiixixxii";
 const char AchievementCriteriafmt[]="niiiiiiiixsiiiiixxxxxxx";

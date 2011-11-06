@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_TOTEMAI_H
-#define ARKCORE_TOTEMAI_H
+#ifndef TRILLIUMEMU_TOTEMAI_H
+#define TRILLIUMEMU_TOTEMAI_H
 
 #include "CreatureAI.h"
 #include "Timer.h"

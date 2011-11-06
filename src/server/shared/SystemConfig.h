@@ -21,15 +21,15 @@
 
 // THIS FILE IS DEPRECATED
 
-#ifndef ARKCORE_SYSTEMCONFIG_H
-#define ARKCORE_SYSTEMCONFIG_H
+#ifndef TRILLIUMEMU_SYSTEMCONFIG_H
+#define TRILLIUMEMU_SYSTEMCONFIG_H
 
 #include "Define.h"
 #include "revision.h"
 
 #define _PACKAGENAME "TrilliumEMU"
 
-#if ARKCORE_ENDIAN == ARKCORE_BIGENDIAN
+#if TRILLIUMEMU_ENDIAN == TRILLIUMEMU_BIGENDIAN
 # define _ENDIAN_STRING "big-endian"
 #else
 # define _ENDIAN_STRING "little-endian"

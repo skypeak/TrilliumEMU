@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_ITEM_H
-#define ARKCORE_ITEM_H
+#ifndef TRILLIUMEMU_ITEM_H
+#define TRILLIUMEMU_ITEM_H
 
 #include "Common.h"
 #include "Object.h"

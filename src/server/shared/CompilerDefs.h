@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_COMPILERDEFS_H
-#define ARKCORE_COMPILERDEFS_H
+#ifndef TRILLIUMEMU_COMPILERDEFS_H
+#define TRILLIUMEMU_COMPILERDEFS_H
 
 #define PLATFORM_WINDOWS 0
 #define PLATFORM_UNIX    1

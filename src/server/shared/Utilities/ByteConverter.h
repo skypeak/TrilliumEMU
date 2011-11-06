@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_BYTECONVERTER_H
-#define ARKCORE_BYTECONVERTER_H
+#ifndef TRILLIUMEMU_BYTECONVERTER_H
+#define TRILLIUMEMU_BYTECONVERTER_H
 
 /** ByteConverter reverse your byte order.  This is use
     for cross platform where they have different endians.
@@ -47,7 +47,7 @@ namespace ByteConverter
     }
 }
 
-#if ARKCORE_ENDIAN == ARKCORE_BIGENDIAN
+#if TRILLIUMEMU_ENDIAN == TRILLIUMEMU_BIGENDIAN
 template<typename T> inline void EndianConvert(T& val) { ByteConverter::apply<T>(&val); }
 template<typename T> inline void EndianConvertReverse(T&) { }
 #else

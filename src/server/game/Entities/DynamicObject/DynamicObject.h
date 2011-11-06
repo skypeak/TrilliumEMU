@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_DYNAMICOBJECT_H
-#define ARKCORE_DYNAMICOBJECT_H
+#ifndef TRILLIUMEMU_DYNAMICOBJECT_H
+#define TRILLIUMEMU_DYNAMICOBJECT_H
 
 #include "Object.h"
 

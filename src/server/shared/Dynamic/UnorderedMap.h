@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_UNORDERED_MAP_H
-#define ARKCORE_UNORDERED_MAP_H
+#ifndef TRILLIUMEMU_UNORDERED_MAP_H
+#define TRILLIUMEMU_UNORDERED_MAP_H
 
 #include "CompilerDefs.h"
 #include "Define.h"

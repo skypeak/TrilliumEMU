@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_PET_H
-#define ARKCORE_PET_H
+#ifndef TRILLIUMEMU_PET_H
+#define TRILLIUMEMU_PET_H
 
 #include "ObjectDefines.h"
 #include "Unit.h"

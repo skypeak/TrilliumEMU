@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __ARKCORE_CHANNELMGR_H
-#define __ARKCORE_CHANNELMGR_H
+#ifndef __TRILLIUMEMU_CHANNELMGR_H
+#define __TRILLIUMEMU_CHANNELMGR_H
 
 #include "Common.h"
 #include "Channel.h"

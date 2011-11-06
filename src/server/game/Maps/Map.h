@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_MAP_H
-#define ARKCORE_MAP_H
+#ifndef TRILLIUMEMU_MAP_H
+#define TRILLIUMEMU_MAP_H
 
 #include "Define.h"
 #include <ace/RW_Thread_Mutex.h>

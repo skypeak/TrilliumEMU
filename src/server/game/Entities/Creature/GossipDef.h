@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GOSSIP_H
-#define ARKCORE_GOSSIP_H
+#ifndef TRILLIUMEMU_GOSSIP_H
+#define TRILLIUMEMU_GOSSIP_H
 
 #include "Common.h"
 #include "QuestDef.h"

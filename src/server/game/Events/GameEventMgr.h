@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GAMEEVENT_MGR_H
-#define ARKCORE_GAMEEVENT_MGR_H
+#ifndef TRILLIUMEMU_GAMEEVENT_MGR_H
+#define TRILLIUMEMU_GAMEEVENT_MGR_H
 
 #include "Common.h"
 #include "SharedDefines.h"

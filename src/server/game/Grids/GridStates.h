@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GRIDSTATES_H
-#define ARKCORE_GRIDSTATES_H
+#ifndef TRILLIUMEMU_GRIDSTATES_H
+#define TRILLIUMEMU_GRIDSTATES_H
 
 #include "Map.h"
 #include "Object.h"
@@ -28,7 +28,7 @@
 class GridState
 {
     public:
-#ifdef ARKCORE_DEBUG
+#ifdef TRILLIUMEMU_DEBUG
 #define MAGIC_TESTVAL 0xFBE823BA
         GridState() { i_Magic = MAGIC_TESTVAL; }
         bool checkMagic()

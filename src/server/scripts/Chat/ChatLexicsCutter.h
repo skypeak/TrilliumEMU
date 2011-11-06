@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CHATLEXICSCUTTER_H
-#define ARKCORE_CHATLEXICSCUTTER_H
+#ifndef TRILLIUMEMU_CHATLEXICSCUTTER_H
+#define TRILLIUMEMU_CHATLEXICSCUTTER_H
 
 typedef std::vector <std::string> LC_AnalogVector;
 typedef std::map <std::string, LC_AnalogVector> LC_AnalogMap;

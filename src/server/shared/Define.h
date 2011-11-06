@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_DEFINE_H
-#define ARKCORE_DEFINE_H
+#ifndef TRILLIUMEMU_DEFINE_H
+#define TRILLIUMEMU_DEFINE_H
 
 #include <sys/types.h>
 
@@ -29,19 +29,19 @@
 
 #include "CompilerDefs.h"
 
-#define ARKCORE_LITTLEENDIAN 0
-#define ARKCORE_BIGENDIAN    1
+#define TRILLIUMEMU_LITTLEENDIAN 0
+#define TRILLIUMEMU_BIGENDIAN    1
 
-#if !defined(ARKCORE_ENDIAN)
+#if !defined(TRILLIUMEMU_ENDIAN)
 #  if defined (ACE_BIG_ENDIAN)
-#    define ARKCORE_ENDIAN ARKCORE_BIGENDIAN
+#    define TRILLIUMEMU_ENDIAN TRILLIUMEMU_BIGENDIAN
 #  else //ACE_BYTE_ORDER != ACE_BIG_ENDIAN
-#    define ARKCORE_ENDIAN ARKCORE_LITTLEENDIAN
+#    define TRILLIUMEMU_ENDIAN TRILLIUMEMU_LITTLEENDIAN
 #  endif //ACE_BYTE_ORDER
-#endif //ARKCORE_ENDIAN
+#endif //TRILLIUMEMU_ENDIAN
 
 #if PLATFORM == PLATFORM_WINDOWS
-#  define ARKCORE_PATH_MAX MAX_PATH
+#  define TRILLIUMEMU_PATH_MAX MAX_PATH
 #  ifndef DECLSPEC_NORETURN
 #    define DECLSPEC_NORETURN __declspec(noreturn)
 #  endif //DECLSPEC_NORETURN
@@ -49,18 +49,18 @@
 #    define DECLSPEC_DEPRECATED __declspec(deprecated)
 #  endif //DECLSPEC_DEPRECATED
 #else //PLATFORM != PLATFORM_WINDOWS
-#  define ARKCORE_PATH_MAX PATH_MAX
+#  define TRILLIUMEMU_PATH_MAX PATH_MAX
 #  define DECLSPEC_NORETURN
 #  define DECLSPEC_DEPRECATED
 #endif //PLATFORM
 
 #if !defined(COREDEBUG)
-#  define ARKCORE_INLINE inline
+#  define TRILLIUMEMU_INLINE inline
 #else //COREDEBUG
-#  if !defined(ARKCORE_DEBUG)
-#    define ARKCORE_DEBUG
-#  endif //ARKCORE_DEBUG
-#  define ARKCORE_INLINE
+#  if !defined(TRILLIUMEMU_DEBUG)
+#    define TRILLIUMEMU_DEBUG
+#  endif //TRILLIUMEMU_DEBUG
+#  define TRILLIUMEMU_INLINE
 #endif //!COREDEBUG
 
 #if COMPILER == COMPILER_GNU
@@ -82,4 +82,4 @@ typedef ACE_UINT32 uint32;
 typedef ACE_UINT16 uint16;
 typedef ACE_UINT8 uint8;
 
-#endif //ARKCORE_DEFINE_H
+#endif //TRILLIUMEMU_DEFINE_H

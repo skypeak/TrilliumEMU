@@ -155,7 +155,7 @@ public:
             if (creature->GetOwner() && creature->GetOwner()->GetTypeId() == TYPEID_PLAYER)
                 Start(false, false, creature->GetOwner()->GetGUID());
             else
-                sLog->outError("ARKCORE: npc_ancestral_wolf can not obtain owner or owner is not a player.");
+                sLog->outError("TRILLIUMEMU: npc_ancestral_wolf can not obtain owner or owner is not a player.");
 
             creature->SetSpeed(MOVE_WALK, 1.5f);
             Reset();

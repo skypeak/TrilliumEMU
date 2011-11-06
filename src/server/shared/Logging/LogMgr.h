@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_LOGMGR_H
-#define ARKCORE_LOGMGR_H
+#ifndef TRILLIUMEMU_LOGMGR_H
+#define TRILLIUMEMU_LOGMGR_H
 
 #include "Common.h"
 

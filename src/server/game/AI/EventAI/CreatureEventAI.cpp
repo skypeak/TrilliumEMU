@@ -69,7 +69,7 @@ CreatureEventAI::CreatureEventAI(Creature* c) : CreatureAI(c)
         {
 
             //Debug check
-            #ifndef ARKCORE_DEBUG
+            #ifndef TRILLIUMEMU_DEBUG
             if ((*i).event_flags & EFLAG_DEBUG_ONLY)
                 continue;
             #endif
@@ -767,7 +767,7 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
         }
         break;
 
-        // ARKCORE ONLY
+        // TRILLIUMEMU ONLY
         case ACTION_T_MOVE_RANDOM_POINT: //dosen't work in combat
         {
             float x, y, z;

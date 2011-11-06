@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_FACTORY_HOLDER
-#define ARKCORE_FACTORY_HOLDER
+#ifndef TRILLIUMEMU_FACTORY_HOLDER
+#define TRILLIUMEMU_FACTORY_HOLDER
 
 #include "Define.h"
 #include "Dynamic/TypeList.h"

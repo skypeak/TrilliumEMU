@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_TARGETEDMOVEMENTGENERATOR_H
-#define ARKCORE_TARGETEDMOVEMENTGENERATOR_H
+#ifndef TRILLIUMEMU_TARGETEDMOVEMENTGENERATOR_H
+#define TRILLIUMEMU_TARGETEDMOVEMENTGENERATOR_H
 
 #include "MovementGenerator.h"
 #include "DestinationHolder.h"

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_FORMULAS_H
-#define ARKCORE_FORMULAS_H
+#ifndef TRILLIUMEMU_FORMULAS_H
+#define TRILLIUMEMU_FORMULAS_H
 
 #include "World.h"
 #include "SharedDefines.h"

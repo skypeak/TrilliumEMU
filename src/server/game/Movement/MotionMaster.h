@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_MOTIONMASTER_H
-#define ARKCORE_MOTIONMASTER_H
+#ifndef TRILLIUMEMU_MOTIONMASTER_H
+#define TRILLIUMEMU_MOTIONMASTER_H
 
 #include "Common.h"
 #include <vector>

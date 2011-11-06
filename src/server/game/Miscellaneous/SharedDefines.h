@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_SHAREDDEFINES_H
-#define ARKCORE_SHAREDDEFINES_H
+#ifndef TRILLIUMEMU_SHAREDDEFINES_H
+#define TRILLIUMEMU_SHAREDDEFINES_H
 
 #include "Define.h"
 #include <cassert>

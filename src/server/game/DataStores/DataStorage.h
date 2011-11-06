@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_DBCSTORES_H
-#define ARKCORE_DBCSTORES_H
+#ifndef TRILLIUMEMU_DBCSTORES_H
+#define TRILLIUMEMU_DBCSTORES_H
 
 #include "Common.h"
 #include "Storages.h"

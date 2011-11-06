@@ -17,8 +17,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_DESTINATION_HOLDER_H
-#define ARKCORE_DESTINATION_HOLDER_H
+#ifndef TRILLIUMEMU_DESTINATION_HOLDER_H
+#define TRILLIUMEMU_DESTINATION_HOLDER_H
 
 #include "Define.h"
 #include "Timer.h"

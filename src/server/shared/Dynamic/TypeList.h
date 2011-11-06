@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_TYPELIST_H
-#define ARKCORE_TYPELIST_H
+#ifndef TRILLIUMEMU_TYPELIST_H
+#define TRILLIUMEMU_TYPELIST_H
 
 /*
   @struct TypeList

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CALENDAR_H
-#define ARKCORE_CALENDAR_H
+#ifndef TRILLIUMEMU_CALENDAR_H
+#define TRILLIUMEMU_CALENDAR_H
 
 class Calendar
 {

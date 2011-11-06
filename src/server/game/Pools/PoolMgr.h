@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_POOLHANDLER_H
-#define ARKCORE_POOLHANDLER_H
+#ifndef TRILLIUMEMU_POOLHANDLER_H
+#define TRILLIUMEMU_POOLHANDLER_H
 
 #include "Define.h"
 #include <ace/Singleton.h>

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __ARKCORE_SOCIALMGR_H
-#define __ARKCORE_SOCIALMGR_H
+#ifndef __TRILLIUMEMU_SOCIALMGR_H
+#define __TRILLIUMEMU_SOCIALMGR_H
 
 #include <ace/Singleton.h>
 #include "DatabaseEnv.h"

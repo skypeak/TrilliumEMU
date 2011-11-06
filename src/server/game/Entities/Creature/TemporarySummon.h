@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_TEMPSUMMON_H
-#define ARKCORE_TEMPSUMMON_H
+#ifndef TRILLIUMEMU_TEMPSUMMON_H
+#define TRILLIUMEMU_TEMPSUMMON_H
 
 #include "Creature.h"
 

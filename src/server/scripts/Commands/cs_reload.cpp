@@ -145,7 +145,7 @@ public:
             { "spell_target_position",        SEC_ADMINISTRATOR, true,  &HandleReloadSpellTargetPositionCommand,        "", NULL },
             { "spell_threats",                SEC_ADMINISTRATOR, true,  &HandleReloadSpellThreatsCommand,               "", NULL },
             { "spell_group_stack_rules",      SEC_ADMINISTRATOR, true,  &HandleReloadSpellGroupStackRulesCommand,       "", NULL },
-            { "arkcore_string",              SEC_ADMINISTRATOR, true,  &HandleReloadArkcoreStringCommand,              "", NULL },
+            { "TRILLIUMEMU_string",              SEC_ADMINISTRATOR, true,  &HandleReloadArkcoreStringCommand,              "", NULL },
             { "waypoint_scripts",             SEC_ADMINISTRATOR, true,  &HandleReloadWpScriptsCommand,                  "", NULL },
             { "vehicle_accessory",            SEC_ADMINISTRATOR, true,  &HandleReloadVehicleAccessoryCommand,           "", NULL },
             { "vehicle_template_accessory",   SEC_ADMINISTRATOR, true,  &HandleReloadVehicleTemplateAccessoryCommand,   "", NULL },
@@ -712,9 +712,9 @@ public:
 
     static bool HandleReloadArkcoreStringCommand(ChatHandler* handler, const char* /*args*/)
     {
-        sLog->outString("Re-Loading arkcore_string Table!");
+        sLog->outString("Re-Loading TRILLIUMEMU_string Table!");
         sObjectMgr->LoadArkcoreStrings();
-        handler->SendGlobalGMSysMessage("DB table `arkcore_string` reloaded.");
+        handler->SendGlobalGMSysMessage("DB table `TRILLIUMEMU_string` reloaded.");
         return true;
     }
 

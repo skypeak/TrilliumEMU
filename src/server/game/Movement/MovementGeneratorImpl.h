@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_MOVEMENTGENERATOR_IMPL_H
-#define ARKCORE_MOVEMENTGENERATOR_IMPL_H
+#ifndef TRILLIUMEMU_MOVEMENTGENERATOR_IMPL_H
+#define TRILLIUMEMU_MOVEMENTGENERATOR_IMPL_H
 
 #include "MovementGenerator.h"
 

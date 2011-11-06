@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GRIDNOTIFIERSIMPL_H
-#define ARKCORE_GRIDNOTIFIERSIMPL_H
+#ifndef TRILLIUMEMU_GRIDNOTIFIERSIMPL_H
+#define TRILLIUMEMU_GRIDNOTIFIERSIMPL_H
 
 #include "GridNotifiers.h"
 #include "WorldPacket.h"
@@ -461,4 +461,4 @@ void Arkcore::LocalizedPacketListDo<Builder>::operator()(Player* p)
         p->SendDirectMessage((*data_list)[i]);
 }
 
-#endif                                                      // ARKCORE_GRIDNOTIFIERSIMPL_H
+#endif                                                      // TRILLIUMEMU_GRIDNOTIFIERSIMPL_H

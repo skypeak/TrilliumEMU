@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_PASSIVEAI_H
-#define ARKCORE_PASSIVEAI_H
+#ifndef TRILLIUMEMU_PASSIVEAI_H
+#define TRILLIUMEMU_PASSIVEAI_H
 
 #include "CreatureAI.h"
 //#include "CreatureAIImpl.h"

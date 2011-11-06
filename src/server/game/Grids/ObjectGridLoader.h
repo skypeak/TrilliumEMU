@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_OBJECTGRIDLOADER_H
-#define ARKCORE_OBJECTGRIDLOADER_H
+#ifndef TRILLIUMEMU_OBJECTGRIDLOADER_H
+#define TRILLIUMEMU_OBJECTGRIDLOADER_H
 
 #include "TypeList.h"
 #include "Define.h"

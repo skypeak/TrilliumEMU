@@ -20,8 +20,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef __ARKCORE_WARRIORPLAYER_H
-#define __ARKCORE_WARRIORPLAYER_H
+#ifndef __TRILLIUMEMU_WARRIORPLAYER_H
+#define __TRILLIUMEMU_WARRIORPLAYER_H
 
 #include "Player.h"
 

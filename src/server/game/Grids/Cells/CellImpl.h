@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CELLIMPL_H
-#define ARKCORE_CELLIMPL_H
+#ifndef TRILLIUMEMU_CELLIMPL_H
+#define TRILLIUMEMU_CELLIMPL_H
 
 #include <cmath>
 

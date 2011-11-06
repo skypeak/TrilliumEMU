@@ -20,8 +20,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef __ARKCORE_DKPLAYER_H
-#define __ARKCORE_DKPLAYER_H
+#ifndef __TRILLIUMEMU_DKPLAYER_H
+#define __TRILLIUMEMU_DKPLAYER_H
 
 #include "Player.h"
 

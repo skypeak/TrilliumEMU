@@ -17,8 +17,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_POINTMOVEMENTGENERATOR_H
-#define ARKCORE_POINTMOVEMENTGENERATOR_H
+#ifndef TRILLIUMEMU_POINTMOVEMENTGENERATOR_H
+#define TRILLIUMEMU_POINTMOVEMENTGENERATOR_H
 
 #include "MovementGenerator.h"
 #include "DestinationHolder.h"

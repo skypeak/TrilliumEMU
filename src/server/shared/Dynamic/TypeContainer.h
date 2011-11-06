@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_TYPECONTAINER_H
-#define ARKCORE_TYPECONTAINER_H
+#ifndef TRILLIUMEMU_TYPECONTAINER_H
+#define TRILLIUMEMU_TYPECONTAINER_H
 
 /*
  * Here, you'll find a series of containers that allow you to hold multiple

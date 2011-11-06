@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CORPSE_H
-#define ARKCORE_CORPSE_H
+#ifndef TRILLIUMEMU_CORPSE_H
+#define TRILLIUMEMU_CORPSE_H
 
 #include "Object.h"
 #include "DatabaseEnv.h"

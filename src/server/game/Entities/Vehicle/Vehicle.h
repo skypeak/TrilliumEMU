@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __ARKCORE_VEHICLE_H
-#define __ARKCORE_VEHICLE_H
+#ifndef __TRILLIUMEMU_VEHICLE_H
+#define __TRILLIUMEMU_VEHICLE_H
 
 #include "ObjectDefines.h"
 #include "VehicleDefines.h"

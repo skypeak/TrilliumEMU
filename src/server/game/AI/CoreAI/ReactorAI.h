@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_REACTORAI_H
-#define ARKCORE_REACTORAI_H
+#ifndef TRILLIUMEMU_REACTORAI_H
+#define TRILLIUMEMU_REACTORAI_H
 
 #include "CreatureAI.h"
 

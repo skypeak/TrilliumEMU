@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __ARKCORE_LANGUAGE_H
-#define __ARKCORE_LANGUAGE_H
+#ifndef __TRILLIUMEMU_LANGUAGE_H
+#define __TRILLIUMEMU_LANGUAGE_H
 
 enum ArkcoreStrings
 {

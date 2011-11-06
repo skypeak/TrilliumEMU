@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_LOOTMGR_H
-#define ARKCORE_LOOTMGR_H
+#ifndef TRILLIUMEMU_LOOTMGR_H
+#define TRILLIUMEMU_LOOTMGR_H
 
 #include "ItemEnchantmentMgr.h"
 #include "ByteBuffer.h"

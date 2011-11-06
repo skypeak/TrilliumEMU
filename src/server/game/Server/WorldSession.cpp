@@ -159,7 +159,7 @@ void WorldSession::SendPacket(WorldPacket const *packet)
         return;
     }
 
-#ifdef ARKCORE_DEBUG
+#ifdef TRILLIUMEMU_DEBUG
     // Code for network use statistic
     static uint64 sendPacketCount = 0;
     static uint64 sendPacketBytes = 0;
@@ -191,7 +191,7 @@ void WorldSession::SendPacket(WorldPacket const *packet)
         sendLastPacketCount = 1;
         sendLastPacketBytes = packet->wpos();               // wpos is real written size
     }
-#endif                                                      // !ARKCORE_DEBUG
+#endif                                                      // !TRILLIUMEMU_DEBUG
 
     if (m_Socket->SendPacket (*packet) == -1)
         m_Socket->CloseSocket ();

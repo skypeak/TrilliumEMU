@@ -171,7 +171,7 @@ Quest::Quest(Field * questRecord)
     QuestCompleteScript = questRecord[173].GetUInt32();
 
     QuestFlags |= SpecialFlags << 20;
-    if (QuestFlags & QUEST_ARKCORE_FLAGS_AUTO_ACCEPT)
+    if (QuestFlags & QUEST_TRILLIUMEMU_FLAGS_AUTO_ACCEPT)
         QuestFlags |= QUEST_FLAGS_AUTO_ACCEPT;
 
     m_reqitemscount = 0;

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CELL_H
-#define ARKCORE_CELL_H
+#ifndef TRILLIUMEMU_CELL_H
+#define TRILLIUMEMU_CELL_H
 
 #include <cmath>
 

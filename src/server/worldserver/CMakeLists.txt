@@ -148,7 +148,7 @@ set(worldserver_LINK_FLAGS "")
 add_executable(worldserver ${worldserver_SRCS})
 
 if( NOT WIN32 )
-  add_definitions(-D_ARKCORE_CORE_CONFIG='"${CONF_DIR}/worldserver.conf"')
+  add_definitions(-D_TRILLIUMEMU_CORE_CONFIG='"${CONF_DIR}/worldserver.conf"')
 endif()
 
 add_dependencies(worldserver revision.h)

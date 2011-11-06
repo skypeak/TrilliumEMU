@@ -23,8 +23,8 @@
 /// @{
 /// \file
 
-#ifndef _ARKCORE_RARUNNABLE_H_
-#define _ARKCORE_RARUNNABLE_H_
+#ifndef _TRILLIUMEMU_RARUNNABLE_H_
+#define _TRILLIUMEMU_RARUNNABLE_H_
 
 #include "Common.h"
 
@@ -42,5 +42,5 @@ private:
 
 };
 
-#endif /* _ARKCORE_RARUNNABLE_H_ */
+#endif /* _TRILLIUMEMU_RARUNNABLE_H_ */
 /// @}

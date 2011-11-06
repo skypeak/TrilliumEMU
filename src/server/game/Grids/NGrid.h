@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_NGRID_H
-#define ARKCORE_NGRID_H
+#ifndef TRILLIUMEMU_NGRID_H
+#define TRILLIUMEMU_NGRID_H
 
 /** NGrid is nothing more than a wrapper of the Grid with an NxN cells
  */

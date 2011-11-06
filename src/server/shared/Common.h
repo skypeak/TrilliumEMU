@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_COMMON_H
-#define ARKCORE_COMMON_H
+#ifndef TRILLIUMEMU_COMMON_H
+#define TRILLIUMEMU_COMMON_H
 
 // config.h needs to be included 1st
 // TODO this thingy looks like hack , but its not, need to
@@ -206,16 +206,16 @@ typedef std::vector<std::string> StringVector;
 #endif
 
 #define MAX_QUERY_LEN 32*1024
-#define ARKCORE_GUARD(MUTEX, LOCK) \
-  ACE_Guard< MUTEX > ARKCORE_GUARD_OBJECT (LOCK); \
-    if (ARKCORE_GUARD_OBJECT.locked() == 0) ASSERT(false);
+#define TRILLIUMEMU_GUARD(MUTEX, LOCK) \
+  ACE_Guard< MUTEX > TRILLIUMEMU_GUARD_OBJECT (LOCK); \
+    if (TRILLIUMEMU_GUARD_OBJECT.locked() == 0) ASSERT(false);
 
-# define ARKCORE_WRITE_GUARD(MUTEX, LOCK) \
-  ACE_Write_Guard< MUTEX > ARKCORE_GUARD_OBJECT (LOCK); \
-    if (ARKCORE_GUARD_OBJECT.locked() == 0) ASSERT(false);
+# define TRILLIUMEMU_WRITE_GUARD(MUTEX, LOCK) \
+  ACE_Write_Guard< MUTEX > TRILLIUMEMU_GUARD_OBJECT (LOCK); \
+    if (TRILLIUMEMU_GUARD_OBJECT.locked() == 0) ASSERT(false);
 
-# define ARKCORE_READ_GUARD(MUTEX, LOCK) \
-  ACE_Read_Guard< MUTEX > ARKCORE_GUARD_OBJECT (LOCK); \
-    if (ARKCORE_GUARD_OBJECT.locked() == 0) ASSERT(false);
+# define TRILLIUMEMU_READ_GUARD(MUTEX, LOCK) \
+  ACE_Read_Guard< MUTEX > TRILLIUMEMU_GUARD_OBJECT (LOCK); \
+    if (TRILLIUMEMU_GUARD_OBJECT.locked() == 0) ASSERT(false);
 
 #endif

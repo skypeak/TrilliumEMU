@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CHATLINK_H
-#define ARKCORE_CHATLINK_H
+#ifndef TRILLIUMEMU_CHATLINK_H
+#define TRILLIUMEMU_CHATLINK_H
 
 #include "SharedDefines.h"
 #include "DataStructure.h"
@@ -175,4 +175,4 @@ private:
 };
 
 
-#endif // ARKCORE_CHATLINK_H
+#endif // TRILLIUMEMU_CHATLINK_H

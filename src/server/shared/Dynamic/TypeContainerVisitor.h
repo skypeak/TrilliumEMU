@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_TYPECONTAINERVISITOR_H
-#define ARKCORE_TYPECONTAINERVISITOR_H
+#ifndef TRILLIUMEMU_TYPECONTAINERVISITOR_H
+#define TRILLIUMEMU_TYPECONTAINERVISITOR_H
 
 /*
  * @class TypeContainerVisitor is implemented as a visitor pattern.  It is

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_TOTEM_H
-#define ARKCORE_TOTEM_H
+#ifndef TRILLIUMEMU_TOTEM_H
+#define TRILLIUMEMU_TOTEM_H
 
 #include "TemporarySummon.h"
 

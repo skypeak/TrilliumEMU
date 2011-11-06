@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __ARKCORE_ACHIEVEMENTMGR_H
-#define __ARKCORE_ACHIEVEMENTMGR_H
+#ifndef __TRILLIUMEMU_ACHIEVEMENTMGR_H
+#define __TRILLIUMEMU_ACHIEVEMENTMGR_H
 
 #include <map>
 #include <string>

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GROUP_H
-#define ARKCORE_GROUP_H
+#ifndef TRILLIUMEMU_GROUP_H
+#define TRILLIUMEMU_GROUP_H
 
 #include "Battleground.h"
 #include "StorageData.h"

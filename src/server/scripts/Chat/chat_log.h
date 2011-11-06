@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CHATLOG_H
-#define ARKCORE_CHATLOG_H
+#ifndef TRILLIUMEMU_CHATLOG_H
+#define TRILLIUMEMU_CHATLOG_H
 
 #include "ScriptPCH.h"
 #include "ChatLexicsCutter.h"

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_SMARTAI_H
-#define ARKCORE_SMARTAI_H
+#ifndef TRILLIUMEMU_SMARTAI_H
+#define TRILLIUMEMU_SMARTAI_H
 
 #include "Common.h"
 #include "Creature.h"

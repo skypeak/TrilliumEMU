@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CONDITIONMGR_H
-#define ARKCORE_CONDITIONMGR_H
+#ifndef TRILLIUMEMU_CONDITIONMGR_H
+#define TRILLIUMEMU_CONDITIONMGR_H
 
 #include "LootMgr.h"
 #include <ace/Singleton.h>

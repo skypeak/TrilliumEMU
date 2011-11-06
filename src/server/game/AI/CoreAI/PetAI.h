@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_PETAI_H
-#define ARKCORE_PETAI_H
+#ifndef TRILLIUMEMU_PETAI_H
+#define TRILLIUMEMU_PETAI_H
 
 #include "CreatureAI.h"
 #include "Timer.h"

@@ -2659,7 +2659,7 @@ bool ChatHandler::HandleResetAllCommand(const char * args)
 
     CharacterDatabase.PExecute("UPDATE characters SET at_login = at_login | '%u' WHERE (at_login & '%u') = '0'", atLogin, atLogin);
 
-    ARKCORE_READ_GUARD(HashMapHolder<Player>::LockType, *HashMapHolder<Player>::GetLock());
+    TRILLIUMEMU_READ_GUARD(HashMapHolder<Player>::LockType, *HashMapHolder<Player>::GetLock());
     HashMapHolder<Player>::MapType const& plist = sObjectAccessor->GetPlayers();
     for (HashMapHolder<Player>::MapType::const_iterator itr = plist.begin(); itr != plist.end(); ++itr)
         itr->second->SetAtLoginFlag(atLogin);
@@ -4455,7 +4455,7 @@ bool ChatHandler::HandleChannelSetOwnership(const char *args)
 }
 
 /*------------------------------------------
- *-------------ARKCORE----------------------
+ *-------------TRILLIUMEMU----------------------
  *-------------------------------------*/
 
 bool ChatHandler::HandlePlayAllCommand(const char *args)

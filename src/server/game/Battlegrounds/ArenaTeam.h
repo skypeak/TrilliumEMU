@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_ARENATEAM_H
-#define ARKCORE_ARENATEAM_H
+#ifndef TRILLIUMEMU_ARENATEAM_H
+#define TRILLIUMEMU_ARENATEAM_H
 
 #include "QueryResult.h"
 #include <ace/Singleton.h>

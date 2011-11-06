@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_INSTANCE_DATA_H
-#define ARKCORE_INSTANCE_DATA_H
+#ifndef TRILLIUMEMU_INSTANCE_DATA_H
+#define TRILLIUMEMU_INSTANCE_DATA_H
 
 #include "ZoneScript.h"
 #include "World.h"

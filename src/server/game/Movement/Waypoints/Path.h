@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_PATH_H
-#define ARKCORE_PATH_H
+#ifndef TRILLIUMEMU_PATH_H
+#define TRILLIUMEMU_PATH_H
 
 #include "Common.h"
 #include <vector>

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CREATUREAIREGISTRY_H
-#define ARKCORE_CREATUREAIREGISTRY_H
+#ifndef TRILLIUMEMU_CREATUREAIREGISTRY_H
+#define TRILLIUMEMU_CREATUREAIREGISTRY_H
 
 namespace AIRegistry
 {

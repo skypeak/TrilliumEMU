@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GUILD_H
-#define ARKCORE_GUILD_H
+#ifndef TRILLIUMEMU_GUILD_H
+#define TRILLIUMEMU_GUILD_H
 
 #include "World.h"
 #include "Item.h"

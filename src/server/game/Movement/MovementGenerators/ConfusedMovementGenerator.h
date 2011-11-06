@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CONFUSEDGENERATOR_H
-#define ARKCORE_CONFUSEDGENERATOR_H
+#ifndef TRILLIUMEMU_CONFUSEDGENERATOR_H
+#define TRILLIUMEMU_CONFUSEDGENERATOR_H
 
 #include "MovementGenerator.h"
 #include "DestinationHolder.h"

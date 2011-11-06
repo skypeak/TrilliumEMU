@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_MAIL_H
-#define ARKCORE_MAIL_H
+#ifndef TRILLIUMEMU_MAIL_H
+#define TRILLIUMEMU_MAIL_H
 
 #include "Common.h"
 #include <map>

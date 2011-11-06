@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_TRAVELLER_H
-#define ARKCORE_TRAVELLER_H
+#ifndef TRILLIUMEMU_TRAVELLER_H
+#define TRILLIUMEMU_TRAVELLER_H
 
 #include "Creature.h"
 #include "Player.h"

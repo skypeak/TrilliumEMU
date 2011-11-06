@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_MAPMANAGER_H
-#define ARKCORE_MAPMANAGER_H
+#ifndef TRILLIUMEMU_MAPMANAGER_H
+#define TRILLIUMEMU_MAPMANAGER_H
 
 #include "Define.h"
 #include <ace/Singleton.h>

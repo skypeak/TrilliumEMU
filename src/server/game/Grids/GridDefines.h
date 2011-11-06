@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GRIDDEFINES_H
-#define ARKCORE_GRIDDEFINES_H
+#ifndef TRILLIUMEMU_GRIDDEFINES_H
+#define TRILLIUMEMU_GRIDDEFINES_H
 
 #include "Common.h"
 #include "NGrid.h"

@@ -17,8 +17,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_DESTINATIONHOLDERIMP_H
-#define ARKCORE_DESTINATIONHOLDERIMP_H
+#ifndef TRILLIUMEMU_DESTINATIONHOLDERIMP_H
+#define TRILLIUMEMU_DESTINATIONHOLDERIMP_H
 
 #include "MapManager.h"
 #include "DestinationHolder.h"

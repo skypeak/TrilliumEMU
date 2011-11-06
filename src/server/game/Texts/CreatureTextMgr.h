@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CREATURE_TEXT_MGR_H
-#define ARKCORE_CREATURE_TEXT_MGR_H
+#ifndef TRILLIUMEMU_CREATURE_TEXT_MGR_H
+#define TRILLIUMEMU_CREATURE_TEXT_MGR_H
 
 #include "Creature.h"
 #include "SharedDefines.h"

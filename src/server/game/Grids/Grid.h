@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GRID_H
-#define ARKCORE_GRID_H
+#ifndef TRILLIUMEMU_GRID_H
+#define TRILLIUMEMU_GRID_H
 
 /*
   @class Grid

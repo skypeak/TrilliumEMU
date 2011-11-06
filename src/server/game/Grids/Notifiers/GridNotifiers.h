@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GRIDNOTIFIERS_H
-#define ARKCORE_GRIDNOTIFIERS_H
+#ifndef TRILLIUMEMU_GRIDNOTIFIERS_H
+#define TRILLIUMEMU_GRIDNOTIFIERS_H
 
 #include "ObjectGridLoader.h"
 #include "UpdateData.h"

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_SPELLAURAEFFECTS_H
-#define ARKCORE_SPELLAURAEFFECTS_H
+#ifndef TRILLIUMEMU_SPELLAURAEFFECTS_H
+#define TRILLIUMEMU_SPELLAURAEFFECTS_H
 
 class Unit;
 class AuraEffect;

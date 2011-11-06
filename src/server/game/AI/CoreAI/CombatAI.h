@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_COMBATAI_H
-#define ARKCORE_COMBATAI_H
+#ifndef TRILLIUMEMU_COMBATAI_H
+#define TRILLIUMEMU_COMBATAI_H
 
 #include "CreatureAI.h"
 #include "CreatureAIImpl.h"

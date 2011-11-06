@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CREATUREAI_H
-#define ARKCORE_CREATUREAI_H
+#ifndef TRILLIUMEMU_CREATUREAI_H
+#define TRILLIUMEMU_CREATUREAI_H
 
 #include "UnitAI.h"
 #include "Common.h"

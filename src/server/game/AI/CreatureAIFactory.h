@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CREATUREAIFACTORY_H
-#define ARKCORE_CREATUREAIFACTORY_H
+#ifndef TRILLIUMEMU_CREATUREAIFACTORY_H
+#define TRILLIUMEMU_CREATUREAIFACTORY_H
 
 //#include "Policies/Singleton.h"
 #include "ObjectRegistry.h"

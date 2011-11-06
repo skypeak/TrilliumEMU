@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GRIDLOADER_H
-#define ARKCORE_GRIDLOADER_H
+#ifndef TRILLIUMEMU_GRIDLOADER_H
+#define TRILLIUMEMU_GRIDLOADER_H
 
 /**
   @class GridLoader

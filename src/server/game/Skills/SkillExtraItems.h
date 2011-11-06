@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_SKILL_EXTRA_ITEMS_H
-#define ARKCORE_SKILL_EXTRA_ITEMS_H
+#ifndef TRILLIUMEMU_SKILL_EXTRA_ITEMS_H
+#define TRILLIUMEMU_SKILL_EXTRA_ITEMS_H
 
 #include "Common.h"
 

@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_DISABLEMGR_H
-#define ARKCORE_DISABLEMGR_H
+#ifndef TRILLIUMEMU_DISABLEMGR_H
+#define TRILLIUMEMU_DISABLEMGR_H
 
 #include "Define.h"
 
@@ -64,4 +64,4 @@ namespace DisableMgr
     void CheckQuestDisables();
 }
 
-#endif //ARKCORE_DISABLEMGR_H
+#endif //TRILLIUMEMU_DISABLEMGR_H

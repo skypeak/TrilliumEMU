@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_CHAT_H
-#define ARKCORE_CHAT_H
+#ifndef TRILLIUMEMU_CHAT_H
+#define TRILLIUMEMU_CHAT_H
 
 #include "SharedDefines.h"
 #include "Player.h"

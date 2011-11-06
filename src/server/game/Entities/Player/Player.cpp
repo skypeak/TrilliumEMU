@@ -14918,7 +14918,7 @@ bool Player::CanCompleteQuest(uint32 quest_id)
         if (q_status.m_status == QUEST_STATUS_INCOMPLETE)
         {
 
-            if (qInfo->HasFlag(QUEST_ARKCORE_FLAGS_DELIVER))
+            if (qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_DELIVER))
             {
                 for (uint8 i = 0; i < QUEST_ITEM_OBJECTIVES_COUNT; i++)
                 {
@@ -14927,7 +14927,7 @@ bool Player::CanCompleteQuest(uint32 quest_id)
                 }
             }
 
-            if (qInfo->HasFlag(QUEST_ARKCORE_FLAGS_KILL_OR_CAST | QUEST_ARKCORE_FLAGS_SPEAKTO))
+            if (qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_KILL_OR_CAST | QUEST_TRILLIUMEMU_FLAGS_SPEAKTO))
             {
                 for (uint8 i = 0; i < QUEST_OBJECTIVES_COUNT; i++)
                 {
@@ -14939,14 +14939,14 @@ bool Player::CanCompleteQuest(uint32 quest_id)
                 }
             }
 
-            if (qInfo->HasFlag(QUEST_ARKCORE_FLAGS_PLAYER_KILL))
+            if (qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_PLAYER_KILL))
                 if (qInfo->GetPlayersSlain() != 0 && q_status.m_playercount < qInfo->GetPlayersSlain())
                     return false;
 
-            if (qInfo->HasFlag(QUEST_ARKCORE_FLAGS_EXPLORATION_OR_EVENT) && !q_status.m_explored)
+            if (qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_EXPLORATION_OR_EVENT) && !q_status.m_explored)
                 return false;
 
-            if (qInfo->HasFlag(QUEST_ARKCORE_FLAGS_TIMED) && q_status.m_timer == 0)
+            if (qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_TIMED) && q_status.m_timer == 0)
                 return false;
 
             if (qInfo->GetRewOrReqMoney() < 0)
@@ -14973,7 +14973,7 @@ bool Player::CanCompleteRepeatableQuest(Quest const *pQuest)
     if (!CanTakeQuest(pQuest, false))
         return false;
 
-    if (pQuest->HasFlag(QUEST_ARKCORE_FLAGS_DELIVER))
+    if (pQuest->HasFlag(QUEST_TRILLIUMEMU_FLAGS_DELIVER))
         for (uint8 i = 0; i < QUEST_ITEM_OBJECTIVES_COUNT; i++)
             if (pQuest->ReqItemId[i] && pQuest->ReqItemCount[i] && !HasItemCount(pQuest->ReqItemId[i], pQuest->ReqItemCount[i]))
                 return false;
@@ -14999,7 +14999,7 @@ bool Player::CanRewardQuest(Quest const *pQuest, bool msg)
         return false;
 
     // prevent receive reward with quest items in bank
-    if (pQuest->HasFlag(QUEST_ARKCORE_FLAGS_DELIVER))
+    if (pQuest->HasFlag(QUEST_TRILLIUMEMU_FLAGS_DELIVER))
     {
         for (uint8 i = 0; i < QUEST_ITEM_OBJECTIVES_COUNT; i++)
         {
@@ -15074,19 +15074,19 @@ void Player::AddQuest(Quest const *pQuest, Object *questGiver)
     questStatusData.m_status = QUEST_STATUS_INCOMPLETE;
     questStatusData.m_explored = false;
 
-    if (pQuest->HasFlag(QUEST_ARKCORE_FLAGS_DELIVER))
+    if (pQuest->HasFlag(QUEST_TRILLIUMEMU_FLAGS_DELIVER))
     {
         for (uint8 i = 0; i < QUEST_ITEM_OBJECTIVES_COUNT; ++i)
             questStatusData.m_itemcount[i] = 0;
     }
 
-    if (pQuest->HasFlag(QUEST_ARKCORE_FLAGS_KILL_OR_CAST | QUEST_ARKCORE_FLAGS_SPEAKTO))
+    if (pQuest->HasFlag(QUEST_TRILLIUMEMU_FLAGS_KILL_OR_CAST | QUEST_TRILLIUMEMU_FLAGS_SPEAKTO))
     {
         for (uint8 i = 0; i < QUEST_OBJECTIVES_COUNT; ++i)
             questStatusData.m_creatureOrGOcount[i] = 0;
     }
 
-    if (pQuest->HasFlag(QUEST_ARKCORE_FLAGS_PLAYER_KILL))
+    if (pQuest->HasFlag(QUEST_TRILLIUMEMU_FLAGS_PLAYER_KILL))
         questStatusData.m_playercount = 0;
 
     GiveQuestSourceItem(pQuest);
@@ -15101,7 +15101,7 @@ void Player::AddQuest(Quest const *pQuest, Object *questGiver)
             GetReputationMgr().SetVisible(factionEntry);
 
     uint32 qtime = 0;
-    if (pQuest->HasFlag(QUEST_ARKCORE_FLAGS_TIMED))
+    if (pQuest->HasFlag(QUEST_TRILLIUMEMU_FLAGS_TIMED))
     {
         uint32 limittime = pQuest->GetLimitTime();
 
@@ -15375,7 +15375,7 @@ void Player::FailQuest(uint32 questId)
             SetQuestSlotState(log_slot, QUEST_STATE_FAIL);
         }
 
-        if (pQuest->HasFlag(QUEST_ARKCORE_FLAGS_TIMED))
+        if (pQuest->HasFlag(QUEST_TRILLIUMEMU_FLAGS_TIMED))
         {
             QuestStatusData& q_status = m_QuestStatus[questId];
 
@@ -15638,7 +15638,7 @@ bool Player::SatisfyQuestConditions(Quest const* qInfo, bool msg)
 
 bool Player::SatisfyQuestTimed(Quest const* qInfo, bool msg)
 {
-    if (!m_timedquests.empty() && qInfo->HasFlag(QUEST_ARKCORE_FLAGS_TIMED))
+    if (!m_timedquests.empty() && qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_TIMED))
     {
         if (msg)
             SendCanTakeQuestResponse(INVALIDREASON_QUEST_ONLY_ONE_TIMED);
@@ -15934,7 +15934,7 @@ uint16 Player::GetReqKillOrCastCurrentCount(uint32 quest_id, int32 entry)
 
 void Player::AdjustQuestReqItemCount(Quest const* pQuest, QuestStatusData& questStatusData)
 {
-    if (pQuest->HasFlag(QUEST_ARKCORE_FLAGS_DELIVER))
+    if (pQuest->HasFlag(QUEST_TRILLIUMEMU_FLAGS_DELIVER))
     {
         for (uint8 i = 0; i < QUEST_ITEM_OBJECTIVES_COUNT; ++i)
         {
@@ -16011,7 +16011,7 @@ void Player::ItemAddedQuestCheck(uint32 entry, uint32 count)
             continue;
 
         Quest const* qInfo = sObjectMgr->GetQuestTemplate(questid);
-        if (!qInfo || !qInfo->HasFlag(QUEST_ARKCORE_FLAGS_DELIVER))
+        if (!qInfo || !qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_DELIVER))
             continue;
 
         for (uint8 j = 0; j < QUEST_ITEM_OBJECTIVES_COUNT; ++j)
@@ -16049,7 +16049,7 @@ void Player::ItemRemovedQuestCheck(uint32 entry, uint32 count)
         Quest const* qInfo = sObjectMgr->GetQuestTemplate(questid);
         if (!qInfo)
             continue;
-        if (!qInfo->HasFlag(QUEST_ARKCORE_FLAGS_DELIVER))
+        if (!qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_DELIVER))
             continue;
 
         for (uint8 j = 0; j < QUEST_ITEM_OBJECTIVES_COUNT; ++j)
@@ -16118,7 +16118,7 @@ void Player::KilledMonsterCredit(uint32 entry, uint64 guid)
         QuestStatusData& q_status = m_QuestStatus[questid];
         if (q_status.m_status == QUEST_STATUS_INCOMPLETE && (!GetGroup() || !GetGroup()->isRaidGroup() || qInfo->IsAllowedInRaid()))
         {
-            if (qInfo->HasFlag(QUEST_ARKCORE_FLAGS_KILL_OR_CAST))
+            if (qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_KILL_OR_CAST))
             {
                 for (uint8 j = 0; j < QUEST_OBJECTIVES_COUNT; ++j)
                 {
@@ -16173,7 +16173,7 @@ void Player::KilledPlayerCredit()
         QuestStatusData& q_status = m_QuestStatus[questid];
         if (q_status.m_status == QUEST_STATUS_INCOMPLETE && (!GetGroup() || !GetGroup()->isRaidGroup() || qInfo->IsAllowedInRaid()))
         {
-            if (qInfo->HasFlag(QUEST_ARKCORE_FLAGS_PLAYER_KILL))
+            if (qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_PLAYER_KILL))
             {
                 uint32 reqkill = qInfo->GetPlayersSlain();
                 uint16 curkill = q_status.m_playercount;
@@ -16215,7 +16215,7 @@ void Player::CastedCreatureOrGO(uint32 entry, uint64 guid, uint32 spell_id)
 
         if (q_status.m_status == QUEST_STATUS_INCOMPLETE)
         {
-            if (qInfo->HasFlag(QUEST_ARKCORE_FLAGS_KILL_OR_CAST))
+            if (qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_KILL_OR_CAST))
             {
                 for (uint8 j = 0; j < QUEST_OBJECTIVES_COUNT; ++j)
                 {
@@ -16292,7 +16292,7 @@ void Player::TalkedToCreature(uint32 entry, uint64 guid)
 
         if (q_status.m_status == QUEST_STATUS_INCOMPLETE)
         {
-            if (qInfo->HasFlag(QUEST_ARKCORE_FLAGS_KILL_OR_CAST | QUEST_ARKCORE_FLAGS_SPEAKTO))
+            if (qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_KILL_OR_CAST | QUEST_TRILLIUMEMU_FLAGS_SPEAKTO))
             {
                 for (uint8 j = 0; j < QUEST_OBJECTIVES_COUNT; ++j)
                 {
@@ -18059,7 +18059,7 @@ void Player::_LoadQuestStatus(PreparedQueryResult result)
 
                 time_t quest_time = time_t(fields[3].GetUInt32());
 
-                if (pQuest->HasFlag(QUEST_ARKCORE_FLAGS_TIMED) && !GetQuestRewardStatus(quest_id))
+                if (pQuest->HasFlag(QUEST_TRILLIUMEMU_FLAGS_TIMED) && !GetQuestRewardStatus(quest_id))
                 {
                     AddTimedQuest(quest_id);
 
@@ -21699,7 +21699,7 @@ void Player::UpdateVisibilityOf(WorldObject* target)
             target->DestroyForPlayer(this);
             m_clientGUIDs.erase(target->GetGUID());
 
-            #ifdef ARKCORE_DEBUG
+            #ifdef TRILLIUMEMU_DEBUG
                 sLog->outDebug(LOG_FILTER_MAPS, "Object %u (Type: %u) out of range for player %u. Distance = %f", target->GetGUIDLow(), target->GetTypeId(), GetGUIDLow(), GetDistance(target));
             #endif
         }
@@ -21714,7 +21714,7 @@ void Player::UpdateVisibilityOf(WorldObject* target)
             target->SendUpdateToPlayer(this);
             m_clientGUIDs.insert(target->GetGUID());
 
-            #ifdef ARKCORE_DEBUG
+            #ifdef TRILLIUMEMU_DEBUG
                 sLog->outDebug(LOG_FILTER_MAPS, "Object %u (Type: %u) is visible now for player %u. Distance = %f", target->GetGUIDLow(), target->GetTypeId(), GetGUIDLow(), GetDistance(target));
             #endif
 
@@ -21776,7 +21776,7 @@ void Player::UpdateVisibilityOf(T* target, UpdateData& data, std::set<Unit*>& vi
             target->BuildOutOfRangeUpdateBlock(&data);
             m_clientGUIDs.erase(target->GetGUID());
 
-            #ifdef ARKCORE_DEBUG
+            #ifdef TRILLIUMEMU_DEBUG
                 sLog->outDebug(LOG_FILTER_MAPS, "Object %u (Type: %u, Entry: %u) is out of range for player %u. Distance = %f", target->GetGUIDLow(), target->GetTypeId(), target->GetEntry(), GetGUIDLow(), GetDistance(target));
             #endif
         }
@@ -21791,7 +21791,7 @@ void Player::UpdateVisibilityOf(T* target, UpdateData& data, std::set<Unit*>& vi
             target->BuildCreateUpdateBlockForPlayer(&data, this);
             UpdateVisibilityOf_helper(m_clientGUIDs, target, visibleNow);
 
-            #ifdef ARKCORE_DEBUG
+            #ifdef TRILLIUMEMU_DEBUG
                 sLog->outDebug(LOG_FILTER_MAPS, "Object %u (Type: %u, Entry: %u) is visible now for player %u. Distance = %f", target->GetGUIDLow(), target->GetTypeId(), target->GetEntry(), GetGUIDLow(), GetDistance(target));
             #endif
         }
@@ -23336,7 +23336,7 @@ bool ItemPosCount::isContainedIn(ItemPosCountVec const& vec) const
 }
 
 // ***********************************
-// -------------ARKCORE---------------
+// -------------TRILLIUMEMU---------------
 // ***********************************
 
 void Player::StopCastingBindSight()
@@ -23538,7 +23538,7 @@ void Player::SetTitle(CharTitlesEntry const* title, bool lost)
     GetSession()->SendPacket(&data);
 }
 
-/*-----------------------ARKCORE--------------------------*/
+/*-----------------------TRILLIUMEMU--------------------------*/
 bool Player::isTotalImmunity()
 {
     AuraEffectList const& immune = GetAuraEffectsByType(SPELL_AURA_SCHOOL_IMMUNITY);

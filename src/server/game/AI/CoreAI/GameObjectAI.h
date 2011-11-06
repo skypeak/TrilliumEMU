@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_GAMEOBJECTAI_H
-#define ARKCORE_GAMEOBJECTAI_H
+#ifndef TRILLIUMEMU_GAMEOBJECTAI_H
+#define TRILLIUMEMU_GAMEOBJECTAI_H
 
 #include "Define.h"
 #include <list>

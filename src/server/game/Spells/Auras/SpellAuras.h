@@ -19,8 +19,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARKCORE_SPELLAURAS_H
-#define ARKCORE_SPELLAURAS_H
+#ifndef TRILLIUMEMU_SPELLAURAS_H
+#define TRILLIUMEMU_SPELLAURAS_H
 
 #include "SpellAuraDefines.h"
 #include "SpellInfo.h"
