@@ -2616,125 +2616,7 @@ void SpellMgr::LoadSpellInfoStore()
     for (uint32 i = 0; i < sSpellStore.GetNumRows(); ++i)
     {
         if (SpellEntry const* spellEntry = sSpellStore.LookupEntry(i))
-        {
-            SpellInfo *newspell = new SpellInfo(spellEntry);
-            mSpellInfoMap[i] = newspell;
-
-            if (newspell->Category)
-                sSpellCategoryStore[newspell->Category].insert(i);
-        }
-    }
-
-    for(uint32 i = 1; i < sSpellEffectStore.GetNumRows(); ++i)
-    {
-        if (SpellEffectEntry const *spellEffect = sSpellEffectStore.LookupEntry(i))
-        {
-            if (spellEffect->EffectSpellId >= GetSpellInfoStoreSize())
-            {
-                sLog->outError("Spell effect %u belongs to unknown spell %d", spellEffect->Id, spellEffect->EffectSpellId);
-                continue;
-            }
-            SpellInfo* spellInfo = mSpellInfoMap[spellEffect->EffectSpellId];
-            if (!spellInfo)
-            {
-                sLog->outError("Spell effect %u belongs to unknown spell %d", spellEffect->Id, spellEffect->EffectSpellId);
-                continue;
-            }
-            spellInfo->LoadSpellEffects(spellEffect);
-        }
-    }
-
-    for (uint32 j = 0; j < sSkillLineAbilityStore.GetNumRows(); ++j)
-    {
-        SkillLineAbilityEntry const *skillLine = sSkillLineAbilityStore.LookupEntry(j);
-
-        if (!skillLine)
-            continue;
-
-        SpellInfo const* spellInfo = GetSpellInfo(skillLine->spellId);
-
-        if (spellInfo && spellInfo->Attributes & SPELL_ATTR0_PASSIVE)
-        {
-            for (uint32 i = 1; i < sCreatureFamilyStore.GetNumRows(); ++i)
-            {
-                CreatureFamilyEntry const* cFamily = sCreatureFamilyStore.LookupEntry(i);
-                if (!cFamily)
-                    continue;
-
-                if (skillLine->skillId != cFamily->skillLine[0] && skillLine->skillId != cFamily->skillLine[1])
-                    continue;
-                if (spellInfo->SpellLevel)
-                    continue;
-
-                if (skillLine->learnOnGetSkill != ABILITY_LEARNED_ON_GET_RACE_OR_CLASS_SKILL)
-                    continue;
-
-                sPetFamilySpellsStore[i].insert(spellInfo->Id);
-            }
-        }
-    }
-
-    // Initialize global taxinodes mask
-    // include existed nodes that have at least single not spell base (scripted) path
-    {
-        std::set<uint32> spellPaths;
-        for (uint32 i = 1; i < sSpellStore.GetNumRows (); ++i)
-            if (SpellInfo const* sInfo = GetSpellInfo(i))
-                for (int j = 0; j < MAX_SPELL_EFFECTS; ++j)
-                    if (sInfo->Effects[j].Effect == SPELL_EFFECT_SEND_TAXI)
-                        spellPaths.insert(sInfo->Effects[j].MiscValue);
-
-        //ASSERT(((sTaxiNodesStore.GetNumRows()-1)/32) < TaxiMaskSize && "TaxiMaskSize needs to be increased");
-        memset(sTaxiNodesMask, 0, sizeof(sTaxiNodesMask));
-        memset(sOldContinentsNodesMask, 0, sizeof(sOldContinentsNodesMask));
-        memset(sHordeTaxiNodesMask, 0, sizeof(sHordeTaxiNodesMask));
-        memset(sAllianceTaxiNodesMask, 0, sizeof(sAllianceTaxiNodesMask));
-        memset(sDeathKnightTaxiNodesMask, 0, sizeof(sDeathKnightTaxiNodesMask));
-        for (uint32 i = 1; i < sTaxiNodesStore.GetNumRows(); ++i)
-        {
-            TaxiNodesEntry const* node = sTaxiNodesStore.LookupEntry(i);
-            if (!node)
-                continue;
-
-            TaxiPathSetBySource::const_iterator src_i = sTaxiPathSetBySource.find(i);
-            if (src_i != sTaxiPathSetBySource.end() && !src_i->second.empty())
-            {
-                bool ok = false;
-                for (TaxiPathSetForSource::const_iterator dest_i = src_i->second.begin(); dest_i != src_i->second.end(); ++dest_i)
-                {
-                    // not spell path
-                    if (spellPaths.find(dest_i->second.ID) == spellPaths.end())
-                    {
-                        ok = true;
-                        break;
-                    }
-                }
-
-                if (!ok)
-                    continue;
-            }
-
-            // valid taxi network node
-            uint8  field   = (uint8)((i - 1) / 32);
-            uint32 submask = 1<<((i-1)%32);
-            sTaxiNodesMask[field] |= submask;
-
-            if (node->MountCreatureID[0] && node->MountCreatureID[0] != 32981)
-                sHordeTaxiNodesMask[field] |= submask;
-            if (node->MountCreatureID[1] && node->MountCreatureID[1] != 32981)
-                sAllianceTaxiNodesMask[field] |= submask;
-            if (node->MountCreatureID[0] == 32981 || node->MountCreatureID[1] == 32981)
-                sDeathKnightTaxiNodesMask[field] |= submask;
-
-            // old continent node (+ nodes virtually at old continents, check explicitly to avoid loading map files for zone info)
-            if (node->map_id < 2 || i == 82 || i == 83 || i == 93 || i == 94)
-                sOldContinentsNodesMask[field] |= submask;
-
-            // fix DK node at Ebon Hold
-            if (i == 315) {
-                ((TaxiNodesEntry*)node)->MountCreatureID[1] = 32981;
-            }
-        }
+            mSpellInfoMap[i] = new SpellInfo(spellEntry);
     }
 
     sLog->outString(">> Loaded spell custom attributes in %u ms", GetMSTimeDiffToNow(oldMSTime));
@@ -3110,7 +2992,7 @@ void SpellMgr::LoadDbcDataCorrections()
             break;
         case 77489: // Mastery: Echo of Light
             spellAuOpt->StackAmount = 100; // should be inf
-            break;
+            break;		
             case 42835: // Spout
                 spellEffect->Effect = 0; // remove damage effect, only anim is needed
                 break;
