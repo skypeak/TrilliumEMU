@@ -2962,6 +2962,37 @@ void SpellMgr::LoadDbcDataCorrections()
 
         switch (spellInfo->Id)
         {
+        case 77515: // Mastery: Dreadblade
+            spellEffect->EffectBasePoints = 20;
+            break;
+        case 77514: // Mastery: Frozen Heart
+            spellEffect->EffectBasePoints = 16;
+            break;
+        case 77493: // Mastery: Razor Claws
+            spellEffect->EffectBasePoints = 25;
+            break;
+        case 76658: // Mastery: Essence of the Viper
+            spellEffect->EffectBasePoints = 8;
+            break;
+        case 76657: // Mastery: Master of Beasts
+            spellEffect->EffectBasePoints = 13;
+            break;
+        case 76595: // Mastery: Flashburn
+            spellEffect->EffectBasePoints = 22;
+            break;
+        case 76671: // Mastery: Divine Bulwark
+            spellEffect->EffectBasePoints = 18;
+            break;
+        case 77220: // Mastery: Fiery Apocalypse
+            spellEffect->EffectBasePoints = 10;
+            break;
+        case 76857: // Mastery: Critical Block
+            spellEffect->EffectBasePoints = 12;
+            spellEffect->EffectBasePoints = 12;
+            break;
+        case 77489: // Mastery: Echo of Light
+            spellAuOpt->StackAmount = 100; // should be inf
+            break;		
             case 42835: // Spout
                 spellEffect->Effect = 0; // remove damage effect, only anim is needed
                 break;
