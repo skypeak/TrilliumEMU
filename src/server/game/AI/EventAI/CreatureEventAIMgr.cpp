@@ -72,7 +72,7 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Texts()
         }
 
         // range negative (must not happen, loaded from same table)
-        if (!sObjectMgr->GetArkcoreStringLocale(i))
+        if (!sObjectMgr->GetTrilliumStringLocale(i))
         {
             sLog->outErrorDb("CreatureEventAI:  Entry %i in table `creature_ai_texts` not found", i);
             continue;

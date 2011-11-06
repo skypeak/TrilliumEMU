@@ -159,7 +159,7 @@ CREATE TABLE `uptime` (
 
 /*Data for the table `uptime` */
 
-insert  into `uptime`(`realmid`,`starttime`,`startstring`,`uptime`,`maxplayers`,`revision`) values (1,1319924880,'2011-10-29 17:48:00',0,0,'ArkCORE rev. 0000-00-00 00:00:00 +0000 (Archived) (Win32, Release)');
+insert  into `uptime`(`realmid`,`starttime`,`startstring`,`uptime`,`maxplayers`,`revision`) values (1,1319924880,'2011-10-29 17:48:00',0,0,'TrilliumEMU rev. 0000-00-00 00:00:00 +0000 (Archived) (Win32, Release)');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

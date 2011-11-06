@@ -7715,10 +7715,10 @@ bool ObjectMgr::LoadTrilliumStrings(char const* table, int32 min_value, int32 ma
     }
 
     // cleanup affected map part for reloading case
-    for (ArkcoreStringLocaleMap::iterator itr = mArkcoreStringLocaleMap.begin(); itr != mArkcoreStringLocaleMap.end();)
+    for (TrilliumStringLocaleMap::iterator itr = mTrilliumStringLocaleMap.begin(); itr != mTrilliumStringLocaleMap.end();)
     {
         if (itr->first >= start_value && itr->first < end_value)
-            mArkcoreStringLocaleMap.erase(itr++);
+            mTrilliumStringLocaleMap.erase(itr++);
         else
             ++itr;
     }
@@ -7755,7 +7755,7 @@ bool ObjectMgr::LoadTrilliumStrings(char const* table, int32 min_value, int32 ma
             continue;
         }
 
-        ArkcoreStringLocale& data = mArkcoreStringLocaleMap[entry];
+        TrilliumStringLocale& data = mTrilliumStringLocaleMap[entry];
 
         if (!data.Content.empty())
         {
@@ -7779,9 +7779,9 @@ bool ObjectMgr::LoadTrilliumStrings(char const* table, int32 min_value, int32 ma
     return true;
 }
 
-const char *ObjectMgr::GetArkcoreString(int32 entry, LocaleConstant locale_idx) const
+const char *ObjectMgr::GetTrilliumString(int32 entry, LocaleConstant locale_idx) const
 {
-    if (ArkcoreStringLocale const* msl = GetArkcoreStringLocale(entry))
+    if (TrilliumStringLocale const* msl = GetTrilliumStringLocale(entry))
     {
         if (msl->Content.size() > size_t(locale_idx) && !msl->Content[locale_idx].empty())
             return msl->Content[locale_idx].c_str();
@@ -8625,7 +8625,7 @@ void ObjectMgr::CheckScripts(ScriptsType type, std::set<int32>& ids)
             {
                 case SCRIPT_COMMAND_TALK:
                 {
-                    if (!GetArkcoreStringLocale (itrM->second.Talk.TextID))
+                    if (!GetTrilliumStringLocale (itrM->second.Talk.TextID))
                         sLog->outErrorDb("Table `db_script_string` not has string id  %u used db script (ID: %u)", itrM->second.Talk.TextID, itrMM->first);
 
                     if (ids.find(itrM->second.Talk.TextID) != ids.end())
@@ -8645,7 +8645,7 @@ void ObjectMgr::LoadDbScriptStrings()
     std::set<int32> ids;
 
     for (int32 i = MIN_DB_SCRIPT_STRING_ID; i < MAX_DB_SCRIPT_STRING_ID; ++i)
-        if (GetArkcoreStringLocale(i))
+        if (GetTrilliumStringLocale(i))
             ids.insert(i);
 
     for (int type = SCRIPTS_FIRST; type < SCRIPTS_LAST; ++type)

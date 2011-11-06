@@ -550,7 +550,7 @@ void WorldSession::SendNotification(const char *format, ...)
 
 void WorldSession::SendNotification(uint32 string_id, ...)
 {
-    char const *format = GetArkcoreString(string_id);
+    char const *format = GetTrilliumString(string_id);
     if (format)
     {
         va_list ap;
@@ -566,9 +566,9 @@ void WorldSession::SendNotification(uint32 string_id, ...)
     }
 }
 
-const char *WorldSession::GetArkcoreString(int32 entry) const
+const char *WorldSession::GetTrilliumString(int32 entry) const
 {
-    return sObjectMgr->GetArkcoreString(entry, GetSessionDbLocaleIndex());
+    return sObjectMgr->GetTrilliumString(entry, GetSessionDbLocaleIndex());
 }
 
 void WorldSession::Handle_NULL(WorldPacket& recvPacket)

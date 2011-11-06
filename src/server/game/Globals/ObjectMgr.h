@@ -390,7 +390,7 @@ typedef UNORDERED_MAP<uint64/*(instance, guid) pair*/, time_t> RespawnTimes;
 // Trillium Trainer Reference start range
 #define TRILLIUMEMU_TRAINER_START_REF      200000
 
-struct ArkcoreStringLocale
+struct TrilliumStringLocale
 {
     StringVector Content;
 };
@@ -404,7 +404,7 @@ typedef UNORDERED_MAP<uint32, ItemLocale> ItemLocaleMap;
 typedef UNORDERED_MAP<uint32, QuestLocale> QuestLocaleMap;
 typedef UNORDERED_MAP<uint32, NpcTextLocale> NpcTextLocaleMap;
 typedef UNORDERED_MAP<uint32, PageTextLocale> PageTextLocaleMap;
-typedef UNORDERED_MAP<int32, ArkcoreStringLocale> ArkcoreStringLocaleMap;
+typedef UNORDERED_MAP<int32, TrilliumStringLocale> TrilliumStringLocaleMap;
 typedef UNORDERED_MAP<uint32, GossipMenuItemsLocale> GossipMenuItemsLocaleMap;
 typedef UNORDERED_MAP<uint32, PointOfInterestLocale> PointOfInterestLocaleMap;
 
@@ -1059,14 +1059,14 @@ class ObjectMgr
         GameObjectData& NewGOData(uint32 guid) { return mGameObjectDataMap[guid]; }
         void DeleteGOData(uint32 guid);
 
-        ArkcoreStringLocale const* GetArkcoreStringLocale(int32 entry) const
+        TrilliumStringLocale const* GetTrilliumStringLocale(int32 entry) const
         {
-            ArkcoreStringLocaleMap::const_iterator itr = mArkcoreStringLocaleMap.find(entry);
-            if (itr == mArkcoreStringLocaleMap.end()) return NULL;
+            TrilliumStringLocaleMap::const_iterator itr = mTrilliumStringLocaleMap.find(entry);
+            if (itr == mTrilliumStringLocaleMap.end()) return NULL;
             return &itr->second;
         }
-        const char *GetArkcoreString(int32 entry, LocaleConstant locale_idx) const;
-        const char *GetArkcoreStringForDBCLocale(int32 entry) const { return GetArkcoreString(entry, DBCLocaleIndex); }
+        const char *GetTrilliumString(int32 entry, LocaleConstant locale_idx) const;
+        const char *GetTrilliumStringForDBCLocale(int32 entry) const { return GetTrilliumString(entry, DBCLocaleIndex); }
         LocaleConstant GetDBCLocaleIndex() const { return DBCLocaleIndex; }
         void SetDBCLocaleIndex(LocaleConstant locale) { DBCLocaleIndex = locale; }
 
@@ -1333,7 +1333,7 @@ class ObjectMgr
         QuestLocaleMap mQuestLocaleMap;
         NpcTextLocaleMap mNpcTextLocaleMap;
         PageTextLocaleMap mPageTextLocaleMap;
-        ArkcoreStringLocaleMap mArkcoreStringLocaleMap;
+        TrilliumStringLocaleMap mTrilliumStringLocaleMap;
         GossipMenuItemsLocaleMap mGossipMenuItemsLocaleMap;
         PointOfInterestLocaleMap mPointOfInterestLocaleMap;
         RespawnTimes mCreatureRespawnTimes;

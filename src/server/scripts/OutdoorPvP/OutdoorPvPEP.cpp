@@ -44,12 +44,12 @@ void OPvPCapturePointEP_EWT::ChangeState()
     // if changing from controlling alliance to horde or vice versa
     if ( m_OldState == OBJECTIVESTATE_ALLIANCE && m_OldState != m_State )
     {
-        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_LOSE_EWT_A));
+        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_LOSE_EWT_A));
         ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_EWT, 0);
     }
     else if ( m_OldState == OBJECTIVESTATE_HORDE && m_OldState != m_State )
     {
-        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_LOSE_EWT_H));
+        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_LOSE_EWT_H));
         ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_EWT, 0);
     }
 
@@ -62,14 +62,14 @@ void OPvPCapturePointEP_EWT::ChangeState()
             artkit = 2;
             SummonSupportUnitAtNorthpassTower(ALLIANCE);
             ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_EWT, ALLIANCE);
-            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_CAPTURE_EWT_A));
+            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_CAPTURE_EWT_A));
             break;
         case OBJECTIVESTATE_HORDE:
             m_TowerState = EP_TS_H;
             artkit = 1;
             SummonSupportUnitAtNorthpassTower(HORDE);
             ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_EWT, HORDE);
-            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_CAPTURE_EWT_H));
+            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_CAPTURE_EWT_H));
             break;
         case OBJECTIVESTATE_NEUTRAL:
             m_TowerState = EP_TS_N;
@@ -182,12 +182,12 @@ void OPvPCapturePointEP_NPT::ChangeState()
     // if changing from controlling alliance to horde or vice versa
     if ( m_OldState == OBJECTIVESTATE_ALLIANCE && m_OldState != m_State )
     {
-        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_LOSE_NPT_A));
+        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_LOSE_NPT_A));
         ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_NPT, 0);
     }
     else if ( m_OldState == OBJECTIVESTATE_HORDE && m_OldState != m_State )
     {
-        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_LOSE_NPT_H));
+        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_LOSE_NPT_H));
         ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_NPT, 0);
     }
 
@@ -200,14 +200,14 @@ void OPvPCapturePointEP_NPT::ChangeState()
             artkit = 2;
             SummonGO(ALLIANCE);
             ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_NPT, ALLIANCE);
-            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_CAPTURE_NPT_A));
+            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_CAPTURE_NPT_A));
             break;
         case OBJECTIVESTATE_HORDE:
             m_TowerState = EP_TS_H;
             artkit = 1;
             SummonGO(HORDE);
             ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_NPT, HORDE);
-            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_CAPTURE_NPT_H));
+            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_CAPTURE_NPT_H));
             break;
         case OBJECTIVESTATE_NEUTRAL:
             m_TowerState = EP_TS_N;
@@ -325,12 +325,12 @@ void OPvPCapturePointEP_CGT::ChangeState()
     // if changing from controlling alliance to horde or vice versa
     if ( m_OldState == OBJECTIVESTATE_ALLIANCE && m_OldState != m_State )
     {
-        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_LOSE_CGT_A));
+        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_LOSE_CGT_A));
         ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_CGT, 0);
     }
     else if ( m_OldState == OBJECTIVESTATE_HORDE && m_OldState != m_State )
     {
-        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_LOSE_CGT_H));
+        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_LOSE_CGT_H));
         ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_CGT, 0);
     }
 
@@ -343,14 +343,14 @@ void OPvPCapturePointEP_CGT::ChangeState()
             artkit = 2;
             LinkGraveYard(ALLIANCE);
             ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_CGT, ALLIANCE);
-            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_CAPTURE_CGT_A));
+            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_CAPTURE_CGT_A));
             break;
         case OBJECTIVESTATE_HORDE:
             m_TowerState = EP_TS_H;
             artkit = 1;
             LinkGraveYard(HORDE);
             ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_CGT, HORDE);
-            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_CAPTURE_CGT_H));
+            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_CAPTURE_CGT_H));
             break;
         case OBJECTIVESTATE_NEUTRAL:
             m_TowerState = EP_TS_N;
@@ -454,12 +454,12 @@ void OPvPCapturePointEP_PWT::ChangeState()
     // if changing from controlling alliance to horde or vice versa
     if ( m_OldState == OBJECTIVESTATE_ALLIANCE && m_OldState != m_State )
     {
-        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_LOSE_PWT_A));
+        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_LOSE_PWT_A));
         ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_PWT, 0);
     }
     else if ( m_OldState == OBJECTIVESTATE_HORDE && m_OldState != m_State )
     {
-        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_LOSE_PWT_H));
+        sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_LOSE_PWT_H));
         ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_PWT, 0);
     }
 
@@ -472,14 +472,14 @@ void OPvPCapturePointEP_PWT::ChangeState()
             SummonFlightMaster(ALLIANCE);
             artkit = 2;
             ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_PWT, ALLIANCE);
-            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_CAPTURE_PWT_A));
+            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_CAPTURE_PWT_A));
             break;
         case OBJECTIVESTATE_HORDE:
             m_TowerState = EP_TS_H;
             SummonFlightMaster(HORDE);
             artkit = 1;
             ((OutdoorPvPEP*)m_PvP)->SetControlledState(EP_PWT, HORDE);
-            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_CAPTURE_PWT_H));
+            if (m_OldState != m_State) sWorld->SendZoneText(EP_GraveYardZone, sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_CAPTURE_PWT_H));
             break;
         case OBJECTIVESTATE_NEUTRAL:
             m_TowerState = EP_TS_N;
@@ -588,7 +588,7 @@ void OPvPCapturePointEP_PWT::SummonFlightMaster(uint32 team)
             GossipOption gso;
             gso.Action = GOSSIP_OPTION_OUTDOORPVP;
             gso.GossipId = 0;
-            gso.OptionText.assign(sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_FLIGHT_NPT));
+            gso.OptionText.assign(sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_FLIGHT_NPT));
             gso.Id = 50;
             gso.Icon = 0;
             gso.NpcFlag = 0;
@@ -598,7 +598,7 @@ void OPvPCapturePointEP_PWT::SummonFlightMaster(uint32 team)
 
             gso.Action = GOSSIP_OPTION_OUTDOORPVP;
             gso.GossipId = 0;
-            gso.OptionText.assign(sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_FLIGHT_EWT));
+            gso.OptionText.assign(sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_FLIGHT_EWT));
             gso.Id = 50;
             gso.Icon = 0;
             gso.NpcFlag = 0;
@@ -608,7 +608,7 @@ void OPvPCapturePointEP_PWT::SummonFlightMaster(uint32 team)
 
             gso.Action = GOSSIP_OPTION_OUTDOORPVP;
             gso.GossipId = 0;
-            gso.OptionText.assign(sObjectMgr->GetArkcoreStringForDBCLocale(LANG_OPVP_EP_FLIGHT_CGT));
+            gso.OptionText.assign(sObjectMgr->GetTrilliumStringForDBCLocale(LANG_OPVP_EP_FLIGHT_CGT));
             gso.Id = 50;
             gso.Icon = 0;
             gso.NpcFlag = 0;

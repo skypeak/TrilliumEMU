@@ -1,14 +1,14 @@
-= ArkCORE -- Linux installation =
-Copyright (C) 2011 ArkCORE (http://www.arkania.net)
+= TrilliumEMU -- Linux installation =
+Copyright (C) 2011 TrilliumEMU (http://www.arkania.net)
 
 =========================================================
 WARNING: THIS DOCUMENTATION IS NOT ALWAYS UP TO DATE.
-FOR MORE UP-TO-DATE INFORMATION, CHECK THE ARKCORE WIKI.
+FOR MORE UP-TO-DATE INFORMATION, CHECK THE TRILLIUM WIKI.
 =========================================================
 
 CHECK http://www.arkania.net FOR FURTHER HELP
 
-Installing ArkCORE is fairly simple on a Linux machine, assuming you 
+Installing TrilliumEMU is fairly simple on a Linux machine, assuming you 
 have all required applications
 
 The most important ones are:
@@ -34,10 +34,10 @@ to install by your self. Please check your distro's repos.
 Make a directory to build in, you can call it anything you want like 
 build or bin etc, then go into the directory and cmake and make. E.G. 
 you created a dir named build ad want to have your finalcompiled product 
-installed in /home/arkcore/server, an example sequence of commands can 
+installed in /home/trillium/server, an example sequence of commands can 
 be :
 
-    cmake ../ -DPREFIX=/home/arkcore/server
+    cmake ../ -DPREFIX=/home/trillium/server
     make
     make install
     
@@ -64,9 +64,9 @@ flags like
                         Release, MinSizeRel, RelWithDebInfo, Debug
 
 Of course, replace the paths in prefix, conf_dir with the directories 
-you wish to install ArkCORE to. The datadir is where maps, DBCs, and 
+you wish to install TrilliumEMU to. The datadir is where maps, DBCs, and 
 SQLs are stored. The sysconfdir is where configuration files are stored.
 
-Once ArkCORE is installed you will need to apply database updates 
+Once TrilliumEMU is installed you will need to apply database updates 
 where necessary. Furthermore, you must configure your installation by 
 editing the config files in the sysconfdir.

@@ -1805,7 +1805,7 @@ namespace Trillium
                 : i_object(obj), i_msgtype(msgtype), i_textId(textId), i_language(language), i_targetGUID(targetGUID) {}
             void operator()(WorldPacket& data, LocaleConstant loc_idx)
             {
-                char const* text = sObjectMgr->GetArkcoreString(i_textId, loc_idx);
+                char const* text = sObjectMgr->GetTrilliumString(i_textId, loc_idx);
 
                 // TODO: i_object.GetName() also must be localized?
                 i_object.BuildMonsterChat(&data, i_msgtype, text, i_language, i_object.GetNameForLocaleIdx(loc_idx), i_targetGUID);
@@ -1955,7 +1955,7 @@ void WorldObject::MonsterWhisper(int32 textId, uint64 receiver, bool IsBossWhisp
         return;
 
     LocaleConstant loc_idx = player->GetSession()->GetSessionDbLocaleIndex();
-    char const* text = sObjectMgr->GetArkcoreString(textId, loc_idx);
+    char const* text = sObjectMgr->GetTrilliumString(textId, loc_idx);
 
     WorldPacket data(SMSG_MESSAGECHAT, 200);
     BuildMonsterChat(&data, IsBossWhisper ? CHAT_MSG_RAID_BOSS_WHISPER : CHAT_MSG_MONSTER_WHISPER, text, LANG_UNIVERSAL, GetNameForLocaleIdx(loc_idx), receiver);

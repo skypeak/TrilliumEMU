@@ -191,7 +191,7 @@ public:
     {
         if (!*args)
         {
-            handler->PSendSysMessage(LANG_YOU_ARE, handler->GetSession()->GetPlayer()->isGMVisible() ?  handler->GetArkcoreString(LANG_VISIBLE) : handler->GetArkcoreString(LANG_INVISIBLE));
+            handler->PSendSysMessage(LANG_YOU_ARE, handler->GetSession()->GetPlayer()->isGMVisible() ?  handler->GetTrilliumString(LANG_VISIBLE) : handler->GetTrilliumString(LANG_INVISIBLE));
             return true;
         }
 

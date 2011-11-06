@@ -53,7 +53,7 @@ namespace Trillium
                 : i_player(pl), i_msgtype(msgtype), i_textId(textId), i_achievementId(ach_id) {}
             void operator()(WorldPacket& data, LocaleConstant loc_idx)
             {
-                char const* text = sObjectMgr->GetArkcoreString(i_textId, loc_idx);
+                char const* text = sObjectMgr->GetTrilliumString(i_textId, loc_idx);
 
                 data << uint8(i_msgtype);
                 data << uint32(LANG_UNIVERSAL);
