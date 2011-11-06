@@ -1,11 +1,11 @@
 -----------------------
-Current ArkCORE Issues - Not a complete list
+Current Trillium Issues - Not a complete list
 -----------------------
 
 - Vendors [not complete]
-- Transport system [not complete]
-- Spells DBC [almost complete]
-- Random client crashs related to ByteBufferException DATATYPES [unidentified]
+- Transport system [not complete] Should be fixed.
+- Spells DBC [almost complete] Will add custom support
+- Random client crashs related to ByteBufferException DATATYPES [unidentified] Will be rewrited.
 - Grab 4.2.0a Opcodes [almost complete]
 - Guild system [not complete]
 - Reforge system [almost complete]
@@ -14,6 +14,5 @@ Current ArkCORE Issues - Not a complete list
 - Battlegrounds/arenas [not complete]
 - Pet system [almost complete]
 - Exp 3 / based on creature class level stats calculation [almost complete]
-- item2 [almost complete]
-- Unable to loot game object. [unidentified]
-- Taxi system [unidentified]
+- Unable to loot game object. [unidentified] That will fix next days
+- Taxi system [unidentified] Will fix next days.
