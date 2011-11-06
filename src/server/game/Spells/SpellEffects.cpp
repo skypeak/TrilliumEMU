@@ -2852,7 +2852,7 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
         else if (m_spellInfo->Id == 67489)
         {
             if (Player* player = m_caster->ToPlayer())
-                if (player->HasSkill(SKILL_ENGINERING) && player->GetSkillValue(SKILL_ENGINERING) >= 410)
+                if (player->HasSkill(SKILL_ENGINEERING) && player->GetSkillValue(SKILL_ENGINEERING) >= 410)
                     AddPctN(addhealth, 25);
         }		
         // Swiftmend - consumes Regrowth or Rejuvenation
@@ -3262,7 +3262,7 @@ void Spell::EffectEnergize(SpellEffIndex effIndex)
         case 67490:                                         // Runic Mana Injector (mana gain increased by 25% for engineers - 3.2.0 patch change)
         {
             if (Player* player = m_caster->ToPlayer())
-                if (player->HasSkill(SKILL_ENGINERING) && player->GetSkillValue(SKILL_ENGINERING) >= 410)
+                if (player->HasSkill(SKILL_ENGINEERING) && player->GetSkillValue(SKILL_ENGINEERING) >= 410)
                     AddPctN(damage, 25);
             break;
         }			
@@ -7895,8 +7895,8 @@ void Spell::SummonGuardian(uint32 i, uint32 entry, SummonPropertiesEntry const *
     // level of pet summoned using engineering item based at engineering skill level
     if (m_CastItem && caster->GetTypeId() == TYPEID_PLAYER)
         if (ItemTemplate const *proto = m_CastItem->GetTemplate())
-            if (proto->RequiredSkill == SKILL_ENGINERING)
-                if (uint16 skill202 = caster->ToPlayer()->GetSkillValue(SKILL_ENGINERING))
+            if (proto->RequiredSkill == SKILL_ENGINEERING)
+                if (uint16 skill202 = caster->ToPlayer()->GetSkillValue(SKILL_ENGINEERING))
                     level = skill202/5;
 
     //float radius = GetSpellRadiusForFriend(sSpellRadiusStore.LookupEntry(m_spellInfo->EffectRadiusIndex[i]));
