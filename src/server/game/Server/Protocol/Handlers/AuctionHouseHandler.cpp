@@ -1,7 +1,5 @@
 /*
  * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
-
-
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -102,7 +100,7 @@ void WorldSession::SendAuctionBidderNotification(uint32 location, uint32 auction
 //this void causes on client to display: "Your auction sold"
 void WorldSession::SendAuctionOwnerNotification(AuctionEntry* auction)
 {
-    WorldPacket data(SMSG_AUCTION_OWNER_NOTIFICATION, (7*4));
+    WorldPacket data(SMSG_AUCTION_OWNER_NOTIFICATION, (2 * 4) + (2 * 8) + (3 * 4));
     data << auction->Id;
     data << auction->bid;
     data << (uint32) 0;                                     //unk
