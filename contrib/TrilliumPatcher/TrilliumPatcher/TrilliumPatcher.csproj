@@ -8,8 +8,8 @@
     <ProjectGuid>{1F50EA3B-6965-4AA8-ADAB-12ED51574C3C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArkPatcher</RootNamespace>
-    <AssemblyName>ArkPatcher</AssemblyName>
+    <RootNamespace>TrilliumPatcher</RootNamespace>
+    <AssemblyName>Trillium Patcher</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>arkpatcher.ico</ApplicationIcon>
+    <ApplicationIcon>trilliumicon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
@@ -95,6 +95,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -107,7 +108,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="arkpatcher.ico" />
+    <Content Include="trilliumicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

@@ -9,7 +9,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 
-namespace ArkPatcher
+namespace TrilliumPatcher
 {
     public partial class Form1 : Form
     {
