@@ -1,7 +1,6 @@
 /*
- * Copyright (C) 2005-2011 MaNGOS <http://www.getmangos.com/>
  *
- * Copyright (C) 2008-2011 Trinity <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2011 TrinityCore <http://www.trinitycore.org/>
  *
  * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
  *
@@ -46,14 +45,16 @@ enum eGilneasCityPhase1
     SAY_PANICKED_CITIZEN_2                             = -1638017,
     SAY_PANICKED_CITIZEN_3                             = -1638018,
     SAY_PANICKED_CITIZEN_4                             = -1638019,
-    #define DELAY_EMOTE_PANICKED_CITIZEN urand(5000, 15000) //5-15 second time
-    #define DELAY_SAY_PANICKED_CITIZEN urand(30000, 120000) //30sec - 1.5min
 
     SAY_GILNEAS_CITY_GUARD_GATE_1                      = -1638022,
     SAY_GILNEAS_CITY_GUARD_GATE_2                      = -1638023,
     SAY_GILNEAS_CITY_GUARD_GATE_3                      = -1638024,
     #define DELAY_SAY_GILNEAS_CITY_GUARD_GATE urand(30000, 120000) //30sec - 1.5min
 };
+
+#define DELAY_EMOTE_PANICKED_CITIZEN urand(5000, 15000) //5-15 second time
+#define DELAY_SAY_PANICKED_CITIZEN urand(30000, 120000) //30sec - 1.5min
+
 //Phase 2
 enum eGilneasCityPhase2
 {
@@ -155,6 +156,7 @@ public:
 
 uint32 guid_panicked_nextsay = 0; //GUID of the Panicked Citizen that will say random text, this is to prevent more than 1 npc speaking
 uint32 tSay_panicked = DELAY_SAY_PANICKED_CITIZEN; //Time left to say
+
 class npc_panicked_citizen : public CreatureScript
 {
 public:
@@ -206,12 +208,8 @@ public:
 
                 //Randomly select an NPC to say the next random text
                 if (!guid_panicked_nextsay)
-                {
                     if (urand(0, 1))
-                    {
                         guid_panicked_nextsay = me->GetGUIDLow();
-                    }
-                }
 
                 //If this is the selected npc to say
                 if (guid_panicked_nextsay == me->GetGUIDLow())
@@ -246,7 +244,7 @@ public:
 
 enum ePanicked_citizen_2
 {
-    #define PATHS_COUNT_PANICKED_CITIZEN 8  //Why is this define, within a enum? was this purposeful?
+    PATHS_COUNT_PANICKED_CITIZEN = 8,
 };
 
 struct Waypoint
@@ -294,7 +292,7 @@ public:
             }
         }
 
-        uint32 FindNearestPath(Waypoint *paths)
+        uint32 FindNearestPath(Waypoint* paths)
         {
             uint32 pathIDs[PATHS_COUNT_PANICKED_CITIZEN], nearestPathID;
             float distances[PATHS_COUNT_PANICKED_CITIZEN], minDist;
@@ -322,7 +320,7 @@ public:
 
         void Reset()
         {
-            me->Respawn(1);
+            me->Respawn(true);
         }
 
         void JustRespawned()
@@ -384,6 +382,7 @@ public:
 /*######
 ## npc_gilneas_city_guard_phase1
 ######*/
+
 class npc_gilneas_city_guard_phase1 : public CreatureScript
 {
 public:
@@ -673,8 +672,8 @@ public:
 
 enum eRampaging_worgen
 {
-    #define SPELL_ENRAGE 8599
-    #define CD_ENRAGE 30000
+    SPELL_ENRAGE = 8599,
+    CD_ENRAGE    = 30000
 };
 
 class npc_rampaging_worgen : public CreatureScript
@@ -840,8 +839,8 @@ public:
 
 enum eMerchant_square_door
 {
-    #define SUMMON1_TTL 300000             // Agian, with the defines within enums
-    #define QUEST_EVAC_MERC_SQUA 14098
+    SUMMON1_TTL          = 300000,
+    QUEST_EVAC_MERC_SQUA = 14098
 };
 
 class go_merchant_square_door : public GameObjectScript
@@ -921,6 +920,8 @@ public:
 ## npc_frightened_citizen
 ######*/
 
+#define PATHS_COUNT          2
+
 enum eFrightened_citizen
 {
     SAY_CITIZEN_1                = -1638003,
@@ -936,7 +937,6 @@ enum eFrightened_citizen
     SAY_CITIZEN_3b               = -1638013,
     SAY_CITIZEN_4b               = -1638014,
     SAY_CITIZEN_5b               = -1638015,
-    #define PATHS_COUNT          2
 };
 
 struct Point
