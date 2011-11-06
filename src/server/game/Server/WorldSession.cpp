@@ -497,8 +497,8 @@ void WorldSession::LogoutPlayer(bool Save)
         // calls to GetMap in this case may cause crashes
         _player->CleanupsBeforeDelete();
         sLogMgr->WriteLn(CHAR_LOG, "Account: %d (IP: %s) Logout Character:[%s] (GUID: %u)", GetAccountId(), GetRemoteAddress().c_str(), _player->GetName() , _player->GetGUIDLow());
-        Map *_map = _player->GetMap();
-        _map->Remove(_player, true);
+        Map* _map = _player->GetMap();
+        _map->RemoveFromMap(_player, true);
         SetPlayer(NULL);                                    // deleted in Remove call
 
         ///- Send the 'logout complete' packet to the client

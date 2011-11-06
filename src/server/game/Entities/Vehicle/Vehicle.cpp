@@ -296,8 +296,8 @@ bool Vehicle::AddPassenger(Unit* unit, int8 seatId)
 {
     if (unit->GetVehicle() != this)
         return false;
-    // don't allow vehicles in arena 
-    if (unit->GetTypeId() == TYPEID_PLAYER && unit->GetMap()->IsBattleArena()) 
+    // don't allow vehicles in arena
+    if (unit->GetTypeId() == TYPEID_PLAYER && unit->GetMap()->IsBattleArena())
         return false;
 
     SeatMap::iterator seat;
@@ -451,7 +451,7 @@ void Vehicle::RelocatePassengers(float x, float y, float z, float ang)
             float pz = z + passenger->m_movementInfo.t_pos.m_positionZ;
             float po = ang + passenger->m_movementInfo.t_pos.m_orientation;
 
-            passenger->SetPosition(px, py, pz, po);
+            passenger->UpdatePosition(px, py, pz, po);
         }
 }
 

@@ -424,7 +424,7 @@ class MapCreature
     friend class Map; //map for moving creatures
     friend class ObjectGridLoader; //grid loader for loading creatures
 
-public:
+protected:
     MapCreature() : _moveState(CREATURE_CELL_MOVE_NONE) {}
 
 private:
@@ -670,6 +670,9 @@ class Creature : public Unit, public GridObject<Creature>, public MapCreature
                 return m_charmInfo->GetCharmSpell(pos)->GetAction();
         }
 
+        void SetPosition(float x, float y, float z, float o);
+        void SetPosition(const Position &pos) { SetPosition(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), pos.GetOrientation()); }
+		
         void SetHomePosition(float x, float y, float z, float o) { m_homePosition.Relocate(x, y, z, o); }
         void SetHomePosition(const Position &pos) { m_homePosition.Relocate(pos); }
         void GetHomePosition(float &x, float &y, float &z, float &ori) { m_homePosition.GetPosition(x, y, z, ori); }
@@ -751,7 +754,7 @@ class Creature : public Unit, public GridObject<Creature>, public MapCreature
 
         uint16 m_LootMode;                                  // bitmask, default LOOT_MODE_DEFAULT, determines what loot will be lootable
 
-        bool isVisibleForInState(WorldObject const* seer) const;
+        bool IsInvisibleDueToDespawn() const;
         bool canSeeAlways(WorldObject const* obj) const;
     private:
         //WaypointMovementGenerator vars

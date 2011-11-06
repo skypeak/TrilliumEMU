@@ -1396,15 +1396,15 @@ void Creature::DeleteFromDB()
     WorldDatabase.CommitTransaction(trans);
 }
 
-bool Creature::isVisibleForInState(WorldObject const* seer) const
+bool Creature::IsInvisibleDueToDespawn() const
 {
-    if (!Unit::isVisibleForInState(seer))
-        return false;
-
-    if (isAlive() || m_corpseRemoveTime > time(NULL))
+    if (Unit::IsInvisibleDueToDespawn())
         return true;
 
-    return false;
+    if (isAlive() || m_corpseRemoveTime > time(NULL))
+        return false;
+
+    return true;
 }
 
 bool Creature::canSeeAlways(WorldObject const* obj) const
@@ -2412,20 +2412,28 @@ const char* Creature::GetNameForLocaleIdx(LocaleConstant loc_idx) const
     return GetName();
 }
 
+//I dont know if this works or not, moving creature to another map can resul crash
 void Creature::FarTeleportTo(Map* map, float X, float Y, float Z, float O)
 {
-    RemoveAllAuras();
-    DeleteThreatList();
-    CombatStop(true);
-    LoadCreaturesAddon();
-    SetLootRecipient(NULL);
-    ResetPlayerDamageReq();
-    ClearComboPointHolders();
-    GetMap()->Remove(this, false);
+    CleanupBeforeRemoveFromMap(false);
+    GetMap()->RemoveFromMap(this, false);
+    Relocate(X, Y, Z, O);
     SetMap(map);
-    map->Add(this);
+    GetMap()->AddToMap(this);
+}
 
-    SetPosition(X, Y, Z, O, true);
+void Creature::SetPosition(float x, float y, float z, float o)
+{
+    // prevent crash when a bad coord is sent by the client
+    if (!Arkcore::IsValidMapCoord(x, y, z, o))
+    {
+        sLog->outDebug(LOG_FILTER_UNITS, "Creature::SetPosition(%f, %f, %f) .. bad coordinates!", x, y, z);
+        return;
+    }
+
+    GetMap()->CreatureRelocation(ToCreature(), x, y, z, o);
+    if (IsVehicle())
+        GetVehicleKit()->RelocatePassengers(x, y, z, o);
 }
 
 bool Creature::IsDungeonBoss() const

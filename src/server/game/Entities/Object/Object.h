@@ -732,18 +732,16 @@ class WorldObject : public Object, public WorldLocation
         virtual void SaveRespawnTime() {}
         void AddObjectToRemoveList();
 
-        virtual bool isValid() const;
-
-        virtual bool isAlwaysVisiblefor (WorldObject const* /*seer*/) const { return false; }
+        virtual bool IsNeverVisible() const { return !IsInWorld(); }
+        virtual bool isAlwaysVisibleFor(WorldObject const* /*seer*/) const { return false; }
+        virtual bool IsInvisibleDueToDespawn() const { return false; }
         virtual bool canSeeAlways(WorldObject const* /*obj*/) const { return false; }
         bool canDetect(WorldObject const* obj, bool ignoreStealth) const;
-
-        virtual bool isVisibleForInState(WorldObject const* /*seer*/) const { return true; }
 
         bool canDetectInvisibilityOf(WorldObject const* obj) const;
         bool canDetectStealthOf(WorldObject const* obj) const;
 
-        virtual bool isAlwaysDetectablefor (WorldObject const* /*seer*/) const { return false; }
+        virtual bool isAlwaysDetectableFor(WorldObject const* /*seer*/) const { return false; }
 
         float GetGridActivationRange() const;
         float GetVisibilityRange() const;
@@ -851,9 +849,11 @@ class WorldObject : public Object, public WorldLocation
         //mapId/instanceId should be set in SetMap() function!
         void SetLocationMapId(uint32 _mapId) { m_mapId = _mapId; }
         void SetLocationInstanceId(uint32 _instanceId) { m_InstanceId = _instanceId; }
-        virtual bool IsNeverVisible() const { return !IsInWorld(); }
-        virtual bool IsAlwaysVisibleFor(WorldObject const* /*seer*/) const { return false; }
-        virtual bool IsInvisibleDueToDespawn() const { return false; }
+		
+        //virtual bool IsNeverVisible() const { return !IsInWorld(); }
+        //virtual bool IsAlwaysVisibleFor(WorldObject const* /*seer*/) const { return false; }
+        //virtual bool IsInvisibleDueToDespawn() const { return false; }
+		
         //difference from IsAlwaysVisibleFor: 1. after distance check; 2. use owner or charmer as seer
         virtual bool IsAlwaysDetectableFor(WorldObject const* /*seer*/) const { return false; }
 

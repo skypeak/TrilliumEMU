@@ -3204,7 +3204,7 @@ void Spell::EffectPersistentAA(SpellEffIndex effIndex)
             return;
         }
 
-        dynObj->GetMap()->Add(dynObj);
+        dynObj->GetMap()->AddToMap(dynObj);
 
         if (Aura* aura = Aura::TryCreate(m_spellInfo, MAX_EFFECT_MASK, dynObj, caster, &m_spellValue->EffectBasePoints[0]))
         {
@@ -4013,7 +4013,7 @@ void Spell::EffectDistract(SpellEffIndex /*effIndex*/)
     if (unitTarget->GetTypeId() == TYPEID_PLAYER)
     {
         // For players just turn them
-        unitTarget->ToPlayer()->SetPosition(unitTarget->GetPositionX(), unitTarget->GetPositionY(), unitTarget->GetPositionZ(), angle, false);
+        unitTarget->ToPlayer()->UpdatePosition(unitTarget->GetPositionX(), unitTarget->GetPositionY(), unitTarget->GetPositionZ(), angle, false);
         unitTarget->ToPlayer()->SendTeleportAckPacket();
     }
     else
@@ -4067,7 +4067,7 @@ void Spell::EffectAddFarsight(SpellEffIndex effIndex)
     dynObj->SetDuration(duration);
 
     dynObj->setActive(true);    //must before add to map to be put in world container
-    dynObj->GetMap()->Add(dynObj); //grid will also be loaded
+    dynObj->GetMap()->AddToMap(dynObj); //grid will also be loaded
     dynObj->SetCasterViewpoint();
 }
 
@@ -4457,7 +4457,7 @@ void Spell::EffectTameCreature(SpellEffIndex /*effIndex*/)
     pet->SetUInt32Value(UNIT_FIELD_LEVEL, level - 1);
 
     // add to world
-    pet->GetMap()->Add(pet->ToCreature());
+    pet->GetMap()->AddToMap(pet->ToCreature());
 
     // visual effect for levelup
     pet->SetUInt32Value(UNIT_FIELD_LEVEL, level);
@@ -5139,7 +5139,7 @@ void Spell::EffectSummonObjectWild(SpellEffIndex effIndex)
     ExecuteLogEffectSummonObject(effIndex, pGameObj);
 
     // Wild object not have owner and check clickable by players
-    map->Add(pGameObj);
+    map->AddToMap(pGameObj);
 
     if (pGameObj->GetGoType() == GAMEOBJECT_TYPE_FLAGDROP && m_caster->GetTypeId() == TYPEID_PLAYER)
     {
@@ -5184,7 +5184,7 @@ void Spell::EffectSummonObjectWild(SpellEffIndex effIndex)
             ExecuteLogEffectSummonObject(effIndex, linkedGO);
 
             // Wild object not have owner and check clickable by players
-            map->Add(linkedGO);
+            map->AddToMap(linkedGO);
         }
         else
         {
@@ -6408,7 +6408,7 @@ void Spell::EffectDuel(SpellEffIndex effIndex)
     ExecuteLogEffectSummonObject(effIndex, pGameObj);
 
     m_caster->AddGameObject(pGameObj);
-    map->Add(pGameObj);
+    map->AddToMap(pGameObj);
     //END
 
     // Send request
@@ -6753,7 +6753,7 @@ void Spell::EffectSummonObject(SpellEffIndex effIndex)
 
     ExecuteLogEffectSummonObject(effIndex, pGameObj);
 
-    map->Add(pGameObj);
+    map->AddToMap(pGameObj);
 
     m_caster->m_ObjectSlot[slot] = pGameObj->GetGUID();
 }
@@ -7454,7 +7454,7 @@ void Spell::EffectTransmitted(SpellEffIndex effIndex)
     //m_caster->AddGameObject(pGameObj);
     //m_ObjToDel.push_back(pGameObj);
 
-    cMap->Add(pGameObj);
+    cMap->AddToMap(pGameObj);
 
     if (uint32 linkedEntry = pGameObj->GetGOInfo()->GetLinkedGameObjectEntry())
     {
@@ -7469,7 +7469,7 @@ void Spell::EffectTransmitted(SpellEffIndex effIndex)
 
             ExecuteLogEffectSummonObject(effIndex, linkedGO);
 
-            linkedGO->GetMap()->Add(linkedGO);
+            linkedGO->GetMap()->AddToMap(linkedGO);
         }
         else
         {
@@ -7794,7 +7794,7 @@ void Spell::EffectCreateTamedPet(SpellEffIndex effIndex)
         return;
 
     // add to world
-    pet->GetMap()->Add(pet->ToCreature());
+    pet->GetMap()->AddToMap(pet->ToCreature());
 
     // unitTarget has pet now
     unitTarget->SetMinion(pet, true, unitTarget->ToPlayer()->getSlotForNewPet());

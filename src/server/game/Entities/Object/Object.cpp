@@ -1560,14 +1560,6 @@ bool Position::IsPositionValid() const
     return Arkcore::IsValidMapCoord(m_positionX, m_positionY, m_positionZ, m_orientation);
 }
 
-bool WorldObject::isValid() const
-{
-    if (!IsInWorld())
-        return false;
-
-    return true;
-}
-
 float WorldObject::GetGridActivationRange() const
 {
     if (ToPlayer())
@@ -1611,7 +1603,7 @@ bool WorldObject::canSeeOrDetect(WorldObject const* obj, bool ignoreStealth, boo
     if (this == obj)
         return true;
 
-    if (!obj->isValid())
+    if (obj->IsNeverVisible())
         return false;
 
     if (GetMap() != obj->GetMap())
@@ -1620,7 +1612,7 @@ bool WorldObject::canSeeOrDetect(WorldObject const* obj, bool ignoreStealth, boo
     if (!InSamePhase(obj))
         return false;
 
-    if (obj->isAlwaysVisiblefor (this))
+    if (obj->isAlwaysVisibleFor(this))
         return true;
 
     if (canSeeAlways(obj))
@@ -1677,7 +1669,7 @@ bool WorldObject::canSeeOrDetect(WorldObject const* obj, bool ignoreStealth, boo
             return false;
     }
 
-    if (!obj->isVisibleForInState(this))
+    if (obj->IsInvisibleDueToDespawn())
         return false;
 
     if (!canDetect(obj, ignoreStealth))
@@ -1695,7 +1687,7 @@ bool WorldObject::canDetect(WorldObject const* obj, bool ignoreStealth) const
         if (Unit* controller = thisUnit->GetCharmerOrOwner())
             seer = controller;
 
-    if (obj->isAlwaysDetectablefor (seer))
+    if (obj->isAlwaysDetectableFor(seer))
         return true;
 
     if (!seer->canDetectInvisibilityOf(obj))
@@ -2172,7 +2164,7 @@ TempSummon* Map::SummonCreature(uint32 entry, Position const& pos, SummonPropert
     summon->SetHomePosition(pos);
 
     summon->InitStats(duration);
-    Add(summon->ToCreature());
+    AddToMap(summon->ToCreature());
     summon->InitSummon();
 
     //ObjectAccessor::UpdateObjectVisibility(summon);
@@ -2281,7 +2273,7 @@ Pet* Player::SummonPet(uint32 entry, float x, float y, float z, float ang, PetTy
             break;
     }
 
-    map->Add(pet->ToCreature());
+    map->AddToMap(pet->ToCreature());
 
     switch (petType)
     {
@@ -2342,7 +2334,7 @@ GameObject* WorldObject::SummonGameObject(uint32 entry, float x, float y, float 
         ((Unit*)this)->AddGameObject(go);
     else
         go->SetSpawnedByDefault(false);
-    map->Add(go);
+    map->AddToMap(go);
 
     return go;
 }

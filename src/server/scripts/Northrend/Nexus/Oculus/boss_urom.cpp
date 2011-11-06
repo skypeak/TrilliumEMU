@@ -170,7 +170,7 @@ public:
             }
         }
 
-        void SetPosition(uint8 i)
+        void UpdatePosition(uint8 i)
         {
             switch (i)
             {
@@ -202,7 +202,7 @@ public:
 
             for (uint8 i = 0; i < 4 ; i++)
             {
-                SetPosition(i);
+                UpdatePosition(i);
                 me->SummonCreature(Group[group[instance->GetData(DATA_UROM_PLATAFORM)]].entry[i], x, y, me->GetPositionZ(), me->GetOrientation());
             }
         }

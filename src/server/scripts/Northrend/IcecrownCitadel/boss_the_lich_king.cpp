@@ -614,7 +614,7 @@ class boss_the_lich_king : public CreatureScript
                         Position pos;
                         summoned->GetPosition(&pos);
                         pos.m_positionZ += 0.75f;
-                        summoned->SetPosition(pos, true);
+                        summoned->UpdatePosition(pos, true);
                         summoned->SetInCombatWithZone();
                         break;
                     }
@@ -778,7 +778,7 @@ class boss_the_lich_king : public CreatureScript
                                 isAboutToDie = true;
                                 me->RemoveAurasDueToSpell(34873);
                                 me->GetMotionMaster()->MovePoint(0, me->GetPositionX(), me->GetPositionY(), tirion->GetPositionZ());
-                                me->SetPosition(me->GetPositionX(), me->GetPositionY(), tirion->GetPositionZ(), me->GetOrientation(), true);
+                                me->UpdatePosition(me->GetPositionX(), me->GetPositionY(), tirion->GetPositionZ(), me->GetOrientation(), true);
                             }
                         }
                         break;
@@ -1144,7 +1144,7 @@ class boss_the_lich_king : public CreatureScript
                                     if(Creature* tirion = Unit::GetCreature(*me, uiTirionGUID))
                                     {
                                         tirion->GetMotionMaster()->MoveJump(MovePos[10].GetPositionX(), MovePos[10].GetPositionY(), MovePos[10].GetPositionZ(), 10.0f, 15.0f);
-                                        tirion->SetPosition(MovePos[10]);
+                                        tirion->UpdatePosition(MovePos[10]);
                                     }
                                 }
                                 me->RemoveAura(SPELL_RAISE_DEAD);
@@ -1210,7 +1210,7 @@ class boss_the_lich_king : public CreatureScript
                                 if (Creature* frostmourne = me->FindNearestCreature(NPC_FROSTMOURNE_TRIGGER, 25.0f, true))
                                 {
                                     me->GetMotionMaster()->MovePoint(0, frostmourne->GetPositionX(),frostmourne->GetPositionY(), frostmourne->GetPositionZ() + 3.0f);
-                                    me->SetPosition(frostmourne->GetPositionX(),frostmourne->GetPositionY(), frostmourne->GetPositionZ() + 3.0f, me->GetOrientation());
+                                    me->UpdatePosition(frostmourne->GetPositionX(),frostmourne->GetPositionY(), frostmourne->GetPositionZ() + 3.0f, me->GetOrientation());
                                 }
 
                                 uiEndingTimer = 5000;
@@ -1419,7 +1419,7 @@ class npc_tirion_icc : public CreatureScript
                         if (me->GetMotionMaster()->GetCurrentMovementGeneratorType() == POINT_MOTION_TYPE)
                             me->GetMotionMaster()->MovementExpired();
 
-                        me->SetPosition(MovePos[8]);
+                        me->UpdatePosition(MovePos[8]);
                         me->SetOrientation(3.1416f);
                         me->SetFacing(3.1416f);
                         break;
@@ -1667,7 +1667,7 @@ static const float Z_FLY;
                 me->AddUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
                 me->GetPosition(&m_pos);
                 m_pos.m_positionZ = Z_FLY + 6.0f;
-                me->SetPosition(m_pos);
+                me->UpdatePosition(m_pos);
                 bCanCast = false;
                 m_victimGuid = 0;
 
@@ -1733,7 +1733,7 @@ static const float Z_FLY;
 
                             float x, y, z;
                             me->GetPosition(x, y, z);
-                            me->SetPosition(x, y, Z_FLY, 0.0f, true);
+                            me->UpdatePosition(x, y, Z_FLY, 0.0f, true);
 
                             me->SetReactState(REACT_PASSIVE);
                             me->AttackStop();
@@ -1771,7 +1771,7 @@ static const float Z_FLY;
                                 //Position edgePos;
                                 me->GetPosition(&m_pos);
                                 m_pos.m_positionZ = Z_FLY;
-                                me->SetPosition(m_pos, true);
+                                me->UpdatePosition(m_pos, true);
                                 float ex, ey, ez;
                                 nearestEdgeStalker->GetPosition(ex, ey, ez);
                                 float distanceToEdge = m_pos.GetExactDist2d(ex, ey);
@@ -1822,7 +1822,7 @@ static const float Z_FLY;
                     }
                     case POINT_VALKYR_CONTINUE_FLYING:
                     {
-                        me->SetPosition(m_pos);
+                        me->UpdatePosition(m_pos);
                         events.ScheduleEvent(EVENT_MOVE_TO_PLATFORM_EDGE, m_moveUpdatePeriod);
                         break;
                     }
@@ -1877,7 +1877,7 @@ static const float Z_FLY;
                             me->SetFacing(m_angle);
                             me->GetMotionMaster()->Clear();
                             me->GetMotionMaster()->MovePoint(POINT_VALKYR_CONTINUE_FLYING, m_pos);
-                            me->SetPosition(m_pos);
+                            me->UpdatePosition(m_pos);
                             break;
                         }
                         case EVENT_SIPHON_LIFE:
@@ -1926,7 +1926,7 @@ public:
             me->SetFlying(true);
             float x, y, z;
             me->GetPosition(x, y, z);
-                me->SetPosition(x, y, npc_vile_spirit::Z_VILE_SPIRIT, true);
+                me->UpdatePosition(x, y, npc_vile_spirit::Z_VILE_SPIRIT, true);
             Position randomPos;
                 float dist = 1.0f * (float)rand_norm() * 10.0f;
             me->GetRandomNearPosition(randomPos, dist);
@@ -2351,7 +2351,7 @@ class npc_ice_sphere : public CreatureScript
                                     pVictim->GetPosition(&m_victimPos);
                                     me->GetPosition(&m_newPos);
                                     me->MovePosition(m_newPos, 0.20f, 0.0f);
-                                    me->SetPosition(m_newPos);
+                                    me->UpdatePosition(m_newPos);
                                 }
                                 else
                                 {

@@ -398,7 +398,7 @@ void GameObject::Update(uint32 diff)
                             if (poolid)
                                 sPoolMgr->UpdatePool<GameObject>(poolid, GetDBTableGUIDLow());
                             else
-                                GetMap()->Add(this);
+                                GetMap()->AddToMap(this);
                             break;
                     }
                 }
@@ -611,7 +611,7 @@ void GameObject::Refresh()
         return;
 
     if (isSpawned())
-        GetMap()->Add(this);
+        GetMap()->AddToMap(this);
 }
 
 void GameObject::AddUniqueUse(Player* player)
@@ -861,9 +861,9 @@ void GameObject::SaveRespawnTime()
         sObjectMgr->SaveGORespawnTime(m_DBTableGuid, GetInstanceId(), m_respawnTime);
 }
 
-bool GameObject::isAlwaysVisiblefor (WorldObject const* seer) const
+bool GameObject::isAlwaysVisibleFor(WorldObject const* seer) const
 {
-    if (WorldObject::isAlwaysVisiblefor (seer))
+    if (WorldObject::isAlwaysVisibleFor(seer))
         return true;
 
     if (IsTransport())
@@ -872,16 +872,16 @@ bool GameObject::isAlwaysVisiblefor (WorldObject const* seer) const
     return false;
 }
 
-bool GameObject::isVisibleForInState(WorldObject const* seer) const
+bool GameObject::IsInvisibleDueToDespawn() const
 {
-    if (!WorldObject::isVisibleForInState(seer))
-        return false;
+    if (WorldObject::IsInvisibleDueToDespawn())
+        return true;
 
     // Despawned
     if (!isSpawned())
-        return false;
+        return true;
 
-    return true;
+    return false;
 }
 
 void GameObject::Respawn()

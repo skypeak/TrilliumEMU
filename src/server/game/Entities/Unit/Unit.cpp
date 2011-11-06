@@ -12703,9 +12703,9 @@ int32 Unit::ModifyPowerPct(Powers power, float pct, bool apply)
     return ModifyPower(power, (int32)amount - (int32)GetMaxPower(power));
 }
 
-bool Unit::isAlwaysVisiblefor (WorldObject const* seer) const
+bool Unit::isAlwaysVisibleFor(WorldObject const* seer) const
 {
-    if (WorldObject::isAlwaysVisiblefor (seer))
+    if (WorldObject::isAlwaysVisibleFor(seer))
         return true;
 
     // Always seen by owner
@@ -12716,9 +12716,9 @@ bool Unit::isAlwaysVisiblefor (WorldObject const* seer) const
     return false;
 }
 
-bool Unit::isAlwaysDetectablefor (WorldObject const* seer) const
+bool Unit::isAlwaysDetectableFor(WorldObject const* seer) const
 {
-    if (WorldObject::isAlwaysDetectablefor (seer))
+    if (WorldObject::isAlwaysDetectableFor(seer))
         return true;
 
     if (HasAuraTypeWithCaster(SPELL_AURA_MOD_STALKED, seer->GetGUID()))
@@ -14050,7 +14050,7 @@ void Unit::RemoveFromWorld()
     }
 }
 
-void Unit::CleanupsBeforeDelete(bool finalCleanup)
+void Unit::CleanupBeforeRemoveFromMap(bool finalCleanup)
 {
     // This needs to be before RemoveFromWorld to make GetCaster() return a valid pointer on aura removal
     InterruptNonMeleeSpells(true);
@@ -14074,6 +14074,12 @@ void Unit::CleanupsBeforeDelete(bool finalCleanup)
     DeleteThreatList();
     getHostileRefManager().setOnlineOfflineState(false);
     GetMotionMaster()->Clear(false);                    // remove different non-standard movement generators.
+
+}
+
+void Unit::CleanupsBeforeDelete(bool finalCleanup)
+{
+    CleanupBeforeRemoveFromMap(finalCleanup);
 
     if (Creature* thisCreature = ToCreature())
         if (GetTransport())
@@ -17680,16 +17686,16 @@ void Unit::NearTeleportTo(float x, float y, float z, float orientation, bool cas
     {
         // FIXME: this interrupts spell visual
         DestroyForNearbyPlayers();
-        SetPosition(x, y, z, orientation, true);
+        UpdatePosition(x, y, z, orientation, true);
     }
 }
 
-bool Unit::SetPosition(float x, float y, float z, float orientation, bool teleport)
+bool Unit::UpdatePosition(float x, float y, float z, float orientation, bool teleport)
 {
     // prevent crash when a bad coord is sent by the client
     if (!Arkcore::IsValidMapCoord(x, y, z, orientation))
     {
-        sLog->outDebug(LOG_FILTER_UNITS, "Unit::SetPosition(%f, %f, %f) .. bad coordinates!", x, y, z);
+        sLog->outDebug(LOG_FILTER_UNITS, "Unit::UpdatePosition(%f, %f, %f) .. bad coordinates!", x, y, z);
         return false;
     }
 
