@@ -59,7 +59,7 @@ enum SpellCastTargetFlags
     TARGET_FLAG_UNUSED20        = 0x00080000,               // uint32 counter, loop { vec3 - screen position (?), guid }, not used so far
     TARGET_FLAG_UNIT_PASSENGER  = 0x00100000,               // guessed, used to validate target (if vehicle passenger)
 
-    TARGET_FLAG_UNIT_MASK = TARGET_FLAG_UNIT | TARGET_FLAG_UNIT_RAID | TARGET_FLAG_UNIT_PARTY 
+    TARGET_FLAG_UNIT_MASK = TARGET_FLAG_UNIT | TARGET_FLAG_UNIT_RAID | TARGET_FLAG_UNIT_PARTY
         | TARGET_FLAG_UNIT_ENEMY | TARGET_FLAG_UNIT_ALLY | TARGET_FLAG_UNIT_DEAD | TARGET_FLAG_UNIT_MINIPET | TARGET_FLAG_UNIT_PASSENGER,
     TARGET_FLAG_GAMEOBJECT_MASK = TARGET_FLAG_GAMEOBJECT | TARGET_FLAG_GAMEOBJECT_ITEM,
     TARGET_FLAG_CORPSE_MASK = TARGET_FLAG_CORPSE_ALLY | TARGET_FLAG_CORPSE_ENEMY,
@@ -249,30 +249,30 @@ class SpellEffectInfo
 {
     SpellInfo const* _spellInfo;
     uint8 _effIndex;
-public:
+    public:
     uint32    Effect;
+    float     ValueMultiplier;
     uint32    ApplyAuraName;
     uint32    Amplitude;
-    int32     DieSides;
-    float     RealPointsPerLevel;
     int32     BasePoints;
-    float     PointsPerComboPoint;
-    float     ValueMultiplier;
-    float     DamageMultiplier;
     float     BonusMultiplier;
+    float     DamageMultiplier;
+    uint32    ChainTarget;
+    int32     DieSides;
+    uint32    ItemType;
+    Mechanics Mechanic;
     int32     MiscValue;
     int32     MiscValueB;
-    Mechanics Mechanic;
+    float     PointsPerComboPoint;
+    SpellRadiusEntry const* RadiusEntry;
+    float     RealPointsPerLevel;
+    flag96    SpellClassMask;
+    uint32    TriggerSpell;
     SpellImplicitTargetInfo TargetA;
     SpellImplicitTargetInfo TargetB;
-    SpellRadiusEntry const* RadiusEntry;
-    uint32    ChainTarget;
-    uint32    ItemType;
-    uint32    TriggerSpell;
-    flag96    SpellClassMask;
 
-    SpellEffectInfo() {}
-    SpellEffectInfo(SpellEntry const* spellEntry, SpellInfo const* spellInfo, uint8 effIndex);
+    SpellEffectInfo() : Effect(0) {}
+    SpellEffectInfo(SpellEffectEntry const* spellEffect, SpellInfo const* spellInfo);
 
     bool IsEffect() const;
     bool IsEffect(SpellEffects effectName) const;

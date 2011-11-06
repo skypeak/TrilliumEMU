@@ -457,33 +457,32 @@ SpellImplicitTargetInfo::StaticData  SpellImplicitTargetInfo::_data[TOTAL_SPELL_
     {TARGET_OBJECT_TYPE_DEST, TARGET_REFERENCE_TYPE_NONE,   TARGET_SELECT_CATEGORY_NYI,     TARGET_SELECT_CHECK_DEFAULT,  TARGET_DIR_NONE},        // 110 TARGET_DEST_UNK_110
 };
 
-SpellEffectInfo::SpellEffectInfo(SpellEntry const* spellEntry, SpellInfo const* spellInfo, uint8 effIndex)
+SpellEffectInfo::SpellEffectInfo(SpellEffectEntry const* spellEffect, SpellInfo const* spellInfo)
 {
-    SpellEffectEntry const* _effect = spellEntry->GetSpellEffect(effIndex);
-
     _spellInfo = spellInfo;
-    _effIndex = effIndex;
-
-    Effect = _effect ? _effect->Effect : 0;
-    ApplyAuraName = _effect ? _effect->EffectApplyAuraName : 0;
-    Amplitude = _effect ? _effect->EffectAmplitude : 0;
-    DieSides = _effect ? _effect->EffectDieSides : 0;
-    RealPointsPerLevel = _effect ? _effect->EffectRealPointsPerLevel : 0.0f;
-    BasePoints = _effect ? _effect->EffectBasePoints : 0;
-    PointsPerComboPoint = _effect ? _effect->EffectPointsPerComboPoint : 0.0f;
-    ValueMultiplier = _effect ? _effect->EffectValueMultiplier : 0.0f;
-    DamageMultiplier = _effect ? _effect->EffectDamageMultiplier : 0.0f;
-    BonusMultiplier = _effect ? _effect->EffectBonusMultiplier : 0.0f;
-    MiscValue = _effect ? _effect->EffectMiscValue : 0;
-    MiscValueB = _effect ? _effect->EffectMiscValueB : 0;
-    Mechanic = Mechanics(_effect ? _effect->EffectMechanic : 0);
-    TargetA = SpellImplicitTargetInfo(_effect ? _effect->EffectImplicitTargetA : 0);
-    TargetB = SpellImplicitTargetInfo(_effect ? _effect->EffectImplicitTargetB : 0);
-    RadiusEntry = _effect && _effect->EffectRadiusIndex ? sSpellRadiusStore.LookupEntry(_effect->EffectRadiusIndex) : NULL;
-    ChainTarget = _effect ? _effect->EffectChainTarget : 0;
-    ItemType = _effect ? _effect->EffectItemType : 0;
-    TriggerSpell = _effect ? _effect->EffectTriggerSpell : 0;
-    SpellClassMask = _effect ? _effect->EffectSpellClassMask : flag96(0);
+    _effIndex = uint8(spellEffect->EffectIndex);
+    Effect = spellEffect->Effect;
+    ValueMultiplier = spellEffect->EffectValueMultiplier;
+    ApplyAuraName = spellEffect->EffectApplyAuraName;
+    Amplitude = spellEffect->EffectAmplitude;
+    BasePoints = spellEffect->EffectBasePoints;
+    BonusMultiplier = spellEffect->EffectBonusMultiplier;
+    DamageMultiplier = spellEffect->EffectDamageMultiplier;
+    ChainTarget = spellEffect->EffectChainTarget;
+    DieSides = spellEffect->EffectDieSides;
+    ItemType = spellEffect->EffectItemType;
+    Mechanic = Mechanics(spellEffect->EffectMechanic);
+    MiscValue = spellEffect->EffectMiscValue;
+    MiscValueB = spellEffect->EffectMiscValueB;
+    PointsPerComboPoint = spellEffect->EffectPointsPerComboPoint;
+    RadiusEntry = spellEffect->EffectRadiusIndex ? sSpellRadiusStore.LookupEntry(spellEffect->EffectRadiusIndex) : NULL;
+    if (!RadiusEntry)
+        RadiusEntry = spellEffect->EffectRadiusMaxIndex ? sSpellRadiusStore.LookupEntry(spellEffect->EffectRadiusMaxIndex) : NULL;
+    RealPointsPerLevel = spellEffect->EffectRealPointsPerLevel;
+    SpellClassMask = spellEffect->EffectSpellClassMask;
+    TriggerSpell = spellEffect->EffectTriggerSpell;
+    TargetA = SpellImplicitTargetInfo(spellEffect->EffectImplicitTargetA);
+    TargetB = SpellImplicitTargetInfo(spellEffect->EffectImplicitTargetB);
 }
 
 bool SpellEffectInfo::IsEffect() const
@@ -924,9 +923,9 @@ SpellInfo::SpellInfo(SpellEntry const* spellEntry)
     SpellTargetRestrictionsId = spellEntry->SpellTargetRestrictionsId;
     SpellTotemsId = spellEntry->SpellTotemsId;
 
-    // SpellDifficultyEntry
-    for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
-        Effects[i] = SpellEffectInfo(spellEntry, this, i);
+    //// SpellDifficultyEntry
+    //for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+    //    Effects[i] = SpellEffectInfo(spellEntry, this, i);
 
     // SpellScalingEntry
     SpellScalingEntry const* _scaling = GetSpellScaling();
@@ -2390,7 +2389,7 @@ bool SpellInfo::_IsPositiveEffect(uint8 effIndex, bool deep) const
                 case 30877: // Tag Murloc
                 case 62344: // Fists of Stone
                 case 61716: // Rabbit Costume
-                case 61734: // Noblegarden Bunny				
+                case 61734: // Noblegarden Bunny
                     return true;
                 default:
                     break;
