@@ -6013,6 +6013,9 @@ void AuraEffect::HandlePeriodicDummyAuraTick(Unit* target, Unit* caster) const
                     target->SetPower(POWER_RAGE, rage-mod);
                     break;
                 }
+                // Force of Nature
+                case 33831:
+                    break;				´
             }
             break;
         }
