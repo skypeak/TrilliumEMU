@@ -20,8 +20,6 @@ INSERT INTO `creature_template_addon` (`entry`, `bytes2`, `emote`) VALUES ('3587
 DELETE FROM creature_template_addon WHERE entry = 35870;
 INSERT INTO `creature_template_addon` (`entry`, `bytes1`) VALUES ('35870', '8');
 
-INSERT INTO `creature_template_addon` (`entry`, `emote`) VALUES ('35873', '416');
-
 -- Set Emote from Loren the Fence (Rogue Trainer) to STATE_STEALTH_STAND and give her the spell Stealth
 DELETE FROM creature_template_addon WHERE entry = 35871;
 INSERT INTO `creature_template_addon` (`entry`, `path_id`, `mount`, `bytes1`, `bytes2`, `emote`, `auras`) VALUES ('35871', '0', '0', '0', '1', '433', '1784 0');
