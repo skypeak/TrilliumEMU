@@ -669,6 +669,13 @@ bool AuctionEntry::BuildAuctionInfo(WorldPacket & data) const
         data << uint32(pItem->GetEnchantmentCharges(EnchantmentSlot(i)));
     }
 
+    for (uint8 i = 0; i < 2; ++i)
+    {
+        data << uint32(0);
+        data << uint32(0);
+        data << uint32(0);
+    }
+
     data << int32(pItem->GetItemRandomPropertyId());        //random item property id
     data << uint32(pItem->GetItemSuffixFactor());           //SuffixFactor
     data << uint32(pItem->GetCount());                      //item->count
