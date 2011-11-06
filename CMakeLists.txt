@@ -1,4 +1,4 @@
-# Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+# Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -9,7 +9,7 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 # Set projectname (must be done AFTER setting configurationtypes)
-project(ArkCORE)
+project(TrilliumEMU)
 
 # CMake policies (can not be handled elsewhere)
 cmake_minimum_required(VERSION 2.6)
