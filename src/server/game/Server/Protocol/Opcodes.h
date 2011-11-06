@@ -432,7 +432,7 @@ enum Opcodes
     SMSG_QUESTUPDATE_FAILEDTIMER                     = 0x0BAF7, // 4.2.0:14480
     SMSG_QUESTUPDATE_COMPLETE                        = 0x03A73, // 4.2.0:14480
     SMSG_QUESTUPDATE_ADD_KILL                        = 0x0B67A, // 4.2.0:14480
-    SMSG_QUESTUPDATE_ADD_ITEM                        = 0x0727E, // 4.2.0:14480
+    SMSG_QUESTUPDATE_ADD_ITEM                        = 0x00000, // unk
     CMSG_QUEST_CONFIRM_ACCEPT                        = 0x0F2B7, // 4.2.0:14480
     SMSG_QUEST_CONFIRM_ACCEPT                        = 0x022AF, //4.2.0:14480
     CMSG_PUSHQUESTTOPARTY                            = 0x022B2, // 4.2.0:14480
@@ -449,7 +449,7 @@ enum Opcodes
     SMSG_SHOWTAXINODES                               = 0x0AA7F, // 4.2.0:14480
     CMSG_TAXINODE_STATUS_QUERY                       = 0x06622, // 4.2.0:14480
     SMSG_TAXINODE_STATUS                             = 0x0226A, // 4.2.0:14480
-    CMSG_TAXIQUERYAVAILABLENODES                     = 0x00000, // Not handled
+    CMSG_TAXIQUERYAVAILABLENODES                     = 0x00000, // unk
     CMSG_ACTIVATETAXI                                = 0x0A2AF, // 4.2.0:14480
     SMSG_ACTIVATETAXIREPLY                           = 0x0AEB2, // 4.2.0:14480
     SMSG_NEW_TAXI_PATH                               = 0x06AA6, // 4.2.0:14480
@@ -1169,7 +1169,7 @@ enum Opcodes
     CMSG_PET_LEARN_TALENT                            = 0x0F2E2, // 4.2.0:14480
     CMSG_PET_UNLEARN_TALENTS                         = 0x1023D, //
     SMSG_SET_PHASE_SHIFT                             = 0x0DB05, // 4.2.0:14480
-    SMSG_ALL_ACHIEVEMENT_DATA                        = 0x0c303, //0x00B63, // 4.2.0:14480
+    SMSG_ALL_ACHIEVEMENT_DATA                        = 0x09B45, // 4.2.0:14480
     CMSG_FORCE_SAY_CHEAT                             = 0x10240, //
     SMSG_HEALTH_UPDATE                               = 0x0B66A, // 4.2.0:14480
     SMSG_POWER_UPDATE                                = 0x0B6BE, // 4.2.0:14480
@@ -1264,13 +1264,13 @@ enum Opcodes
     CMSG_GMRESPONSE_RESOLVE                          = 0x0363E, // 4.2.0:14480
     SMSG_GMRESPONSE_STATUS_UPDATE                    = 0x0F233, // 4.2.0:14480
     CMSG_WORLD_STATE_UI_TIMER_UPDATE                 = 0x06222, // 4.2.0:14480
-    SMSG_WORLD_STATE_UI_TIMER_UPDATE                 = 0x0726F, // 4.2.0:14480
+    SMSG_WORLD_STATE_UI_TIMER_UPDATE                 = 0x00000, // unk
     CMSG_CHAR_RACE_CHANGE                            = 0x0B276, // 4.2.0:14480
     SMSG_TALENTS_INVOLUNTARILY_RESET                 = 0x03ABE, // 4.2.0:14480
     SMSG_UNKNOWN_1276                                = 0x10284, //
     SMSG_LOOT_SLOT_CHANGED                           = 0x02EFB, // 4.2.0:14480
     CMSG_READY_FOR_ACCOUNT_DATA_TIMES                = 0x0F226, // 4.2.0:14480
-    CMSG_QUERY_QUESTS_COMPLETED                      = 0x0FE33, // 4.2.0:14480
+    CMSG_QUERY_QUESTS_COMPLETED                      = 0x00000, // unk
     SMSG_QUERY_QUESTS_COMPLETED_RESPONSE             = 0x07AFE, // 4.2.0:14480
     CMSG_GM_REPORT_LAG                               = 0x0E2A6, // 4.2.0:14480
     SMSG_CORPSE_NOT_IN_INSTANCE                      = 0x0BAB7, // 4.2.0:14480
