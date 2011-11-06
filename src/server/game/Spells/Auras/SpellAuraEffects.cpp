@@ -536,7 +536,7 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                 case SPELLFAMILY_GENERIC:
                     if (GetId()==70845)
                         DoneActualBenefit = caster->GetMaxHealth() * 0.2f;
-                    break;			
+                    break;
                 case SPELLFAMILY_MAGE:
                     // Ice Barrier
                     if (GetSpellInfo()->SpellFamilyFlags[1] & 0x1 && GetSpellInfo()->SpellFamilyFlags[2] & 0x8)
@@ -662,7 +662,7 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                 // apply spellmods
                 amount = caster->ApplyEffectModifiers(GetSpellInfo(), m_effIndex, float(amount));
             }
-            break;			
+            break;
           /*  if (GetSpellInfo()->SpellFamilyName == SPELLFAMILY_SHAMAN && m_spellInfo->SpellFamilyFlags[1] & 0x400)
                 amount = caster->SpellHealingBonus(GetBase()->GetUnitOwner(), GetSpellInfo(), amount, SPELL_DIRECT_DAMAGE);
             break;*/
@@ -829,38 +829,6 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
             if (GetSpellInfo()->SpellFamilyName == SPELLFAMILY_DRUID && GetSpellInfo()->SpellFamilyFlags[2] & 0x00000008)
                 amount = GetBase()->GetUnitOwner()->GetShapeshiftForm() == FORM_CAT ? amount : 0;
             break;
-        case SPELL_AURA_MOUNTED:
-        {
-            Player* plr = caster->ToPlayer();
-            if (plr)
-            {
-                // find the spell we need
-                MountTypeEntry const* type = sMountTypeStore.LookupEntry(GetMiscValueB());
-                if (!type)
-                    return 0;
-
-                uint32 spellId = 0;
-                uint32 plrskill = plr->GetSkillValue(SKILL_RIDING);
-                uint32 map = GetVirtualMapForMapAndZone(plr->GetMapId(), plr->GetZoneId());
-                uint32 maxSkill = 0;
-                for (int i = 0; i < MAX_MOUNT_TYPE_COLUMN; i++)
-                {
-                    MountCapabilityEntry const* cap = sMountCapabilityStore.LookupEntry(type->capabilities[i]);
-                    if (!cap)
-                        continue;
-                    if (cap->map != -1 && cap->map != map)
-                        continue;
-                    if (cap->reqSkillLevel && (cap->reqSkillLevel > plrskill || cap->reqSkillLevel <= maxSkill))
-                        continue;
-                    if (cap->reqSpell && !plr->HasSpell(cap->reqSpell))
-                        continue;
-                    maxSkill = cap->reqSkillLevel;
-                    spellId = cap->spell;
-                }
-                return (int)spellId;
-            }
-            break;
-        }
         case SPELL_AURA_MOD_RESISTANCE_EXCLUSIVE:
         {
             if (caster)
@@ -2011,7 +1979,7 @@ void AuraEffect::HandlePhase(AuraApplication const* aurApp, uint8 mode, bool app
     if (!phases.empty())
         for (Unit::AuraEffectList::const_iterator itr = phases.begin(); itr != phases.end(); ++itr)
             newPhase |= (*itr)->GetMiscValue();
-	
+
 	// phase auras normally not expected at BG but anyway better check
     if (Player* player = target->ToPlayer())
     {
@@ -2026,7 +1994,7 @@ void AuraEffect::HandlePhase(AuraApplication const* aurApp, uint8 mode, bool app
         // stop handling the effect if it was removed by linked event
         if (apply && aurApp->GetRemoveMode())
             return;
-			
+
         // GM-mode have mask 0xFFFFFFFF
         if (player->isGameMaster())
             newPhase = 0xFFFFFFFF;
@@ -2989,8 +2957,38 @@ void AuraEffect::HandleAuraMounted(AuraApplication const* aurApp, uint8 mode, bo
 
     if (apply)
     {
+        uint32 spellId = 0;
+        Player *plr = target->ToPlayer();
+        if (plr)
+        {
+            // find the spell we need
+            const MountTypeEntry *type = sMountTypeStore.LookupEntry(GetMiscValueB());
+            if (!type)
+                return;
+
+            uint32 plrskill = plr->GetSkillValue(SKILL_RIDING);
+            uint32 map = plr->GetMapId();
+            uint32 maxSkill = 0;
+            for (int i = 0; i < MAX_MOUNT_TYPE_COLUMN; i++)
+            {
+               const MountCapabilityEntry *cap = sMountCapabilityStore.LookupEntry(type->capabilities[i]);
+               if (!cap)
+                   continue;
+               if (cap->map != -1 && cap->map != map)
+                   continue;
+               if (cap->reqSkillLevel && (cap->reqSkillLevel > plrskill || cap->reqSkillLevel <= maxSkill))
+                   continue;
+               if (cap->reqSpell && !plr->HasSpell(cap->reqSpell))
+                   continue;
+               maxSkill = cap->reqSkillLevel;
+               spellId = cap->spell;
+            }
+            if (spellId == 0)
+                return; // couldn't find a valid spell to apply
+        }
+
         uint32 creatureEntry = GetMiscValue();
-      if (aurApp->GetBase()->GetId() == 87840)
+        if (aurApp->GetBase()->GetId() == 87840)
         {
             target->Mount(player->getGender() == GENDER_FEMALE ? 29423 : 29422, 0, GetMiscValue());
             target->Mount(player->getGender() == GENDER_MALE ? 29422 : 29423, 0, GetMiscValue());

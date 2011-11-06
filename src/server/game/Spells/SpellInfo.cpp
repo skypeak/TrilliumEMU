@@ -459,7 +459,7 @@ SpellImplicitTargetInfo::StaticData  SpellImplicitTargetInfo::_data[TOTAL_SPELL_
 
 SpellEffectInfo::SpellEffectInfo()
 {
-+    _spellInfo = NULL;
+    _spellInfo = NULL;
     _effIndex = 0;
     Effect = 0;
     ValueMultiplier = 0.0f;
