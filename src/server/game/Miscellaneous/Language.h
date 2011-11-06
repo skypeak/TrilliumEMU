@@ -22,7 +22,7 @@
 #ifndef __TRILLIUMEMU_LANGUAGE_H
 #define __TRILLIUMEMU_LANGUAGE_H
 
-enum ArkcoreStrings
+enum TrilliumStrings
 {
     // for chat commands
     LANG_SELECT_CHAR_OR_CREATURE        = 1,

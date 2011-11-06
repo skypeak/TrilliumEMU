@@ -465,7 +465,7 @@ ChatCommand * ChatHandler::getCommandTable()
 
 std::string ChatHandler::PGetParseString(int32 entry, ...) const
 {
-    const char *format = GetArkcoreString(entry);
+    const char *format = GetTrilliumString(entry);
     char str[1024];
     va_list ap;
     va_start(ap, entry);
@@ -474,9 +474,9 @@ std::string ChatHandler::PGetParseString(int32 entry, ...) const
     return std::string(str);
 }
 
-const char *ChatHandler::GetArkcoreString(int32 entry) const
+const char *ChatHandler::GetTrilliumString(int32 entry) const
 {
-    return m_session->GetArkcoreString(entry);
+    return m_session->GetTrilliumString(entry);
 }
 
 bool ChatHandler::isAvailable(ChatCommand const& cmd) const
@@ -614,12 +614,12 @@ void ChatHandler::SendGlobalGMSysMessage(const char *str)
 
 void ChatHandler::SendSysMessage(int32 entry)
 {
-    SendSysMessage(GetArkcoreString(entry));
+    SendSysMessage(GetTrilliumString(entry));
 }
 
 void ChatHandler::PSendSysMessage(int32 entry, ...)
 {
-    const char *format = GetArkcoreString(entry);
+    const char *format = GetTrilliumString(entry);
     va_list ap;
     char str [2048];
     va_start(ap, entry);
@@ -1528,9 +1528,9 @@ int ChatHandler::GetSessionDbLocaleIndex() const
     return m_session->GetSessionDbLocaleIndex();
 }
 
-const char *CliHandler::GetArkcoreString(int32 entry) const
+const char *CliHandler::GetTrilliumString(int32 entry) const
 {
-    return sObjectMgr->GetArkcoreStringForDBCLocale(entry);
+    return sObjectMgr->GetTrilliumStringForDBCLocale(entry);
 }
 
 bool CliHandler::isAvailable(ChatCommand const& cmd) const
@@ -1547,7 +1547,7 @@ void CliHandler::SendSysMessage(const char *str)
 
 std::string CliHandler::GetNameLink() const
 {
-    return GetArkcoreString(LANG_CONSOLE_COMMAND);
+    return GetTrilliumString(LANG_CONSOLE_COMMAND);
 }
 
 bool CliHandler::needReportToTarget(Player* /*chr*/) const

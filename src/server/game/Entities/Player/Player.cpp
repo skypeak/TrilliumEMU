@@ -2222,7 +2222,7 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
     }
     else if ((mEntry->Expansion() == 2 && mEntry->MapID != 609) &&  getLevel() < 68)
     {
-        GetSession()->SendAreaTriggerMessage(GetSession()->GetArkcoreString(LANG_LEVEL_MINREQUIRED), 68);
+        GetSession()->SendAreaTriggerMessage(GetSession()->GetTrilliumString(LANG_LEVEL_MINREQUIRED), 68);
         return false;
     }
     else
@@ -5775,7 +5775,7 @@ void Player::UpdateLocalChannels(uint32 newZone)
                     char const* currentNameExt;
 
                     if (channel->flags & CHANNEL_DBC_FLAG_CITY_ONLY)
-                        currentNameExt = sObjectMgr->GetArkcoreStringForDBCLocale(LANG_CHANNEL_CITY);
+                        currentNameExt = sObjectMgr->GetTrilliumStringForDBCLocale(LANG_CHANNEL_CITY);
                     else
                         currentNameExt = current_zone_name.c_str();
 
@@ -15979,7 +15979,7 @@ void Player::AreaExploredOrEventHappens(uint32 questId)
     }
 }
 
-//not used in Arkcored, function for external script library
+//not used in Trilliumd, function for external script library
 void Player::GroupEventHappens(uint32 questId, WorldObject const* pEventObject)
 {
     if (Group *pGroup = GetGroup())
@@ -17774,7 +17774,7 @@ void Player::_LoadInventory(PreparedQueryResult result, uint32 timeDiff)
         // Send problematic items by mail
         while (!problematicItems.empty())
         {
-            std::string subject = GetSession()->GetArkcoreString(LANG_NOT_EQUIPPED_ITEM);
+            std::string subject = GetSession()->GetTrilliumString(LANG_NOT_EQUIPPED_ITEM);
 
             MailDraft draft(subject, "There were problems with equipping item(s).");
             for (uint8 i = 0; !problematicItems.empty() && i < MAX_MAIL_ITEMS; ++i)
@@ -18603,7 +18603,7 @@ bool Player::Satisfy(AccessRequirement const* ar, uint32 target_map, bool report
 
         if (DisableMgr::IsDisabledfor (DISABLE_TYPE_MAP, target_map, this))
         {
-            GetSession()->SendAreaTriggerMessage("%s", GetSession()->GetArkcoreString(LANG_INSTANCE_CLOSED));
+            GetSession()->SendAreaTriggerMessage("%s", GetSession()->GetTrilliumString(LANG_INSTANCE_CLOSED));
             return false;
         }
 
@@ -18628,9 +18628,9 @@ bool Player::Satisfy(AccessRequirement const* ar, uint32 target_map, bool report
                 else if (mapDiff->hasErrorMessage) // if (missingAchievement) covered by this case
                     SendTransferAborted(target_map, TRANSFER_ABORT_DIFFICULTY, target_difficulty);
                 else if (missingItem)
-                    GetSession()->SendAreaTriggerMessage(GetSession()->GetArkcoreString(LANG_LEVEL_MINREQUIRED_AND_ITEM), LevelMin, sObjectMgr->GetItemTemplate(missingItem)->Name1.c_str());
+                    GetSession()->SendAreaTriggerMessage(GetSession()->GetTrilliumString(LANG_LEVEL_MINREQUIRED_AND_ITEM), LevelMin, sObjectMgr->GetItemTemplate(missingItem)->Name1.c_str());
                 else if (LevelMin)
-                    GetSession()->SendAreaTriggerMessage(GetSession()->GetArkcoreString(LANG_LEVEL_MINREQUIRED), LevelMin);
+                    GetSession()->SendAreaTriggerMessage(GetSession()->GetTrilliumString(LANG_LEVEL_MINREQUIRED), LevelMin);
             }
             return false;
         }
@@ -22698,7 +22698,7 @@ void Player::AutoUnequipOffhandIfNeed(bool force /*= false*/)
         offItem->DeleteFromInventoryDB(trans);                   // deletes item from character's inventory
         offItem->SaveToDB(trans);                                // recursive and not have transaction guard into self, item not in inventory and can be save standalone
 
-        std::string subject = GetSession()->GetArkcoreString(LANG_NOT_EQUIPPED_ITEM);
+        std::string subject = GetSession()->GetTrilliumString(LANG_NOT_EQUIPPED_ITEM);
         MailDraft(subject, "There were problems with equipping one or several items").AddItem(offItem).SendMailTo(trans, this, MailSender(this, MAIL_STATIONERY_GM), MAIL_CHECK_MASK_COPIED);
 
         CharacterDatabase.CommitTransaction(trans);

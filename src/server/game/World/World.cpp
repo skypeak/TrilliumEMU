@@ -2709,7 +2709,7 @@ namespace Trillium
             explicit WorldWorldTextBuilder(int32 textId, va_list* args = NULL) : i_textId(textId), i_args(args) {}
             void operator()(WorldPacketList& data_list, LocaleConstant loc_idx)
             {
-                const char* text = sObjectMgr->GetArkcoreString(i_textId, loc_idx);
+                const char* text = sObjectMgr->GetTrilliumString(i_textId, loc_idx);
 
                 if (i_args)
                 {

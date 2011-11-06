@@ -78,7 +78,7 @@ bool ChatHandler::HandleAnnounceCommand(const char* args)
         return false;
 
     char buff[2048];
-    sprintf(buff, GetArkcoreString(LANG_SYSTEMMESSAGE), args);
+    sprintf(buff, GetTrilliumString(LANG_SYSTEMMESSAGE), args);
     sWorld->SendServerMessage(SERVER_MSG_STRING, buff);
     return true;
 }
@@ -99,7 +99,7 @@ bool ChatHandler::HandleNotifyCommand(const char* args)
     if (!*args)
         return false;
 
-    std::string str = GetArkcoreString(LANG_GLOBAL_NOTIFY);
+    std::string str = GetTrilliumString(LANG_GLOBAL_NOTIFY);
     str += args;
 
     WorldPacket data(SMSG_NOTIFICATION, (str.size()+1));
@@ -115,7 +115,7 @@ bool ChatHandler::HandleGMNotifyCommand(const char* args)
     if (!*args)
         return false;
 
-    std::string str = GetArkcoreString(LANG_GM_NOTIFY);
+    std::string str = GetTrilliumString(LANG_GM_NOTIFY);
     str += args;
 
     WorldPacket data(SMSG_NOTIFICATION, (str.size()+1));
@@ -228,7 +228,7 @@ bool ChatHandler::HandleSummonCommand(const char* args)
 
         std::string nameLink = playerLink(target_name);
 
-        PSendSysMessage(LANG_SUMMONING, nameLink.c_str(), GetArkcoreString(LANG_OFFLINE));
+        PSendSysMessage(LANG_SUMMONING, nameLink.c_str(), GetTrilliumString(LANG_OFFLINE));
 
         // in point where GM stay
         Player::SavePositionInDB(m_session->GetPlayer()->GetMapId(),
@@ -600,7 +600,7 @@ bool ChatHandler::HandleWhispersCommand(const char* args)
 {
     if (!*args)
     {
-        PSendSysMessage(LANG_COMMAND_WHISPERACCEPTING, m_session->GetPlayer()->isAcceptWhispers() ?  GetArkcoreString(LANG_ON) : GetArkcoreString(LANG_OFF));
+        PSendSysMessage(LANG_COMMAND_WHISPERACCEPTING, m_session->GetPlayer()->isAcceptWhispers() ?  GetTrilliumString(LANG_ON) : GetTrilliumString(LANG_OFF));
         return true;
     }
 

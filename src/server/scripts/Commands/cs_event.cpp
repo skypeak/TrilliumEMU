@@ -53,7 +53,7 @@ public:
         GameEventMgr::GameEventDataMap const& events = sGameEventMgr->GetEventMap();
         GameEventMgr::ActiveEvents const& activeEvents = sGameEventMgr->GetActiveEventList();
 
-        char const* active = handler->GetArkcoreString(LANG_ACTIVE);
+        char const* active = handler->GetTrilliumString(LANG_ACTIVE);
 
         for (GameEventMgr::ActiveEvents::const_iterator itr = activeEvents.begin(); itr != activeEvents.end(); ++itr)
         {
@@ -106,7 +106,7 @@ public:
 
         GameEventMgr::ActiveEvents const& activeEvents = sGameEventMgr->GetActiveEventList();
         bool active = activeEvents.find(event_id) != activeEvents.end();
-        char const* activeStr = active ? handler->GetArkcoreString(LANG_ACTIVE) : "";
+        char const* activeStr = active ? handler->GetTrilliumString(LANG_ACTIVE) : "";
 
         std::string startTimeStr = TimeToTimestampStr(eventData.start);
         std::string endTimeStr = TimeToTimestampStr(eventData.end);

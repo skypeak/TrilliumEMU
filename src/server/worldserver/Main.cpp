@@ -19,7 +19,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/// \addtogroup Arkcored Trillium Daemon
+/// \addtogroup Trilliumd Trillium Daemon
 /// @{
 /// \file
 
@@ -150,7 +150,7 @@ extern int main(int argc, char **argv)
     // at sMaster return function exist with codes
     // 0 - normal shutdown
     // 1 - shutdown at error
-    // 2 - restart command used, this code can be used by restarter for restart Arkcored
+    // 2 - restart command used, this code can be used by restarter for restart Trilliumd
 
     return ret;
 }

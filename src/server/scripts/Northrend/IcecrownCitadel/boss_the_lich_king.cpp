@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2005 - 2011 MaNGOS <http://www.getmangos.org/>
  *
- * Copyright (C) 2008 - 2011 ArkcoreCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008 - 2011 TrilliumCore <http://www.trinitycore.org/>
  *
  * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *

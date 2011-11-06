@@ -49,7 +49,7 @@ namespace Trillium
 
             void operator()(WorldPacket& data, LocaleConstant loc_idx)
             {
-                char const* text = sObjectMgr->GetArkcoreString(_textId, loc_idx);
+                char const* text = sObjectMgr->GetTrilliumString(_textId, loc_idx);
                 if (_args)
                 {
                     // we need copy va_list before use or original va_list will corrupted
@@ -95,9 +95,9 @@ namespace Trillium
 
             void operator()(WorldPacket& data, LocaleConstant loc_idx)
             {
-                char const* text = sObjectMgr->GetArkcoreString(_textId, loc_idx);
-                char const* arg1str = _arg1 ? sObjectMgr->GetArkcoreString(_arg1, loc_idx) : "";
-                char const* arg2str = _arg2 ? sObjectMgr->GetArkcoreString(_arg2, loc_idx) : "";
+                char const* text = sObjectMgr->GetTrilliumString(_textId, loc_idx);
+                char const* arg1str = _arg1 ? sObjectMgr->GetTrilliumString(_arg1, loc_idx) : "";
+                char const* arg2str = _arg2 ? sObjectMgr->GetTrilliumString(_arg2, loc_idx) : "";
 
                 char str[2048];
                 snprintf(str, 2048, text, arg1str, arg2str);
@@ -1680,7 +1680,7 @@ void Battleground::SendWarningToAll(int32 entry, ...)
     if (!entry)
         return;
 
-    const char *format = sObjectMgr->GetArkcoreStringForDBCLocale(entry);
+    const char *format = sObjectMgr->GetTrilliumStringForDBCLocale(entry);
 
     char str[1024];
     va_list ap;
@@ -1722,10 +1722,10 @@ void Battleground::EndNow()
 }
 
 // To be removed
-const char* Battleground::GetArkcoreString(int32 entry)
+const char* Battleground::GetTrilliumString(int32 entry)
 {
     // FIXME: now we have different DBC locales and need localized message for each target client
-    return sObjectMgr->GetArkcoreStringForDBCLocale(entry);
+    return sObjectMgr->GetTrilliumStringForDBCLocale(entry);
 }
 
 // IMPORTANT NOTICE:

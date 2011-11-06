@@ -20,7 +20,7 @@
  */
 
 /** \file
-    \ingroup Arkcored
+    \ingroup Trilliumd
 */
 
 #include <ace/Sig_Handler.h>
