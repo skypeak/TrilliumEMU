@@ -533,6 +533,10 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                 break;
             switch (GetSpellInfo()->SpellFamilyName)
             {
+                case SPELLFAMILY_GENERIC:
+                    if (GetId()==70845)
+                        DoneActualBenefit = caster->GetMaxHealth() * 0.2f;
+                    break;			
                 case SPELLFAMILY_MAGE:
                     // Ice Barrier
                     if (GetSpellInfo()->SpellFamilyFlags[1] & 0x1 && GetSpellInfo()->SpellFamilyFlags[2] & 0x8)
@@ -652,8 +656,16 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                 break;
             // Earth Shield
             if (GetSpellInfo()->SpellFamilyName == SPELLFAMILY_SHAMAN && m_spellInfo->SpellFamilyFlags[1] & 0x400)
+            {
+                // apply spell healing bonus
                 amount = caster->SpellHealingBonus(GetBase()->GetUnitOwner(), GetSpellInfo(), amount, SPELL_DIRECT_DAMAGE);
-            break;
+                // apply spellmods
+                amount = caster->ApplyEffectModifiers(GetSpellInfo(), m_effIndex, float(amount));
+            }
+            break;			
+          /*  if (GetSpellInfo()->SpellFamilyName == SPELLFAMILY_SHAMAN && m_spellInfo->SpellFamilyFlags[1] & 0x400)
+                amount = caster->SpellHealingBonus(GetBase()->GetUnitOwner(), GetSpellInfo(), amount, SPELL_DIRECT_DAMAGE);
+            break;*/
         case SPELL_AURA_PERIODIC_DAMAGE:
             if (!caster)
                 break;
@@ -1999,12 +2011,22 @@ void AuraEffect::HandlePhase(AuraApplication const* aurApp, uint8 mode, bool app
     if (!phases.empty())
         for (Unit::AuraEffectList::const_iterator itr = phases.begin(); itr != phases.end(); ++itr)
             newPhase |= (*itr)->GetMiscValue();
-
+	
+	// phase auras normally not expected at BG but anyway better check
     if (Player* player = target->ToPlayer())
     {
         if (!newPhase)
             newPhase = PHASEMASK_NORMAL;
 
+        // drop flag at invisible in bg
+        if (player->InBattleground())
+            if (Battleground *bg = player->GetBattleground())
+                bg->EventPlayerDroppedFlag(player);
+
+        // stop handling the effect if it was removed by linked event
+        if (apply && aurApp->GetRemoveMode())
+            return;
+			
         // GM-mode have mask 0xFFFFFFFF
         if (player->isGameMaster())
             newPhase = 0xFFFFFFFF;
@@ -6001,6 +6023,9 @@ void AuraEffect::HandlePeriodicDummyAuraTick(Unit* target, Unit* caster) const
                     target->SetPower(POWER_RAGE, rage-mod);
                     break;
                 }
+                // Force of Nature
+                case 33831:
+                    break;
             }
             break;
         }
