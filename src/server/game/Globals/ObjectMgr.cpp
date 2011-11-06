@@ -6080,10 +6080,6 @@ void ObjectMgr::SetHighestGuids()
     if (result)
         m_hiGoGuid = (*result)[0].GetUInt32()+1;
 
-    result = WorldDatabase.Query("SELECT MAX(guid) FROM transports");
-    if (result)
-        m_hiMoTransGuid = (*result)[0].GetUInt32()+1;
-
     result = CharacterDatabase.Query("SELECT MAX(id) FROM auctionhouse");
     if (result)
         m_auctionid = (*result)[0].GetUInt32()+1;
