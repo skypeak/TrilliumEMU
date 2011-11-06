@@ -810,6 +810,9 @@ namespace Arkcore
 
                 if (u->GetTypeId() == TYPEID_UNIT && ((Creature*)u)->isTotem())
                     return false;
+					
+                if(!u->isTargetableForAttack(false))
+                    return false;					
 
                 return i_obj->IsWithinDistInMap(u, i_range) && !i_funit->IsFriendlyTo(u);
             }
