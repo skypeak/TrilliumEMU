@@ -1,5 +1,5 @@
 ####################################################
-# ArkCORE World Server configuration file  #
+#         World Server configuration file          #
 ####################################################
 [worldserver]
 
@@ -72,13 +72,13 @@ DataDir = "."
 #                                                                 section my.ini)
 #                     ".;/path/to/unix_socket;username;password;database" - (use Unix sockets on
 #                                                                           Unix/Linux)
-#        Default:     "127.0.0.1;3306;arkcore;arkcore;auth"       - (LoginDatabaseInfo)
-#                     "127.0.0.1;3306;arkcore;arkcore;world"      - (WorldDatabaseInfo)
-#                     "127.0.0.1;3306;arkcore;arkcore;characters" - (CharacterDatabaseInfo)
+#        Default:     "127.0.0.1;3306;Trillium;Trillium;auth"       - (LoginDatabaseInfo)
+#                     "127.0.0.1;3306;Trillium;Trillium;world"      - (WorldDatabaseInfo)
+#                     "127.0.0.1;3306;Trillium;Trillium;characters" - (CharacterDatabaseInfo)
 
-LoginDatabaseInfo     = "127.0.0.1;3306;arkcore;arkcore;auth"
-WorldDatabaseInfo     = "127.0.0.1;3306;arkcore;arkcore;world"
-CharacterDatabaseInfo = "127.0.0.1;3306;arkcore;arkcore;characters"
+LoginDatabaseInfo     = "127.0.0.1;3306;Trillium;Trillium;auth"
+WorldDatabaseInfo     = "127.0.0.1;3306;Trillium;Trillium;world"
+CharacterDatabaseInfo = "127.0.0.1;3306;Trillium;Trillium;characters"
 
 #
 #    LoginDatabase.WorkerThreads
@@ -1465,10 +1465,10 @@ BeepAtStart = 1
 #    Motd
 #        Description: Message of the Day, displayed at login.
 #                     Use '@' for a newline and be sure to escape special characters.
-#        Example:     "Welcome to John\'s Server@This server runs on ArkCORE."
-#        Default:     "Welcome to a ArkCORE server."
+#        Example:     "Welcome to John\'s Server@This server runs on Trillium."
+#        Default:     "Welcome to a Trillium server."
 
-Motd = "Welcome to a ArkCORE server."
+Motd = "Welcome to a Trillium server."
 
 #
 #    Server.LoginInfo
