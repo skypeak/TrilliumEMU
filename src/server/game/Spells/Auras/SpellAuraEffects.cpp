@@ -2011,12 +2011,22 @@ void AuraEffect::HandlePhase(AuraApplication const* aurApp, uint8 mode, bool app
     if (!phases.empty())
         for (Unit::AuraEffectList::const_iterator itr = phases.begin(); itr != phases.end(); ++itr)
             newPhase |= (*itr)->GetMiscValue();
-
+	
+	// phase auras normally not expected at BG but anyway better check
     if (Player* player = target->ToPlayer())
     {
         if (!newPhase)
             newPhase = PHASEMASK_NORMAL;
 
+        // drop flag at invisible in bg
+        if (player->InBattleground())
+            if (Battleground *bg = player->GetBattleground())
+                bg->EventPlayerDroppedFlag(player);
+
+        // stop handling the effect if it was removed by linked event
+        if (apply && aurApp->GetRemoveMode())
+            return;
+			
         // GM-mode have mask 0xFFFFFFFF
         if (player->isGameMaster())
             newPhase = 0xFFFFFFFF;
@@ -6015,7 +6025,7 @@ void AuraEffect::HandlePeriodicDummyAuraTick(Unit* target, Unit* caster) const
                 }
                 // Force of Nature
                 case 33831:
-                    break;				´
+                    break;
             }
             break;
         }
