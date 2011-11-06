@@ -18228,14 +18228,14 @@ void Player::_LoadCurrency(PreparedQueryResult result)
         {
             Field* fields = result->Fetch();
 
-            uint32 currency_id = fields[0].GetUInt32();
+            uint32 currency_id = fields[0].GetUInt16();
             uint32 totalCount = fields[1].GetUInt32();
             uint32 weekCount = fields[2].GetUInt32();
 
             const CurrencyTypesEntry* entry = sCurrencyTypesStore.LookupEntry(currency_id);
             if (!entry)
             {
-                sLog->outError("Player::_LoadCurrency: %s has not existing currency %u, removing.", GetGUID(), currency_id);
+                sLog->outError("Player::_LoadCurrency: %s has not existing currency %u, removing.", GetName(), currency_id);
                 CharacterDatabase.PExecute("DELETE FROM character_currency WHERE currency = '%u'", currency_id);
                 continue;
             }
