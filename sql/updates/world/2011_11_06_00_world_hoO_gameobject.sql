@@ -1,0 +1,3 @@
+-- Changed the Coordinates from the Bridge now its ok :)
+DELETE FROM gameobject WHERE id = 206506;
+INSERT INTO `gameobject` (`id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`) VALUES ('206506', '644', '3', '1', '-640.65', '304.617', '53.24', '3.13999', '0', '0', '0.999964', '-0.00849289', '300', '0', '1')
