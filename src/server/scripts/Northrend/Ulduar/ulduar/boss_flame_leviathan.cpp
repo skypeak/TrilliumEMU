@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -1826,9 +1826,9 @@ void AddSC_boss_flame_leviathan()
     new spell_anti_air_rocket();
     new spell_pursued();
     new spell_flame_leviathan_flames();
-    new spell_load_into_catapult();	
+    new spell_load_into_catapult();
     new achievement_orbital_bombardment();
     new achievement_orbital_devastation();
     new achievement_nuked_from_orbit();
-    new achievement_orbit_uary();	
+    new achievement_orbit_uary();
 }

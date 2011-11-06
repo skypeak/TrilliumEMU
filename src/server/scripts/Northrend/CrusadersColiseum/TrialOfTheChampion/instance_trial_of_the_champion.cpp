@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -179,7 +179,7 @@ public:
                 case VEHICLE_THUNDER_BLUFF_KODO:
                     if (TeamInInstance == HORDE)
                         creature->UpdateEntry(VEHICLE_EXODAR_ELEKK, ALLIANCE);
-                    break;                
+                    break;
                 case VEHICLE_ORGRIMMAR_WOLF:
                     if (TeamInInstance == HORDE)
                         creature->UpdateEntry(VEHICLE_STORMWIND_STEED, ALLIANCE);
@@ -322,7 +322,7 @@ public:
                     if (Creature* pBlackKnight =  instance->GetCreature(uiBlackKnightGUID))
                     {
                         pBlackKnight->SetOrientation(4.714f);
-			
+
 	    pBlackKnight->SetReactState(REACT_PASSIVE);
             pBlackKnight->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
                     }

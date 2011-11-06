@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -773,7 +773,7 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
         case SMART_ACTION_CALL_SCRIPT_RESET:
         case SMART_ACTION_ENTER_VEHICLE:
         case SMART_ACTION_LEAVE_VEHICLE:
-        case SMART_ACTION_REMOVE_PASSENGERS:		
+        case SMART_ACTION_REMOVE_PASSENGERS:
         case SMART_ACTION_NONE:
         case SMART_ACTION_CALL_TIMED_ACTIONLIST:
         case SMART_ACTION_SET_NPC_FLAG:

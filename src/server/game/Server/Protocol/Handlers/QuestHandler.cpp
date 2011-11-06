@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -274,7 +274,7 @@ void WorldSession::HandleQuestgiverQueryQuestOpcode(WorldPacket & recv_data)
     }
         // Now save player every accept/deliver a quest
     	if (_player)
-		_player->SaveToDB();    
+		_player->SaveToDB();
 }
 
 void WorldSession::HandleQuestQueryOpcode(WorldPacket & recv_data)
@@ -380,7 +380,7 @@ void WorldSession::HandleQuestgiverChooseRewardOpcode(WorldPacket & recv_data)
     }
         // Now save player every accept/deliver a quest
     	if (_player)
-		_player->SaveToDB();    
+		_player->SaveToDB();
 }
 
 void WorldSession::HandleQuestgiverRequestRewardOpcode(WorldPacket & recv_data)
@@ -409,7 +409,7 @@ void WorldSession::HandleQuestgiverRequestRewardOpcode(WorldPacket & recv_data)
         _player->PlayerTalkClass->SendQuestGiverOfferReward(pQuest, guid, true);
     // Now save player every accept/deliver a quest
     if (_player)
-		_player->SaveToDB();        
+		_player->SaveToDB();
 }
 
 void WorldSession::HandleQuestgiverCancel(WorldPacket& /*recv_data*/)

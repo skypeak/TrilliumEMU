@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -456,7 +456,7 @@ public:
             if (kologarn && !kologarn->isInCombat())
                 kologarn->AI()->AttackStart(who);
         }
-        
+
             void UpdateAI(uint32 const /*diff*/) { }
     };
 

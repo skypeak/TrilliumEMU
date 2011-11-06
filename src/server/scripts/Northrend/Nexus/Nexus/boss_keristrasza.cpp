@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -178,11 +178,11 @@ public:
             }
         }
 
-        void SpellHitTarget(Unit* target, const SpellInfo *spell) 
+        void SpellHitTarget(Unit* target, const SpellInfo *spell)
         {
             if (target->GetTypeId() != TYPEID_PLAYER)
                 return;
-            
+
             if (spell->Id == SPELL_INTENSE_COLD_TRIGGERED)
                  if (Aura* pColdAura = target->GetAura(SPELL_INTENSE_COLD_TRIGGERED))
                      if (pColdAura->GetStackAmount() > 2)

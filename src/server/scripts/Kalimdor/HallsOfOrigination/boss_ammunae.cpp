@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -18,13 +18,13 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
  /*
- Made By: Jenova     
- Project: Atlantiss Core  
+ Made By: Jenova
+ Project: Atlantiss Core
  SDName: boss_ammunae
  SD%Complete: 75%
- SDComment: 
+ SDComment:
  SDCategory: Halls Of Origination
 
  Known Bugs:
@@ -34,9 +34,9 @@
  2. Check Timers
  3. Needs testing
  */
-                               
+
 #include "ScriptMgr.h"
-#include "ScriptedCreature.h" 
+#include "ScriptedCreature.h"
 #include "ScriptPCH.h"
 #include "halls_of_origination.h"
 
@@ -98,7 +98,7 @@ enum Timers
     TIMER_CONSUME_LIFE         = 20000,
     TIMER_RAMPANT_GROWTH       = 15000,
     TIMER_SUMMON_POD           = 5000,
-    TIMER_SUMMON_SPORE         = 15000 
+    TIMER_SUMMON_SPORE         = 15000
 };
 
 class boss_ammunae : public CreatureScript
@@ -136,7 +136,7 @@ class boss_ammunae : public CreatureScript
 
                 DoZoneInCombat();
             }
-            
+
             void RampartSummon(uint32 entry, float distance)
             {
                 std::list<Creature*> pCreatureList;
@@ -167,7 +167,7 @@ class boss_ammunae : public CreatureScript
             {
                 if (!UpdateVictim())
                     return;
-                
+
                 if (me->HasUnitState(UNIT_STAT_CASTING))
                     return;
 
@@ -250,7 +250,7 @@ public:
          {
                 if (!UpdateVictim())
                     return;
-                
+
                 if (me->HasUnitState(UNIT_STAT_CASTING))
                     return;
 
@@ -302,11 +302,11 @@ public:
             EnergizeTimer = 1000;
             Summons.DespawnAll();
         }
-        
+
         void Energize()
         {
             if (IsHeroic())
-            { 
+            {
                 if (Unit *target = me->FindNearestCreature(BOSS_AMMUNAE, 100))
                 {
                     DoCast(SPELL_ENERGIZE);
@@ -315,7 +315,7 @@ public:
                     DoCast(target, SPELL_ENERGIZING_GROWTH);
                 }
             }
-            else 
+            else
             {
                 if (Unit *target = me->FindNearestCreature(BOSS_AMMUNAE, 100))
                 {
@@ -375,7 +375,7 @@ public:
             SporeTimer = 1000;
             Summons.DespawnAll();
         }
-        
+
         void UpdateAI(uint32 const diff)
         {
             if (SporeTimer <= diff)

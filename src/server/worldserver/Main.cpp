@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -41,8 +41,8 @@
 #ifdef _WIN32
 #include "ServiceWin32.h"
 char serviceName[] = "worldserver";
-char serviceLongName[] = "ArkCORE world service";
-char serviceDescription[] = "ArkCORE World of Warcraft emulator world service";
+char serviceLongName[] = "TrilliumEMU world service";
+char serviceDescription[] = "TrilliumEMU World of Warcraft emulator world service";
 /*
  * -1 - not in service mode
  *  0 - stopped

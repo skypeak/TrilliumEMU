@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -110,7 +110,7 @@ void AggroAllPlayers(Creature* pTemp)
         {
             if (player->HasUnitMovementFlag(MOVEMENTFLAG_ONTRANSPORT) && !player->isGameMaster())
             {
-                Creature* creature = player->GetVehicleBase()->ToCreature();  
+                Creature* creature = player->GetVehicleBase()->ToCreature();
 
                 if (creature)
                 {

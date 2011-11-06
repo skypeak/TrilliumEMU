@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -603,8 +603,8 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                                     amount += bp;
                                 }
                             }
-                        }						
-						
+                        }
+
                         return amount;
                     }
                     break;
@@ -880,7 +880,7 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                 }
                 break;
             }
-        }		
+        }
         default:
             break;
     }
@@ -4181,8 +4181,8 @@ void AuraEffect::HandleAuraModIncreaseEnergy(AuraApplication const* aurApp, uint
                 change = 0;
             target->SetPower(powerType, change);
         }
-    }	
-	
+    }
+
     // generic flat case
 	target->HandleStatModifier(unitMod, TOTAL_VALUE, float(GetAmount()), apply);
 }
@@ -4205,7 +4205,7 @@ void AuraEffect::HandleAuraModIncreaseEnergyPercent(AuraApplication const* aurAp
     UnitMods unitMod = UnitMods(UNIT_MOD_POWER_START + powerType);
 
     float amount = float(GetAmount());
-  
+
     if (apply)
     {
         target->HandleStatModifier(unitMod, TOTAL_PCT, amount, apply);
@@ -5402,7 +5402,7 @@ void AuraEffect::HandleAuraDummy(AuraApplication const* aurApp, uint8 mode, bool
                         else target->ToPlayer()->SetSpeed(MOVE_RUN, 1.0f, true);
                             target->ToPlayer()->setInWorgenForm(UNIT_FLAG2_WORGEN_TRANSFORM3);
                             target->GetAuraEffectsByType(SPELL_AURA_MOUNTED).front()->GetMiscValue();
-                            break;					
+                            break;
                 case 62061: // Festive Holiday Mount
                     if (target->HasAuraType(SPELL_AURA_MOUNTED))
                     {
@@ -5909,7 +5909,7 @@ void AuraEffect::HandlePeriodicDummyAuraTick(Unit* target, Unit* caster) const
                 {
                     if (!caster)
                         break;
-				
+
                     caster->CastCustomSpell(66152, SPELLVALUE_MAX_TARGETS, urand(1,6), target, true);
                     caster->CastCustomSpell(66153, SPELLVALUE_MAX_TARGETS, urand(1,6), target, true);
                     break;
@@ -6095,7 +6095,7 @@ void AuraEffect::HandlePeriodicDummyAuraTick(Unit* target, Unit* caster) const
                     if (target->GetTypeId() != TYPEID_PLAYER)
                     return;
                     if(((Player*)target)->getClass() != CLASS_DEATH_KNIGHT)
-                    return;        				
+                    return;
                     uint32 damage = uint32(target->CountPctFromMaxHealth(1));
                     target->DealDamage(target, damage, NULL, NODAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
                     break;

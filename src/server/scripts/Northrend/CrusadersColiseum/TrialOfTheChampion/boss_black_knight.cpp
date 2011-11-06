@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -29,7 +29,7 @@ EndScriptData */
 #include "trial_of_the_champion.h"
 #include "Vehicle.h"
 
-#define NPC_BLACK_KNIGHT 35451 
+#define NPC_BLACK_KNIGHT 35451
 
 enum eEnums
 {
@@ -299,7 +299,7 @@ public:
                             {
                                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
                                 {
-                                    if (target && target->isAlive()) 
+                                    if (target && target->isAlive())
                                     {
                                         if (IsHeroic())
                                             DoCast(target,SPELL_DEATH_RESPITE_H);
@@ -320,7 +320,7 @@ public:
                             me->SetFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
                             if (IsHeroic())
                                 DoCast(me, SPELL_ARMY_DEAD_H);
-                            else							
+                            else
                             DoCast(me, SPELL_ARMY_DEAD);
                         }
 
@@ -342,7 +342,7 @@ public:
                                     {
                                         if (IsHeroic())
                                             DoCast(target,SPELL_DESECRATION_H);
-                                        else 
+                                        else
                                             DoCast(target,SPELL_DESECRATION);
                                     }
                             }
@@ -380,7 +380,7 @@ public:
                             {
                                 if (IsHeroic())
                                     DoCast(target,SPELL_MARKED_DEATH);
-                                else 
+                                else
                                     DoCast(target,SPELL_MARKED_DEATH_H);
                             }
                         }
@@ -528,7 +528,7 @@ public:
             pInstance = creature->GetInstanceScript();
         }
         InstanceScript* pInstance;
-		
+
         Vehicle* vehicle;
 
         void Reset()

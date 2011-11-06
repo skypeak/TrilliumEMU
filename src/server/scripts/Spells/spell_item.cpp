@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -1112,7 +1112,7 @@ class spell_magic_eater_food : public SpellScriptLoader
                         target->CastSpell(target, SPELL_WELL_FED_3, true);
                         break;
                     case 4:
-                        target->CastSpell(target, SPELL_WELL_FED_4, true); 
+                        target->CastSpell(target, SPELL_WELL_FED_4, true);
                         break;
                     case 5:
                         target->CastSpell(target, SPELL_WELL_FED_5, true);

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -1278,7 +1278,7 @@ void World::SetInitialWorldSettings()
 
     sLog->outString("Loading Current Characters To Guid Check...");
     LoadCharacterCheck();
-	
+
     sLog->outString("Loading GameObjects To Guid Check...");
     LoadGameObjectCheck();
 
@@ -2434,7 +2434,7 @@ void World::LoadGameObjectCheck()
         ++count;
     }
     while (result->NextRow());
-    
+
     for (int i = 0; i < PairNumber; ++i)
     {
         int oldguid = PairList[i];
@@ -2469,7 +2469,7 @@ void World::LoadGameObjectCheck()
             }
 
             if (Triple == false)
-                WorldDatabase.PExecute("UPDATE `%s` SET `%s`=%u WHERE `%s`=%u%s", 
+                WorldDatabase.PExecute("UPDATE `%s` SET `%s`=%u WHERE `%s`=%u%s",
                     tablename.c_str(), columnname.c_str(), newguid, columnname.c_str(), oldguid, typestr.c_str());
             else
             {
@@ -2481,7 +2481,7 @@ void World::LoadGameObjectCheck()
                     case 1: typestr = " and `command`=11"; break;
                     case 2: typestr = " and `command`=12"; break;
                     }
-                    WorldDatabase.PExecute("UPDATE `%s` SET `%s`=%u WHERE `%s`=%u%s", 
+                    WorldDatabase.PExecute("UPDATE `%s` SET `%s`=%u WHERE `%s`=%u%s",
                         tablename.c_str(), columnname.c_str(), newguid, columnname.c_str(), oldguid, typestr.c_str());
                 }
             }

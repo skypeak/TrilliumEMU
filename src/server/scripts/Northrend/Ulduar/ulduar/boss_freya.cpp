@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -382,7 +382,7 @@ public:
                 elementalList.clear();
             else
             {
-                if (!elementalList.empty())   
+                if (!elementalList.empty())
                     for (std::set<uint64>::const_iterator itr = elementalList.begin(); itr != elementalList.end(); ++itr)
                         if (Creature* temp = me->GetCreature(*me, *itr))
                         {
@@ -651,7 +651,7 @@ public:
                     }
                     else Ground_Tremor_Timer = 3000;
                 }
-                else Ground_Tremor_Timer -= diff;	
+                else Ground_Tremor_Timer -= diff;
             }
 
             //Hardmode Elder Ironbranch
@@ -1006,7 +1006,7 @@ public:
     {
         return new mob_storm_lasherAI (creature);
     }
-    
+
     struct mob_storm_lasherAI : public ScriptedAI
     {
         mob_storm_lasherAI(Creature *creature) : ScriptedAI(creature)

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -174,23 +174,23 @@ void WorldSession::HandleLfgPlayerLockInfoRequestOpcode(WorldPacket& /*recv_data
         if (dungeon && dungeon->grouptype == 11 && dungeon->expansion <= expansion && dungeon->minlevel <= level && level <= dungeon->maxlevel)
         {
                     QueryResult result = WorldDatabase.Query("SELECT dungeonId, eventEntry FROM lfg_dungeon_event");
- 
+
                     if (!result)
                         return;
- 
+
           Field* fields = NULL;
           do
           {
             fields = result->Fetch();
             uint32 dungeonId = fields[0].GetUInt32();
             uint32 eventEntry = fields[1].GetUInt32();
-            if (dungeonId != dungeon->ID ) 
+            if (dungeonId != dungeon->ID )
               continue;
 
             if (eventEntry && sGameEventMgr->IsActiveEvent(eventEntry))
               randomDungeons.insert(dungeon->Entry());
            } while (result->NextRow());
-    }			
+    }
     }
 
     // Get player locked Dungeons

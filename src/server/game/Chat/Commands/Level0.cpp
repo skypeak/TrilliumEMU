@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -146,8 +146,8 @@ bool ChatHandler::HandleSaveCommand(const char* /*args*/)
     uint32 save_interval = sWorld->getIntConfig(CONFIG_INTERVAL_SAVE);
     if (save_interval == 0 || (save_interval > 20*IN_MILLISECONDS && player->GetSaveTimer() <= save_interval - 20*IN_MILLISECONDS))
     {
-        player->SaveToDB(); 
-        SendSysMessage(LANG_PLAYER_SAVED); 
+        player->SaveToDB();
+        SendSysMessage(LANG_PLAYER_SAVED);
     }
 
     return true;

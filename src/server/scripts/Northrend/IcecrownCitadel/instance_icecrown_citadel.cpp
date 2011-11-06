@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -473,7 +473,7 @@ class instance_icecrown_citadel : public InstanceMapScript
                         uiIceShard1 = go->GetGUID();
                         go->SetGoState(GetBossState(DATA_THE_LICH_KING) == DONE ? GO_STATE_ACTIVE : GO_STATE_READY);
                         break;
-                    case GO_ICE_SHARD_2:     
+                    case GO_ICE_SHARD_2:
                         uiIceShard2 = go->GetGUID();
                         go->SetGoState(GetBossState(DATA_THE_LICH_KING) == DONE ? GO_STATE_ACTIVE : GO_STATE_READY);
                         break;
@@ -801,10 +801,10 @@ class instance_icecrown_citadel : public InstanceMapScript
             {
                 switch (type)
                 {
-                    case DATA_NECK_DEEP_ACHIEVEMENT:         
+                    case DATA_NECK_DEEP_ACHIEVEMENT:
                         IsNeckDeep = data ? true : false;
                         break;
-                    case DATA_BEEN_WAITING_ACHIEVEMENT:         
+                    case DATA_BEEN_WAITING_ACHIEVEMENT:
                         IsNecroticStack = data ? true : false;
                         break;
                     case DATA_BONED_ACHIEVEMENT:

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -196,7 +196,7 @@ void AuraApplication::BuildUpdatePacket(ByteBuffer& data, bool remove) const
     if (aura->GetMaxDuration() > 0 && !(aura->GetSpellInfo()->AttributesEx5 & SPELL_ATTR5_HIDE_DURATION))
         flags |= AFLAG_DURATION;
     if (!aura->IsPassive())
-        flags |= AFLAG_ANY_EFFECT_AMOUNT_SENT;		
+        flags |= AFLAG_ANY_EFFECT_AMOUNT_SENT;
     data << uint16(flags);
     data << uint8(aura->GetCasterLevel());
     // send stack amount for aura which could be stacked (never 0 - causes incorrect display) or charges
@@ -219,7 +219,7 @@ void AuraApplication::BuildUpdatePacket(ByteBuffer& data, bool remove) const
             if (flags & 1<<i)
                 data << uint32(aura->GetEffect(i)->GetAmount());
         }
-    }	
+    }
 }
 
 void AuraApplication::ClientUpdate(bool remove)
@@ -386,7 +386,7 @@ void Aura::_InitEffects(uint8 effMask, Unit* caster, int32 *baseAmount)
                     m_effects[i]->SetAmount((int32)(m_effects[i]->GetAmount() * 1.3f));
             }
         }
-    }    
+    }
 }
 
 Aura::~Aura()
@@ -1680,7 +1680,7 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                     }
                     caster->CastSpell(target, spell_id, true);
                 }
-                break;			
+                break;
                 // Glyph of Freezing Trap
                 if (GetSpellInfo()->SpellFamilyFlags[0] & 0x00000008)
                     if (caster && caster->HasAura(56845))
@@ -1728,7 +1728,7 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                     }
                 break;
             }
-            break;			
+            break;
         case SPELLFAMILY_ROGUE:
             // Stealth
             if (GetSpellInfo()->SpellFamilyFlags[0] & 0x00400000)

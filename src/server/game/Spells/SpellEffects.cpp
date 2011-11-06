@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -19,7 +19,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gamePCH.h" 
+#include "gamePCH.h"
 #include "Common.h"
 #include "DatabaseEnv.h"
 #include "WorldPacket.h"
@@ -464,7 +464,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                         damage = uint32(1 + (0.25f * m_caster->GetTotalAttackPowerValue(BASE_ATTACK)) +
                             (0.429f * m_caster->SpellBaseDamageBonus(SPELL_SCHOOL_MASK_FIRE)) +
                             (m_caster->getLevel() * 2) + (m_caster->GetStat(STAT_INTELLECT) * 0.50193f));
-                    }					
+                    }
                     // TODO: add spell specific target requirement hook for spells
                     // Shadowbolts only affects targets with Shadow Mark (Gothik)
                     case 27831:
@@ -523,7 +523,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                }
                // Cleave
                else if (m_spellInfo->Id == 845)
-                   damage = uint32(6+ m_caster->GetTotalAttackPowerValue(BASE_ATTACK)* 0.45);			   
+                   damage = uint32(6+ m_caster->GetTotalAttackPowerValue(BASE_ATTACK)* 0.45);
                 // Juggernaut - Intercept Share CD
                 else if (m_caster->HasAura(64976) && m_spellInfo->Id == 20253)
                     m_caster->CastSpell(m_caster, 96215, false);
@@ -570,7 +570,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
 
                     if(urand(0,1))
                         m_caster->CastSpell(m_caster, trig_spell, true);
-                }				
+                }
                 break;
             }
             case SPELLFAMILY_WARLOCK:
@@ -792,7 +792,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                             m_caster->SetEclipsePower(int32(m_caster->GetEclipsePower() + 20));
                         }
                     }
-                }				
+                }
                 // Wrath
                 else if (m_spellInfo->SpellFamilyFlags[0] & 0x00000001)
                 {
@@ -952,7 +952,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                 break;
             }
             case SPELLFAMILY_DEATHKNIGHT:
-            {	
+            {
                 // Ebon Plaguebringer
                   if (m_caster->HasAura(51099)) // Rank 1
                   {
@@ -964,7 +964,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                       if (m_spellInfo->Id == 45462 || m_spellInfo->Id == 45477 || m_spellInfo->Id == 45524)
                       m_caster->CastSpell(unitTarget, 65142, true);
                   }
-				  
+
                 // Blood Boil - bonus for diseased targets
                 if (m_spellInfo->SpellFamilyFlags[0] & 0x00040000)
                 {
@@ -980,9 +980,9 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
         {
 		    // Deep Freeze should deal damage to permanently stun-immune targets.
             if (m_spellInfo->Id == 71757)
-			{	
+			{
 				if (unitTarget->GetTypeId() != TYPEID_UNIT || !(unitTarget->IsImmunedToSpellEffect(sSpellMgr->GetSpellInfo(44572), 0)))
-                return;	
+                return;
             }
             // Cone of Cold
             if (m_spellInfo->SpellFamilyFlags[0] & SPELLFAMILYFLAG1_MAGE_CONEOFCOLD)
@@ -1514,7 +1514,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                     if (m_caster->GetTypeId() == TYPEID_PLAYER && !m_caster->isInCombat())
                         m_caster->ToPlayer()->toggleWorgenForm();
                     return;
-                }				
+                }
                 case 53808:                                 // Pygmy Oil
                 {
                     Aura *pAura = m_caster->GetAura(53806);
@@ -1633,7 +1633,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                             m_caster->CastSpell(unitTarget, 79104, true); // Power Word : Fortitude (Caster)
                     }
                     break;
-                }				
+                }
             }
         break;
         }
@@ -1682,7 +1682,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
 				// Glyph of Execution bonus
 				if (AuraEffect * aurEff = m_caster->GetAuraEffect(58367, EFFECT_0))
 					rageUsed += aurEff->GetAmount() * 10;
-				
+
                 bp = damage + int32(rageUsed * m_spellInfo->Effects[effIndex].DamageMultiplier + m_caster->GetTotalAttackPowerValue(BASE_ATTACK) * 0.2f);
                 break;
             }
@@ -1707,7 +1707,7 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                     if (m_caster->HasAura(64976))
                         m_caster->ToPlayer()->AddSpellCooldown(100, 0, time(NULL) + 13); //15 - 2 from Juggernaut
                     return;
-                }				
+                }
                 // Rallying Cry
                 case 97463:
                 {
@@ -2344,14 +2344,14 @@ void Spell::EffectForceCast(SpellEffIndex effIndex)
                 break;
         }
     }
-	
+
     switch (triggered_spell_id)
     {
         case 62056: case 63985:         // Stone Grip Forcecast (10m, 25m)
             unitTarget->CastSpell(unitTarget, spellInfo, true);     // Don't send m_originalCasterGUID param here or underlying
             return;                                                 // AureEffect::HandleAuraControlVehicle will fail on caster == target
     }
-	
+
     CustomSpellValues values;
     // set basepoints for trigger with value effect
     if (m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_FORCE_CAST_WITH_VALUE)
@@ -2622,7 +2622,7 @@ void Spell::EffectApplyAura(SpellEffIndex effIndex)
             if (!m_caster->HasAura(93466))
                 return;
     }
-		
+
     ASSERT(unitTarget == m_spellAura->GetOwner());
     m_spellAura->_ApplyEffectForTargets(effIndex);
 }
@@ -2854,7 +2854,7 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
             if (Player* player = m_caster->ToPlayer())
                 if (player->HasSkill(SKILL_ENGINEERING))
                     AddPctN(addhealth, 25);
-        }		
+        }
         // Swiftmend - consumes Regrowth or Rejuvenation
         else if (m_spellInfo->TargetAuraState == AURA_STATE_SWIFTMEND && unitTarget->HasAuraState(AURA_STATE_SWIFTMEND, m_spellInfo, m_caster))
         {
@@ -2945,8 +2945,8 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
         // Remove Grievious bite if fully healed
         if (unitTarget->HasAura(48920) && (unitTarget->GetHealth() + addhealth >= unitTarget->GetMaxHealth()))
             unitTarget->RemoveAura(48920);
-	
-        m_damage -= addhealth;		
+
+        m_damage -= addhealth;
     }
 }
 
@@ -3265,7 +3265,7 @@ void Spell::EffectEnergize(SpellEffIndex effIndex)
                 if (player->HasSkill(SKILL_ENGINEERING))
                     AddPctN(damage, 25);
             break;
-        }			
+        }
         case 71132:                                         // Glyph of Shadow Word: Pain
             damage = int32(CalculatePctN(unitTarget->GetCreateMana(), 1));  // set 1 as value, missing in dbc
             break;
@@ -3404,7 +3404,7 @@ void Spell::SendLoot(uint64 guid, LootType loottype)
             case GAMEOBJECT_TYPE_GOOBER:
                 gameObjTarget->Use(m_caster);
                 return;
-				
+
             case GAMEOBJECT_TYPE_CHEST:
                 // TODO: possible must be moved to loot release (in different from linked triggering)
                 if (gameObjTarget->GetGOInfo()->chest.eventId)
@@ -4739,7 +4739,7 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex) // Damage made by Weapons
         }
         case SPELLFAMILY_PALADIN:
 		{
-		
+
 			switch (m_spellInfo->Id)
 			{
 				case 35395:     // Crusader Strike
@@ -5499,7 +5499,7 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
 					break;
                     }
                     return;
-                }					
+                }
 				// Mug Transformation
                 case 41931:
                 {
@@ -5706,7 +5706,7 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                             unitTarget->CastSpell(unitTarget, 54726, true);
                     }
                     return;
-                }					
+                }
                 case 58418:                                 // Portal to Orgrimmar
                 case 58420:                                 // Portal to Stormwind
                 {
@@ -5960,7 +5960,7 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                             unitTarget->CastSpell(unitTarget, 75957, true);
                     }
                     return;
-                }				
+                }
                 case 59317:                                 // Teleporting
                     if (!unitTarget || unitTarget->GetTypeId() != TYPEID_PLAYER)
                         return;
@@ -6120,11 +6120,11 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
         }
         case SPELLFAMILY_WARLOCK:
         {
-  case 6201: 
-        DoCreateItem(effIndex, 19005); 
-        break; 
-  case 693: 
-        DoCreateItem(effIndex, 5232); 
+  case 6201:
+        DoCreateItem(effIndex, 19005);
+        break;
+  case 693:
+        DoCreateItem(effIndex, 5232);
         break;
             if (m_spellInfo->Id == 77801) // Demon Soul
             {
@@ -6142,8 +6142,8 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                         m_caster->CastSpell(m_caster, 79463, true);
                     if (unitTarget->GetEntry() == 17252)          // Summoned Felguard
                         m_caster->CastSpell(m_caster, 79462, true);
-                }   
-            }  
+                }
+            }
             break;
         }
         case SPELLFAMILY_PALADIN:
@@ -6329,7 +6329,7 @@ void Spell::EffectAddComboPoints(SpellEffIndex /*effIndex*/)
         return;
 
 	Player* plr = m_caster->m_movedPlayer;
-    
+
    if (damage > 0)
         plr->AddComboPoints(unitTarget, damage, this);
     else
@@ -6348,7 +6348,7 @@ void Spell::EffectDuel(SpellEffIndex effIndex)
 {
     if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
         return;
-		
+
     if (!unitTarget || m_caster->GetTypeId() != TYPEID_PLAYER || unitTarget->GetTypeId() != TYPEID_PLAYER)
         return;
 
@@ -7008,7 +7008,7 @@ void Spell::EffectCharge(SpellEffIndex /*effIndex*/)
     // temp to try and stop the stair climbing agro...
     float angle = unitTarget->GetAngle(m_caster) - unitTarget->GetOrientation();
     Position pos;
-	
+
     unitTarget->GetContactPoint(m_caster, pos.m_positionX, pos.m_positionY, pos.m_positionZ);
     unitTarget->GetFirstCollisionPosition(pos, unitTarget->GetObjectSize(), angle);
 

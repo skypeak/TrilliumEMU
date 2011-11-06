@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -106,7 +106,7 @@ void BattlegroundDS::StartingEventOpenDoors()
         SpawnBGObject(i, getWaterFallTimer());
 
 	m_knockback = 5000;
-    m_knockbackCheck = true;		
+    m_knockbackCheck = true;
 }
 
 void BattlegroundDS::AddPlayer(Player *plr)
@@ -215,5 +215,5 @@ void BattlegroundDS::KnockBackPlayer(Unit *pPlayer, float angle, float horizonta
         ((Player*)pPlayer)->GetSession()->SendPacket(&data);
     }
     else
-        sLog->outError("The target of KnockBackPlayer must be a player !");	
+        sLog->outError("The target of KnockBackPlayer must be a player !");
 }

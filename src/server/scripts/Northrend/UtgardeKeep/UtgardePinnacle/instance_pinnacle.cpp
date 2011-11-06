@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -19,7 +19,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
- 
+
 #include "ScriptPCH.h"
 #include "utgarde_pinnacle.h"
 
@@ -110,8 +110,8 @@ public:
                 case 26686:    uiFerociousRhino = creature->GetGUID();                 break;
                 case 29281:    uiSvala = creature->GetGUID();                          break;
                 case 26688:    uiPalehoofOrb = creature->GetGUID();                    break;
-                case 27273:    
-                    (uiFlameBrazier_1 ? uiFlameBrazier_2 : uiFlameBrazier_1) =  creature->GetGUID();  
+                case 27273:
+                    (uiFlameBrazier_1 ? uiFlameBrazier_2 : uiFlameBrazier_1) =  creature->GetGUID();
                                                                                         break;
                 case 27327:    uiRitualTarget = creature->GetGUID();                   break;
             }

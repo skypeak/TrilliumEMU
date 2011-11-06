@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -20,7 +20,7 @@
 #include "ScriptPCH.h"
 #include "nexus.h"
 
-#define NUMBER_OF_ENCOUNTERS      5 
+#define NUMBER_OF_ENCOUNTERS      5
 
 enum Factions
 {
@@ -87,7 +87,7 @@ public:
                     if (GetData(DATA_ORMOROK_EVENT) == DONE)
                     {
                         creature->UpdateEntry(29911);
-                        creature->setFaction(35); 
+                        creature->setFaction(35);
                     }
                     else
                     {
@@ -170,7 +170,7 @@ public:
 
         void ConvertFrayer()
         {
-            if (!FrayerGUIDlist.empty())   
+            if (!FrayerGUIDlist.empty())
                 for (std::set<uint64>::const_iterator itr = FrayerGUIDlist.begin(); itr != FrayerGUIDlist.end(); ++itr)
                 {
                     Creature* pFrayer = instance->GetCreature(*itr);
@@ -189,10 +189,10 @@ public:
             switch(identifier)
             {
                 case DATA_COMMANDER:            return m_auiEncounter[0];
-                case DATA_MAGUS_TELESTRA_EVENT: return m_auiEncounter[1]; 
-                case DATA_ANOMALUS_EVENT:       return m_auiEncounter[2]; 
-                case DATA_ORMOROK_EVENT:        return m_auiEncounter[3]; 
-                case DATA_KERISTRASZA_EVENT:    return m_auiEncounter[4]; 
+                case DATA_MAGUS_TELESTRA_EVENT: return m_auiEncounter[1];
+                case DATA_ANOMALUS_EVENT:       return m_auiEncounter[2];
+                case DATA_ORMOROK_EVENT:        return m_auiEncounter[3];
+                case DATA_KERISTRASZA_EVENT:    return m_auiEncounter[4];
             }
             return 0;
         }
@@ -212,7 +212,7 @@ public:
                         if (Sphere)
                             Sphere->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_NOT_SELECTABLE);
                     }
-                    m_auiEncounter[1] = data; 
+                    m_auiEncounter[1] = data;
                     break;
                 }
                 case DATA_ANOMALUS_EVENT:
@@ -222,7 +222,7 @@ public:
                         if (GameObject *Sphere = instance->GetGameObject(AnomalusContainmentSphere))
                             Sphere->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_NOT_SELECTABLE);
                     }
-                    m_auiEncounter[2] = data; 
+                    m_auiEncounter[2] = data;
                     break;
                 }
                 case DATA_ORMOROK_EVENT:
@@ -236,7 +236,7 @@ public:
                     break;
                 }
                 case DATA_KERISTRASZA_EVENT:
-                    m_auiEncounter[4] = data; 
+                    m_auiEncounter[4] = data;
                     break;
             }
 

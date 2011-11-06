@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -253,7 +253,7 @@ struct ScriptedAI : public CreatureAI
 
 struct Scripted_NoMovementAI : public ScriptedAI
 {
-    Scripted_NoMovementAI(Creature* creature) : ScriptedAI(creature) 
+    Scripted_NoMovementAI(Creature* creature) : ScriptedAI(creature)
 	{
         SetImmuneToPushPullEffects(true);
     }
@@ -269,7 +269,7 @@ class BossAI : public ScriptedAI
         BossAI(Creature* creature, uint32 bossId);
         virtual ~BossAI() {}
 
-        uint32 inFightAggroCheck_Timer;        
+        uint32 inFightAggroCheck_Timer;
 		InstanceScript* const instance;
         BossBoundaryMap const* GetBoundary() const { return _boundary; }
 

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -92,7 +92,7 @@ public:
     struct npc_hourglassAI : public ScriptedAI
     {
         npc_hourglassAI(Creature* creature) : ScriptedAI(creature) { Reset(); }
-    
+
         uint64 uiWaveTimer;
         uint32 uiWaveCounter;
 
@@ -106,7 +106,7 @@ public:
         {
             pSummoned->AI()->AttackStart(me);
         }
-        
+
         void SummonWave()
         {
         switch(uiWaveCounter)
@@ -129,7 +129,7 @@ public:
                     break;
             }
         }
-    
+
         void UpdateAI(const uint32 uiDiff)
         {
             if (uiWaveTimer <= uiDiff)

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -329,7 +329,7 @@ void Unit::Update(uint32 p_time)
         m_damage_taken[0] = 0;
 
         DmgandHealDoneTimer = 1000;
-    }	
+    }
 
 	_UpdateSpells(p_time);
 
@@ -813,7 +813,7 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
 
         if (victim->GetTypeId() == TYPEID_PLAYER)
             victim->ToPlayer()->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_TOTAL_DAMAGE_RECEIVED, damage);
-			
+
 		// Maelstrom Weapon
         if (GetTypeId() == TYPEID_PLAYER)
         {
@@ -831,8 +831,8 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
                     if (roll_chance_f(30.0f))
                         this->CastSpell(this, 53817, true);
             }
-        }			
-			
+        }
+
         victim->ModifyHealth(- (int32)damage);
 
         if (damagetype == DIRECT_DAMAGE || damagetype == SPELL_DIRECT_DAMAGE)
@@ -1558,7 +1558,7 @@ uint32 Unit::CalcArmorReducedDamage(Unit* victim, const uint32 damage, SpellInfo
 {
     uint32 newdamage = 0;
     float armor = float(victim->GetArmor());
-	
+
     // decrease enemy armor effectiveness by SPELL_AURA_MOD_ARMOR_EFFECTIVENESS_FOR_CASTER
     int32 auraEffectivenessReduction = 0;
     AuraEffectList const & reductionAuras = victim->GetAuraEffectsByType(SPELL_AURA_MOD_ARMOR_EFFECTIVENESS_FOR_CASTER);
@@ -5779,7 +5779,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 case 56375:
                 {
                     if(!target)
-                        return false;				
+                        return false;
                     target->RemoveAurasByType(SPELL_AURA_PERIODIC_DAMAGE, 0, target->GetAura(32409)); // SW:D shall not be removed.
                     target->RemoveAurasByType(SPELL_AURA_PERIODIC_DAMAGE_PERCENT);
                     target->RemoveAurasByType(SPELL_AURA_PERIODIC_LEECH);
@@ -5885,7 +5885,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 case 64411:
                 {
                     if(!victim)
-                        return false;			
+                        return false;
                     basepoints0 = int32(CalculatePctN(damage, 15));
                     if (AuraEffect* aurEff = victim->GetAuraEffect(64413, 0, GetGUID()))
                     {
@@ -6186,7 +6186,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
             if (dummySpell->SpellIconID == 2820)
             {
                 if(!target)
-                    return false;			
+                    return false;
                 // Multiple effects stack, so let's try to find this aura.
                 int32 bonus = 0;
                 if (AuraEffect const* aurEff = target->GetAuraEffect(47753, 0))
@@ -6375,7 +6375,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 {
                     if(!target)
                         return false;
-						
+
                     // try to find spell Rip on the target
                     if (AuraEffect const* AurEff = target->GetAuraEffect(SPELL_AURA_PERIODIC_DAMAGE, SPELLFAMILY_DRUID, 0x00800000, 0x0, 0x0, GetGUID()))
                     {
@@ -6670,7 +6670,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                     if (procSpell->SpellFamilyFlags[2] & 0x200)
                     {
                         if(!victim)
-                            return false;					
+                            return false;
                         if (AuraEffect const* pEff = victim->GetAuraEffect(SPELL_AURA_PERIODIC_DUMMY, SPELLFAMILY_HUNTER, 0x0, 0x80000000, 0x0, GetGUID()))
                             basepoints0 = pEff->GetSpellInfo()->CalcPowerCost(this, SpellSchoolMask(pEff->GetSpellInfo()->SchoolMask)) * 4/10/3;
                     }
@@ -6876,7 +6876,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                         triggered_spell_id = 87173;
                         break;
                     }
-                }					
+                }
                 // Judgement of Light
                 case 20185:
                 {
@@ -7408,7 +7408,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 case 70817:
                 {
                     if(!target)
-                        return false;				
+                        return false;
                     // try to find spell Flame Shock on the target
                     if (AuraEffect const* aurEff = target->GetAuraEffect(SPELL_AURA_PERIODIC_DAMAGE, SPELLFAMILY_SHAMAN, 0x10000000, 0x0, 0x0, GetGUID()))
                     {
@@ -7909,7 +7909,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 {
                     if (!victim)
                         return false;
-						
+
                     triggered_spell_id = 54445;
                     target = this;
                     float addThreat = float(CalculatePctN(procSpell->Effects[0].CalcValue(this), triggerAmount));
@@ -8545,7 +8545,7 @@ bool Unit::HandleProcTriggerSpell(Unit* victim, uint32 damage, AuraEffect* trigg
                         if(GetTypeId() == TYPEID_PLAYER)
                             ToPlayer()->RemoveSpellCooldown(78674,true); // Remove cooldown of Starsurge
                         break;
-                    }					
+                    }
                     default:
                         break;
                 }
@@ -9004,7 +9004,7 @@ bool Unit::HandleProcTriggerSpell(Unit* victim, uint32 damage, AuraEffect* trigg
                 player->AddSpellCooldown(16459, 0, time(NULL) + cooldown);
             return true;
         }
-    }	
+    }
 
     // Blade Barrier
     if (auraSpellInfo->SpellFamilyName == SPELLFAMILY_DEATHKNIGHT && auraSpellInfo->SpellIconID == 85)
@@ -9064,7 +9064,7 @@ bool Unit::HandleProcTriggerSpell(Unit* victim, uint32 damage, AuraEffect* trigg
                     ToPlayer()->AddSpellCooldown(trigger_spell_id, 0, time(NULL) + 15);
                 }
             }
-            break;		
+            break;
         case 92184: // Lead Plating
         case 92233: // Tectonic Shift
         case 92355: // Turn of the Worm
@@ -11391,7 +11391,7 @@ uint32 Unit::SpellHealingBonus(Unit* victim, SpellInfo const* spellProto, uint32
     // no bonus for heal potions/bandages
     if (spellProto->SpellFamilyName == SPELLFAMILY_POTION)
         return healamount;
-		
+
     // and Warlock's Healthstones
     if (spellProto->SpellFamilyName == SPELLFAMILY_WARLOCK && (spellProto->SpellFamilyFlags[0] & 0x10000))
     {
@@ -14668,7 +14668,7 @@ void Unit::ProcDamageAndSpellfor (bool isVictim, Unit* pTarget, uint32 procFlag,
                 case SPELL_AURA_PROC_TRIGGER_DAMAGE:
                 {
                     if(!pTarget) //Crash: spell 49065 casted by GO
-                        return;                	
+                        return;
                     sLog->outDebug(LOG_FILTER_SPELLS_AURAS, "ProcDamageAndSpell: doing %u damage from spell id %u (triggered by %s aura of spell %u)", triggeredByAura->GetAmount() , spellInfo->Id, (isVictim?"a victim's":"an attacker's"), triggeredByAura->GetId());
                     SpellNonMeleeDamage damageInfo(this, pTarget, spellInfo->Id, spellInfo->SchoolMask);
                     uint32 damage = SpellDamageBonus(pTarget, spellInfo, triggeredByAura->GetAmount(), SPELL_DIRECT_DAMAGE);
@@ -17121,7 +17121,7 @@ uint32 Unit::GetModelForForm(ShapeshiftForm form)
                             return 33650;
                     }
                 }
-            }			
+            }
             // Based on Skin color
             else if (getRace() == RACE_TAUREN)
             {

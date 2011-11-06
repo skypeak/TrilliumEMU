@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 #include "ScriptPCH.h"
 #include "ulduar.h"
 #include "Unit.h"
@@ -57,7 +57,7 @@ enum Spells
     SPELL_SHOCK_BLAST                           = 63631,
     SPELL_EXPLOSION                             = 66351,
     SPELL_NAPALM_SHELL                          = 63666,
-    
+
     // VX-001
     SPELL_RAPID_BURST                           = 63382,
     SPELL_RAPID_BURST_LEFT_10                   = 63387,
@@ -70,7 +70,7 @@ enum Spells
     SPELL_SPINNING_UP                           = 63414,
     SPELL_HEAT_WAVE                             = 63677,
     SPELL_HAND_PULSE                            = 64348,
-    
+
     // Aerial Command Unit
     SPELL_PLASMA_BALL                           = 63689,
     SPELL_MAGNETIC_CORE                         = 64436,
@@ -79,7 +79,7 @@ enum Spells
     SPELL_MAGNETIC_FIELD                        = 64668,
     SPELL_HOVER                                 = 57764, // Set Hover position
     SPELL_BERSERK                               = 47008,
-    
+
     // Hard Mode
     SPELL_SELF_DESTRUCTION                      = 64610,
     SPELL_SELF_DESTRUCTION_VISUAL               = 64613,
@@ -107,7 +107,7 @@ enum Events
     EVENT_PLASMA_BLAST,
     EVENT_SHOCK_BLAST,
     EVENT_FLAME_SUPPRESSANT,
-    
+
     // VX-001
     EVENT_RAPID_BURST,
     EVENT_LASER_BARRAGE,
@@ -117,7 +117,7 @@ enum Events
     EVENT_HAND_PULSE,
     EVENT_FROST_BOMB,
     EVENT_FLAME_SUPPRESSANT_VX001,
-    
+
     // Aerial Command Unit
     EVENT_PLASMA_BALL,
     EVENT_REACTIVATE_AERIAL,
@@ -218,15 +218,15 @@ public:
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_ROCKET_STRIKE_DMG, true);
             me->SetReactState(REACT_PASSIVE);
         }
-        
+
         void DespawnCreatures(uint32 entry, float distance)
         {
             std::list<Creature*> creatures;
             GetCreatureListWithEntryInGrid(creatures, me, entry, distance);
-     
+
             if (creatures.empty())
                 return;
-     
+
             for (std::list<Creature*>::iterator iter = creatures.begin(); iter != creatures.end(); ++iter)
                 (*iter)->ForcedDespawn();
         }
@@ -321,12 +321,12 @@ public:
                 _phaseTimer = timer;
                 ++_step;
         }
-        
+
         void UpdateAI(uint32 const diff)
         {
             if (!UpdateVictim())
                 return;
-                
+
                 // prevent mimiron staying infight with leviathan introduced in rev #b40bf69
                 // TODO: find out why this happens
                 if (_checkTargetTimer < diff)
@@ -373,7 +373,7 @@ public:
                 }
                 else
                         _flameTimer -= diff;
-                
+
             // All sections need to die within 15 seconds, else they respawn
                 if (_checkBotAlive)
                     _botTimer = 0;
@@ -470,7 +470,7 @@ public:
                 else
                         _phaseTimer -= diff;
             }
-            
+
                 if (_phase == PHASE_VX001_ACTIVATION)
                 {
                     if (_phaseTimer <= diff)
@@ -552,7 +552,7 @@ public:
                 else
                         _phaseTimer -= diff;
             }
-            
+
                 if (_phase == PHASE_AERIAL_ACTIVATION)
                 {
                     if (_phaseTimer <= diff)
@@ -609,7 +609,7 @@ public:
                 else
                         _phaseTimer -= diff;
             }
-            
+
                 if (_phase == PHASE_V0L7R0N_ACTIVATION)
                 {
                     if (_phaseTimer <= diff)
@@ -673,7 +673,7 @@ public:
                         _phaseTimer -= diff;
             }
         }
-        
+
         uint32 GetData(uint32 type)
         {
             switch (type)
@@ -827,7 +827,7 @@ public:
                     me->SetSpeed(MOVE_RUN, 1.5f, true);
                     me->GetMotionMaster()->MovePoint(0, 2790.11f, 2595.83f, 364.32f);
                 }
-                
+
             if (phase == PHASE_LEVIATHAN_ASSEMBLED)
                 if (damage >= me->GetHealth())
                 {
@@ -856,18 +856,18 @@ public:
                 DoCast(me, SPELL_EMERGENCY_MODE, true);
                 events.ScheduleEvent(EVENT_FLAME_SUPPRESSANT, 60000, 0, PHASE_LEVIATHAN_SOLO);
             }
-            
+
             if (Creature *turret = CAST_CRE(me->GetVehicleKit()->GetPassenger(3)))
             {
                 turret->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_ATTACKABLE_1);
                 turret->SetReactState(REACT_AGGRESSIVE);
                 turret->AI()->DoZoneInCombat();
             }
-            
+
             events.ScheduleEvent(EVENT_PROXIMITY_MINE, 1000);
             events.ScheduleEvent(EVENT_PLASMA_BLAST, 10000, 0, PHASE_LEVIATHAN_SOLO);
         }
-        
+
         void DoAction(int32 const action)
         {
             switch(action)
@@ -938,7 +938,7 @@ public:
                     }
                 }
             }
-                        
+
             DoMeleeAttackIfReady();
         }
     };
@@ -951,7 +951,7 @@ public:
 
     struct boss_leviathan_mk_turretAI : public ScriptedAI
     {
-        boss_leviathan_mk_turretAI(Creature *c) : ScriptedAI(c) 
+        boss_leviathan_mk_turretAI(Creature *c) : ScriptedAI(c)
         {
             SetImmuneToPushPullEffects(true);
             me->SetReactState(REACT_PASSIVE);
@@ -991,7 +991,7 @@ public:
                 else
                     return NULL;
             }
-            
+
             void UpdateAI(uint32 const diff)
         {
             if(!UpdateVictim())
@@ -1038,7 +1038,7 @@ public:
            uiBoomTimer = 35000;
            Boom = false;
         }
-        
+
         uint32 uiBoomTimer;
         bool Boom;
 
@@ -1147,14 +1147,14 @@ public:
                 events.ScheduleEvent(EVENT_FROST_BOMB, 15000);
                 events.ScheduleEvent(EVENT_FLAME_SUPPRESSANT_VX001, 1000, 0, PHASE_VX001_SOLO);
             }
-                
+
             events.ScheduleEvent(EVENT_RAPID_BURST, 2500, 0, PHASE_VX001_SOLO);
             events.ScheduleEvent(EVENT_LASER_BARRAGE, urand(35000, 40000));
             events.ScheduleEvent(EVENT_ROCKET_STRIKE, 20000);
             events.ScheduleEvent(EVENT_HEAT_WAVE, urand(8000, 10000), 0, PHASE_VX001_SOLO);
             events.ScheduleEvent(EVENT_HAND_PULSE, 10000, 0, PHASE_VX001_ASSEMBLED);
         }
-        
+
         void DoAction(int32 const action)
         {
             switch(action)
@@ -1205,7 +1205,7 @@ public:
                     if (Creature* Mimiron = me->GetCreature(*me, instance->GetData64(TYPE_MIMIRON)))
                         Mimiron->AI()->DoAction(DO_ACTIVATE_AERIAL);
                 }
-                
+
             if (phase == PHASE_VX001_ASSEMBLED)
                 if (damage >= me->GetHealth())
                 {
@@ -1459,7 +1459,7 @@ public:
             events.ScheduleEvent(EVENT_PLASMA_BALL, 1000);
             events.ScheduleEvent(EVENT_SUMMON_BOTS, 10000, 0, PHASE_AERIAL_SOLO);
         }
-        
+
         void DoAction(const int32 action)
         {
             switch (action)
@@ -1559,7 +1559,7 @@ public:
                 }
             }
         }
-        
+
         void spawnAdd()
         {
             switch (spawnedAdds)
@@ -1583,19 +1583,19 @@ public:
             if(spawnedAdds > 2)
                 spawnedAdds = 0;
         }
-        
+
         void JustSummoned(Creature *summon)
         {
             summons.Summon(summon);
-            
+
             if (summon->GetEntry() == NPC_EMERGENCY_BOT)
                 return;
-                
+
             summon->AI()->DoZoneInCombat();
             if (MimironHardMode)
                 summon->CastSpell(summon, SPELL_EMERGENCY_MODE, true);
         }
-        
+
         void DamageTaken(Unit * /*who*/, uint32 &damage)
         {
             if (phase == PHASE_AERIAL_SOLO)
@@ -1615,7 +1615,7 @@ public:
                     if (Creature* Mimiron = me->GetCreature(*me, instance->GetData64(TYPE_MIMIRON)))
                         Mimiron->AI()->DoAction(DO_ACTIVATE_V0L7R0N);
                 }
-                
+
             if (phase == PHASE_AERIAL_ASSEMBLED)
                 if (damage >= me->GetHealth())
                 {
@@ -1690,7 +1690,7 @@ public:
 
             DoMeleeAttackIfReady();
         }
-        
+
             void SpellHit(Unit* /*caster*/, SpellInfo const* spell)
         {
             // Achievement Not-So-Friendly Fire
@@ -1864,7 +1864,7 @@ public:
                     break;
             }
         }
-        
+
             void JustSummoned(Creature* /*summon*/)
             {
                 if (Creature* mimiron = ObjectAccessor::GetCreature(*me, _instance ? _instance->GetData64(TYPE_MIMIRON) : 0))
@@ -1941,7 +1941,7 @@ public:
                     break;
             }
         }
-        
+
             void UpdateAI(uint32 const /*diff*/)
         {
             if (_instance && _instance->GetBossState(TYPE_MIMIRON) != IN_PROGRESS)

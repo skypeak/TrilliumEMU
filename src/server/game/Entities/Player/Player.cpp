@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -20,7 +20,7 @@
  */
 
 #include "gamePCH.h"
-#include "Object.h" 
+#include "Object.h"
 #include "Common.h"
 #include "Language.h"
 #include "DatabaseEnv.h"
@@ -1587,8 +1587,8 @@ void Player::Update(uint32 p_time)
     if (now > m_Save_Time)
     {
         SaveToDB();
-        m_Save_Time = now + 360;		
-	}	
+        m_Save_Time = now + 360;
+	}
     // check every second
     if (now > m_Last_tick + 1)
         UpdateSoulboundTradeItems();
@@ -1924,16 +1924,16 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
 
     *data << uint8(playerBytes >> 24);                    // Hair color
 	sLog->outDetail("Hair Color: %i", uint8(playerBytes >> 24));
-	
+
     *data << uint8(gender);                               // Gender
 	sLog->outDetail("Gender: %i", gender);
-	
+
     *data << uint8(level);                                // Level
 	sLog->outDetail("Level: %i", level);
 
     *data << uint32(zone);                                // Zone id
 	sLog->outDetail("Zone: %i", zone);
-	
+
     *data << uint32(petDisplayId);                        // Pet DisplayID
 	sLog->outDetail("Pet DisplayId: %i", petDisplayId);
 
@@ -1976,10 +1976,10 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
 
     *data << uint32(petFamily);                           // Pet Family
 	sLog->outDetail("Pet Family: %i", petFamily);
-	
+
     *data << uint8(playerBytes >> 16);                    // Hair style
 	sLog->outDetail("Hair Style %i", uint8(playerBytes >> 16));
-	
+
     *data << uint8(0);                                    // character order id (used for char list positioning)
 	sLog->outDetail("Character Order Id: %i", 0);
 
@@ -1994,13 +1994,13 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
         {
             *data << uint32(0);
 			sLog->outDetail("Not exist: %i", 0);
-			
+
             *data << uint32(0);
 			sLog->outDetail("Not exist: %i", 0);
-			
+
             *data << uint8(0);
 			sLog->outDetail("Not exist: %i", 0);
-			
+
             continue;
         }
 
@@ -2020,10 +2020,10 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
 
         *data << uint32(db2Item ? db2Item->DisplayId : proto->DisplayInfoID);
 		sLog->outDetail("Item DisplayId: %i", uint32(db2Item ? db2Item->DisplayId : proto->DisplayInfoID));
-		
+
         *data << uint32(enchant ? enchant->aura_id : 0);
 		sLog->outDetail("Aura Id: %i", uint32(enchant ? enchant->aura_id : 0));
-		
+
         *data << uint8(proto->InventoryType);
 		sLog->outDetail("Inventory Type: %i", uint8(proto->InventoryType));
     }
@@ -2033,10 +2033,10 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
     {
         *data << uint32(0); // displayid
 		sLog->outDetail("Bags (displayid): %i", 0);
-		
+
         *data << uint32(0); // enchant
 		sLog->outDetail("Bags (enchant): %i", 0);
-		
+
         *data << uint8(0); // invtype
 		sLog->outDetail("Bags (invtype): %i", 0);
     }
@@ -2049,17 +2049,17 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
         *data << uint8(guid >> 16); // + 298
         sLog->outDetail("Guid 3: %i", uint8(guid >> 16));
     }
-		
+
 
     *data << uint8(playerClass);                          // class
 	sLog->outDetail("Class: %i", playerClass);
 
     *data << fields[10].GetFloat();                       // x
 	sLog->outDetail("X: %f", fields[10].GetFloat());
-	
+
     *data << fields[11].GetFloat();                       // y
 	sLog->outDetail("Y: %f", fields[11].GetFloat());
-	
+
     *data << fields[12].GetFloat();                       // z
 	sLog->outDetail("Z: %f", fields[12].GetFloat());
 
@@ -2071,10 +2071,10 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
 
     *data << fields[1].GetString();                       // name
 	sLog->outDetail("Name: %s", fields[1].GetString());
-	
+
     *data << uint32(fields[9].GetUInt32());               // map
 	sLog->outDetail("Map: %i", fields[9].GetUInt32());
-	
+
     *data << uint32(petLevel);                            // pet level
 	sLog->outDetail("Pet level: %i", petLevel);
 
@@ -2091,7 +2091,7 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
     uint32 playerBytes2 = fields[6].GetUInt32();
     *data << uint8(playerBytes2 & 0xFF);                  // facial hair
 	sLog->outDetail("Facial Hair: %i", uint8(playerBytes2 & 0xFF));
-	
+
     *data << uint8(playerBytes);                          // skin
 	sLog->outDetail("Skin: %i", uint8(playerBytes));
 
@@ -2376,7 +2376,7 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
                 if (m_transport)
                     data << m_transport->GetEntry() << GetMapId();
 
-                GetSession()->SendPacket(&data);		
+                GetSession()->SendPacket(&data);
 
                 data.Initialize(SMSG_NEW_WORLD, (20));
                 if (m_transport)
@@ -2391,7 +2391,7 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
                     data << m_teleport_dest.GetOrientation();
 
                GetSession()->SendPacket(&data);
-                SendSavedInstances();				
+                SendSavedInstances();
             }
 
             // remove from old map now
@@ -2595,7 +2595,7 @@ void Player::RegenerateAll()
         }
 
         Regenerate(POWER_RAGE);
-        
+
         if (getClass() == CLASS_PALADIN)
             Regenerate(POWER_HOLY_POWER);
         if (getClass() == CLASS_DEATH_KNIGHT)
@@ -2677,7 +2677,7 @@ void Player::Regenerate(Powers power)
         default:
             break;
     }
-	
+
 
     // Mana regen calculated in Player::UpdateManaRegen()
     if (power != POWER_MANA)
@@ -5482,9 +5482,9 @@ void Player::DurabilityLoss(Item* item, double percent)
 
     if (!pMaxDurability)
         return;
-    
+
 	percent /= GetTotalAuraMultiplier(SPELL_AURA_MOD_DURABILITY_LOSS);
-	
+
     uint32 pDurabilityLoss = uint32(pMaxDurability*percent);
 
     if (pDurabilityLoss < 1)
@@ -6389,7 +6389,7 @@ void Player::UpdateWeaponSkill(WeaponAttackType attType)
         UpdateSkill(SKILL_UNARMED, weapon_skill_gain);
    else if (tmpitem && tmpitem->GetTemplate()->SubClass != ITEM_SUBCLASS_WEAPON_FISHING_POLE)
         UpdateSkill(tmpitem->GetSkill(), weapon_skill_gain);
-           
+
     UpdateAllCritPercentages();
 }
 
@@ -7609,7 +7609,7 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
                 sLog->outDebug(LOG_FILTER_SPELLS_AURAS, "Reactivate flight form %u", flightFormSpellId);
                 CastSpell(this, flightFormSpellId, true);
             }
-        }		
+        }
     }
 
     m_zoneUpdateId    = newZone;
@@ -7892,7 +7892,7 @@ void Player::_ApplyItemMods(Item *item, uint8 slot, bool apply)
 
     ApplyItemEquipSpell(item, apply);
     ApplyEnchantment(item, apply);
-	
+
     sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "_ApplyItemMods complete.");
 }
 
@@ -8659,7 +8659,7 @@ void Player::_RemoveAllItemMods()
                 _ApplyWeaponDependentAuraMods(m_items[i], WeaponAttackType(attacktype), false);
 
             _ApplyItemBonuses(proto, i, false);
-			
+
         }
     }
 
@@ -12509,9 +12509,9 @@ void Player::RemoveItem(uint8 bag, uint8 slot, bool update)
                             RecalculateRating(CR_ARMOR_PENETRATION);
                         default:
                             break;
-                    }				
+                    }
                 }
-				
+
             }
 
             m_items[slot] = NULL;
@@ -12617,7 +12617,7 @@ void Player::DestroyItem(uint8 bag, uint8 slot, bool update)
                     RemoveItemsSetItem(this, pProto);
 
                 _ApplyItemMods(pItem, slot, false);
-							
+
             }
 
             if (slot < EQUIPMENT_SLOT_END)
@@ -13724,12 +13724,12 @@ void Player::ApplyEnchantment(Item *item, EnchantmentSlot slot, bool apply, bool
 
     if (slot >= MAX_ENCHANTMENT_SLOT)
         return;
-		
+
     if (slot == REFORGE_ENCHANTMENT_SLOT)
     {
         ApplyItemReforge(item, apply);
         return;
-    }		
+    }
 
     uint32 enchant_id = item->GetEnchantmentId(slot);
     if (!enchant_id)
@@ -14601,12 +14601,12 @@ void Player::OnGossipSelect(WorldObject* source, uint32 gossipListId, uint32 men
         }
         case GOSSIP_OPTION_REFORGE:
             GetSession()->SendShowReforge(guid);
-            break;		
+            break;
     }
 
     if (nocost == false)
         ModifyMoney(-int32(cost));
-	
+
 }
 
 uint32 Player::GetGossipTextId(WorldObject* source)
@@ -16832,7 +16832,7 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder, WorldSession *sessi
     Field* fields = result->Fetch();
 
     uint32 dbAccountId = fields[1].GetUInt32();
-	
+
 	uint8 pClass = fields[4].GetUInt8();
 
     Player* player = NULL;
@@ -18281,7 +18281,7 @@ void Player::_LoadConquestPointsWeekCap(PreparedQueryResult result)
             uint16 source = fields[0].GetUInt16();
             if (source != CP_SOURCE_ARENA && source != CP_SOURCE_RATED_BG)
                 continue;
-            
+
             m_maxWeekRating[source] = fields[1].GetUInt16();
             m_conquestPointsWeekCap[source] = fields[2].GetUInt16();
 
@@ -18892,7 +18892,7 @@ void Player::SaveToDB()
     _SaveWeeklyQuestStatus(trans);
     _SaveTalents(trans);
     _SaveSpells(trans);
-    _SaveTalentBranchSpecs(trans);	
+    _SaveTalentBranchSpecs(trans);
     _SaveSpellCooldowns(trans);
     _SaveActions(trans);
     _SaveAuras(trans);
@@ -22440,14 +22440,14 @@ void Player::ResetCurrencyWeekCap()
     CharacterDatabase.PExecute("UPDATE character_cp_weekcap SET weekCap = '%u' WHERE `source`=0 AND `maxWeekRating` < 1500", PLAYER_DEFAULT_CONQUEST_POINTS_WEEK_CAP);
     CharacterDatabase.Execute("UPDATE character_cp_weekcap SET weekCap =3000 WHERE `source`=0 AND `maxWeekRating` > 3000");
     CharacterDatabase.Execute("UPDATE character_cp_weekcap SET maxWeekRating=0");
-    
+
     if (m_maxWeekRating[CP_SOURCE_ARENA] <= 1500)
         m_conquestPointsWeekCap[CP_SOURCE_ARENA] = PLAYER_DEFAULT_CONQUEST_POINTS_WEEK_CAP;
     else if (m_maxWeekRating[CP_SOURCE_ARENA] > 3000)
         m_conquestPointsWeekCap[CP_SOURCE_ARENA] = 3000;
     else
         m_conquestPointsWeekCap[CP_SOURCE_ARENA] = uint16(1.4326 * (1511.26 / (1 + 1639.28 / exp(0.00412 * m_maxWeekRating[CP_SOURCE_ARENA]))) + 857.15);
-    
+
     m_maxWeekRating[CP_SOURCE_ARENA] = 0; // player must win at least 1 arena for week to change m_conquestPointsWeekCap
 
     _SaveConquestPointsWeekCap();
@@ -23828,12 +23828,12 @@ uint32 Player::CalculateTalentsPoints() const
 bool Player::IsKnowHowFlyIn(uint32 mapid, uint32 zone, uint32 spellId) const
 {
     // Eye of the Storm is always allowed in Throne of the Four Winds
-    if (zone == 5638 && spellId == 82724) 
+    if (zone == 5638 && spellId == 82724)
         return true;
 
 	// continent checked in SpellMgr::GetSpellAllowedInLocationError at cast and area update
     uint32 v_map = GetVirtualMapForMapAndZone(mapid, zone);
-    return (v_map != 571 || HasSpell(54197)) && (v_map != 0 || HasSpell(90267)); // Cold Weather Flying		
+    return (v_map != 571 || HasSpell(54197)) && (v_map != 0 || HasSpell(90267)); // Cold Weather Flying
 
     // continent checked in SpellInfo::CheckLocation at cast and area update
     // uint32 v_map = GetVirtualMapForMapAndZone(mapid, zone);
@@ -23854,7 +23854,7 @@ bool Player::IsKnowHowFlyIn(uint32 mapid, uint32 zone, uint32 spellId) const
         return HasSpell(90267); // Flight Master's License
     case 571: // Northrend
         return HasSpell(54197); // Cold Weather Flying
-    case 530: // Outland		
+    case 530: // Outland
         return true;
     }
     return false;

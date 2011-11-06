@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -110,7 +110,7 @@ enum Achievments
     ACHIEVMENT_ONE_LIGHTS_IN_THE_DARKNESS_25    = 3163,
     ACHIEVMENT_ALONE_IN_THE_DARKNESS_25         = 3164,
 
-    // Realm First - 0 Keeper - 25 
+    // Realm First - 0 Keeper - 25
     ACHIEVMENT_REALM_FIRST_DEATHS_DEMISE        = 3117,
 };
 
@@ -213,7 +213,7 @@ enum Spells
     // Keeper Freya
     SPELL_RESILIENCE_OF_NATURE                  = 62670,
     SPELL_SANITY_WELL                           = 64170, // Send Script Effect ... Scripted in Keeper Script (Summon)
-    SPELL_SANITY_WELL_OPTIC                     = 63288, // Optical Effect ... Green Light 
+    SPELL_SANITY_WELL_OPTIC                     = 63288, // Optical Effect ... Green Light
     SPELL_SANITY_WELL_DEBUFF                    = 64169, // Damage Debuff if you stand in the well
     // Keeper Thorim
     SPELL_FURY_OF_THE_STORM                     = 62702,
@@ -241,7 +241,7 @@ enum Spells
     SPELL_SARAS_FERVOR                          = 63138, // On Player
     SPELL_SARAS_BLESSING                        = 63134, // On Player
     SPELL_SARAS_ANGER                           = 63147, // On "Enemy"
-    //  Guardians of Yogg-Saron 
+    //  Guardians of Yogg-Saron
     SPELL_DOMINATE_MIND                         = 63042, // Removed by blizz, Needs Sanity Scripting
     SPELL_DARK_VOLLEY                           = 63038, // Needs Sanity Scripting
     SPELL_SHADOW_NOVA                           = 65209, // On Death
@@ -265,9 +265,9 @@ enum Spells
     //  Crusher Tentacle
     SPELL_DIMISH_POWER                          = 64145, // Aura around Caster
     SPELL_FOCUS_ANGER                           = 57688, // Trigger 57689
-    SPELL_CRUSH                                 = 64146, 
+    SPELL_CRUSH                                 = 64146,
     //  Corruptor Tentacle
-    SPELL_DRAINING_POISON                       = 64152, 
+    SPELL_DRAINING_POISON                       = 64152,
     SPELL_BLACK_PLAGUE                          = 64153, // Trigger 64155
     SPELL_APATHY                                = 64156,
     SPELL_CURSE_OF_DOOM                         = 64157,
@@ -288,7 +288,7 @@ enum Spells
     SPELL_INDUCE_MADNESS                        = 64059,
     SPELL_SHATTERED_ILLUSIONS                   = 64173,
     SPELL_BRAIN_HURT_VISUAL                     = 64361,
-    //  Mind Portal 
+    //  Mind Portal
     SPELL_TELEPORT                              = 64027, // Not Used
     SPELL_ILLUSION_ROOM                         = 63988, // Must be removed if not in Room
     //  Lauthing Skull
@@ -340,14 +340,14 @@ enum BrainEventPhase
     PORTAL_PHASE_BRAIN_NONE = 3
 };
 
-const Position InnerBrainLocation[3] = 
+const Position InnerBrainLocation[3] =
 {
     {1944.87f,  37.22f, 239.7f, (0.66f*M_PI)}, //King Lliane
     {2045.97f, -25.45f, 239.8f, 0           }, //Dragon Soul
     {1953.41f, -73.73f, 240.0f, (1.33f*M_PI)}  //Lich King
 };
 
-const Position BrainPortalLocation[10] = 
+const Position BrainPortalLocation[10] =
 {
     {1970.48f,   -9.75f, 325.5f, 0},
     {1992.76f,  -10.21f, 325.5f, 0},
@@ -361,7 +361,7 @@ const Position BrainPortalLocation[10] =
     {1961.37f,  -19.54f, 325.5f, 0}
 };
 
-const Position KingLlaneTentacleLocation[CONSTANT_MAX_LLIANE_TENTACLE_SPAWNS] = 
+const Position KingLlaneTentacleLocation[CONSTANT_MAX_LLIANE_TENTACLE_SPAWNS] =
 {
     {1949.82f,   50.77f, 239.70f, (0.8f*M_PI)},
     {1955.24f,   72.08f, 239.70f, (1.04f*M_PI)},
@@ -373,7 +373,7 @@ const Position KingLlaneTentacleLocation[CONSTANT_MAX_LLIANE_TENTACLE_SPAWNS] =
     {1931.01f,   39.85f, 239.70f, (0.55f*M_PI)},
 };
 
-const Position DragonSoulTentacleLocation[CONSTANT_MAX_DRAGONSOUL_TENTACLE_SPAWNS] = 
+const Position DragonSoulTentacleLocation[CONSTANT_MAX_DRAGONSOUL_TENTACLE_SPAWNS] =
 {
     // ENTRY_RUBY_CONSORT
     {2061.44f,  -11.83f, 239.80f, 0},
@@ -389,7 +389,7 @@ const Position DragonSoulTentacleLocation[CONSTANT_MAX_DRAGONSOUL_TENTACLE_SPAWN
     {2109.06f,   22.69f, 239.80f, (1.42f*M_PI)}
 };
 
-const Position LichKingTentacleLocation[CONSTANT_MAX_LICHKING_TENTACLE_SPAWNS] = 
+const Position LichKingTentacleLocation[CONSTANT_MAX_LICHKING_TENTACLE_SPAWNS] =
 {
     {1944.20f,  -136.72f, 240.00f, (1.35f*M_PI)},
     {1950.06f,  -139.36f, 240.00f, (1.35f*M_PI)},
@@ -407,14 +407,14 @@ const Position LichKingTentacleLocation[CONSTANT_MAX_LICHKING_TENTACLE_SPAWNS] =
 const Position BrainLocation = {1980.01f, -25.36f, 260.00f, M_PI};
 const Position SaraLocation = {1980.28f, -25.58f, 325.00f, M_PI};
 
-const Position InnerBrainTeleportLocation[3] = 
+const Position InnerBrainTeleportLocation[3] =
 {
     {2001.40f, -59.66f, 245.07f, 0},
     {1941.61f, -25.88f, 244.98f, 0},
     {2001.18f,  9.409f, 245.24f, 0}
 };
 
-const Position KeeperSpawnLocation[4] = 
+const Position KeeperSpawnLocation[4] =
 {
     {1939.15f,  42.47f, 338.46f, 1.7f*M_PI}, // Mimiron
     {2037.09f,  25.43f, 338.46f, 1.3f*M_PI}, // Freya
@@ -422,30 +422,30 @@ const Position KeeperSpawnLocation[4] =
     {1939.94f, -90.49f, 338.46f, 0.3f*M_PI} // Hodir
 };
 
-const Position FreyaSanityWellLocation[5] = 
+const Position FreyaSanityWellLocation[5] =
 {
-    {1901.21f, -48.69f, 332.00f, 0}, 
+    {1901.21f, -48.69f, 332.00f, 0},
     {1901.90f,  -2.78f, 332.30f, 0},
     {1993.58f,  45.56f, 332.00f, 0},
     {1985.87f, -91.10f, 330.20f, 0},
     {2040.12f, -39.16f, 329.00f, 0},
 };
 
-const Position KingLlaneSkullLocation[3] = 
+const Position KingLlaneSkullLocation[3] =
 {
     {1929.41f,  45.27f, 239.70f, 0},
     {1902.31f,  72.53f, 239.70f, 0},
     {1925.10f,  91.52f, 239.70f, 0}
 };
 
-const Position LichkingSkullLocation[3] = 
+const Position LichkingSkullLocation[3] =
 {
     {1955.12f, -111.96f,  240.00f, 0},
     {1919.55f, -131.94f,  240.00f, 0},
     {1921.03f,  -93.46f,  240.00f, 0}
 };
 
-const Position DragonSoulSkullLocation[4] = 
+const Position DragonSoulSkullLocation[4] =
 {
     {2115.89f,   4.63f,  239.80f, 0},
     {2080.65f,  37.47f,  244.3f, 0},
@@ -1221,7 +1221,7 @@ public:
             case ACTION_PORTAL_TO_MADNESS_LICHKING:
                 tempAction = ACTION_PORTAL_TO_MADNESS_STORMWIND;
                 break;
-            default: 
+            default:
                 tempAction = RAND(ACTION_PORTAL_TO_MADNESS_STORMWIND,ACTION_PORTAL_TO_MADNESS_DRAGON,ACTION_PORTAL_TO_MADNESS_LICHKING);
                 break;
             }
@@ -1666,7 +1666,7 @@ public:
 
     struct npc_ominous_cloudAI : public ScriptedAI
     {
-        npc_ominous_cloudAI(Creature *c) : ScriptedAI(c) 
+        npc_ominous_cloudAI(Creature *c) : ScriptedAI(c)
         {
             SetImmuneToPushPullEffects(true);
             m_pInstance = c->GetInstanceScript();
@@ -2436,7 +2436,7 @@ public:
 
         bool summoning;
         bool summoned;
-        
+
         void AttackStart(Unit *attacker) {}
 
         void Reset()
@@ -2545,8 +2545,8 @@ public:
                     if(!me->HasAura(SPELL_HODIRS_PROTECTIVE_GAZE))
                         uiSecondarySpell_Timer -= diff;
             }else uiSecondarySpell_Timer -= diff;
-        } 
-        } 
+        }
+        }
     };
 };
 
@@ -2644,7 +2644,7 @@ public:
         {
             DoCast(SPELL_LS_LUNATIC_GAZE);
         }
-        
+
         void SpellHitTarget(Unit* target, const SpellInfo* spell)
         {
             if(!m_pInstance) return;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -529,10 +529,10 @@ public:
                         pTrash->SetReactState(REACT_AGGRESSIVE);
                     }
                     if (Creature* pTrash = me->SummonCreature(NPC_ARGENT_MONK,SpawnPosition))
-                    {    
+                    {
                         pTrash->AI()->SetData(i,0);
                         pTrash->SetReactState(REACT_AGGRESSIVE);
-                    }       
+                    }
                     if (Creature* pTrash = me->SummonCreature(NPC_PRIESTESS,SpawnPosition))
                     {
                         pTrash->AI()->SetData(i,0);
@@ -628,7 +628,7 @@ public:
                 {
                     if (player->HasUnitMovementFlag(MOVEMENTFLAG_ONTRANSPORT) && !player->isGameMaster())
                     {
-                        Creature* pCreature = player->GetVehicleBase()->ToCreature();  
+                        Creature* pCreature = player->GetVehicleBase()->ToCreature();
 
                         if (pCreature)
                         {
@@ -649,9 +649,9 @@ public:
                         player->SetInCombatWith(pTemp);
                         pTemp->AddThreat(player, 0.0f);
                     }
-                    
+
                     if (player->isGameMaster())
-                        continue;                   
+                        continue;
                 }
             }
         }

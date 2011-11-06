@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -1681,7 +1681,7 @@ class npc_rejek_first_blood : public CreatureScript
 
             uint32 uiFlipAttack_Timer;
             uint32 uiCharge_Timer;
-            
+
             bool Frenzied;
 
             void Reset()
@@ -1790,14 +1790,14 @@ public:
         void SpellHitTarget(Unit* target,SpellInfo const* spell)
         {
             if(target == me)
-                return;       
-        
+                return;
+
             if(spell->Id == SPELL_DEVOUR_WIND)
             {
                 if(Player* player = me->GetCharmerOrOwnerPlayerOrPlayerItself())
                 {
                     player->KilledMonsterCredit(29009, 0);
-                    me->UpdateEntry(NPC_HAIPHOON_AIR);                    
+                    me->UpdateEntry(NPC_HAIPHOON_AIR);
                     player->VehicleSpellInitialize();
                     me->setFaction(player->getFaction());
                 }
@@ -1807,7 +1807,7 @@ public:
             {
                 if(Player* player = me->GetCharmerOrOwnerPlayerOrPlayerItself())
                 {
-                    player->KilledMonsterCredit(29008, 0);                    
+                    player->KilledMonsterCredit(29008, 0);
                     me->UpdateEntry(NPC_HAIPHOON_WATER);
                     player->VehicleSpellInitialize();
                     me->setFaction(player->getFaction());
@@ -2048,8 +2048,8 @@ void AddSC_sholazar_basin()
     new go_brew_event();
     new npc_stormwatcher();
     new npc_rejek_first_blood();
-    new vehicle_haiphoon();	
+    new vehicle_haiphoon();
     new npc_captive_croco_gossip();
     new npc_captive_croco_vehicle();
-    new npc_harkek_gossip();	
+    new npc_harkek_gossip();
 }

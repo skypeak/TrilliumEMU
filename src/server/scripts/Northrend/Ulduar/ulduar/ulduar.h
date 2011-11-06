@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -43,9 +43,9 @@ enum UlduarTypes
     TYPE_SARA,
     TYPE_BRAIN_DOOR_1,
     TYPE_BRAIN_DOOR_2,
-    TYPE_BRAIN_DOOR_3,	
+    TYPE_BRAIN_DOOR_3,
     DATA_KEEPER_SUPPORT_YOGG,
-    
+
     // Assembly of Iorn
     DATA_STEELBREAKER,
     DATA_MOLGEIM,
@@ -75,7 +75,7 @@ enum UlduarTypes
     DATA_RUNIC_DOOR,
     DATA_STONE_DOOR,
     DATA_HODIR_RARE_CHEST,
-	
+
     DATA_CALL_TRAM,
     // Mimiron
     DATA_LEVIATHAN_MK_II,
@@ -85,7 +85,7 @@ enum UlduarTypes
     DATA_MAGNETIC_CORE,
 
     // Pre YoggSaron
-    DATA_ADD_HELP_FLAG,	
+    DATA_ADD_HELP_FLAG,
 };
 
 enum UlduarNPCs
@@ -288,7 +288,7 @@ enum UlduarBossDeadFlags
     DEAD_XT002                          = 0x0008,
     DEAD_ASSEMBLY                       = 0x0010,
     DEAD_KOLOGARN                       = 0x0020,
-    DEAD_AURIAYA                        = 0x0040, 
+    DEAD_AURIAYA                        = 0x0040,
     DEAD_HODIR                          = 0x0080,
     DEAD_THORIM                         = 0x0100,
     DEAD_FREYA                          = 0x0200,

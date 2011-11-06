@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -496,7 +496,7 @@ void WorldSession::HandleLeaveBattlefieldOpcode(WorldPacket& recv_data)
     // don't allow to leave arenas before finishing (just to difficult farming)
     if (Battleground* bg = _player->GetBattleground())
         if (bg->isArena() && bg->GetStatus() != STATUS_WAIT_LEAVE)
-            return;		
+            return;
 
     _player->LeaveBattleground();
 }

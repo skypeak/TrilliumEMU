@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -67,9 +67,9 @@ enum SpellFamilyFlag
     SPELLFAMILYFLAG_WARRIOR_SLAM            = 0x00200000,
     SPELLFAMILYFLAG_WARRIOR_EXECUTE         = 0x20000000,
     SPELLFAMILYFLAG_WARRIOR_CONCUSSION_BLOW = 0x04000000,
-	
+
     // Mage
-    SPELLFAMILYFLAG1_MAGE_CONEOFCOLD        = 0x00000200,	
+    SPELLFAMILYFLAG1_MAGE_CONEOFCOLD        = 0x00000200,
 
     // Warlock
     SPELLFAMILYFLAG_WARLOCK_LIFETAP         = 0x00040000,

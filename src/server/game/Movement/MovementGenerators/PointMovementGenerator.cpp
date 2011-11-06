@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
 
  *
@@ -60,7 +60,7 @@ bool PointMovementGenerator<T>::Update(T &unit, const uint32 diff)
         return false;
     }
     else if (!unit.HasUnitState(UNIT_STAT_MOVE) && !unit.HasUnitState(UNIT_STAT_JUMPING))
-        i_destinationHolder.StartTravel(traveller);	
+        i_destinationHolder.StartTravel(traveller);
 
     return true;
 }

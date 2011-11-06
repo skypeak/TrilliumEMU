@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -23,7 +23,7 @@
 
 enum Spells
 {
-    //Auriaya 
+    //Auriaya
     SPELL_TERRIFYING_SCREECH                    = 64386,
     SPELL_SENTINEL_BLAST_10                     = 64389,
     SPELL_SENTINEL_BLAST_25                     = 64678,
@@ -281,7 +281,7 @@ public:
 
             DoMeleeAttackIfReady();
         }
-        
+
         private:
             uint32 _feralRushTimer;
             uint32 _feralPounceTimer;

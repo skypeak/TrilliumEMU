@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -1349,9 +1349,9 @@ public:
                 return;
             DoScriptText(SAY_DEATH, me);
             m_pInstance->SetData(TYPE_FROST_GENERAL, DONE);
-            
+
             me->SummonCreature(BOSS_LICH_KING, 5564.25f, 2274.69f, 733.01f, 3.93f, TEMPSUMMON_DEAD_DESPAWN);
-            
+
             if(m_pInstance->GetData(DATA_TEAM_IN_INSTANCE)==ALLIANCE)
                 me->SummonCreature(NPC_JAINA_OUTRO, 5556.27f, 2266.28f, 733.01f, 0.8f, TEMPSUMMON_DEAD_DESPAWN);
             else

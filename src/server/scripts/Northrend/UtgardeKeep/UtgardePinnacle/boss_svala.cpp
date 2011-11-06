@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -122,7 +122,7 @@ public:
     struct boss_svalaAI : public ScriptedAI
     {
         uint64 uiDoodadMirror;
-    
+
         boss_svalaAI(Creature* c) : ScriptedAI(c)
         {
             pInstance = c->GetInstanceScript();
@@ -153,7 +153,7 @@ public:
                 {
                 pInstance->SetData(DATA_SVALA_SORROWGRAVE_EVENT, NOT_STARTED);
                 }
-                else 
+                else
                     Phase = FINISHED;
 
             uiDoodadMirror = pInstance? pInstance->GetData64(DATA_DOODAD_UTGARDE_MIRROR_FX01) : NULL;
@@ -177,7 +177,7 @@ public:
                     if (GameObject* go = GameObject::GetGameObject(*me, uiDoodadMirror))
                         go->Use(me);
                 }
-            
+
             }
         }
 
@@ -290,7 +290,7 @@ public:
         }
 
         // called by svala sorrowgrave to set guid of victim
-        void SetGUID(const uint64 &guid, int32 id) 
+        void SetGUID(const uint64 &guid, int32 id)
         {
             if (Unit* victim = me->GetUnit(*me, guid))
             {
@@ -320,7 +320,7 @@ public:
 
         bool bFlames;
         bool bMove;
-    
+
         uint64 uiFlameBrazier_1;
         uint64 uiFlameBrazier_2;
         uint64 uiRitualTarget;
@@ -330,7 +330,7 @@ public:
         uint32 uiSacrificeTimer;
         uint32 uiMoveTimer;
         uint32 uiHealthAmountModifier;
-    
+
         uint64 uiDoodadMirror;
 
         CombatPhase Phase;
@@ -377,7 +377,7 @@ public:
 
             if (pInstance)
                 pInstance->SetData(DATA_SVALA_SORROWGRAVE_EVENT, IN_PROGRESS);
-            
+
             if (GameObject* go = GameObject::GetGameObject(*me, uiDoodadMirror))
                 go->ResetDoorOrButton();
         }
@@ -392,7 +392,7 @@ public:
             summons.Despawn(summon);
         }
 
-        void SpellHitTarget(Unit* target, const SpellInfo *spell) 
+        void SpellHitTarget(Unit* target, const SpellInfo *spell)
         {
             if (spell->Id == SPELL_RITUAL_STRIKE_DOT)
                 if (IsHeroic())
@@ -400,7 +400,7 @@ public:
                 else
                     target->RemoveAurasDueToSpell(SPELL_RITUAL_STRIKE_DOT);
         }
-    
+
         void KilledUnit(Unit* who)
         {
             DoScriptText(RAND(SAY_SLAY_1, SAY_SLAY_2, SAY_SLAY_3), me);
@@ -445,7 +445,7 @@ public:
 
                         if (uiFlamesCount < 3)
                         {
-                            if (Creature* pBrazier = Creature::GetCreature(*me, RAND(uiFlameBrazier_1, uiFlameBrazier_2))) 
+                            if (Creature* pBrazier = Creature::GetCreature(*me, RAND(uiFlameBrazier_1, uiFlameBrazier_2)))
                             {
                                 if (IsHeroic())   // find correct spell
                                 {
@@ -459,7 +459,7 @@ public:
                             ++uiFlamesCount;
                         }
                         else
-                        { 
+                        {
                             bFlames = false;
                         uiCallFlamesTimer = urand(8 * IN_MILLISECONDS, 12 * IN_MILLISECONDS);
                             uiFlamesCount = 0;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -236,7 +236,7 @@ public:
             return return_value;
         }
 
-        void OnPlayerKilled(Player* /*player*/) 
+        void OnPlayerKilled(Player* /*player*/)
         {
             for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             {
@@ -298,7 +298,7 @@ public:
                 case ACHIEVEMENT_CRITERIA_KILL_WITHOUT_DEATHS_ALGALON_25:
                     return !(uiAlgalonKillCount);
             }
-           
+
             // Yogg-Saron
             switch (criteria_id)
             {
@@ -603,7 +603,7 @@ public:
                 case GO_YOGGBRAIN_DOOR_3:
                     uiYoggSaronBrainDoor3GUID = go->GetGUID();
                     HandleGameObject(NULL, false, go);
-                    break;					
+                    break;
                 case GO_MOLE_MACHINE:
                     if (GetBossState(TYPE_RAZORSCALE) == IN_PROGRESS)
                         go->SetGoState(GO_STATE_ACTIVE);
@@ -688,7 +688,7 @@ public:
         {
             if (!InstanceScript::SetBossState(type, state))
                 return false;
-            
+
             if(uiEncounter[type] != DONE)
                 uiEncounter[type] = state;
 
@@ -735,7 +735,7 @@ public:
                     HandleGameObject(uiYoggSaronDoorGUID,false);
                 else
                     HandleGameObject(uiYoggSaronDoorGUID,true);
-                    break;					
+                    break;
                 case TYPE_KOLOGARN:
                     if (state == DONE)
                     {

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -135,12 +135,12 @@ int Master::Run()
     sLog->outString("##     ## ########  #####    ##       ##     ## ########  ######   ");
     sLog->outString("######### ##   ##   ##  ##   ##       ##     ## ##   ##   ##       ");
     sLog->outString("##     ## ##    ##  ##   ##  ##    ## ##     ## ##    ##  ##       ");
-    sLog->outString("##     ## ##     ## ##    ##  ######   #######  ##     ## ######## ");                                   
+    sLog->outString("##     ## ##     ## ##    ##  ######   #######  ##     ## ######## ");
 	sLog->outString(" ");
 	sLog->outString("World of Warcraft: Cataclysm Emulator Framework");
 	sLog->outString("Arkania Community 2011 (c) ");
 	sLog->outString("Website: http://arkania.net ");
-                                                                                              
+
 #ifdef USE_SFMT_FOR_RNG
     sLog->outString("\n");
     sLog->outString("SFMT has been enabled as the random number generator, if worldserver");

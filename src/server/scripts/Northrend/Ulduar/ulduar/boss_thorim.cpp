@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -312,9 +312,9 @@ public:
 
             if (Wipe)
                 DoScriptText(SAY_WIPE, me);
-            
+
             _Reset();
-        
+
             me->SetReactState(REACT_PASSIVE);
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE | UNIT_FLAG_NON_ATTACKABLE);
             Wipe = false;
@@ -353,7 +353,7 @@ public:
             me->setFaction(35);
             me->ForcedDespawn(7000);
             EnterEvadeMode();
-        
+
             if (instance)
             {
                 // Kill credit
@@ -375,11 +375,11 @@ public:
         {
             DoScriptText(SAY_AGGRO_1, me);
             _EnterCombat();
-        
+
             // Spawn Thunder Orbs
             for (uint8 n = 0; n < 7; ++n)
                 me->SummonCreature(33378, PosOrbs[n], TEMPSUMMON_CORPSE_DESPAWN);
-        
+
             Wipe = true;
             EncounterTime = 0;
             phase = PHASE_1;
@@ -393,7 +393,7 @@ public:
 
             if (Creature* runic = me->GetCreature(*me, instance->GetData64(DATA_RUNIC_COLOSSUS)))
                 runic->AI()->DoAction(ACTION_RUNIC_SMASH);
-            
+
             if (GameObject* go = me->FindNearestGameObject(GO_LEVER, 500))
                 go->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_NOT_SELECTABLE);
         }
@@ -402,20 +402,20 @@ public:
         {
             if (!UpdateVictim())
                 return;
-        
+
             if (phase == PHASE_2 && !IN_ARENA(me))
             {
                 EnterEvadeMode();
                 return;
             }
-            
+
             events.Update(diff);
             _DoAggroPulse(diff);
             EncounterTime += diff;
 
             if (me->HasUnitState(UNIT_STAT_CASTING))
                 return;
-            
+
             if (phase == PHASE_1)
             {
                 while (uint32 eventId = events.ExecuteEvent())
@@ -482,7 +482,7 @@ public:
                     }
                 }
             }
-                    
+
             DoMeleeAttackIfReady();
         }
 
@@ -501,7 +501,7 @@ public:
                     ++PreAddsCount;
                     break;
             }
-        
+
             if (PreAddsCount >= 6 && !Wipe)
             {
                 // Event starts
@@ -510,7 +510,7 @@ public:
                 DoZoneInCombat();
             }
         }
-    
+
         void JustSummoned(Creature* summon)
         {
             summons.Summon(summon);
@@ -553,7 +553,7 @@ public:
             if(spawnedAdds > 1)
                 spawnedAdds = 0;
             }
-        
+
         void DamageTaken(Unit* attacker, uint32 &damage)
         {
             if (damage >= me->GetHealth())
@@ -645,7 +645,7 @@ public:
         {
             if (!UpdateVictim() || me->HasUnitState(UNIT_STAT_CASTING))
                 return;
-            
+
             if (PrimaryTimer <= diff)
             {
                 Unit* target = NULL;
@@ -665,7 +665,7 @@ public:
             }
             }
             else PrimaryTimer -= diff;
-        
+
             if (SecondaryTimer <= diff)
             {
                 Unit* target = NULL;
@@ -708,7 +708,7 @@ public:
             for (uint8 i = 0; i < 7; ++i)
                 if (me->GetEntry() == ARENA_PHASE_ADD[i])
                         _id = ArenaAdds(i);
-                
+
                 _IsInArena = IN_ARENA(me);
                 _healer = IS_HEALER(me);
         }
@@ -717,7 +717,7 @@ public:
         {
                 return (_IsInArena == IN_ARENA(who));
         }
-    
+
         void DamageTaken(Unit* attacker, uint32 &damage)
         {
             if (!isOnSameSide(attacker))
@@ -746,15 +746,15 @@ public:
                 me->GetMotionMaster()->MoveTargetedHome();
                 Reset();
             }
-            
+
             void UpdateAI(uint32 const diff)
             {
             if (me->getVictim() && !isOnSameSide(me->getVictim()))
                 me->getVictim()->getHostileRefManager().deleteReference(me);
-            
+
             if (!UpdateVictim() || me->HasUnitState(UNIT_STAT_CASTING))
                 return;
-            
+
                 if (_PrimaryTimer <= diff)
             {
                 Unit* target = NULL;
@@ -771,7 +771,7 @@ public:
                 }
                 else
                     _PrimaryTimer -= diff;
-            
+
                 if (_SecondaryTimer <= diff)
             {
                 Unit* target = NULL;
@@ -791,7 +791,7 @@ public:
                 }
                 else
                     _SecondaryTimer -= diff;
-        
+
                 if (_ChargeTimer <= diff)
             {
                     if (_id == DARK_RUNE_CHAMPION)
@@ -842,17 +842,17 @@ public:
             BarrierTimer = urand(12000, 15000);
             SmashTimer = urand (15000, 18000);
             ChargeTimer = urand (20000, 24000);
-        
+
                 RunicSmashPhase = 0;
                 RunicSmashTimer = 1000;
                 Side = 0;
-            
+
             me->GetMotionMaster()->MoveTargetedHome();
 
             // Runed Door closed
                 if (instance)
                     instance->SetData(DATA_RUNIC_DOOR, GO_STATE_READY);
-            
+
             // Spawn trashes
             summons.DespawnAll();
             for (uint8 i = 0; i < 6; i++)
@@ -924,7 +924,7 @@ public:
 
                 if (!UpdateVictim())
                     return;
-    
+
             if (BarrierTimer <= diff)
             {
                 me->MonsterTextEmote(EMOTE_BARRIER, 0, true);
@@ -932,14 +932,14 @@ public:
                 BarrierTimer = urand(35000, 45000);
             }
             else BarrierTimer -= diff;
-        
+
             if (SmashTimer <= diff)
             {
                 DoCast(me, SPELL_SMASH);
                 SmashTimer = urand (15000, 18000);
             }
             else SmashTimer -= diff;
-        
+
             if (ChargeTimer <= diff)
             {
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, -8, true))
@@ -1030,7 +1030,7 @@ public:
 
         InstanceScript* instance;
         SummonList summons;
-        
+
         uint32 StompTimer;
         uint32 DetonationTimer;
 
@@ -1038,13 +1038,13 @@ public:
         {
             StompTimer = urand(10000, 12000);
             DetonationTimer = 25000;
-        
+
             me->GetMotionMaster()->MoveTargetedHome();
 
             // Stone Door closed
             if (instance)
                 instance->SetData(DATA_STONE_DOOR, GO_STATE_READY);
-            
+
             // Spawn trashes
             summons.DespawnAll();
             for (uint8 i = 0; i < 5; i++)
@@ -1073,14 +1073,14 @@ public:
         {
             if (!UpdateVictim() || me->HasUnitState(UNIT_STAT_CASTING))
                 return;
-            
+
             if (StompTimer <= diff)
             {
                 DoCast(me, SPELL_STOMP);
                 StompTimer = urand(10000, 12000);
             }
             else StompTimer -= diff;
-        
+
             if (DetonationTimer <= diff)
             {
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 40, true))
@@ -1128,7 +1128,7 @@ public:
         {
             if (!UpdateVictim() || me->HasUnitState(UNIT_STAT_CASTING))
                 return;
-            
+
             if (FrostTimer <= diff)
             {
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 60, true))
@@ -1136,7 +1136,7 @@ public:
                 FrostTimer = 4000;
             }
             else FrostTimer -= diff;
-            
+
             if (VolleyTimer <= diff)
             {
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 40, true))
@@ -1148,14 +1148,14 @@ public:
                 VolleyTimer = urand(15000, 20000);
             }
             else VolleyTimer -= diff;
-        
+
             if (BlizzardTimer <= diff)
             {
                 DoCast(me, SPELL_BLIZZARD, true);
                 BlizzardTimer = 45000;
             }
             else BlizzardTimer -= diff;
-        
+
             if (NovaTimer <= diff)
             {
                 DoCastAOE(SPELL_FROSTNOVA, true);
@@ -1261,7 +1261,7 @@ UPDATE `creature_template` SET `unit_flags` = 33685508 WHERE `entry` = 33378;
 
 -- Gate
 DELETE FROM `gameobject_scripts` WHERE `id`=55194;
-INSERT INTO `gameobject_scripts` (`id`, `delay`, `command`, `datalong`, `datalong2`, `dataint`, `x`, `y`, `z`, `o`) VALUES 
+INSERT INTO `gameobject_scripts` (`id`, `delay`, `command`, `datalong`, `datalong2`, `dataint`, `x`, `y`, `z`, `o`) VALUES
 (55194, 0, 11, 34155, 15, '0', 0, 0, 0, 0);
 DELETE FROM `gameobject_template` WHERE `entry`=194265;
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `faction`, `flags`, `size`, `questItem1`, `questItem2`, `questItem3`, `questItem4`, `questItem5`, `questItem6`, `data0`, `data1`, `data2`, `data3`, `data4`, `data5`, `data6`, `data7`, `data8`, `data9`, `data10`, `data11`, `data12`, `data13`, `data14`, `data15`, `data16`, `data17`, `data18`, `data19`, `data20`, `data21`, `data22`, `data23`, `ScriptName`, `WDBVerified`) VALUES

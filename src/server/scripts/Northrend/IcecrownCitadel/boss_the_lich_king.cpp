@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 ArkcoreCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -255,7 +255,7 @@ enum Spells
     SPELL_SOUL_EFFECT                = 72305,
     SPELL_IN_FROSTMOURNE_ROOM        = 74276,
     SPELL_VILE_SPIRIT_TARGET_SEARCH  = 70501,
-    SPELL_SOUL_RIP                   = 69397, 
+    SPELL_SOUL_RIP                   = 69397,
     SPELL_DESTROY_SOUL               = 74086,
     SPELL_DARK_HUNGER                = 69383,
     SPELL_DARK_HUNGER_HEAL_EFFECT    = 69384,
@@ -329,7 +329,7 @@ struct Position MovePos[]=
     {517.482f, -2124.91f, 1040.86f, 0.0f}, // Jump position
     {529.413f, -2124.94f, 1040.86f, 0.0f}, // Knockback position
 };
-struct Position FrostmourneRoom[] = 
+struct Position FrostmourneRoom[] =
 {
     {520.0f, -2524.0f, 1051.0f, 0.0f}, //Place where player is teleported to
     {539.1f, -2513.0f, 1042.6f, 2.8f}, //Home position of the Spirit Warden
@@ -1739,7 +1739,7 @@ static const float Z_FLY;
                             me->AttackStop();
                             SetCombatMovement(false);
                             me->SetInCombatWithZone();
-                    
+
                             me->AddUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
                             me->ApplySpellImmune(0, IMMUNITY_STATE, SPELL_AURA_MOD_TAUNT, true);
                             me->ApplySpellImmune(0, IMMUNITY_STATE, SPELL_AURA_MOD_CHARM, true);
@@ -2059,7 +2059,7 @@ class npc_shambling_horror: public CreatureScript
             {
                 instance = creature->GetInstanceScript();
             }
-        
+
             void EnterCombat(Unit* /*who*/)
         {
             events.Reset();
@@ -2404,7 +2404,7 @@ class npc_defile : public CreatureScript
                 m_radiusMod = (int32)(((float)m_hitNumber / 60) * 0.9f + 0.1f) * 10000 * 2 / 3;
 
                 if (SpellEntry const* defileAuraSpellEntry = sSpellMgr->GetSpellForDifficultyFromSpell(sSpellStore.LookupEntry(SPELL_DEFILE), me))
-                    me->CastCustomSpell(defileAuraSpellEntry->Id, SPELLVALUE_RADIUS_MOD, m_radiusMod, me, true, NULL, NULL, me->GetGUID()); 
+                    me->CastCustomSpell(defileAuraSpellEntry->Id, SPELLVALUE_RADIUS_MOD, m_radiusMod, me, true, NULL, NULL, me->GetGUID());
             }*/
 
             void Reset()
@@ -2468,7 +2468,7 @@ class npc_spirit_warden : public CreatureScript
             {
                 me->CastCustomSpell(SPELL_DARK_HUNGER_HEAL_EFFECT, SPELLVALUE_BASE_POINT0, damage, me, true, NULL, NULL, me->GetGUID());
             }
-            
+
             void JustDied(Unit* /*killer*/)
             {
                 if (Player* player = me->FindNearestPlayer(80.0f, true))
@@ -2494,7 +2494,7 @@ class npc_spirit_warden : public CreatureScript
                     case ACTION_ATTACK_TERENAS_FIGHTER:
                     {
                         events.Reset();
-                        me->NearTeleportTo(FrostmourneRoom[1].m_positionX, FrostmourneRoom[1].m_positionY, FrostmourneRoom[1].m_positionZ, FrostmourneRoom[1].m_orientation); 
+                        me->NearTeleportTo(FrostmourneRoom[1].m_positionX, FrostmourneRoom[1].m_positionY, FrostmourneRoom[1].m_positionZ, FrostmourneRoom[1].m_orientation);
 
                         if (Creature* terenasFighter = ObjectAccessor::GetCreature(*me, me->GetInstanceScript()->GetData64(GUID_TERENAS_FIGHTER)))
                             AttackStart(terenasFighter);
@@ -2595,7 +2595,7 @@ class npc_terenas_menethil : public CreatureScript
                     }
                     case ACTION_ATTACK_SPIRIT_WARDEN:
                     {
-                        me->NearTeleportTo(FrostmourneRoom[2].m_positionX, FrostmourneRoom[2].m_positionY, FrostmourneRoom[2].m_positionZ, FrostmourneRoom[2].m_orientation); 
+                        me->NearTeleportTo(FrostmourneRoom[2].m_positionX, FrostmourneRoom[2].m_positionY, FrostmourneRoom[2].m_positionZ, FrostmourneRoom[2].m_orientation);
 
                         if (Creature* spiritWarden = ObjectAccessor::GetCreature(*me, me->GetInstanceScript()->GetData64(GUID_SPIRIT_WARDEN)))
                             AttackStart(spiritWarden);
@@ -2824,7 +2824,7 @@ class spell_lich_king_pain_and_suffering_effect : public SpellScriptLoader
                 if (!caster || !caster->isAlive())
                     return;
 
-                unitList.remove_if (AnyAlivePetOrPlayerInObjectFrontalConeCheck(caster)); 
+                unitList.remove_if (AnyAlivePetOrPlayerInObjectFrontalConeCheck(caster));
             }
 
             void Register()
@@ -3006,7 +3006,7 @@ class spell_lich_king_necrotic_plague : public SpellScriptLoader
 class spell_lich_king_defile : public SpellScriptLoader
 {
     public:
-        spell_lich_king_defile() : SpellScriptLoader("spell_lich_king_defile") { } 
+        spell_lich_king_defile() : SpellScriptLoader("spell_lich_king_defile") { }
 
         class spell_lich_king_defile_AuraScript : public AuraScript
         {
@@ -3025,7 +3025,7 @@ class spell_lich_king_defile : public SpellScriptLoader
                 m_radius = 8.0f + m_hitCount;
                 //Find targest
                 std::list<Unit *> targets;
-                Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck checker(caster, m_radius); 
+                Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck checker(caster, m_radius);
                 Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck> searcher(caster, targets, checker);
                 TypeContainerVisitor<Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
                 TypeContainerVisitor<Arkcore::UnitListSearcher<Arkcore::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
@@ -3637,7 +3637,7 @@ class spell_vile_spirit_target_search : public SpellScriptLoader
 class spell_lich_king_tirion_mass_resurrection : public SpellScriptLoader
 {
     public:
-        spell_lich_king_tirion_mass_resurrection() : SpellScriptLoader("spell_lich_king_tirion_mass_resurrection") { } 
+        spell_lich_king_tirion_mass_resurrection() : SpellScriptLoader("spell_lich_king_tirion_mass_resurrection") { }
 
         class spell_lich_king_tirion_mass_resurrection_SpellScript : public SpellScript
         {
@@ -3645,14 +3645,14 @@ class spell_lich_king_tirion_mass_resurrection : public SpellScriptLoader
 
             void MassResurrect(SpellEffIndex effIndex)
             {
-                PreventHitDefaultEffect(effIndex);	
-                if (Unit* caster = GetCaster())	
-                {	
-                    const Map::PlayerList &PlayerList = caster->GetMap()->GetPlayers();	
-                    if (!PlayerList.isEmpty())	
-                        for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)	
-                            if (Player* player = i->getSource())	
-                                caster->CastSpell(player, SPELL_REVIVE_EFFECT, true);	
+                PreventHitDefaultEffect(effIndex);
+                if (Unit* caster = GetCaster())
+                {
+                    const Map::PlayerList &PlayerList = caster->GetMap()->GetPlayers();
+                    if (!PlayerList.isEmpty())
+                        for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
+                            if (Player* player = i->getSource())
+                                caster->CastSpell(player, SPELL_REVIVE_EFFECT, true);
                 }
             }
 

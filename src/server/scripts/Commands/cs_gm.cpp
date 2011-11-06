@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -102,7 +102,7 @@ public:
         data << uint16(SMSG_MOVE_SET_CAN_FLY);
     else if (strncmp(args, "off", 4) == 0)
         data << uint16(SMSG_MOVE_UNSET_CAN_FLY);
-    else		
+    else
         {
             handler->SendSysMessage(LANG_USE_BOL);
             return false;

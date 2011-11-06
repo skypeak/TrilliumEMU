@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -85,7 +85,7 @@ enum Events
     //Trogg
     EVENT_GRIFFE            = 5,
     EVENT_MAL               = 6,
-    EVENT_MOGUD             = 7,	
+    EVENT_MOGUD             = 7,
 };
 
 enum SummonIds
@@ -122,12 +122,12 @@ class boss_general_umbriss : public CreatureScript
                 EnterPhaseGround();
                 DoScriptText(SAY_AGGRO, me);
             }
-			
+
             void JustDied(Unit* /*killer*/)
             {
                 DoScriptText(SAY_DEATH, me);
             }
-			
+
             void JustSummoned(Creature *pSummoned)
             {
                 pSummoned->SetInCombatWithZone();
@@ -136,12 +136,12 @@ class boss_general_umbriss : public CreatureScript
 
                 Summons.Summon(pSummoned);
             }
-			
+
             void SummonedCreatureDespawn(Creature *summon)
             {
                 Summons.Despawn(summon);
             }
-			
+
             void EnterPhaseGround()
             {
                 events.ScheduleEvent(EVENT_SECOUSS, 10000);
@@ -150,12 +150,12 @@ class boss_general_umbriss : public CreatureScript
                 events.ScheduleEvent(EVENT_SUMMON, 60000);
                 events.ScheduleEvent(EVENT_BERSERK, 180000);
             }
-			
+
             void UpdateAI(const uint32 diff)
             {
                 if (!UpdateVictim())
                     return;
-					
+
                     events.Update(diff);
 
                     while (uint32 eventId = events.ExecuteEvent())
@@ -211,20 +211,20 @@ class boss_general_umbriss : public CreatureScript
 *******************/
 class npc_malveillant: public CreatureScript
 {
-public: 
- npc_malveillant() : CreatureScript("npc_malveillant") { } 
+public:
+ npc_malveillant() : CreatureScript("npc_malveillant") { }
 
  struct npc_malveillantAI : public ScriptedAI
     {
         npc_malveillantAI(Creature *c) : ScriptedAI(c) {}
 
         EventMap events;
-		
+
 		void EnterCombat(Unit * /*who*/)
 		{
 			EnterPhaseGround();
 		}
-		
+
 		void EnterPhaseGround()
 		{
 			events.ScheduleEvent(EVENT_GRIFFE, 2000);
@@ -236,7 +236,7 @@ public:
         {
             if (!UpdateVictim())
                 return;
-					
+
 			events.Update(diff);
 
 				while (uint32 eventId = events.ExecuteEvent())
@@ -256,7 +256,7 @@ public:
 							events.ScheduleEvent(EVENT_MOGUD, 12000);
 							return;
 					}
-				}			
+				}
 
             DoMeleeAttackIfReady();
         }
@@ -274,20 +274,20 @@ public:
 ****************/
 class npc_habitant: public CreatureScript
 {
-public: 
- npc_habitant() : CreatureScript("npc_habitant") { } 
+public:
+ npc_habitant() : CreatureScript("npc_habitant") { }
 
  struct npc_habitantAI : public ScriptedAI
     {
         npc_habitantAI(Creature *c) : ScriptedAI(c) {}
 
         EventMap events;
-		
+
 		void EnterCombat(Unit * /*who*/)
 		{
 			EnterPhaseGround();
 		}
-		
+
 		void EnterPhaseGround()
 		{
 			events.ScheduleEvent(EVENT_GRIFFE, 5000);
@@ -297,7 +297,7 @@ public:
         {
             if (!UpdateVictim())
                 return;
-					
+
 			events.Update(diff);
 
 				while (uint32 eventId = events.ExecuteEvent())
@@ -310,7 +310,7 @@ public:
 							return;
 					}
 				}
-				
+
             DoMeleeAttackIfReady();
         }
     };
@@ -322,7 +322,7 @@ public:
 
 };
 
-void AddSC_boss_general_umbriss() 
+void AddSC_boss_general_umbriss()
 {
     new boss_general_umbriss();
 	new npc_habitant();

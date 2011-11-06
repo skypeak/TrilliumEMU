@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -895,7 +895,7 @@ void Map::MoveAllCreaturesInMoveList()
 
     }
     _creaturesToMove.clear();
-    _creatureToMoveLock = false;	
+    _creatureToMoveLock = false;
 }
 
 bool Map::CreatureCellRelocation(Creature *c, Cell new_cell)
@@ -965,7 +965,7 @@ bool Map::CreatureRespawnRelocation(Creature* c, bool diffGridOnly)
     c->GetRespawnCoord(resp_x, resp_y, resp_z, &resp_o);
     CellPair resp_val = Arkcore::ComputeCellPair(resp_x, resp_y);
     Cell resp_cell(resp_val);
-	
+
     //creature will be unloaded with grid
     if(diffGridOnly && !c->GetCurrentCell().DiffGrid(resp_cell))
         return true;

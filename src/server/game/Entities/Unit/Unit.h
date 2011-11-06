@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -552,7 +552,7 @@ enum CombatRating
     CR_HIT_TAKEN_RANGED         = 12,
     CR_HIT_TAKEN_SPELL          = 13,
     CR_CRIT_TAKEN_MELEE 		= 14, // COMBAT_RATING_RESILIENCE_CRIT_TAKEN
-    CR_CRIT_TAKEN_RANGED 		= 15, // COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN	
+    CR_CRIT_TAKEN_RANGED 		= 15, // COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN
     CR_RESILIENCE_CRIT_TAKEN    = 14,
     CR_RESILIENCE_PLAYER_DAMAGE_TAKEN = 15,
     CR_CRIT_TAKEN_SPELL         = 16,
@@ -667,7 +667,7 @@ enum NPCFlags
     UNIT_NPC_FLAG_GUILD_BANKER          = 0x00800000,       // cause client to send 997 opcode
     UNIT_NPC_FLAG_SPELLCLICK            = 0x01000000,       // cause client to send 1015 opcode (spell click)
     UNIT_NPC_FLAG_PLAYER_VEHICLE        = 0x02000000,       // players with mounts that have vehicle data should have it set
-    UNIT_NPC_FLAG_REFORGER              = 0x08000000,       // can reforge	
+    UNIT_NPC_FLAG_REFORGER              = 0x08000000,       // can reforge
     UNIT_NPC_FLAG_OBJECT_MAIL           = 0x04000000,       // 4.20
     //UNIT_NPC_FLAG_FORGEMASTER           = 0x08000000,       // 4.20
 };
@@ -2200,7 +2200,7 @@ class Unit : public WorldObject
 		int32 eclipse;
         int32 GetEclipsePower() {return eclipse;};
         void SetEclipsePower(int32 power);
-		
+
         void SetTarget(uint64 guid)
         {
             if (!_targetLocked)
@@ -2298,7 +2298,7 @@ class Unit : public WorldObject
         float m_AbsorbHeal;
         float GetAbsorbHeal() const { return m_AbsorbHeal; };
         void SetAbsorbHeal(float heal) { m_AbsorbHeal = heal; };
-		
+
     protected:
         explicit Unit ();
 

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -469,7 +469,7 @@ enum SMART_ACTION
     SMART_ACTION_LEAVE_VEHICLE                      = 98,
     SMART_ACTION_REMOVE_PASSENGERS                  = 99,
     SMART_ACTION_END                                = 100,
-	
+
 };
 
 struct SmartAction
@@ -862,11 +862,11 @@ struct SmartAction
         {
             uint32 withEmote;
         } flee;
-		
+
         struct
         {
             uint32 GoRespawnTime;
-        } RespawnTarget;		
+        } RespawnTarget;
 
         struct
         {

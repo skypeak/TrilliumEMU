@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -627,7 +627,7 @@ void GameObject::Delete()
         if (Unit* owner = GetOwner())
             owner->RemoveGameObject(this, false);
         else    //! Owner not in world anymore
-            SetOwnerGUID(0);			
+            SetOwnerGUID(0);
 
     ASSERT (!GetOwnerGUID());
     SendObjectDeSpawnAnim(GetGUID());
@@ -1233,7 +1233,7 @@ void GameObject::Use(Unit* user)
                 TriggeringLinkedGameObject(trapEntry, user);
 
             SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_IN_USE);
-            SetLootState(GO_ACTIVATED);          
+            SetLootState(GO_ACTIVATED);
 
             // this appear to be ok, however others exist in addition to this that should have custom (ex: 190510, 188692, 187389)
             if (info->goober.customAnim)

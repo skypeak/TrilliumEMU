@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -3032,7 +3032,7 @@ void SpellMgr::LoadDbcDataCorrections()
             case 61607: // Mark of Blood
                 spellInfo->AttributesEx |= SPELL_ATTR1_NO_THREAT;
                 break;
-            case 64844: // Divine Hymn 
+            case 64844: // Divine Hymn
             case 64904: // Hymn of Hope
                 spellInfo->AttributesEx &= ~SPELL_ATTR0_NEGATIVE_1;
                 break;

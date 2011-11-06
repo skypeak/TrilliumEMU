@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -18,15 +18,15 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
  /*
- Made By: Jenova     
- Project: Atlantiss Core  
+ Made By: Jenova
+ Project: Atlantiss Core
  SDName: boss_setesh
  SD%Complete: 75%
- SDComment: 
+ SDComment:
  SDCategory: Halls Of Origination
- 
+
  Known Bugs:
 
  TODO:
@@ -34,9 +34,9 @@
  2. Needs testing
  3. Check Timers
  */
-                             
+
 #include "ScriptMgr.h"
-#include "ScriptedCreature.h" 
+#include "ScriptedCreature.h"
 #include "ScriptPCH.h"
 #include "halls_of_origination.h"
 
@@ -48,7 +48,7 @@ enum Spells
     SPELL_CHAOS_BLAST       = 76681, //76676
     SPELL_SEED_OF_CHAOS     = 76870,
     SPELL_SUMMON_CHAOS_SEED = 76888,
-    
+
     //Sentinel
     SPELL_VOID_BARRIER      = 63710,
     SPELL_CHARGED_FISTS     = 77238,
@@ -257,7 +257,7 @@ public:
             SummonTimer = 1000;
             Summons.DespawnAll();
         }
-        
+
         void Summon(uint8 summon)
         {
             if (summon == 0)
@@ -332,7 +332,7 @@ public:
         {
             if (!UpdateVictim())
                 return;
-                
+
             if (me->HasUnitState(UNIT_STAT_CASTING))
                 return;
 
@@ -388,7 +388,7 @@ public:
          {
                 if (!UpdateVictim())
                     return;
-                
+
                 if (me->HasUnitState(UNIT_STAT_CASTING))
                     return;
 

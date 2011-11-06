@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -658,7 +658,7 @@ class WorldSession
         void HandleAutoBankItemOpcode(WorldPacket& recvPacket);
         void HandleAutoStoreBankItemOpcode(WorldPacket& recvPacket);
         void HandleWrapItemOpcode(WorldPacket& recvPacket);
-		
+
         void HandleReforgeOpcode(WorldPacket & recv_data);
         void HandleAttackSwingOpcode(WorldPacket& recvPacket);
         void HandleAttackStopOpcode(WorldPacket& recvPacket);
@@ -906,9 +906,9 @@ class WorldSession
 
         void HandleViolenceLevelOpcode(WorldPacket& recvPacket);
         void HandleSendCemetryListResponse(WorldPacket& recvPacket);
-		
+
 		void PlayerRequestCemeteryList(WorldPacket& recvPacket);
-		void PlayerViolenceLevel(WorldPacket& recvPacket);		
+		void PlayerViolenceLevel(WorldPacket& recvPacket);
 
     private:
         void InitializeQueryCallbackParameters();

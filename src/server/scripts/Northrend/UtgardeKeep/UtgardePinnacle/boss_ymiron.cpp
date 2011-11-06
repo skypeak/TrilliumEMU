@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -432,7 +432,7 @@ public:
             DoScriptText(RAND(SAY_SLAY_1, SAY_SLAY_2, SAY_SLAY_3, SAY_SLAY_4), me);
         }
 
-        void SpellHitTarget(Unit* target, const SpellInfo *spell) 
+        void SpellHitTarget(Unit* target, const SpellInfo *spell)
         {
             if (spell->Id == SPELL_BANE_TRIGGERED)
                 m_bAchievement = false;

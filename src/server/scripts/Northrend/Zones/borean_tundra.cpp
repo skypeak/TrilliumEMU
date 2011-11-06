@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -2908,7 +2908,7 @@ void AddSC_borean_tundra()
     new npc_khunok_the_behemoth();
     new npc_keristrasza();
     new npc_corastrasza();
-    new vehicle_wyrmrest_skytalon();	
+    new vehicle_wyrmrest_skytalon();
     new npc_iruk();
     new mob_nerubar_victim();
     new npc_scourge_prisoner();

@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -2810,7 +2810,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                                 itr = unitList.erase(itr);
                         }
                     }
-                    break;					
+                    break;
                 case SPELLFAMILY_DRUID:
                     if (m_spellInfo->SpellFamilyFlags[1] == 0x04000000) // Wild Growth
                     {
@@ -6257,7 +6257,7 @@ bool Spell::CheckEffectTarget(Unit const* target, uint32 eff) const
         case SPELL_AURA_MOD_INCREASE_MOUNTED_FLIGHT_SPEED: // Mount Speed Mod
             if (target->GetTypeId() == TYPEID_PLAYER && !target->ToPlayer()->IsKnowHowFlyIn(target->GetMapId(), target->GetZoneId(), m_spellInfo->Id))
                 return false;
-            break;			
+            break;
         default:
             break;
     }

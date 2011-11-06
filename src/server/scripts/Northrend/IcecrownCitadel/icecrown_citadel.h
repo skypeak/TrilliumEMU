@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -108,8 +108,8 @@ enum DataTypes
     GUID_TIRION                     = 37,
     GUID_TERENAS_FIGHTER            = 38,
     GUID_SPIRIT_WARDEN              = 39,
-    GUID_ICE_SHARD_1                = 40,    
-    GUID_ICE_SHARD_2                = 41,         
+    GUID_ICE_SHARD_1                = 40,
+    GUID_ICE_SHARD_2                = 41,
     GUID_ICE_SHARD_3                = 42,
     GUID_ICE_SHARD_4                = 43,
     GUID_LAVAMAN                    = 44,
@@ -268,7 +268,7 @@ enum CreaturesIds
 
     // The Lich King
     NPC_THE_LICH_KING                           = 36597,
-    NPC_WORLD_TRIGGER                           = 22515,	
+    NPC_WORLD_TRIGGER                           = 22515,
     NPC_TIRION_ICC                              = 38995,
     NPC_PLATFORM_DESTRUCTIBLE_EDGE_STALKER      = 22515,
     NPC_TERENAS_MENETHIL                        = 38579,

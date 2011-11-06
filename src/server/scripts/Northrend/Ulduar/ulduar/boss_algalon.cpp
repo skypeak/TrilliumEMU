@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -491,7 +491,7 @@ public:
                         default:
                             break;
                     }
-                }   
+                }
 
                 DoMeleeAttackIfReady();
             //EnterEvadeIfOutOfCombatArea(diff);
@@ -542,7 +542,7 @@ public:
         {
                 if (_loseHealthTimer <= diff)
             {
-                me->DealDamage(me, me->CountPctFromMaxHealth(1)); 
+                me->DealDamage(me, me->CountPctFromMaxHealth(1));
                     _loseHealthTimer = 1*IN_MILLISECONDS;
                 }
                 else

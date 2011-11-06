@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 - 2011 TrinityCore <http://www.trinitycore.org/>
  *
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -44,7 +44,7 @@ void WorldSession::SendNameQueryOpcode(uint64 guid)
     WorldPacket data(SMSG_NAME_QUERY_RESPONSE, (8+1+1+1+1+1+10));
     data.appendPackGUID(guid);                          	// player guid
     data << uint8(0);                                       // added in 3.1
-	if (nameData)    
+	if (nameData)
     {
         data << nameData->m_name;                           // played name
         data << uint8(0);                                   // realm name for cross realm BG usage
@@ -70,7 +70,7 @@ void WorldSession::SendNameQueryOpcode(uint64 guid)
             data << uint8(0);                                   // is not declined
     }
     else //TODO: decline names may also need to be stored in char name data
-        data << uint8(0);        
+        data << uint8(0);
 
     SendPacket(&data);
 }
@@ -166,7 +166,7 @@ void WorldSession::HandleGameObjectQueryOpcode(WorldPacket & recv_data)
 {
     uint64 guid;
     uint32 entryID;
-	
+
     recv_data >> entryID;
     recv_data >> guid;
 

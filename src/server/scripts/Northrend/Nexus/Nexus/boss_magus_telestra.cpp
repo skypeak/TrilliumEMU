@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 ArkCORE <http://www.arkania.net/>
+ * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
  * Copyright (C) 2006-2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
@@ -110,7 +110,7 @@ public:
 
             for (uint8 n = 0; n < 3; ++n)
                 time[n] = 0;
-				
+
             splitPersonality = 0;
             bIsWaitingToAppear = false;
 
@@ -334,7 +334,7 @@ public:
         }
     };
 
-};	  
+};
 
 class achievement_split_personality : public AchievementCriteriaScript
 {
@@ -443,7 +443,7 @@ class spell_nexus_critter_targeting : public SpellScriptLoader
 void AddSC_boss_magus_telestra()
 {
     new boss_magus_telestra();
-    new achievement_split_personality();	
+    new achievement_split_personality();
     new boss_magus_telestra_arcane();
     new spell_nexus_critter_targeting();
 }
