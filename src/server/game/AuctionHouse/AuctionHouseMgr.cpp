@@ -217,7 +217,7 @@ void AuctionHouseMgr::SendAuctionSuccessfulMail(AuctionEntry * auction, SQLTrans
 
         sLog->outDebug(LOG_FILTER_AUCTIONHOUSE, "AuctionSuccessful body string : %s", auctionSuccessfulBody.str().c_str());
 
-        uint32 profit = auction->bid + auction->deposit - auctionCut;
+        uint64 profit = auction->bid + auction->deposit - auctionCut;
 
         //FIXME: what do if owner offline
         if (owner)
