@@ -129,13 +129,13 @@ int Master::Run()
     sLog->outString("%s (worldserver-daemon)", _FULLVERSION);
     sLog->outString("<Ctrl-C> to stop.\n");
 
-    sLog->outString("   ###    ########  ##    ##  ######   #######  ########  ######## ");
-    sLog->outString("  ## ##   ##     ## ##   ##  ##    ## ##     ## ##     ## ##       ");
-    sLog->outString(" ##   ##  ##     ## ##  ##   ##       ##     ## ##     ## ##       ");
-    sLog->outString("##     ## ########  #####    ##       ##     ## ########  ######   ");
-    sLog->outString("######### ##   ##   ##  ##   ##       ##     ## ##   ##   ##       ");
-    sLog->outString("##     ## ##    ##  ##   ##  ##    ## ##     ## ##    ##  ##       ");
-    sLog->outString("##     ## ##     ## ##    ##  ######   #######  ##     ## ######## ");
+	sLog->outString("#######                                        ####### #     # #     # ");
+	sLog->outString("   #    #####  # #      #      # #    # #    # #       ##   ## #     # ");
+	sLog->outString("   #    #    # # #      #      # #    # ##  ## #       # # # # #     # ");
+	sLog->outString("   #    #    # # #      #      # #    # # ## # #####   #  #  # #     # ");
+	sLog->outString("   #    #####  # #      #      # #    # #    # #       #     # #     # ");
+	sLog->outString("   #    #   #  # #      #      # #    # #    # #       #     # #     # ");
+	sLog->outString("   #    #    # # ###### ###### #  ####  #    # ####### #     #  #####  ");
 	sLog->outString(" ");
 	sLog->outString("World of Warcraft: Cataclysm Emulator Framework");
 	sLog->outString("Arkania Community 2011 (c) ");
