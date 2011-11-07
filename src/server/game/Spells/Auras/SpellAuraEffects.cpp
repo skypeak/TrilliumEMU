@@ -860,7 +860,7 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                 return (int)spellId;
             }
             break;
-        }			
+        }
         case SPELL_AURA_MOD_RESISTANCE_EXCLUSIVE:
         {
             if (caster)
