@@ -17350,9 +17350,6 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder, WorldSession *sessi
     m_specsCount = fields[53].GetUInt8();
     m_activeSpec = fields[54].GetUInt8();
 
-    if (m_specsCount > 2) // Somehow patched client manages to bump this up.
-        m_specsCount = 1;
-
     // sanity check
     if (m_specsCount > MAX_TALENT_SPECS || m_activeSpec > MAX_TALENT_SPEC || m_specsCount < MIN_TALENT_SPECS)
     {
@@ -22366,7 +22363,7 @@ void Player::learnSkillRewardedSpells(uint32 skill_id, uint32 skill_value)
 void Player::SendAurasForTarget(Unit* target)
 {
     // Client requires this packet on login to initialize so we can't skip it for self
-    if (!target || (target->GetVisibleAuras()->empty() && target != this ))                  // speedup things
+    if (!target || target->GetVisibleAuras()->empty() && target != this )                 // speedup things
         return;
 
     WorldPacket data(SMSG_AURA_UPDATE_ALL);
@@ -25079,16 +25076,6 @@ void Player::ActivateSpec(uint8 spec)
         if (uint32 oldglyph = m_Glyphs[m_activeSpec][slot])
             if (GlyphPropertiesEntry const *old_gp = sGlyphPropertiesStore.LookupEntry(oldglyph))
                 RemoveAurasDueToSpell(old_gp->SpellId);
-
-    for (uint32 i = 0; i < sTalentTreePrimarySpellsStore.GetNumRows(); ++i)
-    {
-        TalentTreePrimarySpellsEntry const *talentInfo = sTalentTreePrimarySpellsStore.LookupEntry(i);
-
-        if (!talentInfo || talentInfo->TalentTab != TalentBranchSpec(m_activeSpec))
-            continue;
-
-        removeSpell(talentInfo->Spell, false);
-    }
 
     SetActiveSpec(spec);
     uint32 spentTalents = 0;

@@ -76,11 +76,11 @@ void SmartScript::OnReset()
         InitTimer((*i));
         (*i).runOnce = false;
     }
-    ProcessEventsFor (SMART_EVENT_RESET);
+    ProcessEventsFor(SMART_EVENT_RESET);
     mLastInvoker = 0;
 }
 
-void SmartScript::ProcessEventsFor (SMART_EVENT e, Unit* unit, uint32 var0, uint32 var1, bool bvar, const SpellInfo* spell, GameObject* gob)
+void SmartScript::ProcessEventsFor(SMART_EVENT e, Unit* unit, uint32 var0, uint32 var1, bool bvar, const SpellInfo* spell, GameObject* gob)
 {
     if (e == SMART_EVENT_AGGRO)
     {
@@ -1432,7 +1432,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
             break;
         }
         case SMART_ACTION_TRIGGER_TIMED_EVENT:
-            ProcessEventsFor ((SMART_EVENT)SMART_EVENT_TIMED_EVENT_TRIGGERED, NULL, e.action.timeEvent.id);
+            ProcessEventsFor((SMART_EVENT)SMART_EVENT_TIMED_EVENT_TRIGGERED, NULL, e.action.timeEvent.id);
             break;
         case SMART_ACTION_REMOVE_TIMED_EVENT:
             mRemIDs.push_back(e.action.timeEvent.id);
@@ -2761,7 +2761,7 @@ void SmartScript::OnUpdate(uint32 const diff)
             mTalkerEntry = 0;
             mTextTimer = 0;
             mUseTextTimer = false;
-            ProcessEventsFor (SMART_EVENT_TEXT_OVER, NULL, textID, entry);
+            ProcessEventsFor(SMART_EVENT_TEXT_OVER, NULL, textID, entry);
         } else mTextTimer -= diff;
     }
 }
@@ -2863,20 +2863,20 @@ void SmartScript::OnInitialize(WorldObject* obj, AreaTriggerEntry const* at)
     for (SmartAIEventList::iterator i = mEvents.begin(); i != mEvents.end(); ++i)
         InitTimer((*i));//calculate timers for first time use
 
-    ProcessEventsFor (SMART_EVENT_AI_INIT);
+    ProcessEventsFor(SMART_EVENT_AI_INIT);
     InstallEvents();
-    ProcessEventsFor (SMART_EVENT_JUST_CREATED);
+    ProcessEventsFor(SMART_EVENT_JUST_CREATED);
 }
 
 void SmartScript::OnMoveInLineOfSight(Unit* who)
 {
-    ProcessEventsFor (SMART_EVENT_OOC_LOS, who);
+    ProcessEventsFor(SMART_EVENT_OOC_LOS, who);
 
     if (!me) return;
     if (me->getVictim())
         return;
 
-    ProcessEventsFor (SMART_EVENT_IC_LOS, who);
+    ProcessEventsFor(SMART_EVENT_IC_LOS, who);
 
 }
 
