@@ -1258,14 +1258,13 @@ void Group::SendUpdateToPlayer(uint64 playerGUID, MemberSlot* slot)
     player->GetSession()->SendPacket(&data);
 }
 
-void Group::UpdatePlayerOutOfRange(Player* pPlayer)
+void Group::UpdatePlayerOutOfRange(Player* player)
 {
-    if (!pPlayer || !pPlayer->IsInWorld())
+    if (!player || !player->IsInWorld())
         return;
 
-    Player* player;
     WorldPacket data;
-    pPlayer->GetSession()->BuildPartyMemberStatsChangedPacket(pPlayer, &data);
+    player->GetSession()->BuildPartyMemberStatsChangedPacket(player, &data);
 
     Player* member;
     for (GroupReference* itr = GetFirstMember(); itr != NULL; itr = itr->next())
@@ -1278,7 +1277,6 @@ void Group::UpdatePlayerOutOfRange(Player* pPlayer)
 
 void Group::BroadcastPacket(WorldPacket* packet, bool ignorePlayersInBGRaid, int group, uint64 ignore)
 {
-    Player* member;
     for (GroupReference *itr = GetFirstMember(); itr != NULL; itr = itr->next())
     {
         Player *plr = itr->getSource();
