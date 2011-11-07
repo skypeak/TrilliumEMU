@@ -162,11 +162,11 @@ enum Opcodes
     CMSG_MESSAGECHAT_DND                             = 0x01B31, // 4.2.0a:14480
     CMSG_MESSAGECHAT_EMOTE                           = 0x01315, // 4.2.0a:14480
     CMSG_MESSAGECHAT_PARTY                           = 0x05931, // 4.2.0a:14480
-    CMSG_MESSAGECHAT_PARTY_LEADER                    = 0x05931, // 4.2.0a:14480
+    CMSG_MESSAGECHAT_PARTY_LEADER                    = 0x10031, // 
     CMSG_MESSAGECHAT_RAID                            = 0x05311, // 4.2.0a:14480
-    CMSG_MESSAGECHAT_RAID_LEADER                     = 0x05311, // 4.2.0a:14480
+    CMSG_MESSAGECHAT_RAID_LEADER                     = 0x10033, // 
     CMSG_MESSAGECHAT_BATTLEGROUND                    = 0x05BB1, // 4.2.0a:14480
-    CMSG_MESSAGECHAT_BATTLEGROUND_LEADER             = 0x05BB1, // 4.2.0a:14480
+    CMSG_MESSAGECHAT_BATTLEGROUND_LEADER             = 0x10035, // 
     CMSG_MESSAGECHAT_RAID_WARNING                    = 0x01195, // 4.2.0a:14480
     SMSG_MESSAGECHAT                                 = 0x06A2A, // 4.2.0a:14480
     CMSG_JOIN_CHANNEL                                = 0x05B15, // 4.2.0a:14480
@@ -585,7 +585,7 @@ enum Opcodes
     CMSG_BATTLEFIELD_JOIN                            = 0x0A860, // 4.2.0a:14480
     SMSG_JOINED_BATTLEGROUND_QUEUE                   = 0x08707, // 4.2.0a:14480
     CMSG_REQUEST_RATED_BG_INFO                       = 0x04000, // 4.2.0a:14480
-    CMSG_REQUEST_PVP_OPTIONS_ENABLED                 = 0x100F9, //
+    CMSG_REQUEST_PVP_OPTIONS_ENABLED                 = 0x02673, // 4.2.0a:14480
     CMSG_BATTLEMASTER_JOIN_RATED                     = 0x100FA, //
     CMSG_TAXICLEARNODE                               = 0x100FB, //
     CMSG_TAXIENABLENODE                              = 0x100FC, //
