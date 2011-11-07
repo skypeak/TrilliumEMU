@@ -215,7 +215,7 @@ bool Pet::LoadPetFromDB(Player* owner, uint32 petentry, uint32 petnumber, bool c
         return true;
     }
 
-    m_charmInfo->SetPetNumber(pet_number, IsPermanentPetfor (owner));
+    m_charmInfo->SetPetNumber(pet_number, IsPermanentPetFor(owner));
 
     SetDisplayId(fields[3].GetUInt32());
     SetNativeDisplayId(fields[3].GetUInt32());
@@ -1771,7 +1771,7 @@ void Pet::ToggleAutocast(SpellInfo const* spellInfo, bool apply)
     }
 }
 
-bool Pet::IsPermanentPetfor (Player* owner)
+bool Pet::IsPermanentPetFor(Player* owner)
 {
     switch (getPetType())
     {
@@ -1845,7 +1845,7 @@ void Pet::CastPetAuras(bool current)
     if (!owner || owner->GetTypeId() != TYPEID_PLAYER)
         return;
 
-    if (!IsPermanentPetfor (owner->ToPlayer()))
+    if (!IsPermanentPetFor(owner->ToPlayer()))
         return;
 
     for (PetAuraSet::const_iterator itr = owner->m_petAuras.begin(); itr != owner->m_petAuras.end();)

@@ -383,16 +383,15 @@ Player* ScriptedAI::GetPlayerAtMinimumRange(float minimumRange)
 {
     Player* player = NULL;
 
-    CellPair pair(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    CellCoord pair(Trillium::ComputeCellCoord(me->GetPositionX(), me->GetPositionY()));
     Cell cell(pair);
-    cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     Trillium::PlayerAtMinimumRangeAway check(me, minimumRange);
     Trillium::PlayerSearcher<Trillium::PlayerAtMinimumRangeAway> searcher(me, player, check);
     TypeContainerVisitor<Trillium::PlayerSearcher<Trillium::PlayerAtMinimumRangeAway>, GridTypeMapContainer> visitor(searcher);
 
-    cell.Visit(pair, visitor, *(me->GetMap()));
+    cell.Visit(pair, visitor, *me->GetMap(), *me, minimumRange);
 
     return player;
 }

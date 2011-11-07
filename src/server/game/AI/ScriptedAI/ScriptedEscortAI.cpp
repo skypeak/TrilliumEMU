@@ -90,7 +90,7 @@ bool npc_escortAI::AssistPlayerInCombat(Unit* who)
 
 void npc_escortAI::MoveInLineOfSight(Unit* who)
 {
-    if (!me->HasUnitState(UNIT_STAT_STUNNED) && who->isTargetableForAttack() && who->isInAccessiblePlaceFor (me))
+    if (!me->HasUnitState(UNIT_STAT_STUNNED) && who->isTargetableForAttack() && who->isInAccessiblePlaceFor(me))
     {
         if (HasEscortState(STATE_ESCORT_ESCORTING) && AssistPlayerInCombat(who))
             return;
@@ -218,7 +218,7 @@ void npc_escortAI::UpdateAI(uint32 const diff)
                     if (m_bCanReturnToStart)
                     {
                         float fRetX, fRetY, fRetZ;
-                        me->GetRespawnCoord(fRetX, fRetY, fRetZ);
+                        me->GetRespawnPosition(fRetX, fRetY, fRetZ);
 
                         me->GetMotionMaster()->MovePoint(POINT_HOME, fRetX, fRetY, fRetZ);
 

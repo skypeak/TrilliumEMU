@@ -633,10 +633,9 @@ void WorldSession::HandleTextEmoteOpcode(WorldPacket & recv_data)
 
     Unit* unit = ObjectAccessor::GetUnit(*_player, guid);
 
-    CellPair p = Trillium::ComputeCellPair(GetPlayer()->GetPositionX(), GetPlayer()->GetPositionY());
+    CellCoord p = Trillium::ComputeCellCoord(GetPlayer()->GetPositionX(), GetPlayer()->GetPositionY());
 
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     Trillium::EmoteChatBuilder emote_builder(*GetPlayer(), text_emote, emoteNum, unit);

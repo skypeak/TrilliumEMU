@@ -2180,7 +2180,7 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
         return false;
     }
 
-    if (AccountMgr::IsPlayerAccount(GetSession()->GetSecurity()) && DisableMgr::IsDisabledfor (DISABLE_TYPE_MAP, mapid, this))
+    if (AccountMgr::IsPlayerAccount(GetSession()->GetSecurity()) && DisableMgr::IsDisabledFor(DISABLE_TYPE_MAP, mapid, this))
     {
         sLog->outError("Player (GUID: %u, name: %s) tried to enter a forbidden map %u", GetGUIDLow(), GetName(), mapid);
         SendTransferAborted(mapid, TRANSFER_ABORT_MAP_NOT_ALLOWED);
@@ -2565,9 +2565,6 @@ void Player::RemoveFromWorld()
 
 void Player::RegenerateAll()
 {
-    if (m_regenTimer <= 500)
-        return;
-
     m_regenTimerCount += m_regenTimer;
 
     Regenerate(POWER_ENERGY);
@@ -2576,7 +2573,7 @@ void Player::RegenerateAll()
 
     // Runes act as cooldowns, and they don't need to send any data
     if (getClass() == CLASS_DEATH_KNIGHT)
-        for (uint32 i = 0; i < MAX_RUNES; ++i)
+        for (uint8 i = 0; i < MAX_RUNES; ++i)
             if (uint32 cd = GetRuneCooldown(i))
                 SetRuneCooldown(i, (cd > m_regenTimer) ? cd - m_regenTimer : 0);
 
@@ -3012,7 +3009,7 @@ void Player::SetGMVisible(bool on)
     }
 }
 
-bool Player::IsGroupVisiblefor (Player const* p) const
+bool Player::IsGroupVisibleFor(Player const* p) const
 {
     switch (sWorld->getIntConfig(CONFIG_GROUP_VISIBILITY))
     {
@@ -3250,8 +3247,12 @@ void Player::InitTalentForLevel()
     // talents base at level diff (talents = level - 9 but some can be used already)
     if (level < 10)
     {
-        resetTalents(true);
-        SetFreeTalentPoints(0);
+        // Remove all talent points
+        if (m_usedTalentCount > 0)                           // Free any used talents
+        {
+            resetTalents(true);
+            SetFreeTalentPoints(0);
+        }
     }
     else
     {
@@ -12101,8 +12102,14 @@ InventoryResult Player::CanUseItem(ItemTemplate const* proto) const
     return EQUIP_ERR_ITEM_NOT_FOUND;
 }
 
+Item* Player::StoreNewItem(ItemPosCountVec const& dest, uint32 item, bool update, int32 randomPropertyId)
+{
+    AllowedLooterSet allowedLooters;
+    return StoreNewItem(dest, item, update, randomPropertyId, allowedLooters);
+}
+
 // Return stored item (if stored to stack, it can diff. from pItem). And pItem ca be deleted in this case.
-Item* Player::StoreNewItem(ItemPosCountVec const& dest, uint32 item, bool update, int32 randomPropertyId, AllowedLooterSet* allowedLooters)
+Item* Player::StoreNewItem(ItemPosCountVec const& dest, uint32 item, bool update, int32 randomPropertyId, AllowedLooterSet& allowedLooters)
 {
     uint32 count = 0;
     for (ItemPosCountVec::const_iterator itr = dest.begin(); itr != dest.end(); ++itr)
@@ -12122,16 +12129,18 @@ Item* Player::StoreNewItem(ItemPosCountVec const& dest, uint32 item, bool update
             if (proto->Spells[i].SpellTrigger == ITEM_SPELLTRIGGER_ON_NO_DELAY_USE && proto->Spells[i].SpellId > 0) // On obtain trigger
                 CastSpell(this, proto->Spells[i].SpellId, true, pItem);
 
-        if (allowedLooters && pItem->GetTemplate()->GetMaxStackSize() == 1 && pItem->IsSoulBound())
+        if (allowedLooters.size() > 1 && pItem->GetTemplate()->GetMaxStackSize() == 1 && pItem->IsSoulBound())
         {
-            pItem->SetSoulboundTradeable(allowedLooters, this, true);
+            pItem->SetSoulboundTradeable(allowedLooters);
             pItem->SetUInt32Value(ITEM_FIELD_CREATE_PLAYED_TIME, GetTotalPlayedTime());
             m_itemSoulboundTradeable.push_back(pItem);
 
             // save data
             std::ostringstream ss;
-            for (AllowedLooterSet::iterator itr = allowedLooters->begin(); itr != allowedLooters->end(); ++itr)
-                ss << *itr << ' ';
+            AllowedLooterSet::const_iterator itr = allowedLooters.begin();
+            ss << *itr;
+            for (++itr; itr != allowedLooters.end(); ++itr)
+                ss << ' ' << *itr;
 
             PreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_ADD_ITEM_BOP_TRADE);
             stmt->setUInt32(0, pItem->GetGUIDLow());
@@ -12254,7 +12263,7 @@ Item* Player::_StoreItem(uint16 pos, Item *pItem, uint32 count, bool clone, bool
 
             pItem->SetOwnerGUID(GetGUID());                 // prevent error at next SetState in case trade/mail/buy from vendor
             pItem->SetNotRefundable(this);
-            pItem->SetSoulboundTradeable(NULL, this, false);
+            pItem->ClearSoulboundTradeable(this);
             RemoveTradeableItem(pItem);
             pItem->SetState(ITEM_REMOVED, this);
         }
@@ -12371,7 +12380,7 @@ Item* Player::EquipItem(uint16 pos, Item *pItem, bool update)
 
         pItem->SetOwnerGUID(GetGUID());                     // prevent error at next SetState in case trade/mail/buy from vendor
         pItem->SetNotRefundable(this);
-        pItem->SetSoulboundTradeable(NULL, this, false);
+        pItem->ClearSoulboundTradeable(this);
         RemoveTradeableItem(pItem);
         pItem->SetState(ITEM_REMOVED, this);
         pItem2->SetState(ITEM_CHANGED, this);
@@ -12592,7 +12601,7 @@ void Player::DestroyItem(uint8 bag, uint8 slot, bool update)
         RemoveItemDurations(pItem);
 
         pItem->SetNotRefundable(this);
-        pItem->SetSoulboundTradeable(NULL, this, false);
+        pItem->ClearSoulboundTradeable(this);
         RemoveTradeableItem(pItem);
 
         const ItemTemplate *proto = pItem->GetTemplate();
@@ -13542,17 +13551,17 @@ void Player::UpdateSoulboundTradeItems()
     {
         if (!*itr)
         {
-            itr = m_itemSoulboundTradeable.erase(itr++);
+            m_itemSoulboundTradeable.erase(itr++);
             continue;
         }
         if ((*itr)->GetOwnerGUID() != GetGUID())
         {
-            itr = m_itemSoulboundTradeable.erase(itr++);
+            m_itemSoulboundTradeable.erase(itr++);
             continue;
         }
         if ((*itr)->CheckSoulboundTradeExpire())
         {
-            itr = m_itemSoulboundTradeable.erase(itr++);
+            m_itemSoulboundTradeable.erase(itr++);
             continue;
         }
         ++itr;
@@ -14848,7 +14857,7 @@ bool Player::CanSeeStartQuest(Quest const *pQuest)
         SatisfyQuestExclusiveGroup(pQuest, false) && SatisfyQuestReputation(pQuest, false) &&
         SatisfyQuestPreviousQuest(pQuest, false) && SatisfyQuestNextChain(pQuest, false) &&
         SatisfyQuestPrevChain(pQuest, false) && SatisfyQuestDay(pQuest, false) && SatisfyQuestWeek(pQuest, false) &&
-        !DisableMgr::IsDisabledfor (DISABLE_TYPE_QUEST, pQuest->GetQuestId(), this))
+        !DisableMgr::IsDisabledFor(DISABLE_TYPE_QUEST, pQuest->GetQuestId(), this))
     {
         return getLevel() + sWorld->getIntConfig(CONFIG_QUEST_HIGH_LEVEL_HIDE_DIFF) >= pQuest->GetMinLevel();
     }
@@ -14864,7 +14873,7 @@ bool Player::CanTakeQuest(Quest const *pQuest, bool msg)
         && SatisfyQuestPreviousQuest(pQuest, msg) && SatisfyQuestTimed(pQuest, msg)
         && SatisfyQuestNextChain(pQuest, msg) && SatisfyQuestPrevChain(pQuest, msg)
         && SatisfyQuestDay(pQuest, msg) && SatisfyQuestWeek(pQuest, msg)
-        && !DisableMgr::IsDisabledfor (DISABLE_TYPE_QUEST, pQuest->GetQuestId(), this)
+        && !DisableMgr::IsDisabledFor(DISABLE_TYPE_QUEST, pQuest->GetQuestId(), this)
         && SatisfyQuestConditions(pQuest, msg);
 }
 
@@ -14900,8 +14909,7 @@ bool Player::CanCompleteQuest(uint32 quest_id)
         if (!qInfo)
             return false;
 
-        RewardedQuestSet::iterator rewItr = m_RewardedQuests.find(quest_id);
-        if (!qInfo->IsRepeatable() && rewItr != m_RewardedQuests.end())
+        if (!qInfo->IsRepeatable() && m_RewardedQuests.find(quest_id) != m_RewardedQuests.end())
             return false;                                   // not allow re-complete quest
 
         // auto complete quest
@@ -17854,7 +17862,7 @@ Item* Player::_LoadItem(SQLTransaction& trans, uint32 zoneId, uint32 timeDiff, F
                     AllowedLooterSet looters;
                     for (Tokens::iterator itr = GUIDlist.begin(); itr != GUIDlist.end(); ++itr)
                         looters.insert(atol(*itr));
-                    item->SetSoulboundTradeable(&looters, this, true);
+                    item->SetSoulboundTradeable(looters);
                     m_itemSoulboundTradeable.push_back(item);
                 }
                 else
@@ -18600,7 +18608,7 @@ bool Player::Satisfy(AccessRequirement const* ar, uint32 target_map, bool report
         else if (ar->item2 && !HasItemCount(ar->item2, 1))
             missingItem = ar->item2;
 
-        if (DisableMgr::IsDisabledfor (DISABLE_TYPE_MAP, target_map, this))
+        if (DisableMgr::IsDisabledFor(DISABLE_TYPE_MAP, target_map, this))
         {
             GetSession()->SendAreaTriggerMessage("%s", GetSession()->GetTrilliumString(LANG_INSTANCE_CLOSED));
             return false;
@@ -19932,7 +19940,7 @@ void Player::PetSpellInitialize()
     uint8 addlist = 0;
     data << uint8(addlist);                                 // placeholder
 
-    if (pet->IsPermanentPetfor (this))
+    if (pet->IsPermanentPetFor(this))
     {
         // spells loop
         for (PetSpellMap::iterator itr = pet->m_spells.begin(); itr != pet->m_spells.end(); ++itr)
@@ -20311,8 +20319,7 @@ void Player::DropModCharge(SpellModifier* mod, Spell* spell)
 
     if (spell && mod->ownerAura && mod->charges > 0)
     {
-        --mod->charges;
-        if (mod->charges == 0)
+        if (--mod->charges == 0)
             mod->charges = -1;
 
         spell->m_appliedMods.insert(mod->ownerAura);
@@ -21616,13 +21623,13 @@ bool Player::IsAlwaysDetectableFor(WorldObject const* seer) const
         return true;
 
     if (const Player* seerPlayer = seer->ToPlayer())
-        if (IsGroupVisiblefor (seerPlayer))
+        if (IsGroupVisibleFor(seerPlayer))
             return true;
 
      return false;
  }
 
-bool Player::IsVisibleGloballyfor (Player* u) const
+bool Player::IsVisibleGloballyFor(Player* u) const
 {
     if (!u)
         return false;
@@ -21830,7 +21837,7 @@ void Player::InitPrimaryProfessions()
 void Player::ModifyMoney(int32 d)
 {
     sScriptMgr->OnPlayerMoneyChanged(this, d);
-	printf("MONEY: %i", d);
+
     if (d < 0)
         SetMoney (GetMoney() > uint32(-d) ? GetMoney() + d : 0);
     else
@@ -23334,10 +23341,6 @@ bool ItemPosCount::isContainedIn(ItemPosCountVec const& vec) const
     return false;
 }
 
-// ***********************************
-// -------------TRILLIUMEMU---------------
-// ***********************************
-
 void Player::StopCastingBindSight()
 {
     if (WorldObject* target = GetViewpoint())
@@ -23685,7 +23688,7 @@ void Player::InitRunes()
     m_runes->runeState = 0;
     m_runes->lastUsedRune = RUNE_BLOOD;
 
-    for (uint32 i = 0; i < MAX_RUNES; ++i)
+    for (uint8 i = 0; i < MAX_RUNES; ++i)
     {
         SetBaseRune(i, runeSlotTypes[i]);                              // init base types
         SetCurrentRune(i, runeSlotTypes[i]);                           // init current types
@@ -23700,7 +23703,7 @@ void Player::InitRunes()
 
 bool Player::IsBaseRuneSlotsOnCooldown(RuneType runeType) const
 {
-    for (uint32 i = 0; i < MAX_RUNES; ++i)
+    for (uint8 i = 0; i < MAX_RUNES; ++i)
         if (GetBaseRune(i) == runeType && GetRuneCooldown(i) == 0)
             return false;
 
@@ -23759,8 +23762,8 @@ void Player::StoreLootItem(uint8 lootSlot, Loot* loot)
     InventoryResult msg = CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, item->itemid, item->count);
     if (msg == EQUIP_ERR_OK)
     {
-        AllowedLooterSet* looters = item->GetAllowedLooters();
-        Item* newitem = StoreNewItem(dest, item->itemid, true, item->randomPropertyId, (looters->size() > 1) ? looters : NULL);
+        AllowedLooterSet looters = item->GetAllowedLooters();
+        Item* newitem = StoreNewItem(dest, item->itemid, true, item->randomPropertyId, looters);
 
         if (qitem)
         {

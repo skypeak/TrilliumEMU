@@ -1344,8 +1344,9 @@ class Player : public Unit, public GridObject<Player>
         InventoryResult CanUseItem(ItemTemplate const* pItem) const;
         InventoryResult CanUseAmmo(uint32 item) const;
 
-        Item* StoreNewItem(ItemPosCountVec const& pos, uint32 item, bool update, int32 randomPropertyId = 0, AllowedLooterSet* allowedLooters = NULL);
-        Item* StoreItem(ItemPosCountVec const& pos, Item *pItem, bool update);
+        Item* StoreNewItem(ItemPosCountVec const& pos, uint32 item, bool update, int32 randomPropertyId = 0);
+        Item* StoreNewItem(ItemPosCountVec const& pos, uint32 item, bool update, int32 randomPropertyId, AllowedLooterSet &allowedLooters);
+        Item* StoreItem(ItemPosCountVec const& pos, Item* pItem, bool update);
         Item* EquipNewItem(uint16 pos, uint32 item, bool update);
         Item* EquipItem(uint16 pos, Item *pItem, bool update);
         void AutoUnequipOffhandIfNeed(bool force = false);
@@ -1884,7 +1885,7 @@ class Player : public Unit, public GridObject<Player>
         void DuelComplete(DuelCompleteType type);
         void SendDuelCountdown(uint32 counter);
 
-        bool IsGroupVisiblefor (Player const* p) const;
+        bool IsGroupVisibleFor(Player const* p) const;
         bool IsInSameGroupWith(Player const* p) const;
         bool IsInSameRaidWith(Player const* p) const { return p == this || (GetGroup() != NULL && GetGroup() == p->GetGroup()); }
         void UninviteFromGroup();
@@ -2437,7 +2438,7 @@ class Player : public Unit, public GridObject<Player>
 
         bool IsNeverVisible() const;
 
-        bool IsVisibleGloballyfor (Player* pl) const;
+        bool IsVisibleGloballyFor(Player* pl) const;
 
         void SendInitialVisiblePackets(Unit* target);
         void UpdateObjectVisibility(bool forced = true);

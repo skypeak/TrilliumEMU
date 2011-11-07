@@ -1020,7 +1020,7 @@ void CreatureEventAI::AttackStart(Unit* who)
     }
 }
 
-void CreatureEventAI::MoveInLineOfSight(Unit *who)
+void CreatureEventAI::MoveInLineOfSight(Unit* who)
 {
     if (me->getVictim())
         return;
@@ -1180,9 +1180,8 @@ inline Unit* CreatureEventAI::GetTargetByType(uint32 target, Unit* actionInvoker
 
 Unit* CreatureEventAI::DoSelectLowestHpFriendly(float range, uint32 minHPDiff)
 {
-    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    CellCoord p(Trillium::ComputeCellCoord(me->GetPositionX(), me->GetPositionY()));
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     Unit* unit = NULL;
@@ -1202,9 +1201,8 @@ Unit* CreatureEventAI::DoSelectLowestHpFriendly(float range, uint32 minHPDiff)
 
 void CreatureEventAI::DoFindFriendlyCC(std::list<Creature*>& _list, float range)
 {
-    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    CellCoord p(Trillium::ComputeCellCoord(me->GetPositionX(), me->GetPositionY()));
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     Trillium::FriendlyCCedInRange u_check(me, range);
@@ -1212,14 +1210,13 @@ void CreatureEventAI::DoFindFriendlyCC(std::list<Creature*>& _list, float range)
 
     TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::FriendlyCCedInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
 
-    cell.Visit(p, grid_creature_searcher, *me->GetMap());
+    cell.Visit(p, grid_creature_searcher, *me->GetMap(), *me, range);
 }
 
 void CreatureEventAI::DoFindFriendlyMissingBuff(std::list<Creature*>& _list, float range, uint32 spellid)
 {
-    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    CellCoord p(Trillium::ComputeCellCoord(me->GetPositionX(), me->GetPositionY()));
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     Trillium::FriendlyMissingBuffInRange u_check(me, range, spellid);
@@ -1227,7 +1224,7 @@ void CreatureEventAI::DoFindFriendlyMissingBuff(std::list<Creature*>& _list, flo
 
     TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::FriendlyMissingBuffInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
 
-    cell.Visit(p, grid_creature_searcher, *me->GetMap());
+    cell.Visit(p, grid_creature_searcher, *me->GetMap(), *me, range);
 }
 
 // *********************************

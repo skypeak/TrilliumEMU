@@ -1243,15 +1243,14 @@ GameObject* ChatHandler::GetObjectGlobalyWithGuidOrNearWithDbGuid(uint32 lowguid
     if (!obj && sObjectMgr->GetGOData(lowguid))                   // guid is DB guid of object
     {
         // search near player then
-        CellPair p(Trillium::ComputeCellPair(pl->GetPositionX(), pl->GetPositionY()));
+        CellCoord p(Trillium::ComputeCellCoord(pl->GetPositionX(), pl->GetPositionY()));
         Cell cell(p);
-        cell.data.Part.reserved = ALL_DISTRICT;
 
         Trillium::GameObjectWithDbGUIDCheck go_check(*pl, lowguid);
         Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck> checker(pl, obj, go_check);
 
         TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > object_checker(checker);
-        cell.Visit(p, object_checker, *pl->GetMap());
+        cell.Visit(p, object_checker, *pl->GetMap(), *pl, pl->GetGridActivationRange());
     }
 
     return obj;
@@ -1515,7 +1514,7 @@ char* ChatHandler::extractQuotedArg(char* args)
 bool ChatHandler::needReportToTarget(Player* chr) const
 {
     Player* pl = m_session->GetPlayer();
-    return pl != chr && pl->IsVisibleGloballyfor (chr);
+    return pl != chr && pl->IsVisibleGloballyFor(chr);
 }
 
 LocaleConstant ChatHandler::GetSessionDbcLocale() const

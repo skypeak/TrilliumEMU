@@ -269,21 +269,20 @@ inline void Map::_ScriptProcessDoor(Object* source, Object* target, const Script
     }
 }
 
-inline GameObject* Map::_FindGameObject(WorldObject* pSearchObject, uint32 guid) const
+inline GameObject* Map::_FindGameObject(WorldObject* searchObject, uint32 guid) const
 {
-    GameObject *pGameObject = NULL;
+    GameObject* gameObject = NULL;
 
-    CellPair p(Trillium::ComputeCellPair(pSearchObject->GetPositionX(), pSearchObject->GetPositionY()));
+    CellCoord p(Trillium::ComputeCellCoord(searchObject->GetPositionX(), searchObject->GetPositionY()));
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
 
-    Trillium::GameObjectWithDbGUIDCheck goCheck(*pSearchObject, guid);
-    Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck> checker(pSearchObject, pGameObject, goCheck);
+    Trillium::GameObjectWithDbGUIDCheck goCheck(*searchObject, guid);
+    Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck> checker(searchObject, gameObject, goCheck);
 
     TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > objectChecker(checker);
-    cell.Visit(p, objectChecker, *pSearchObject->GetMap());
+    cell.Visit(p, objectChecker, *searchObject->GetMap(), *searchObject, searchObject->GetGridActivationRange());
 
-    return pGameObject;
+    return gameObject;
 }
 
 /// Process queued scripts
@@ -814,15 +813,14 @@ void Map::ScriptsProcess()
                 {
                     WorldObject* wSource = dynamic_cast <WorldObject*> (source);
 
-                    CellPair p(Trillium::ComputeCellPair(wSource->GetPositionX(), wSource->GetPositionY()));
+                    CellCoord p(Trillium::ComputeCellCoord(wSource->GetPositionX(), wSource->GetPositionY()));
                     Cell cell(p);
-                    cell.data.Part.reserved = ALL_DISTRICT;
 
                     Trillium::CreatureWithDbGUIDCheck target_check(wSource, step.script->CallScript.CreatureEntry);
                     Trillium::CreatureSearcher<Trillium::CreatureWithDbGUIDCheck> checker(wSource, cTarget, target_check);
 
                     TypeContainerVisitor<Trillium::CreatureSearcher <Trillium::CreatureWithDbGUIDCheck>, GridTypeMapContainer > unit_checker(checker);
-                    cell.Visit(p, unit_checker, *wSource->GetMap());
+                    cell.Visit(p, unit_checker, *wSource->GetMap(), *wSource, wSource->GetGridActivationRange());
                 }
                 else //check hashmap holders
                 {

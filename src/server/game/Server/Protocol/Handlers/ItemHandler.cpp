@@ -1136,7 +1136,7 @@ void WorldSession::HandleSocketOpcode(WorldPacket& recv_data)
 
     _player->ToggleMetaGemsActive(slot, true);              //turn on all metagems (except for target item)
 
-    itemTarget->SetSoulboundTradeable(NULL, _player, false); // clear tradeable flag
+    itemTarget->ClearSoulboundTradeable(_player); // clear tradeable flag
 }
 
 void WorldSession::HandleCancelTempEnchantmentOpcode(WorldPacket& recv_data)
@@ -1294,5 +1294,5 @@ void WorldSession::HandleReforgeOpcode(WorldPacket & recv_data )
     // add new reforge if equipped
     _player->ApplyEnchantment(item, REFORGE_ENCHANTMENT_SLOT, true);
 
-    item->SetSoulboundTradeable(NULL, _player, false);
+    item->ClearSoulboundTradeable(_player);
 }

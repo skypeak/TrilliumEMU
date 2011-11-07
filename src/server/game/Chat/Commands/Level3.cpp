@@ -2581,7 +2581,7 @@ bool ChatHandler::HandleResetTalentsCommand(const char * args)
         if (!*args && creature && creature->isPet())
         {
             Unit* owner = creature->GetOwner();
-            if (owner && owner->GetTypeId() == TYPEID_PLAYER && creature->ToPet()->IsPermanentPetfor (owner->ToPlayer()))
+            if (owner && owner->GetTypeId() == TYPEID_PLAYER && creature->ToPet()->IsPermanentPetFor(owner->ToPlayer()))
             {
                 creature->ToPet()->resetTalents();
                 owner->ToPlayer()->SendTalentsInfoData(true);
@@ -3459,16 +3459,15 @@ bool ChatHandler::HandleRespawnCommand(const char* /*args*/)
         return true;
     }
 
-    CellPair p(Trillium::ComputeCellPair(pl->GetPositionX(), pl->GetPositionY()));
+    CellCoord p(Trillium::ComputeCellCoord(pl->GetPositionX(), pl->GetPositionY()));
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     Trillium::RespawnDo u_do;
     Trillium::WorldObjectWorker<Trillium::RespawnDo> worker(pl, u_do);
 
     TypeContainerVisitor<Trillium::WorldObjectWorker<Trillium::RespawnDo>, GridTypeMapContainer > obj_worker(worker);
-    cell.Visit(p, obj_worker, *pl->GetMap());
+    cell.Visit(p, obj_worker, *pl->GetMap(), *pl, pl->GetGridActivationRange());
 
     return true;
 }
