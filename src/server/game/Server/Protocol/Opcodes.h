@@ -1270,7 +1270,7 @@ enum Opcodes
     SMSG_UNKNOWN_1276                                = 0x10284, //
     SMSG_LOOT_SLOT_CHANGED                           = 0x02EFB, // 4.2.0:14480
     CMSG_READY_FOR_ACCOUNT_DATA_TIMES                = 0x0F226, // 4.2.0:14480
-    CMSG_QUERY_QUESTS_COMPLETED                      = 0x00000, // unk
+    CMSG_QUERY_QUESTS_COMPLETED                      = 0x0FE33, // 4.2.0:14480
     SMSG_QUERY_QUESTS_COMPLETED_RESPONSE             = 0x07AFE, // 4.2.0:14480
     CMSG_GM_REPORT_LAG                               = 0x0E2A6, // 4.2.0:14480
     SMSG_CORPSE_NOT_IN_INSTANCE                      = 0x0BAB7, // 4.2.0:14480
