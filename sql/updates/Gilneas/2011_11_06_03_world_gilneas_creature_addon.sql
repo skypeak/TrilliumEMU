@@ -6,7 +6,7 @@ UPDATE `creature_template` SET `dynamicflags`='0' WHERE (`entry`='47091');
 
 -- Set Injured Citizen Emote to Dead for the Druid and Priest Quest :) !
 DELETE FROM creature_template_addon WHERE entry = 35912;
-INSERT INTO `creature_template_addon` (`entry`, `path_id`, `mount`, `bytes1`, `bytes2`, `emote`, `auras`) VALUES ('35912', '0', '0', '7', '0', '65', NULL);;
+INSERT INTO `creature_template_addon` (`entry`, `path_id`, `mount`, `bytes1`, `bytes2`, `emote`, `auras`) VALUES ('35912', '0', '0', '7', '0', '65', NULL);
 
 -- Set Wounded Guard to Kneel
 DELETE FROM creature_template_addon WHERE entry = 47091;
