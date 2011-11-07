@@ -829,6 +829,38 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
             if (GetSpellInfo()->SpellFamilyName == SPELLFAMILY_DRUID && GetSpellInfo()->SpellFamilyFlags[2] & 0x00000008)
                 amount = GetBase()->GetUnitOwner()->GetShapeshiftForm() == FORM_CAT ? amount : 0;
             break;
+        case SPELL_AURA_MOUNTED:
+        {
+            Player* plr = caster->ToPlayer();
+            if (plr)
+            {
+                // find the spell we need
+                MountTypeEntry const* type = sMountTypeStore.LookupEntry(GetMiscValueB());
+                if (!type)
+                    return 0;
+
+                uint32 spellId = 0;
+                uint32 plrskill = plr->GetSkillValue(SKILL_RIDING);
+                uint32 map = GetVirtualMapForMapAndZone(plr->GetMapId(), plr->GetZoneId());
+                uint32 maxSkill = 0;
+                for (int i = 0; i < MAX_MOUNT_TYPE_COLUMN; i++)
+                {
+                    MountCapabilityEntry const* cap = sMountCapabilityStore.LookupEntry(type->capabilities[i]);
+                    if (!cap)
+                        continue;
+                    if (cap->map != -1 && cap->map != map)
+                        continue;
+                    if (cap->reqSkillLevel && (cap->reqSkillLevel > plrskill || cap->reqSkillLevel <= maxSkill))
+                        continue;
+                    if (cap->reqSpell && !plr->HasSpell(cap->reqSpell))
+                        continue;
+                    maxSkill = cap->reqSkillLevel;
+                    spellId = cap->spell;
+                }
+                return (int)spellId;
+            }
+            break;
+        }			
         case SPELL_AURA_MOD_RESISTANCE_EXCLUSIVE:
         {
             if (caster)
