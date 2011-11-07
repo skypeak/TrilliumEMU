@@ -6960,7 +6960,7 @@ bool Spell::CanExecuteTriggersOnHit(uint8 effMask) const
     // prevents triggering/procing effects twice from spells like Eviscerate
     for (uint8 i = 0;effMask && i < MAX_SPELL_EFFECTS; ++i)
     {
-        if ((effMask & (1 << i)) == (m_spellInfo->Effects[i].Effect == SPELL_EFFECT_DUMMY))
+        if ((effMask & (1 << i)) && (m_spellInfo->Effects[i].Effect == SPELL_EFFECT_DUMMY))
             return true;
     }
     return false;
