@@ -6045,9 +6045,8 @@ void AuraEffect::HandlePeriodicDummyAuraTick(Unit* target, Unit* caster) const
                         // eff_radius == 0
                         float radius = GetSpellInfo()->GetMaxRange(false);
 
-                        CellPair p(Trillium::ComputeCellPair(target->GetPositionX(), target->GetPositionY()));
+                        CellCoord p(Trillium::ComputeCellCoord(target->GetPositionX(), target->GetPositionY()));
                         Cell cell(p);
-                        cell.data.Part.reserved = ALL_DISTRICT;
 
                         Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck u_check(target, radius);
                         Trillium::UnitListSearcher<Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck> checker(target, targets, u_check);
