@@ -3247,12 +3247,8 @@ void Player::InitTalentForLevel()
     // talents base at level diff (talents = level - 9 but some can be used already)
     if (level < 10)
     {
-        // Remove all talent points
-        if (m_usedTalentCount > 0)                           // Free any used talents
-        {
-            resetTalents(true);
-            SetFreeTalentPoints(0);
-        }
+        resetTalents(true);
+        SetFreeTalentPoints(0);
     }
     else
     {
@@ -4597,20 +4593,20 @@ bool Player::resetTalents(bool no_cost)
 
     for (uint32 j = 0; j < sTalentTreePrimarySpellsStore.GetNumRows(); ++j)
     {
-        TalentTreePrimarySpellsEntry const *talentTreeInfo = sTalentTreePrimarySpellsStore.LookupEntry(j);
+        TalentTreePrimarySpellsEntry const *talentInfo = sTalentTreePrimarySpellsStore.LookupEntry(j);
 
-        if (talentTreeInfo->TalentTab != TalentBranchSpec(m_activeSpec) || !talentTreeInfo)
+        if (!talentInfo || talentInfo->TalentTabID != TalentBranchSpec(m_activeSpec))
             continue;
 
-        removeSpell(talentTreeInfo->Spell, true);
+        removeSpell(talentInfo->SpellID, true);
     }
 
     m_branchSpec[m_activeSpec] = 0;
 
     SQLTransaction trans = CharacterDatabase.BeginTransaction();
     _SaveTalents(trans);
-    _SaveSpells(trans);
     _SaveTalentBranchSpecs(trans);
+    _SaveSpells(trans);
     CharacterDatabase.CommitTransaction(trans);
 
     SetFreeTalentPoints(talentPointsForLevel);
@@ -23805,21 +23801,18 @@ void Player::StoreLootItem(uint8 lootSlot, Loot* loot)
 
 uint32 Player::CalculateTalentsPoints() const
 {
-    uint8 level = GetUInt32Value(UNIT_FIELD_LEVEL);
-    uint32 talent_points = (level < 10 ? 0 : ((level - 9) / 2) + 1);
-    if (level == 82 || level == 83)
-        talent_points += 1;
-    else if (level >= 84)
-        talent_points += 2;
+    uint32 base_talent = 0;
+    if (getLevel() >= 10)
+        base_talent = (((getLevel() - 10 + 1) - ( ((getLevel() - 10 + 1) % 2) == 1 ? 1 : 0))/2)+1;
 
     if (getClass() != CLASS_DEATH_KNIGHT || GetMapId() != 609)
-        return uint32(talent_points * sWorld->getRate(RATE_TALENT));
+        return uint32(base_talent * sWorld->getRate(RATE_TALENT));
 
     uint32 talentPointsForLevel = getLevel() < 56 ? 0 : getLevel() - 55;
     talentPointsForLevel += m_questRewardTalentCount;
 
-    if (talentPointsForLevel > talent_points)
-        talentPointsForLevel = talent_points;
+    if (talentPointsForLevel > base_talent)
+        talentPointsForLevel = base_talent;
 
     return uint32(talentPointsForLevel * sWorld->getRate(RATE_TALENT));
 }
@@ -24164,11 +24157,11 @@ void Player::LearnTalent(uint32 talentId, uint32 talentRank, bool learn)
                 if (TalentEntry const* thisTalent = sTalentStore.LookupEntry(i))
                 {
                     int thisrank = -1;
-                    for (int z = 0; z < 5; z++)
+                    for (int j = 0; j < 5; j++)
                     {
-                        if (thisTalent->RankID[z] == itr->first)
+                        if (thisTalent->RankID[j] == itr->first)
                         {
-                            thisrank = z;
+                            thisrank = j;
                             break;
                         }
                     }
@@ -25070,6 +25063,16 @@ void Player::ActivateSpec(uint8 spec)
         }
     }
 
+    for (uint32 i = 0; i < sTalentTreePrimarySpellsStore.GetNumRows(); ++i)
+    {
+        TalentTreePrimarySpellsEntry const *talentInfo = sTalentTreePrimarySpellsStore.LookupEntry(i);
+
+        if (!talentInfo || talentInfo->TalentTabID != TalentBranchSpec(m_activeSpec))
+            continue;
+
+        removeSpell(talentInfo->SpellID, true);
+    }
+
     // set glyphs
     for (uint8 slot = 0; slot < MAX_GLYPH_SLOT_INDEX; ++slot)
         // remove secondary glyph
@@ -25109,6 +25112,16 @@ void Player::ActivateSpec(uint8 spec)
                 spentTalents += (rank + 1);                  // increment the spentTalents count
             }
         }
+    }
+
+    for (uint32 i = 0; i < sTalentTreePrimarySpellsStore.GetNumRows(); ++i)
+    {
+        TalentTreePrimarySpellsEntry const *talentInfo = sTalentTreePrimarySpellsStore.LookupEntry(i);
+
+        if (!talentInfo || talentInfo->TalentTabID != TalentBranchSpec(spec))
+            continue;
+
+        learnSpell(talentInfo->SpellID, true);
     }
 
     // set glyphs

@@ -71,10 +71,10 @@ void WorldSession::HandleLearnPreviewTalents(WorldPacket& recvPacket)
             {
                 TalentTreePrimarySpellsEntry const *talentInfo = sTalentTreePrimarySpellsStore.LookupEntry(i);
 
-                if (!talentInfo || talentInfo->TalentTab != _player->TalentBranchSpec(_player->m_activeSpec))
+                if (!talentInfo || talentInfo->TalentTabID != _player->TalentBranchSpec(_player->m_activeSpec))
                     continue;
 
-                _player->learnSpell(talentInfo->Spell, true);
+                _player->learnSpell(talentInfo->SpellID, true);
             }
         }
         else if (_player->TalentBranchSpec(_player->m_activeSpec) != specID) //cheat
@@ -89,7 +89,6 @@ void WorldSession::HandleLearnPreviewTalents(WorldPacket& recvPacket)
 
         _player->LearnTalent(talentId, talentRank, false);
     }
-
 
     bool inOtherBranch = false;
     uint32 pointInBranchSpec = 0;

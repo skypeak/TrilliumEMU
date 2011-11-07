@@ -2119,8 +2119,8 @@ struct TalentTabEntry
 struct TalentTreePrimarySpellsEntry
 {
     uint32 Id;                                              // 0
-    uint32 TalentTab;                                     // 1
-    uint32 Spell;                                         // 2
+    uint32 TalentTabID;                                     // 1
+    uint32 SpellID;                                         // 2
 };
 
 struct TaxiNodesEntry
