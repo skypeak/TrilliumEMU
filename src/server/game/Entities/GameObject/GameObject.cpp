@@ -19,26 +19,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Common.h"
-#include "QuestDef.h"
 #include "GameObjectAI.h"
 #include "ObjectMgr.h"
 #include "GroupMgr.h"
 #include "PoolMgr.h"
 #include "SpellMgr.h"
-#include "Spell.h"
-#include "UpdateMask.h"
-#include "Opcodes.h"
-#include "WorldPacket.h"
 #include "World.h"
-#include "DatabaseEnv.h"
-#include "LootMgr.h"
-#include "GridNotifiers.h"
 #include "GridNotifiersImpl.h"
 #include "CellImpl.h"
-#include "InstanceScript.h"
-#include "Battleground.h"
-#include "Util.h"
 #include "OutdoorPvPMgr.h"
 #include "BattlegroundAV.h"
 #include "ScriptMgr.h"
@@ -104,27 +92,31 @@ void GameObject::CleanupsBeforeDelete(bool /*finalCleanup*/)
         RemoveFromWorld();
 
     if (m_uint32Values)                                      // field array can be not exist if GameOBject not loaded
+        RemoveFromOwner();
+}
+
+void GameObject::RemoveFromOwner()
+{
+    uint64 ownerGUID = GetOwnerGUID();
+    if (!ownerGUID)
+        return;
+
+    if (Unit* owner = ObjectAccessor::GetUnit(*this, ownerGUID))
     {
-        // Possible crash at access to deleted GO in Unit::m_gameobj
-        if (uint64 owner_guid = GetOwnerGUID())
-        {
-            Unit* owner = ObjectAccessor::GetUnit(*this, owner_guid);
-
-            if (owner)
-                owner->RemoveGameObject(this, false);
-            else
-            {
-                const char * ownerType = "creature";
-                if (IS_PLAYER_GUID(owner_guid))
-                    ownerType = "player";
-                else if (IS_PET_GUID(owner_guid))
-                    ownerType = "pet";
-
-                sLog->outError("Delete GameObject (GUID: %u Entry: %u SpellId %u LinkedGO %u) that lost references to owner (GUID %u Type '%s') GO list. Crash possible later.",
-                    GetGUIDLow(), GetGOInfo()->entry, m_spellId, GetGOInfo()->GetLinkedGameObjectEntry(), GUID_LOPART(owner_guid), ownerType);
-            }
-        }
+        owner->RemoveGameObject(this, false);
+        ASSERT(!GetOwnerGUID());
+        return;
     }
+
+    const char * ownerType = "creature";
+    if (IS_PLAYER_GUID(ownerGUID))
+        ownerType = "player";
+    else if (IS_PET_GUID(ownerGUID))
+        ownerType = "pet";
+
+    sLog->outCrash("Delete GameObject (GUID: %u Entry: %u SpellId %u LinkedGO %u) that lost references to owner (GUID %u Type '%s') GO list. Crash possible later.",
+        GetGUIDLow(), GetGOInfo()->entry, m_spellId, GetGOInfo()->GetLinkedGameObjectEntry(), GUID_LOPART(ownerGUID), ownerType);
+    SetOwnerGUID(0);
 }
 
 void GameObject::AddToWorld()
@@ -148,14 +140,7 @@ void GameObject::RemoveFromWorld()
         if (m_zoneScript)
             m_zoneScript->OnGameObjectRemove(this);
 
-        // Possible crash at access to deleted GO in Unit::m_gameobj
-        if (uint64 owner_guid = GetOwnerGUID())
-        {
-            if (Unit* owner = GetOwner())
-                owner->RemoveGameObject(this, false);
-            else
-                sLog->outError("Delete GameObject (GUID: %u Entry: %u, Name: %s) that have references in not found creature %u GO list. Crash possible later.", GetGUIDLow(), GetGOInfo()->entry, GetGOInfo()->name.c_str(), GUID_LOPART(owner_guid));
-        }
+        RemoveFromOwner();
         WorldObject::RemoveFromWorld();
         sObjectAccessor->RemoveObject(this);
     }
@@ -623,13 +608,8 @@ void GameObject::AddUniqueUse(Player* player)
 void GameObject::Delete()
 {
     SetLootState(GO_NOT_READY);
-    if (GetOwnerGUID())
-        if (Unit* owner = GetOwner())
-            owner->RemoveGameObject(this, false);
-        else    //! Owner not in world anymore
-            SetOwnerGUID(0);
+    RemoveFromOwner();
 
-    ASSERT (!GetOwnerGUID());
     SendObjectDeSpawnAnim(GetGUID());
 
     SetGoState(GO_STATE_READY);
@@ -953,9 +933,8 @@ void GameObject::TriggeringLinkedGameObject(uint32 trapEntry, Unit* target)
     GameObject* trapGO = NULL;
     {
         // using original GO distance
-        CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
+        CellCoord p(Trillium::ComputeCellCoord(GetPositionX(), GetPositionY()));
         Cell cell(p);
-        cell.data.Part.reserved = ALL_DISTRICT;
 
         Trillium::NearestGameObjectEntryInObjectRangeCheck go_check(*target, trapEntry, range);
         Trillium::GameObjectLastSearcher<Trillium::NearestGameObjectEntryInObjectRangeCheck> checker(this, trapGO, go_check);
@@ -973,9 +952,8 @@ GameObject* GameObject::LookupFishingHoleAround(float range)
 {
     GameObject* ok = NULL;
 
-    CellPair p(Trillium::ComputeCellPair(GetPositionX(), GetPositionY()));
+    CellCoord p(Trillium::ComputeCellCoord(GetPositionX(), GetPositionY()));
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
     Trillium::NearestGameObjectFishingHole u_check(*this, range);
     Trillium::GameObjectSearcher<Trillium::NearestGameObjectFishingHole> checker(this, ok, u_check);
 
@@ -1315,7 +1293,7 @@ void GameObject::Use(Unit* user)
                         player->UpdateFishingSkill();
 
                         // prevent removing GO at spell cancel
-                        player->RemoveGameObject(this, false);
+                        RemoveFromOwner();
                         SetOwnerGUID(player->GetGUID());
 
                         //TODO: find reasonable value for fishing hole search

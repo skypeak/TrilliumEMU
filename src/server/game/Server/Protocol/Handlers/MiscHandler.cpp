@@ -243,7 +243,7 @@ void WorldSession::HandleWhoOpcode(WorldPacket & recv_data)
     data << uint32(displaycount);                         // placeholder, count of players displayed
 
     TRILLIUMEMU_READ_GUARD(HashMapHolder<Player>::LockType, *HashMapHolder<Player>::GetLock());
-    HashMapHolder<Player>::MapType& m = sObjectAccessor->GetPlayers();
+    HashMapHolder<Player>::MapType const& m = sObjectAccessor->GetPlayers();
     for (HashMapHolder<Player>::MapType::const_iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (AccountMgr::IsPlayerAccount(security))
@@ -262,7 +262,7 @@ void WorldSession::HandleWhoOpcode(WorldPacket & recv_data)
             continue;
 
         // check if target is globally visible for player
-        if (!(itr->second->IsVisibleGloballyfor (_player)))
+        if (!(itr->second->IsVisibleGloballyFor(_player)))
             continue;
 
         // check if target's level is in level range
@@ -572,7 +572,7 @@ void WorldSession::HandleAddFriendOpcodeCallBack(QueryResult result, std::string
                 else
                 {
                     Player* pFriend = ObjectAccessor::FindPlayer(friendGuid);
-                    if (pFriend && pFriend->IsInWorld() && pFriend->IsVisibleGloballyfor (GetPlayer()))
+                    if (pFriend && pFriend->IsInWorld() && pFriend->IsVisibleGloballyFor(GetPlayer()))
                         friendResult = FRIEND_ADDED_ONLINE;
                     else
                         friendResult = FRIEND_ADDED_OFFLINE;

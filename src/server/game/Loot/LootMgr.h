@@ -152,7 +152,7 @@ struct LootItem
     bool AllowedForPlayer(Player const* player) const;
 
     void AddAllowedLooter(Player const* player);
-    AllowedLooterSet* GetAllowedLooters() { return &allowedGUIDs; }
+    const AllowedLooterSet & GetAllowedLooters() const { return allowedGUIDs; }
 };
 
 struct QuestItem
@@ -193,7 +193,7 @@ class LootStore
         void ReportUnusedIds(LootIdSet const& ids_set) const;
         void ReportNotExistedId(uint32 id) const;
 
-        bool HaveLootfor (uint32 loot_id) const { return m_LootTemplates.find(loot_id) != m_LootTemplates.end(); }
+        bool HaveLootFor(uint32 loot_id) const { return m_LootTemplates.find(loot_id) != m_LootTemplates.end(); }
         bool HaveQuestLootfor (uint32 loot_id) const;
         bool HaveQuestLootForPlayer(uint32 loot_id, Player* player) const;
 

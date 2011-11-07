@@ -149,23 +149,23 @@ enum CharterTypes
 class PacketFilter
 {
 public:
-    explicit PacketFilter(WorldSession * pSession) : m_pSession(pSession) {}
+    explicit PacketFilter(WorldSession* pSession) : m_pSession(pSession) {}
     virtual ~PacketFilter() {}
 
-    virtual bool Process(WorldPacket * /*packet*/) { return true; }
+    virtual bool Process(WorldPacket* /*packet*/) { return true; }
     virtual bool ProcessLogout() const { return true; }
 
 protected:
-    WorldSession * const m_pSession;
+    WorldSession* const m_pSession;
 };
 //process only thread-safe packets in Map::Update()
 class MapSessionFilter : public PacketFilter
 {
 public:
-    explicit MapSessionFilter(WorldSession * pSession) : PacketFilter(pSession) {}
+    explicit MapSessionFilter(WorldSession* pSession) : PacketFilter(pSession) {}
     ~MapSessionFilter() {}
 
-    virtual bool Process(WorldPacket * packet);
+    virtual bool Process(WorldPacket* packet);
     //in Map::Update() we do not process player logout!
     virtual bool ProcessLogout() const { return false; }
 };
@@ -175,7 +175,7 @@ public:
 class WorldSessionFilter : public PacketFilter
 {
 public:
-    explicit WorldSessionFilter(WorldSession * pSession) : PacketFilter(pSession) {}
+    explicit WorldSessionFilter(WorldSession* pSession) : PacketFilter(pSession) {}
     ~WorldSessionFilter() {}
 
     virtual bool Process(WorldPacket* packet);
@@ -391,9 +391,7 @@ class WorldSession
         }
         bool IsConnectionIdle() const
         {
-            if (m_timeOutTime <= 0 && !m_inQueue)
-                return true;
-            return false;
+            return (m_timeOutTime <= 0 && !m_inQueue);
         }
 
         // Recruit-A-Friend Handling

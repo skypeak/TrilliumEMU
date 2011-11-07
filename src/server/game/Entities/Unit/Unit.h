@@ -1228,6 +1228,7 @@ enum ReactiveType
 #define SUMMON_SLOT_MINIPET 5
 #define SUMMON_SLOT_QUEST   6
 #define MAX_SUMMON_SLOT     7
+#define MAX_GAMEOBJECT_SLOT 4
 
 enum PlayerTotemType
 {
@@ -1578,7 +1579,7 @@ class Unit : public WorldObject
 
         virtual bool IsInWater() const;
         virtual bool IsUnderWater() const;
-        bool isInAccessiblePlaceFor (Creature const* c) const;
+        bool isInAccessiblePlaceFor(Creature const* c) const;
 
         void SendHealSpellLog(Unit* pVictim, uint32 SpellID, uint32 Damage, uint32 OverHeal, uint32 Absorb, bool critical = false);
         int32 HealBySpell(Unit* pVictim, SpellInfo const* spellInfo, uint32 addHealth, bool critical = false);
