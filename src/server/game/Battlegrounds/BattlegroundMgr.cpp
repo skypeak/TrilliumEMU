@@ -791,7 +791,7 @@ void BattlegroundMgr::CreateInitialBattlegrounds()
         Field* fields = result->Fetch();
 
         uint32 bgTypeID_ = fields[0].GetUInt32();
-        if (DisableMgr::IsDisabledfor (DISABLE_TYPE_BATTLEGROUND, bgTypeID_, NULL))
+        if (DisableMgr::IsDisabledFor(DISABLE_TYPE_BATTLEGROUND, bgTypeID_, NULL))
             continue;
 
         // can be overwrite by values from DB
@@ -986,8 +986,9 @@ bool BattlegroundMgr::IsArenaType(BattlegroundTypeId bgTypeId)
     return (bgTypeId == BATTLEGROUND_AA ||
         bgTypeId == BATTLEGROUND_BE ||
         bgTypeId == BATTLEGROUND_NA ||
+        bgTypeId == BATTLEGROUND_DS ||
         bgTypeId == BATTLEGROUND_RV ||
-		bgTypeId == BATTLEGROUND_RL);
+        bgTypeId == BATTLEGROUND_RL);
 }
 
 BattlegroundQueueTypeId BattlegroundMgr::BGQueueTypeId(BattlegroundTypeId bgTypeId, uint8 arenaType)

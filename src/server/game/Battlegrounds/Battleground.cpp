@@ -127,7 +127,7 @@ template<class Do>
 void Battleground::BroadcastWorker(Do& _do)
 {
     for (BattlegroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
-        if (Player *plr = ObjectAccessor::FindPlayer(MAKE_NEW_GUID(itr->first, 0, HIGHGUID_PLAYER)))
+        if (Player* plr = ObjectAccessor::FindPlayer(MAKE_NEW_GUID(itr->first, 0, HIGHGUID_PLAYER)))
             _do(plr);
 }
 
@@ -333,10 +333,10 @@ inline void Battleground::_ProcessRessurect(uint32 diff)
         {
             for (std::map<uint64, std::vector<uint64> >::iterator itr = m_ReviveQueue.begin(); itr != m_ReviveQueue.end(); ++itr)
             {
-                Creature *sh = NULL;
+                Creature* sh = NULL;
                 for (std::vector<uint64>::const_iterator itr2 = (itr->second).begin(); itr2 != (itr->second).end(); ++itr2)
                 {
-                    Player *plr = ObjectAccessor::FindPlayer(*itr2);
+                    Player* plr = ObjectAccessor::FindPlayer(*itr2);
                     if (!plr)
                         continue;
 
@@ -367,7 +367,7 @@ inline void Battleground::_ProcessRessurect(uint32 diff)
     {
         for (std::vector<uint64>::const_iterator itr = m_ResurrectQueue.begin(); itr != m_ResurrectQueue.end(); ++itr)
         {
-            Player *plr = ObjectAccessor::FindPlayer(*itr);
+            Player* plr = ObjectAccessor::FindPlayer(*itr);
             if (!plr)
                 continue;
             plr->ResurrectPlayer(1.0f);
@@ -982,8 +982,8 @@ void Battleground::RemovePlayerAtLeave(uint64 guid, bool Transport, bool SendPac
                 if (isRated() && GetStatus() == STATUS_IN_PROGRESS)
                 {
                     //left a rated match while the encounter was in progress, consider as loser
-                    ArenaTeam * winner_arena_team = sArenaTeamMgr->GetArenaTeamById(GetArenaTeamIdForTeam(GetOtherTeam(team)));
-                    ArenaTeam * loser_arena_team = sArenaTeamMgr->GetArenaTeamById(GetArenaTeamIdForTeam(team));
+                    ArenaTeam* winner_arena_team = sArenaTeamMgr->GetArenaTeamById(GetArenaTeamIdForTeam(GetOtherTeam(team)));
+                    ArenaTeam* loser_arena_team = sArenaTeamMgr->GetArenaTeamById(GetArenaTeamIdForTeam(team));
                     if (winner_arena_team && loser_arena_team && winner_arena_team != loser_arena_team)
                         loser_arena_team->MemberLost(plr, GetArenaMatchmakerRating(GetOtherTeam(team)));
                 }
@@ -1004,8 +1004,8 @@ void Battleground::RemovePlayerAtLeave(uint64 guid, bool Transport, bool SendPac
             if (isRated() && GetStatus() == STATUS_IN_PROGRESS)
             {
                 //left a rated match while the encounter was in progress, consider as loser
-                ArenaTeam * others_arena_team = sArenaTeamMgr->GetArenaTeamById(GetArenaTeamIdForTeam(GetOtherTeam(team)));
-                ArenaTeam * players_arena_team = sArenaTeamMgr->GetArenaTeamById(GetArenaTeamIdForTeam(team));
+                ArenaTeam* others_arena_team = sArenaTeamMgr->GetArenaTeamById(GetArenaTeamIdForTeam(GetOtherTeam(team)));
+                ArenaTeam* players_arena_team = sArenaTeamMgr->GetArenaTeamById(GetArenaTeamIdForTeam(team));
                 if (others_arena_team && players_arena_team)
                     players_arena_team->OfflineMemberLost(guid, GetArenaMatchmakerRating(GetOtherTeam(team)));
             }

@@ -395,8 +395,8 @@ void ArenaTeam::Roster(WorldSession* session)
         data << uint32(itr->PersonalRating);               // personal rating
         if (unk308)
         {
-            data << float(0.0);                             // 308 unk
-            data << float(0.0);                             // 308 unk
+            data << float(0.0f);                           // 308 unk
+            data << float(0.0f);                           // 308 unk
         }
     }
 

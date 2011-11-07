@@ -44,7 +44,7 @@ class SmartScript
         void GetScript();
         void FillScript(SmartAIEventList e, WorldObject* obj, AreaTriggerEntry const* at);
 
-        void ProcessEventsfor (SMART_EVENT e, Unit* unit = NULL, uint32 var0 = 0, uint32 var1 = 0, bool bvar = false, const SpellInfo* spell = NULL, GameObject* gob = NULL);
+        void ProcessEventsFor (SMART_EVENT e, Unit* unit = NULL, uint32 var0 = 0, uint32 var1 = 0, bool bvar = false, const SpellInfo* spell = NULL, GameObject* gob = NULL);
         void ProcessEvent(SmartScriptHolder& e, Unit* unit = NULL, uint32 var0 = 0, uint32 var1 = 0, bool bvar = false, const SpellInfo* spell = NULL, GameObject* gob = NULL);
         bool CheckTimer(SmartScriptHolder const& e) const;
         void RecalcTimer(SmartScriptHolder& e, uint32 min, uint32 max);
@@ -159,33 +159,31 @@ class SmartScript
         {
             GameObject* gameObject = NULL;
 
-            CellPair p(Trillium::ComputeCellPair(searchObject->GetPositionX(), searchObject->GetPositionY()));
+            CellCoord p(Trillium::ComputeCellCoord(searchObject->GetPositionX(), searchObject->GetPositionY()));
             Cell cell(p);
-            cell.data.Part.reserved = ALL_DISTRICT;
 
             Trillium::GameObjectWithDbGUIDCheck goCheck(*searchObject, guid);
             Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck> checker(searchObject, gameObject, goCheck);
 
             TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > objectChecker(checker);
-            cell.Visit(p, objectChecker, *searchObject->GetMap());
+            cell.Visit(p, objectChecker, *searchObject->GetMap(), *searchObject, searchObject->GetGridActivationRange());
 
             return gameObject;
         }
 
         Creature* FindCreatureNear(WorldObject* searchObject, uint32 guid) const
         {
-            Creature* crea = NULL;
-            CellPair p(Trillium::ComputeCellPair(searchObject->GetPositionX(), searchObject->GetPositionY()));
+            Creature* creature = NULL;
+            CellCoord p(Trillium::ComputeCellCoord(searchObject->GetPositionX(), searchObject->GetPositionY()));
             Cell cell(p);
-            cell.data.Part.reserved = ALL_DISTRICT;
 
             Trillium::CreatureWithDbGUIDCheck target_check(searchObject, guid);
-            Trillium::CreatureSearcher<Trillium::CreatureWithDbGUIDCheck> checker(searchObject, crea, target_check);
+            Trillium::CreatureSearcher<Trillium::CreatureWithDbGUIDCheck> checker(searchObject, creature, target_check);
 
             TypeContainerVisitor<Trillium::CreatureSearcher <Trillium::CreatureWithDbGUIDCheck>, GridTypeMapContainer > unit_checker(checker);
-            cell.Visit(p, unit_checker, *searchObject->GetMap());
+            cell.Visit(p, unit_checker, *searchObject->GetMap(), *searchObject, searchObject->GetGridActivationRange());
 
-            return crea;
+            return creature;
         }
 
         ObjectListMap* mTargetStorage;

@@ -771,9 +771,6 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
         case SMART_ACTION_RESET_SCRIPT_BASE_OBJECT:
         case SMART_ACTION_ACTIVATE_GOBJECT:
         case SMART_ACTION_CALL_SCRIPT_RESET:
-        case SMART_ACTION_ENTER_VEHICLE:
-        case SMART_ACTION_LEAVE_VEHICLE:
-        case SMART_ACTION_REMOVE_PASSENGERS:
         case SMART_ACTION_NONE:
         case SMART_ACTION_CALL_TIMED_ACTIONLIST:
         case SMART_ACTION_SET_NPC_FLAG:
@@ -793,6 +790,7 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
         case SMART_ACTION_ADD_DYNAMIC_FLAG:
         case SMART_ACTION_REMOVE_DYNAMIC_FLAG:
         case SMART_ACTION_JUMP_TO_POS:
+        case SMART_ACTION_SEND_GOSSIP_MENU:
             break;
         default:
             sLog->outErrorDb("SmartAIMgr: Not handled action_type(%u), event_type(%u), Entry %d SourceType %u Event %u, skipped.", e.GetActionType(), e.GetEventType(), e.entryOrGuid, e.GetScriptType(), e.event_id);

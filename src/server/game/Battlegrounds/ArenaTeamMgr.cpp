@@ -144,7 +144,7 @@ void ArenaTeamMgr::WeekReset()
 {
     for (ArenaTeamContainer::iterator titr = GetArenaTeamMapBegin(); titr != GetArenaTeamMapEnd(); ++titr)
     {
-        if (ArenaTeam * at = titr->second)
+        if (ArenaTeam* at = titr->second)
         {
             at->FinishWeek();
             at->SaveToDB();

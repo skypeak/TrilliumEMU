@@ -36,6 +36,7 @@
 #include "SmartAI.h"
 #include "Group.h"
 #include "Vehicle.h"
+#include "ScriptedGossip.h"
 
 SmartScript::SmartScript()
 {
@@ -75,11 +76,11 @@ void SmartScript::OnReset()
         InitTimer((*i));
         (*i).runOnce = false;
     }
-    ProcessEventsfor (SMART_EVENT_RESET);
+    ProcessEventsFor (SMART_EVENT_RESET);
     mLastInvoker = 0;
 }
 
-void SmartScript::ProcessEventsfor (SMART_EVENT e, Unit* unit, uint32 var0, uint32 var1, bool bvar, const SpellInfo* spell, GameObject* gob)
+void SmartScript::ProcessEventsFor (SMART_EVENT e, Unit* unit, uint32 var0, uint32 var1, bool bvar, const SpellInfo* spell, GameObject* gob)
 {
     if (e == SMART_EVENT_AGGRO)
     {
@@ -1326,7 +1327,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
 
             bool run = e.action.setRun.run ? true : false;
             CAST_AI(SmartAI, me->AI())->SetRun(run);
-            me->GetMotionMaster()->MovePoint(0, e.target.x, e.target.y , e.target.z);
+            me->GetMotionMaster()->MovePoint(0, e.target.x, e.target.y, e.target.z);
             break;
         }
         case SMART_ACTION_RESPAWN_TARGET:
@@ -1340,7 +1341,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
                 if (IsCreature(*itr))
                     (*itr)->ToCreature()->Respawn();
                 else if (IsGameObject(*itr))
-                    (*itr)->ToGameObject()->SetRespawnTime(e.action.RespawnTarget.GoRespawnTime);
+                    (*itr)->ToGameObject()->SetRespawnTime(e.action.RespawnTarget.goRespawnTime);
             }
 
             delete targets;
@@ -1431,7 +1432,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
             break;
         }
         case SMART_ACTION_TRIGGER_TIMED_EVENT:
-            ProcessEventsfor ((SMART_EVENT)SMART_EVENT_TIMED_EVENT_TRIGGERED, NULL, e.action.timeEvent.id);
+            ProcessEventsFor ((SMART_EVENT)SMART_EVENT_TIMED_EVENT_TRIGGERED, NULL, e.action.timeEvent.id);
             break;
         case SMART_ACTION_REMOVE_TIMED_EVENT:
             mRemIDs.push_back(e.action.timeEvent.id);
@@ -1475,75 +1476,6 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
         case SMART_ACTION_CALL_SCRIPT_RESET:
             OnReset();
             break;
-        case SMART_ACTION_ENTER_VEHICLE:
-        {
-            if (!me)
-                return;
-
-            ObjectList* targets = GetTargets(e, unit);
-            if (!targets)
-                return;
-
-            for (ObjectList::iterator itr = targets->begin(); itr != targets->end(); ++itr)
-            {
-                if (Unit* target = (*itr)->ToUnit())
-                {
-                    if (target->GetVehicleKit())
-                    {
-                        me->EnterVehicle(target, e.action.enterVehicle.seat);
-                        delete targets;
-                        return;
-                    }
-                }
-            }
-
-            delete targets;
-            break;
-        }
-        case SMART_ACTION_LEAVE_VEHICLE:
-        {
-            ObjectList* targets = GetTargets(e, unit);
-            if (!targets)
-                return;
-
-            for (ObjectList::iterator itr = targets->begin(); itr != targets->end(); ++itr)
-            {
-                if (Unit* target = (*itr)->ToUnit())
-                {
-                    if (!target->GetVehicle())
-                        continue;
-
-                    target->ExitVehicle();
-                    delete targets;
-                    return;
-                }
-            }
-
-            delete targets;
-            break;
-        }
-        case SMART_ACTION_REMOVE_PASSENGERS:
-        {
-            ObjectList* targets = GetTargets(e, unit);
-            if (!targets)
-                return;
-
-            for (ObjectList::iterator itr = targets->begin(); itr != targets->end(); ++itr)
-            {
-                if (!IsUnit(*itr))
-                    continue;
-
-                if (Vehicle* veh = (*itr)->ToUnit()->GetVehicle())
-                {
-                    veh->RemoveAllPassengers();
-                    delete targets;
-                    return;
-                }
-            }
-
-            delete targets;
-            break;
-        }
         case SMART_ACTION_CALL_TIMED_ACTIONLIST:
         {
             if (e.GetTargetType() == SMART_TARGET_NONE)
@@ -1849,9 +1781,35 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
                 return;
 
             me->GetMotionMaster()->Clear();
-            me->GetMotionMaster()->MoveJump(e.target.x, e.target.y , e.target.z, (float)e.action.jump.speedxy, (float)e.action.jump.speedz);
+            me->GetMotionMaster()->MoveJump(e.target.x, e.target.y, e.target.z, (float)e.action.jump.speedxy, (float)e.action.jump.speedz);
             // TODO: Resume path when reached jump location
-			break;
+            break;
+        }
+        case SMART_ACTION_SEND_GOSSIP_MENU:
+        {
+            if (!GetBaseObject())
+                return;
+
+            sLog->outDebug(LOG_FILTER_DATABASE_AI, "SmartScript::ProcessAction:: SMART_ACTION_SEND_GOSSIP_MENU: gossipMenuId %d, gossip_option_id %d",
+                e.action.sendGossipMenu.gossipMenuId, e.action.sendGossipMenu.gossipOptionId);
+
+            ObjectList* targets = GetTargets(e, unit);
+            if (!targets)
+                return;
+
+            for (ObjectList::const_iterator itr = targets->begin(); itr != targets->end(); ++itr)
+                if (Player* player = (*itr)->ToPlayer())
+                {
+                    if (e.action.sendGossipMenu.gossipMenuId)
+                        player->PrepareGossipMenu(GetBaseObject(), e.action.sendGossipMenu.gossipMenuId, true);
+                    else
+                        player->PlayerTalkClass->ClearMenus();
+
+                    player->SEND_GOSSIP_MENU(e.action.sendGossipMenu.gossipOptionId, GetBaseObject()->GetGUID());
+                }
+
+            delete targets;
+            break;
         }
         default:
             sLog->outErrorDb("SmartScript::ProcessAction: Unhandled Action type %u", e.GetActionType());
@@ -2803,7 +2761,7 @@ void SmartScript::OnUpdate(uint32 const diff)
             mTalkerEntry = 0;
             mTextTimer = 0;
             mUseTextTimer = false;
-            ProcessEventsfor (SMART_EVENT_TEXT_OVER, NULL, textID, entry);
+            ProcessEventsFor (SMART_EVENT_TEXT_OVER, NULL, textID, entry);
         } else mTextTimer -= diff;
     }
 }
@@ -2905,20 +2863,20 @@ void SmartScript::OnInitialize(WorldObject* obj, AreaTriggerEntry const* at)
     for (SmartAIEventList::iterator i = mEvents.begin(); i != mEvents.end(); ++i)
         InitTimer((*i));//calculate timers for first time use
 
-    ProcessEventsfor (SMART_EVENT_AI_INIT);
+    ProcessEventsFor (SMART_EVENT_AI_INIT);
     InstallEvents();
-    ProcessEventsfor (SMART_EVENT_JUST_CREATED);
+    ProcessEventsFor (SMART_EVENT_JUST_CREATED);
 }
 
 void SmartScript::OnMoveInLineOfSight(Unit* who)
 {
-    ProcessEventsfor (SMART_EVENT_OOC_LOS, who);
+    ProcessEventsFor (SMART_EVENT_OOC_LOS, who);
 
     if (!me) return;
     if (me->getVictim())
         return;
 
-    ProcessEventsfor (SMART_EVENT_IC_LOS, who);
+    ProcessEventsFor (SMART_EVENT_IC_LOS, who);
 
 }
 
@@ -2969,10 +2927,11 @@ uint32 SmartScript::DoChat(int8 id, uint64 whisperGuid)
 
 Unit* SmartScript::DoSelectLowestHpFriendly(float range, uint32 MinHPDiff)
 {
-    if (!me) return NULL;
-    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    if (!me)
+        return NULL;
+
+    CellCoord p(Trillium::ComputeCellCoord(me->GetPositionX(), me->GetPositionY()));
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     Unit* unit = NULL;
@@ -2988,10 +2947,11 @@ Unit* SmartScript::DoSelectLowestHpFriendly(float range, uint32 MinHPDiff)
 
 void SmartScript::DoFindFriendlyCC(std::list<Creature*>& _list, float range)
 {
-    if (!me) return;
-    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    if (!me)
+        return;
+
+    CellCoord p(Trillium::ComputeCellCoord(me->GetPositionX(), me->GetPositionY()));
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     Trillium::FriendlyCCedInRange u_check(me, range);
@@ -2999,15 +2959,16 @@ void SmartScript::DoFindFriendlyCC(std::list<Creature*>& _list, float range)
 
     TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::FriendlyCCedInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
 
-    cell.Visit(p, grid_creature_searcher, *me->GetMap());
+    cell.Visit(p, grid_creature_searcher, *me->GetMap(), *me, range);
 }
 
 void SmartScript::DoFindFriendlyMissingBuff(std::list<Creature*>& list, float range, uint32 spellid)
 {
-    if (!me) return;
-    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+    if (!me)
+        return;
+
+    CellCoord p(Trillium::ComputeCellCoord(me->GetPositionX(), me->GetPositionY()));
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     Trillium::FriendlyMissingBuffInRange u_check(me, range, spellid);
@@ -3015,7 +2976,7 @@ void SmartScript::DoFindFriendlyMissingBuff(std::list<Creature*>& list, float ra
 
     TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::FriendlyMissingBuffInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
 
-    cell.Visit(p, grid_creature_searcher, *me->GetMap());
+    cell.Visit(p, grid_creature_searcher, *me->GetMap(), *me, range);
 }
 
 void SmartScript::SetScript9(SmartScriptHolder& e, uint32 entry)

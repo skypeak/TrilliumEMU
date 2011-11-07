@@ -141,7 +141,7 @@ void SmartAI::StartPath(bool run, uint32 path, bool repeat, Unit* /*invoker*/)
     {
         me->GetPosition(&mLastOOCPos);
         me->GetMotionMaster()->MovePoint(wp->id, wp->x, wp->y, wp->z);
-        GetScript()->ProcessEventsfor (SMART_EVENT_WAYPOINT_START, NULL, wp->id, GetScript()->GetPathId());
+        GetScript()->ProcessEventsFor (SMART_EVENT_WAYPOINT_START, NULL, wp->id, GetScript()->GetPathId());
     }
 }
 
@@ -178,7 +178,7 @@ void SmartAI::PausePath(uint32 delay, bool forced)
         me->StopMoving();//force stop
         me->GetMotionMaster()->MoveIdle();//force stop
     }
-    GetScript()->ProcessEventsfor (SMART_EVENT_WAYPOINT_PAUSED, NULL, mLastWP->id, GetScript()->GetPathId());
+    GetScript()->ProcessEventsFor (SMART_EVENT_WAYPOINT_PAUSED, NULL, mLastWP->id, GetScript()->GetPathId());
 }
 
 void SmartAI::StopPath(uint32 DespawnTime, uint32 quest, bool fail)
@@ -194,13 +194,13 @@ void SmartAI::StopPath(uint32 DespawnTime, uint32 quest, bool fail)
     me->GetPosition(&mLastOOCPos);
     me->StopMoving();//force stop
     me->GetMotionMaster()->MoveIdle();
-    GetScript()->ProcessEventsfor (SMART_EVENT_WAYPOINT_STOPPED, NULL, mLastWP->id, GetScript()->GetPathId());
+    GetScript()->ProcessEventsFor (SMART_EVENT_WAYPOINT_STOPPED, NULL, mLastWP->id, GetScript()->GetPathId());
     EndPath(fail);
 }
 
 void SmartAI::EndPath(bool fail)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_WAYPOINT_ENDED, NULL, mLastWP->id, GetScript()->GetPathId());
+    GetScript()->ProcessEventsFor (SMART_EVENT_WAYPOINT_ENDED, NULL, mLastWP->id, GetScript()->GetPathId());
 
     RemoveEscortState(SMART_ESCORT_ESCORTING | SMART_ESCORT_PAUSED | SMART_ESCORT_RETURNING);
     mWayPoints = NULL;
@@ -289,7 +289,7 @@ void SmartAI::UpdatePath(const uint32 diff)
         {
             if (!me->isInCombat() && !HasEscortState(SMART_ESCORT_RETURNING) && (mWPReached || mLastWPIDReached == SMART_ESCORT_LAST_OOC_POINT || mForcedPaused))
             {
-                GetScript()->ProcessEventsfor (SMART_EVENT_WAYPOINT_RESUMED, NULL, mLastWP->id, GetScript()->GetPathId());
+                GetScript()->ProcessEventsFor (SMART_EVENT_WAYPOINT_RESUMED, NULL, mLastWP->id, GetScript()->GetPathId());
                 RemoveEscortState(SMART_ESCORT_PAUSED);
                 if (mForcedPaused)// if paused between 2 wps resend movement
                 {
@@ -368,7 +368,7 @@ void SmartAI::UpdateAI(const uint32 diff)
                 me->StopMoving();
                 me->GetMotionMaster()->MoveIdle();
                 StartDespawn();
-                GetScript()->ProcessEventsfor (SMART_EVENT_FOLLOW_COMPLETED);
+                GetScript()->ProcessEventsFor (SMART_EVENT_FOLLOW_COMPLETED);
                 return;
             }
             mFollowArrivedTimer = 1000;
@@ -421,7 +421,7 @@ bool SmartAI::IsEscortInvokerInRange()
 void SmartAI::MovepointReached(uint32 id)
 {
     if (id != SMART_ESCORT_LAST_OOC_POINT && mLastWPIDReached != id)
-        GetScript()->ProcessEventsfor (SMART_EVENT_WAYPOINT_REACHED, NULL, id);
+        GetScript()->ProcessEventsFor (SMART_EVENT_WAYPOINT_REACHED, NULL, id);
 
     mLastWPIDReached = id;
     mWPReached = true;
@@ -429,7 +429,7 @@ void SmartAI::MovepointReached(uint32 id)
 
 void SmartAI::MovementInform(uint32 MovementType, uint32 Data)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_MOVEMENTINFORM, NULL, MovementType, Data);
+    GetScript()->ProcessEventsFor (SMART_EVENT_MOVEMENTINFORM, NULL, MovementType, Data);
     if (MovementType != POINT_MOTION_TYPE || !HasEscortState(SMART_ESCORT_ESCORTING))
         return;
     MovepointReached(Data);
@@ -447,7 +447,7 @@ void SmartAI::EnterEvadeMode()
     me->SetLootRecipient(NULL);
     me->ResetPlayerDamageReq();
 
-    GetScript()->ProcessEventsfor (SMART_EVENT_EVADE);//must be after aura clear so we can cast spells from db
+    GetScript()->ProcessEventsFor (SMART_EVENT_EVADE);//must be after aura clear so we can cast spells from db
 
     SetRun(mRun);
     if (HasEscortState(SMART_ESCORT_ESCORTING))
@@ -455,13 +455,13 @@ void SmartAI::EnterEvadeMode()
         AddEscortState(SMART_ESCORT_RETURNING);
         ReturnToLastOOCPos();
     }
-	  else if (mFollowGuid)
+	else if (mFollowGuid)
     {
         if (Unit* target = me->GetUnit(*me, mFollowGuid))
             me->GetMotionMaster()->MoveFollow(target, mFollowDist, mFollowAngle);
+    }
     else
         me->GetMotionMaster()->MoveTargetedHome();
-    }
 
     Reset();
 }
@@ -553,7 +553,7 @@ void SmartAI::JustRespawned()
     me->SetVisible(true);
     if (me->getFaction() != me->GetCreatureInfo()->faction_A)
         me->RestoreFaction();
-    GetScript()->ProcessEventsfor (SMART_EVENT_RESPAWN);
+    GetScript()->ProcessEventsFor (SMART_EVENT_RESPAWN);
     Reset();
     mFollowGuid = 0;//do not reset follower on Reset(), we need it after combat evade
     mFollowDist = 0;
@@ -573,31 +573,31 @@ int SmartAI::Permissible(const Creature* creature)
 
 void SmartAI::JustReachedHome()
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_REACHED_HOME);
+    GetScript()->ProcessEventsFor (SMART_EVENT_REACHED_HOME);
 }
 
 void SmartAI::EnterCombat(Unit* enemy)
 {
     me->InterruptNonMeleeSpells(false);//msut be before ProcessEvents
-    GetScript()->ProcessEventsfor (SMART_EVENT_AGGRO, enemy);
+    GetScript()->ProcessEventsFor (SMART_EVENT_AGGRO, enemy);
     me->GetPosition(&mLastOOCPos);
 }
 
 void SmartAI::JustDied(Unit* killer)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_DEATH, killer);
+    GetScript()->ProcessEventsFor (SMART_EVENT_DEATH, killer);
     if (HasEscortState(SMART_ESCORT_ESCORTING))
         EndPath(true);
 }
 
 void SmartAI::KilledUnit(Unit* victim)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_KILL, victim);
+    GetScript()->ProcessEventsFor (SMART_EVENT_KILL, victim);
 }
 
 void SmartAI::JustSummoned(Creature* creature)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_SUMMONED_UNIT, creature);
+    GetScript()->ProcessEventsFor (SMART_EVENT_SUMMONED_UNIT, creature);
 }
 
 void SmartAI::AttackStart(Unit* who)
@@ -617,42 +617,42 @@ void SmartAI::AttackStart(Unit* who)
 
 void SmartAI::SpellHit(Unit* unit, const SpellInfo* spellInfo)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_SPELLHIT, unit, 0, 0, false, spellInfo);
+    GetScript()->ProcessEventsFor (SMART_EVENT_SPELLHIT, unit, 0, 0, false, spellInfo);
 }
 
 void SmartAI::SpellHitTarget(Unit* target, const SpellInfo* spellInfo)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_SPELLHIT_TARGET, target, 0, 0, false, spellInfo);
+    GetScript()->ProcessEventsFor (SMART_EVENT_SPELLHIT_TARGET, target, 0, 0, false, spellInfo);
 }
 
 void SmartAI::DamageTaken(Unit* doneBy, uint32& damage)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_DAMAGED, doneBy, damage);
+    GetScript()->ProcessEventsFor (SMART_EVENT_DAMAGED, doneBy, damage);
 }
 
 void SmartAI::HealReceived(Unit* doneBy, uint32& addhealth)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_RECEIVE_HEAL, doneBy, addhealth);
+    GetScript()->ProcessEventsFor (SMART_EVENT_RECEIVE_HEAL, doneBy, addhealth);
 }
 
 void SmartAI::ReceiveEmote(Player* player, uint32 textEmote)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_RECEIVE_EMOTE, player, textEmote);
+    GetScript()->ProcessEventsFor (SMART_EVENT_RECEIVE_EMOTE, player, textEmote);
 }
 
 void SmartAI::IsSummonedBy(Unit* summoner)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_JUST_SUMMONED, summoner);
+    GetScript()->ProcessEventsFor (SMART_EVENT_JUST_SUMMONED, summoner);
 }
 
 void SmartAI::DamageDealt(Unit* doneTo, uint32& damage, DamageEffectType /*damagetype*/)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_DAMAGED_TARGET, doneTo, damage);
+    GetScript()->ProcessEventsFor (SMART_EVENT_DAMAGED_TARGET, doneTo, damage);
 }
 
 void SmartAI::SummonedCreatureDespawn(Creature* unit)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_SUMMON_DESPAWNED, unit);
+    GetScript()->ProcessEventsFor (SMART_EVENT_SUMMON_DESPAWNED, unit);
 }
 
 void SmartAI::UpdateAIWhileCharmed(const uint32 /*diff*/)
@@ -661,12 +661,12 @@ void SmartAI::UpdateAIWhileCharmed(const uint32 /*diff*/)
 
 void SmartAI::CorpseRemoved(uint32& respawnDelay)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_CORPSE_REMOVED, NULL, respawnDelay);
+    GetScript()->ProcessEventsFor (SMART_EVENT_CORPSE_REMOVED, NULL, respawnDelay);
 }
 
 void SmartAI::PassengerBoarded(Unit* who, int8 seatId, bool apply)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_PASSENGER_BOARDED, who, (uint32)seatId, 0, apply);
+    GetScript()->ProcessEventsFor (SMART_EVENT_PASSENGER_BOARDED, who, (uint32)seatId, 0, apply);
 }
 
 void SmartAI::InitializeAI()
@@ -674,12 +674,12 @@ void SmartAI::InitializeAI()
     GetScript()->OnInitialize(me);
     if (!me->isDead())
         Reset();
-    GetScript()->ProcessEventsfor (SMART_EVENT_RESPAWN);
+    GetScript()->ProcessEventsFor (SMART_EVENT_RESPAWN);
 }
 
 void SmartAI::OnCharmed(bool apply)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_CHARMED, NULL, 0, 0, apply);
+    GetScript()->ProcessEventsFor (SMART_EVENT_CHARMED, NULL, 0, 0, apply);
 }
 
 void SmartAI::DoAction(const int32 /*param*/)
@@ -693,7 +693,7 @@ uint32 SmartAI::GetData(uint32 /*id*/)
 
 void SmartAI::SetData(uint32 id, uint32 value)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_DATA_SET, NULL, id, value);
+    GetScript()->ProcessEventsFor (SMART_EVENT_DATA_SET, NULL, id, value);
 }
 
 void SmartAI::SetGUID(uint64 /*guid*/, int32 /*id*/)
@@ -711,7 +711,7 @@ void SmartAI::SetRun(bool run)
         me->RemoveUnitMovementFlag(MOVEMENTFLAG_WALKING);
     else
         me->AddUnitMovementFlag(MOVEMENTFLAG_WALKING);
-	me->SendMovementFlagUpdate();
+    me->SendMovementFlagUpdate();
     mRun = run;
 }
 
@@ -727,7 +727,7 @@ void SmartAI::SetFly(bool fly)
         me->RemoveUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
         me->RemoveByteFlag(UNIT_FIELD_BYTES_1, 3, 0x01);
     }
-	me->SetFlying(fly);
+    me->SetFlying(fly);
     me->SendMovementFlagUpdate();
 }
 
@@ -737,17 +737,17 @@ void SmartAI::SetSwim(bool swim)
         me->AddUnitMovementFlag(MOVEMENTFLAG_SWIMMING);
     else
         me->RemoveUnitMovementFlag(MOVEMENTFLAG_SWIMMING);
-		me->SendMovementFlagUpdate();
+    me->SendMovementFlagUpdate();
 }
 
 void SmartAI::sGossipHello(Player* player)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_GOSSIP_HELLO, player);
+    GetScript()->ProcessEventsFor (SMART_EVENT_GOSSIP_HELLO, player);
 }
 
 void SmartAI::sGossipSelect(Player* player, uint32 sender, uint32 action)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_GOSSIP_SELECT, player, sender, action);
+    GetScript()->ProcessEventsFor (SMART_EVENT_GOSSIP_SELECT, player, sender, action);
 }
 
 void SmartAI::sGossipSelectCode(Player* /*player*/, uint32 /*sender*/, uint32 /*action*/, const char* /*code*/)
@@ -756,17 +756,17 @@ void SmartAI::sGossipSelectCode(Player* /*player*/, uint32 /*sender*/, uint32 /*
 
 void SmartAI::sQuestAccept(Player* player, Quest const* quest)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_ACCEPTED_QUEST, player, quest->GetQuestId());
+    GetScript()->ProcessEventsFor (SMART_EVENT_ACCEPTED_QUEST, player, quest->GetQuestId());
 }
 
 void SmartAI::sQuestReward(Player* player, Quest const* quest, uint32 opt)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_REWARD_QUEST, player, quest->GetQuestId(), opt);
+    GetScript()->ProcessEventsFor (SMART_EVENT_REWARD_QUEST, player, quest->GetQuestId(), opt);
 }
 
 bool SmartAI::sOnDummyEffect(Unit* caster, uint32 spellId, SpellEffIndex effIndex)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_DUMMY_EFFECT, caster, spellId, (uint32)effIndex);
+    GetScript()->ProcessEventsFor (SMART_EVENT_DUMMY_EFFECT, caster, spellId, (uint32)effIndex);
     return true;
 }
 
@@ -852,7 +852,7 @@ void SmartGameObjectAI::UpdateAI(const uint32 diff)
 void SmartGameObjectAI::InitializeAI()
 {
     GetScript()->OnInitialize(go);
-    GetScript()->ProcessEventsfor (SMART_EVENT_RESPAWN);
+    GetScript()->ProcessEventsFor (SMART_EVENT_RESPAWN);
     //Reset();
 }
 
@@ -865,14 +865,14 @@ void SmartGameObjectAI::Reset()
 bool SmartGameObjectAI::GossipHello(Player* player)
 {
     sLog->outDebug(LOG_FILTER_DATABASE_AI, "SmartGameObjectAI::GossipHello");
-    GetScript()->ProcessEventsfor (SMART_EVENT_GOSSIP_HELLO, player, 0 , 0 , false, NULL, go);
+    GetScript()->ProcessEventsFor (SMART_EVENT_GOSSIP_HELLO, player, 0 , 0 , false, NULL, go);
     return false;
 }
 
 // Called when a player selects a gossip item in the gameobject's gossip menu.
 bool SmartGameObjectAI::GossipSelect(Player* player, uint32 sender, uint32 action)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_GOSSIP_SELECT, player, sender, action, false, NULL, go);
+    GetScript()->ProcessEventsFor (SMART_EVENT_GOSSIP_SELECT, player, sender, action, false, NULL, go);
     return false;
 }
 
@@ -885,14 +885,14 @@ bool SmartGameObjectAI::GossipSelectCode(Player* /*player*/, uint32 /*sender*/, 
 // Called when a player accepts a quest from the gameobject.
 bool SmartGameObjectAI::QuestAccept(Player* player, Quest const* quest)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_ACCEPTED_QUEST, player, quest->GetQuestId() , 0 , false, NULL, go);
+    GetScript()->ProcessEventsFor (SMART_EVENT_ACCEPTED_QUEST, player, quest->GetQuestId() , 0 , false, NULL, go);
     return false;
 }
 
 // Called when a player selects a quest reward.
 bool SmartGameObjectAI::QuestReward(Player* player, Quest const* quest, uint32 opt)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_REWARD_QUEST, player, quest->GetQuestId() , opt , false, NULL, go);
+    GetScript()->ProcessEventsFor (SMART_EVENT_REWARD_QUEST, player, quest->GetQuestId() , opt , false, NULL, go);
     return false;
 }
 
@@ -902,12 +902,12 @@ uint32 SmartGameObjectAI::GetDialogStatus(Player* /*player*/) { return 100; }
 // Called when the gameobject is destroyed (destructible buildings only).
 void SmartGameObjectAI::Destroyed(Player* player, uint32 eventId)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_DEATH, player, eventId , 0 , false, NULL, go);
+    GetScript()->ProcessEventsFor (SMART_EVENT_DEATH, player, eventId , 0 , false, NULL, go);
 }
 
 void SmartGameObjectAI::SetData(uint32 id, uint32 value)
 {
-    GetScript()->ProcessEventsfor (SMART_EVENT_DATA_SET, NULL, id, value);
+    GetScript()->ProcessEventsFor (SMART_EVENT_DATA_SET, NULL, id, value);
 }
 
 void SmartGameObjectAI::SetScript9(SmartScriptHolder& e, uint32 entry, Unit* invoker)
@@ -920,8 +920,7 @@ void SmartGameObjectAI::SetScript9(SmartScriptHolder& e, uint32 entry, Unit* inv
 class SmartTrigger : public AreaTriggerScript
 {
     public:
-
-		SmartTrigger() : AreaTriggerScript("SmartTrigger") {}
+        SmartTrigger() : AreaTriggerScript("SmartTrigger") {}
 
         bool OnTrigger(Player* player, AreaTriggerEntry const* trigger)
         {
@@ -931,7 +930,7 @@ class SmartTrigger : public AreaTriggerScript
             sLog->outDebug(LOG_FILTER_DATABASE_AI, "AreaTrigger %u is using SmartTrigger script", trigger->id);
             SmartScript script;
             script.OnInitialize(NULL, trigger);
-            script.ProcessEventsfor (SMART_EVENT_AREATRIGGER_ONTRIGGER, player, trigger->id);
+            script.ProcessEventsFor (SMART_EVENT_AREATRIGGER_ONTRIGGER, player, trigger->id);
             return true;
         }
 };
