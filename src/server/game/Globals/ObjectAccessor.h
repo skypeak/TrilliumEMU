@@ -87,8 +87,7 @@ class HashMapHolder
 
 class ObjectAccessor
 {
-    friend class ACE_Singleton<ObjectAccessor, ACE_Thread_Mutex>;
-    friend class WorldRunnable;
+    friend class ACE_Singleton<ObjectAccessor, ACE_Null_Mutex>;
     private:
         ObjectAccessor();
         ~ObjectAccessor();
@@ -96,9 +95,6 @@ class ObjectAccessor
         ObjectAccessor& operator=(const ObjectAccessor&);
 
     public:
-        typedef UNORDERED_MAP<uint64, Corpse*> Player2CorpsesMapType;
-        typedef UNORDERED_MAP<Player*, UpdateData>::value_type UpdateDataValueType;
-
         // TODO: override these template functions for each holder type and add assertions
 
         template<class T> static T* GetObjectInOrOutOfWorld(uint64 guid, T* /*typeSpecifier*/)
@@ -198,10 +194,10 @@ class ObjectAccessor
         static Pet * FindPet(uint64);
         static Player* FindPlayer(uint64);
         static Unit* FindUnit(uint64);
-        Player* FindPlayerByName(const char* name);
+        static Player* FindPlayerByName(const char* name);
 
         // when using this, you must use the hashmapholder's lock
-        HashMapHolder<Player>::MapType const& GetPlayers() const
+        static HashMapHolder<Player>::MapType const& GetPlayers()
         {
             return HashMapHolder<Player>::GetContainer();
         }
@@ -218,24 +214,19 @@ class ObjectAccessor
         //    return HashMapHolder<GameObject>::GetContainer();
         //}
 
-        template<class T> void AddObject(T* object)
+        template<class T> static void AddObject(T* object)
         {
             HashMapHolder<T>::Insert(object);
         }
 
-        template<class T> void RemoveObject(T* object)
+        template<class T> static void RemoveObject(T* object)
         {
             HashMapHolder<T>::Remove(object);
         }
 
-        void RemoveObject(Player* pl)
-        {
-            HashMapHolder<Player>::Remove(pl);
-            RemoveUpdateObject((Object*)pl);
-        }
+        static void SaveAllPlayers();
 
-        void SaveAllPlayers();
-
+        //non-static functions
         void AddUpdateObject(Object* obj)
         {
             TRILLIUMEMU_GUARD(ACE_Thread_Mutex, i_objectLock);
@@ -248,8 +239,6 @@ class ObjectAccessor
             i_objects.erase(obj);
         }
 
-        void Update(uint32 diff);
-
 		//Thread safe
         Corpse* GetCorpseForPlayerGUID(uint64 guid);
         void RemoveCorpse(Corpse* corpse);
@@ -257,9 +246,9 @@ class ObjectAccessor
         void AddCorpsesToGrid(GridCoord const& gridpair, GridType& grid, Map* map);
         Corpse* ConvertCorpseForPlayer(uint64 player_guid, bool insignia = false);
 		//Thread unsafe
+		void Update(uint32 diff);
         void RemoveOldCorpses();
 
-    protected:
         void UnloadAll();
 
     private:
@@ -268,6 +257,9 @@ class ObjectAccessor
         static void _buildPacket(Player*, Object*, UpdateDataMapType&);
         void _update();
 
+        typedef UNORDERED_MAP<uint64, Corpse*> Player2CorpsesMapType;
+        typedef UNORDERED_MAP<Player*, UpdateData>::value_type UpdateDataValueType;
+		
         std::set<Object*> i_objects;
 		Player2CorpsesMapType i_player2corpse;
 
@@ -275,5 +267,5 @@ class ObjectAccessor
         ACE_RW_Thread_Mutex i_corpseLock;
 };
 
-#define sObjectAccessor ACE_Singleton<ObjectAccessor, ACE_Thread_Mutex>::instance()
+#define sObjectAccessor ACE_Singleton<ObjectAccessor, ACE_Null_Mutex>::instance()
 #endif
