@@ -2997,7 +2997,7 @@ public:
                                 if((*itr))
                                     cre->AI()->AttackStart((*itr));
                             }
-                            summons.DespawnEntry(ENTRY_CULT_SABOTEUR,2000);
+                            summons.DespawnEntry(ENTRY_CULT_SABOTEUR, 2000);
                         }
                         break;
                     }

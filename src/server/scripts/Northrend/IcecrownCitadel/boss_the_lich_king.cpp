@@ -2735,7 +2735,7 @@ class npc_terenas_menethil : public CreatureScript
                 TypeContainerVisitor<Trillium::UnitListSearcher<AnyAlivePetOrPlayerInObjectFrontalConeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
                 TypeContainerVisitor<Trillium::UnitListSearcher<AnyAlivePetOrPlayerInObjectFrontalConeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
-                CellPair p(Trillium::ComputeCellPair(caster->GetPositionX(), caster->GetPositionY()));
+                CellCoord p(Trillium::ComputeCellCoord(caster->GetPositionX(), caster->GetPositionY()));
                 Cell cell(p);
                 cell.data.Part.reserved = ALL_DISTRICT;
                 cell.SetNoCreate();
@@ -2911,9 +2911,8 @@ class spell_lich_king_necrotic_plague : public SpellScriptLoader
                     if (InstanceScript *instance = target->GetInstanceScript())
                         instance->SetData(DATA_BEEN_WAITING_ACHIEVEMENT, DONE);
 
-                CellPair p(Trillium::ComputeCellPair(target->GetPositionX(), target->GetPositionY()));
+                CellCoord p(Trillium::ComputeCellCoord(target->GetPositionX(), target->GetPositionY()));
                 Cell cell(p);
-                cell.data.Part.reserved = ALL_DISTRICT;
                 cell.SetNoCreate();
 
                 Unit* anyPlayerOrCreatureInRange = NULL;
@@ -3029,9 +3028,8 @@ class spell_lich_king_defile : public SpellScriptLoader
                 Trillium::UnitListSearcher<Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck> searcher(caster, targets, checker);
                 TypeContainerVisitor<Trillium::UnitListSearcher<Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
                 TypeContainerVisitor<Trillium::UnitListSearcher<Trillium::AnyUnfriendlyAttackableVisibleUnitInObjectRangeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
-                CellPair p(Trillium::ComputeCellPair(caster->GetPositionX(), caster->GetPositionY()));
+                CellCoord p(Trillium::ComputeCellCoord(caster->GetPositionX(), caster->GetPositionY()));
                 Cell cell(p);
-                cell.data.Part.reserved = ALL_DISTRICT;
                 cell.SetNoCreate();
                 cell.Visit(p, world_unit_searcher, *map, *caster, 100.0f);
                 cell.Visit(p, grid_unit_searcher, *map, *caster, 100.0f);

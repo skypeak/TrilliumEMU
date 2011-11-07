@@ -183,9 +183,8 @@ class boss_akilzon : public CreatureScript
                     for (uint8 i = 2; i < StormCount; ++i)
                         bp0 *= 2;
 
-                    CellPair p(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+                    CellCoord p(Trillium::ComputeCellCoord(me->GetPositionX(), me->GetPositionY()));
                     Cell cell(p);
-                    cell.data.Part.reserved = ALL_DISTRICT;
                     cell.SetNoCreate();
 
                     std::list<Unit* > tempUnitMap;
@@ -197,8 +196,8 @@ class boss_akilzon : public CreatureScript
                         TypeContainerVisitor<Trillium::UnitListSearcher<Trillium::AnyAoETargetUnitInObjectRangeCheck>, WorldTypeMapContainer > world_unit_searcher(searcher);
                         TypeContainerVisitor<Trillium::UnitListSearcher<Trillium::AnyAoETargetUnitInObjectRangeCheck>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
-                        cell.Visit(p, world_unit_searcher, *(me->GetMap()));
-                        cell.Visit(p, grid_unit_searcher, *(me->GetMap()));
+                        cell.Visit(p, world_unit_searcher, *me->GetMap(), *me, SIZE_OF_GRIDS);
+                        cell.Visit(p, grid_unit_searcher, *me->GetMap(), *me, SIZE_OF_GRIDS);
                     }
                     //dealdamege
                     for (std::list<Unit*>::const_iterator i = tempUnitMap.begin(); i != tempUnitMap.end(); ++i)

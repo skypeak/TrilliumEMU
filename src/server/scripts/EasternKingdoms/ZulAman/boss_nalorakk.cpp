@@ -158,9 +158,8 @@ class boss_nalorakk : public CreatureScript
                 me->GetPosition(x, y, z);
 
                 {
-                    CellPair pair(Trillium::ComputeCellPair(x, y));
+                    CellCoord pair(Trillium::ComputeCellCoord(x, y));
                     Cell cell(pair);
-                    cell.data.Part.reserved = ALL_DISTRICT;
                     cell.SetNoCreate();
 
                     Trillium::AllFriendlyCreaturesInGrid check(me);
@@ -168,7 +167,7 @@ class boss_nalorakk : public CreatureScript
 
                     TypeContainerVisitor<Trillium::CreatureListSearcher<Trillium::AllFriendlyCreaturesInGrid>, GridTypeMapContainer> cSearcher(searcher);
 
-                    cell.Visit(pair, cSearcher, *(me->GetMap()));
+                    cell.Visit(pair, cSearcher, *(me->GetMap()), *me, me->GetGridActivationRange());
                 }
 
                 if (templist.empty())

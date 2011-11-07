@@ -601,9 +601,8 @@ WorldObject* Spell::FindCorpseUsing()
     // non-standard target selection
     float max_range = m_spellInfo->GetMaxRange(false);
 
-    CellPair p(Trillium::ComputeCellPair(m_caster->GetPositionX(), m_caster->GetPositionY()));
+    CellCoord p(Trillium::ComputeCellCoord(m_caster->GetPositionX(), m_caster->GetPositionY()));
     Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
 
     WorldObject* result = NULL;
@@ -1625,7 +1624,7 @@ void Spell::DoTriggersOnSpellHit(Unit *unit, uint8 effMask)
         int _duration = 0;
         for (HitTriggerSpells::const_iterator i = m_hitTriggerSpells.begin(); i != m_hitTriggerSpells.end(); ++i)
         {
-            if (roll_chance_i(i->second))
+            if (CanExecuteTriggersOnHit(effMask) && roll_chance_i(i->second))
             {
                 m_caster->CastSpell(unit, i->first, true);
                 sLog->outDebug(LOG_FILTER_SPELLS_AURAS, "Spell %d triggered spell %d by SPELL_AURA_ADD_TARGET_TRIGGER aura", m_spellInfo->Id, i->first->Id);
@@ -1634,12 +1633,12 @@ void Spell::DoTriggersOnSpellHit(Unit *unit, uint8 effMask)
                 // set duration of current aura to the triggered spell
                 if (i->first->GetDuration() == -1)
                 {
-                    if (Aura * triggeredAur = unit->GetAura(i->first->Id, m_caster->GetGUID()))
+                    if (Aura* triggeredAur = unit->GetAura(i->first->Id, m_caster->GetGUID()))
                     {
                         // get duration from aura-only once
                         if (!_duration)
                         {
-                            Aura * aur = unit->GetAura(m_spellInfo->Id, m_caster->GetGUID());
+                            Aura* aur = unit->GetAura(m_spellInfo->Id, m_caster->GetGUID());
                             _duration = aur ? aur->GetDuration() : -1;
                         }
                         triggeredAur->SetDuration(_duration);
@@ -2080,7 +2079,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                     break;
                 case TARGET_UNIT_VEHICLE:
                     if (Unit *vehicle = m_caster->GetVehicleBase())
-                        AddUnitTarget(vehicle, i);
+                        AddUnitTarget(vehicle, effectMask);
                     break;
                 case TARGET_UNIT_PASSENGER_0:
                 case TARGET_UNIT_PASSENGER_1:
@@ -2092,7 +2091,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                 case TARGET_UNIT_PASSENGER_7:
                     if (m_caster->GetTypeId() == TYPEID_UNIT && m_caster->ToCreature()->IsVehicle())
                         if (Unit *unit = m_caster->GetVehicleKit()->GetPassenger(cur.GetTarget() - TARGET_UNIT_PASSENGER_0))
-                            AddUnitTarget(unit, i);
+                            AddUnitTarget(unit, effectMask);
                     break;
                 default:
                     break;
@@ -2514,7 +2513,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                     break;
             }
 
-            //CallScriptAfterUnitTargetSelectHandlers(unitList, SpellEffectEntry*);
+            CallScriptAfterUnitTargetSelectHandlers(unitList, SpellEffIndex(i));
 
             for (std::list<Unit*>::iterator itr = unitList.begin(); itr != unitList.end(); ++itr)
                 AddUnitTarget(*itr, effectMask, false);
@@ -2644,7 +2643,6 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                                 {
                                     if (m_caster->GetTypeId() == TYPEID_PLAYER)
                                         m_caster->ToPlayer()->RemoveSpellCooldown(m_spellInfo->Id, true);
-                                    SendCastResult(SPELL_CAST_OK);
                                     finish(false);
                                 }
                             }
@@ -2882,7 +2880,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                 Trillium::RandomResizeList(unitList, maxTargets);
             }
 
-            //CallScriptAfterUnitTargetSelectHandlers(unitList, SpellEffectEntry*);
+            CallScriptAfterUnitTargetSelectHandlers(unitList, SpellEffIndex(i));
 
             for (std::list<Unit*>::iterator itr = unitList.begin(); itr != unitList.end(); ++itr)
                 AddUnitTarget(*itr, effectMask, false);
@@ -2968,7 +2966,7 @@ void Spell::prepare(SpellCastTargets const* targets, AuraEffect const* triggered
         return;
     }
 
-    if (DisableMgr::IsDisabledfor (DISABLE_TYPE_SPELL, m_spellInfo->Id, m_caster))
+    if (DisableMgr::IsDisabledFor(DISABLE_TYPE_SPELL, m_spellInfo->Id, m_caster))
     {
         SendCastResult(SPELL_FAILED_SPELL_UNAVAILABLE);
         finish(false);
@@ -5798,9 +5796,8 @@ SpellCastResult Spell::CheckItems()
     // check spell focus object
     if (m_spellInfo->RequiresSpellFocus)
     {
-        CellPair p(Trillium::ComputeCellPair(m_caster->GetPositionX(), m_caster->GetPositionY()));
+        CellCoord p(Trillium::ComputeCellCoord(m_caster->GetPositionX(), m_caster->GetPositionY()));
         Cell cell(p);
-        cell.data.Part.reserved = ALL_DISTRICT;
 
         GameObject* ok = NULL;
         Trillium::GameObjectFocusCheck go_check(m_caster, m_spellInfo->RequiresSpellFocus);
@@ -6018,7 +6015,7 @@ SpellCastResult Spell::CheckItems()
                 if (m_targets.GetItemTarget()->GetCount() < 5)
                     return SPELL_FAILED_NEED_MORE_ITEMS;
 
-                if (!LootTemplates_Prospecting.HaveLootfor (m_targets.GetItemTargetEntry()))
+                if (!LootTemplates_Prospecting.HaveLootFor(m_targets.GetItemTargetEntry()))
                     return SPELL_FAILED_CANT_BE_PROSPECTED;
 
                 break;
@@ -6041,7 +6038,7 @@ SpellCastResult Spell::CheckItems()
                 if (m_targets.GetItemTarget()->GetCount() < 5)
                     return SPELL_FAILED_NEED_MORE_ITEMS;
 
-                if (!LootTemplates_Milling.HaveLootfor (m_targets.GetItemTargetEntry()))
+                if (!LootTemplates_Milling.HaveLootFor(m_targets.GetItemTargetEntry()))
                     return SPELL_FAILED_CANT_BE_MILLED;
 
                 break;
@@ -6963,10 +6960,10 @@ bool Spell::CanExecuteTriggersOnHit(uint8 effMask) const
     // prevents triggering/procing effects twice from spells like Eviscerate
     for (uint8 i = 0;effMask && i < MAX_SPELL_EFFECTS; ++i)
     {
-        if (m_spellInfo->Effects[i].Effect == SPELL_EFFECT_DUMMY)
-            effMask &= ~(1<<i);
+        if ((effMask & (1 << i)) == (m_spellInfo->Effects[i].Effect == SPELL_EFFECT_DUMMY))
+            return true;
     }
-    return effMask;
+    return false;
 }
 
 void Spell::PrepareTriggersExecutedOnHit()

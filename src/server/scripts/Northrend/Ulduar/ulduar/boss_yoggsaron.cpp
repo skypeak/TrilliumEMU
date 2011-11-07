@@ -1736,11 +1736,6 @@ public:
         {
             m_pInstance = c->GetInstanceScript();
             me->setFaction(14);
-
-            //SpellInfo *TempSpell;
-            //TempSpell = GET_SPELL(SPELL_SHADOW_NOVA);
-            //if (TempSpell)
-            //    TempSpell->Effect[1] = 0;
         }
 
         InstanceScript* m_pInstance;
@@ -2478,16 +2473,15 @@ public:
 
         void GetAliveSaronitCreatureListInGrid(std::list<Creature*>& lList, float fMaxSearchRange)
         {
-            CellPair pair(Trillium::ComputeCellPair(me->GetPositionX(), me->GetPositionY()));
+            CellCoord pair(Trillium::ComputeCellCoord(me->GetPositionX(), me->GetPositionY()));
             Cell cell(pair);
-            cell.data.Part.reserved = ALL_DISTRICT;
             cell.SetNoCreate();
 
             AllSaronitCreaturesInRange check(me, fMaxSearchRange);
             Trillium::CreatureListSearcher<AllSaronitCreaturesInRange> searcher(me, lList, check);
             TypeContainerVisitor<Trillium::CreatureListSearcher<AllSaronitCreaturesInRange>, GridTypeMapContainer> visitor(searcher);
 
-            cell.Visit(pair, visitor, *(me->GetMap()));
+            cell.Visit(pair, visitor, *(me->GetMap()), *me, me->GetGridActivationRange());
         }
 
         void UpdateAI(const uint32 diff)
