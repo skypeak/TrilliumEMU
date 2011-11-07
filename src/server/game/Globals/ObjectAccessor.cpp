@@ -202,10 +202,10 @@ void ObjectAccessor::RemoveCorpse(Corpse* corpse)
 {
     ASSERT(corpse && corpse->GetType() != CORPSE_BONES);
 
-    if (corpse->FindMap())
+    if (Map* map = corpse->FindMap())
     {
         corpse->DestroyForNearbyPlayers();
-        corpse->FindMap()->RemoveFromMap(corpse, false);
+        map->RemoveFromMap(corpse, false);
     }
     else
         corpse->RemoveFromWorld();
@@ -219,7 +219,7 @@ void ObjectAccessor::RemoveCorpse(Corpse* corpse)
             return;
 
         // build mapid*cellid -> guid_set map
-        CellPair cell_pair = Trillium::ComputeCellPair(corpse->GetPositionX(), corpse->GetPositionY());
+        CellCoord cell_pair = Trillium::ComputeCellCoord(corpse->GetPositionX(), corpse->GetPositionY());
         uint32 cell_id = (cell_pair.y_coord * TOTAL_NUMBER_OF_CELLS_PER_MAP) + cell_pair.x_coord;
 
         sObjectMgr->DeleteCorpseCellData(corpse->GetMapId(), cell_id, GUID_LOPART(corpse->GetOwnerGUID()));
@@ -240,20 +240,20 @@ void ObjectAccessor::AddCorpse(Corpse* corpse)
         i_player2corpse[corpse->GetOwnerGUID()] = corpse;
 
         // build mapid*cellid -> guid_set map
-        CellPair cell_pair = Trillium::ComputeCellPair(corpse->GetPositionX(), corpse->GetPositionY());
+        CellCoord cell_pair = Trillium::ComputeCellCoord(corpse->GetPositionX(), corpse->GetPositionY());
         uint32 cell_id = (cell_pair.y_coord * TOTAL_NUMBER_OF_CELLS_PER_MAP) + cell_pair.x_coord;
 
         sObjectMgr->AddCorpseCellData(corpse->GetMapId(), cell_id, GUID_LOPART(corpse->GetOwnerGUID()), corpse->GetInstanceId());
     }
 }
 
-void ObjectAccessor::AddCorpsesToGrid(GridPair const& gridpair, GridType& grid, Map* map)
+void ObjectAccessor::AddCorpsesToGrid(GridCoord const& gridpair, GridType& grid, Map* map)
 {
     TRILLIUMEMU_READ_GUARD(ACE_RW_Thread_Mutex, i_corpseLock);
 
     for (Player2CorpsesMapType::iterator iter = i_player2corpse.begin(); iter != i_player2corpse.end(); ++iter)
     {
-        if (iter->second->GetGrid() == gridpair)
+        if (iter->second->GetGridCoord() == gridpair)
         {
             // verify, if the corpse in our instance (add only corpses which are)
             if (map->Instanceable())
@@ -304,7 +304,7 @@ Corpse* ObjectAccessor::ConvertCorpseForPlayer(uint64 player_guid, bool insignia
         for (uint8 i = OBJECT_FIELD_TYPE + 1; i < CORPSE_END; ++i)                    // don't overwrite guid and object type
             bones->SetUInt32Value(i, corpse->GetUInt32Value(i));
 
-        bones->SetGrid(corpse->GetGrid());
+        bones->SetGridCoord(corpse->GetGridCoord());
         // bones->m_time = m_time;                              // don't overwrite time
         // bones->m_type = m_type;                              // don't overwrite type
         bones->Relocate(corpse->GetPositionX(), corpse->GetPositionY(), corpse->GetPositionZ(), corpse->GetOrientation());
@@ -378,7 +378,7 @@ void ObjectAccessor::UnloadAll()
 /// Define the static members of HashMapHolder
 
 template <class T> UNORDERED_MAP< uint64, T* > HashMapHolder<T>::m_objectMap;
-template <class T> ACE_Thread_Mutex HashMapHolder<T>::i_lock;
+template <class T> typename HashMapHolder<T>::LockType HashMapHolder<T>::i_lock;
 
 /// Global definitions for the hashmap storage
 
