@@ -626,7 +626,7 @@ enum Opcodes
     SMSG_AUCTION_BIDDER_LIST_RESULT                  = 0x06AB7, // 4.2.0a:14480
     SMSG_SET_FLAT_SPELL_MODIFIER                     = 0x0B6EB, // 4.2.0a:14480
     SMSG_OPEN_LFG_DUNGEON_FINDER                     = 0x08efa, // 4.2.0a:14480
-	SMSG_SET_PCT_SPELL_MODIFIER                      = 0x0FAAF, // 4.2.0a:14480
+    SMSG_SET_PCT_SPELL_MODIFIER                      = 0x0FAAF, // 4.2.0a:14480
     CMSG_SET_AMMO                                    = 0x100BF, // 4.2.0a:14480          =*UNUSED*=
     SMSG_CORPSE_RECLAIM_DELAY                        = 0x0F623, // 4.2.0a:14480
     CMSG_SET_ACTIVE_MOVER                            = 0x0B633, // 4.2.0a:14480
@@ -731,7 +731,7 @@ enum Opcodes
     CMSG_MOVE_NOT_ACTIVE_MOVER                       = 0x10134, //
     SMSG_PLAY_SOUND                                  = 0x02622, // 4.2.0a:14480
     CMSG_BATTLEFIELD_STATE	                         = 0x03620, // 4.2.0a:14480
-	CMSG_BATTLEFIELD_STATUS                          = 0x050D0, // 4.2.0a:14480
+    CMSG_BATTLEFIELD_STATUS                          = 0x050D0, // 4.2.0a:14480
     SMSG_BATTLEFIELD_STATUS1                         = 0x00B07, // 4.2.0a:14480
     SMSG_BATTLEFIELD_STATUS2                         = 0x04B05, // 4.2.0a:14480
     SMSG_BATTLEFIELD_STATUS3                         = 0x04F63, // 4.2.0a:14480
@@ -1021,7 +1021,7 @@ enum Opcodes
     CMSG_GUILD_BANK_UPDATE_TAB                       = 0x0727B, // 4.2.0a:14480
     CMSG_GUILD_BANK_DEPOSIT_MONEY                    = 0x02A2F, // 4.2.0a:14480
     CMSG_GUILD_CHALLENGE_UPDATE_REQUEST              = 0x08441, // 4.2.0a:14480
-	CMSG_GUILD_BANK_WITHDRAW_MONEY                   = 0x022EE, // 4.2.0a:14480
+    CMSG_GUILD_BANK_WITHDRAW_MONEY                   = 0x022EE, // 4.2.0a:14480
     CMSG_GUILD_BANK_NOTE                             = 0x06E26, // 4.2.0a:14480
     MSG_GUILD_BANK_LOG_QUERY                         = 0x072EA, // 4.2.0a:14480
     CMSG_SET_CHANNEL_WATCH                           = 0x07AA6, // 4.2.0a:14480
@@ -1309,8 +1309,8 @@ enum Opcodes
     CMSG_GROUP_SET_ROLES                             = 0x102A0, //
     CMSG_WORLD_LOGIN                                 = 0x04011, // 4.2.0a:14480
     CMSG_RETURN_TO_GRAVEYARD                         = 0x0B8EB, // 4.2.0a:14480
-	CMSG_REFORGE                                     = 0x02869, // 14333
-	SMSG_SHOW_REFORGE                                = 0x00C5C, // 4.0.6a 13623
+    CMSG_REFORGE                                     = 0x02869, // 14333
+    SMSG_SHOW_REFORGE                                = 0x00C5C, // 4.0.6a 13623
     CMSG_VIOLENCE_LEVEL                              = 0x08842, // 4.2.0a:14480
     CMSG_LOG_DISCONNECT                              = 0x00920, // 4.2.0a:14480
     MSG_CHECK_CONNECTION                             = 0x04F57, // 4.2.0a:14480
