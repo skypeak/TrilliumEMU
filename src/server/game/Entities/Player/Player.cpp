@@ -797,7 +797,7 @@ Player::Player(WorldSession *session): Unit(), m_achievementMgr(this), m_reputat
     m_activeSpec = 0;
     m_specsCount = 1;
 
-    for (uint8 i = 0; i < MAX_TALENT_SPECS; i++)
+    for (uint8 i = 0; i < MAX_TALENT_SPECS; ++i)
     {
         for (uint8 g = 0; g < MAX_GLYPH_SLOT_INDEX; ++g)
             m_Glyphs[i][g] = 0;
@@ -4598,7 +4598,7 @@ bool Player::resetTalents(bool no_cost)
         if (!talentInfo || talentInfo->TalentTabID != TalentBranchSpec(m_activeSpec))
             continue;
 
-        removeSpell(talentInfo->SpellID, true);
+        removeSpell(talentInfo->SpellID, false);
     }
 
     m_branchSpec[m_activeSpec] = 0;
@@ -23801,18 +23801,21 @@ void Player::StoreLootItem(uint8 lootSlot, Loot* loot)
 
 uint32 Player::CalculateTalentsPoints() const
 {
-    uint32 base_talent = 0;
-    if (getLevel() >= 10)
-        base_talent = (((getLevel() - 10 + 1) - ( ((getLevel() - 10 + 1) % 2) == 1 ? 1 : 0))/2)+1;
+    uint8 level = GetUInt32Value(UNIT_FIELD_LEVEL);
+    uint32 talent_points = (level < 10 ? 0 : ((level - 9) / 2) + 1);
+    if (level == 82 || level == 83)
+        talent_points += 1;
+    else if (level >= 84)
+        talent_points += 2;
 
     if (getClass() != CLASS_DEATH_KNIGHT || GetMapId() != 609)
-        return uint32(base_talent * sWorld->getRate(RATE_TALENT));
+        return uint32(talent_points * sWorld->getRate(RATE_TALENT));
 
     uint32 talentPointsForLevel = getLevel() < 56 ? 0 : getLevel() - 55;
     talentPointsForLevel += m_questRewardTalentCount;
 
-    if (talentPointsForLevel > base_talent)
-        talentPointsForLevel = base_talent;
+    if (talentPointsForLevel > talent_points)
+        talentPointsForLevel = talent_points;
 
     return uint32(talentPointsForLevel * sWorld->getRate(RATE_TALENT));
 }
@@ -24986,7 +24989,6 @@ void Player::UpdateSpecCount(uint8 count)
         for (ActionButtonList::iterator itr = m_actionButtons.begin(); itr != m_actionButtons.end(); ++itr)
             trans->PAppend("INSERT INTO character_action (guid, button, action, type, spec) VALUES ('%u', '%u', '%u', '%u', '%u')",
             GetGUIDLow(), uint32(itr->first), uint32(itr->second.GetAction()), uint32(itr->second.GetType()), 1);
-
     }
     // Delete spec data for removed spec.
     else if (count < curCount)
@@ -25056,10 +25058,6 @@ void Player::ActivateSpec(uint8 spec)
                 for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)                  // search through the SpellInfo for valid trigger spells
                     if (_spellEntry->Effects[i].TriggerSpell > 0 && _spellEntry->Effects[i].Effect == SPELL_EFFECT_LEARN_SPELL)
                         removeSpell(_spellEntry->Effects[i].TriggerSpell, true); // and remove any spells that the talent teaches
-            // if this talent rank can be found in the PlayerTalentMap, mark the talent as removed so it gets deleted
-            //PlayerTalentMap::iterator plrTalent = m_talents[m_activeSpec]->find(talentInfo->RankID[rank]);
-            //if (plrTalent != m_talents[m_activeSpec]->end())
-            //    plrTalent->second->state = PLAYERSPELL_REMOVED;
         }
     }
 
@@ -25121,7 +25119,7 @@ void Player::ActivateSpec(uint8 spec)
         if (!talentInfo || talentInfo->TalentTabID != TalentBranchSpec(spec))
             continue;
 
-        learnSpell(talentInfo->SpellID, true);
+        learnSpell(talentInfo->SpellID, false);
     }
 
     // set glyphs

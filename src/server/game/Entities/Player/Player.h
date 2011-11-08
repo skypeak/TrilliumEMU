@@ -1734,8 +1734,8 @@ class Player : public Unit, public GridObject<Player>
         void SetReputation(uint32 factionentry, uint32 value);
         uint32 GetReputation(uint32 factionentry);
         std::string GetGuildName();
-        uint32 GetFreeTalentPoints() const { return talentPoints; }
-        void SetFreeTalentPoints(uint32 points) { talentPoints = points; }
+        uint32 GetFreeTalentPoints() const { return m_freeTalentPoints; }
+        void SetFreeTalentPoints(uint32 points) { m_freeTalentPoints = points; }
         bool resetTalents(bool no_cost = false);
         uint32 resetTalentsCost() const;
         void InitTalentForLevel();
@@ -1764,7 +1764,11 @@ class Player : public Unit, public GridObject<Player>
 
         void InitGlyphsForLevel();
         void SetGlyphSlot(uint8 slot, uint32 slottype) { SetUInt32Value(PLAYER_FIELD_GLYPH_SLOTS_1 + slot, slottype); }
-        uint32 GetGlyphSlot(uint8 slot) { return GetUInt32Value(PLAYER_FIELD_GLYPH_SLOTS_1 + slot); }
+        uint32 GetGlyphSlot(uint8 slot)
+        {
+            ASSERT(slot < MAX_GLYPH_SLOT_INDEX); // prevent updatefields corruption
+            return GetUInt32Value(PLAYER_FIELD_GLYPH_SLOTS_1 + slot);
+        }
         void SetGlyph(uint8 slot, uint32 glyph)
         {
             m_Glyphs[m_activeSpec][slot] = glyph;
@@ -2762,6 +2766,7 @@ class Player : public Unit, public GridObject<Player>
         uint8 m_activeSpec;
         uint8 m_specsCount;
         uint32 m_branchSpec[MAX_TALENT_SPECS];              // tabId of the main talent branch
+        uint32 m_freeTalentPoints;
 
         uint32 m_emote;
 
@@ -2944,7 +2949,6 @@ class Player : public Unit, public GridObject<Player>
         InstanceTimeMap _instanceResetTimes;
         uint32 _pendingBindId;
         uint32 _pendingBindTimer;
-        uint32 talentPoints;
 };
 
 void AddItemsSetItem(Player*player, Item *item);
