@@ -102,7 +102,7 @@ int MapUpdater::deactivate()
 
 int MapUpdater::wait()
 {
-    ACE_GUARD_RETURN(ACE_Thread_Mutex, guard, m_mutex, -1);
+    TRILLIUMEMU_GUARD(ACE_Thread_Mutex, m_mutex);
 
     while (pending_requests > 0)
         m_condition.wait();
@@ -112,7 +112,7 @@ int MapUpdater::wait()
 
 int MapUpdater::schedule_update(Map& map, ACE_UINT32 diff)
 {
-    ACE_GUARD_RETURN(ACE_Thread_Mutex, guard, m_mutex, -1);
+    TRILLIUMEMU_GUARD(ACE_Thread_Mutex, m_mutex);
 
     ++pending_requests;
 
@@ -134,7 +134,7 @@ bool MapUpdater::activated()
 
 void MapUpdater::update_finished()
 {
-    ACE_GUARD(ACE_Thread_Mutex, guard, m_mutex);
+    TRILLIUMEMU_GUARD(ACE_Thread_Mutex, m_mutex);
 
     if (pending_requests == 0)
     {
