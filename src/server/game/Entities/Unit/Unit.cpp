@@ -17229,7 +17229,7 @@ uint32 Unit::GetModelForForm(ShapeshiftForm form)
                         modelid = formEntry->modelID_A;
                 }
             }
-            return 0;
+            return modelid;
         }
     }
     return 0;
