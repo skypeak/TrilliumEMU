@@ -1277,7 +1277,7 @@ void Spell::DoAllEffectOnTarget(TargetInfo *target)
             }
             else
                 // If there is no effect mask determine from spell proto
-                positive = m_spellInfo->IsPositiveEffect(m_spellInfo->Id);
+                positive = m_spellInfo->_IsPositiveSpell();
         }
         switch (m_spellInfo->DmgClass)
         {
@@ -2643,6 +2643,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                                 {
                                     if (m_caster->GetTypeId() == TYPEID_PLAYER)
                                         m_caster->ToPlayer()->RemoveSpellCooldown(m_spellInfo->Id, true);
+                                    SendCastResult(SPELL_FAILED_);
                                     finish(false);
                                 }
                             }
@@ -4485,10 +4486,6 @@ void Spell::HandleThreatSpells()
 
 void Spell::HandleEffects(Unit* pUnitTarget, Item* pItemTarget, GameObject* pGOTarget, uint32 i, SpellEffectHandleMode mode)
 {
-    //effect has been handled, skip it
-    if (m_effectMask & (1<<i))
-        return;
-
     effectHandleMode = mode;
     unitTarget = pUnitTarget;
     itemTarget = pItemTarget;
@@ -5716,11 +5713,6 @@ SpellCastResult Spell::CheckItems()
         ItemTemplate const *proto = m_CastItem->GetTemplate();
         if (!proto)
             return SPELL_FAILED_ITEM_NOT_READY;
-
-        for (int i = 0; i < MAX_ITEM_SPELLS; ++i)
-            if (proto->Spells[i].SpellCharges)
-                if (m_CastItem->GetSpellCharges(i) == 0)
-                    return SPELL_CAST_OK;
 
         // consumable cast item checks
         if (proto->Class == ITEM_CLASS_CONSUMABLE && m_targets.GetUnitTarget())
