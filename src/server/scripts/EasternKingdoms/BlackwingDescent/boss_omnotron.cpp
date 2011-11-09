@@ -130,7 +130,8 @@ public:
 
         void Reset()
         {
-            pInstance->SetData(DATA_OMNOTRON_DEFENSE_SYSTEM, NOT_STARTED);
+            if (pInstance)
+                pInstance->SetData(DATA_OMNOTRON_DEFENSE_SYSTEM, NOT_STARTED);
 
             uiArcaneAnnihilatorTimer = 5*IN_MILLISECONDS;
             me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK, true);
