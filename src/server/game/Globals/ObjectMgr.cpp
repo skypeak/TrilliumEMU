@@ -7790,7 +7790,7 @@ const char *ObjectMgr::GetTrilliumString(int32 entry, LocaleConstant locale_idx)
     }
 
     if (entry > 0)
-        sLog->outErrorDb("Entry %i not found in `TRILLIUMEMU_string` table.", entry);
+        sLog->outErrorDb("Entry %i not found in `core_strings` table.", entry);
     else
         sLog->outErrorDb("Trillium string entry %i not found in DB.", entry);
     return "<error>";
