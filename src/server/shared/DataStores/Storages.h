@@ -264,6 +264,10 @@ class DataStorage
             indexTable.asT = NULL;
             delete [] ((char*)dataTable);
             dataTable = NULL;
+            for (typename DataTableEx::const_iterator itr = dataTableEx.begin(); itr != dataTableEx.end(); ++itr)
+                delete *itr;
+
+            dataTableEx.clear();
 
             while (!stringPoolList.empty())
             {
