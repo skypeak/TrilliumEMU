@@ -19,7 +19,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "blackwing_descent.h"
 #include "ScriptPCH.h"
 

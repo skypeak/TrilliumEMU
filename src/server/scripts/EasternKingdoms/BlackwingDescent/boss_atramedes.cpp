@@ -19,7 +19,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "ScriptPCH.h"
 #include "blackwing_descent.h"
 
@@ -30,7 +29,7 @@ public:
 
     CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_atramedesAI (creature);
+        return new boss_atramedesAI(creature);
     }
 
     struct boss_atramedesAI : public ScriptedAI
