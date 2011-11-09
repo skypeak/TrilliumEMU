@@ -2366,7 +2366,12 @@ uint32 SpellInfo::_GetExplicitTargetMask() const
             continue;
 
         // extend explicit target mask only if valid targets for effect could not be provided by target types
-        targetMask |= Effects[i].GetMissingTargetMask(srcSet, dstSet, targetMask);
+        uint32 effectTargetMask = Effects[i].GetMissingTargetMask(srcSet, dstSet, targetMask);
+
+        // don't add explicit object/dest flags when spell has no max range
+        if (GetMaxRange(true) == 0.0f && GetMaxRange(false) == 0.0f)
+            effectTargetMask &= ~(TARGET_FLAG_UNIT_MASK | TARGET_FLAG_GAMEOBJECT | TARGET_FLAG_CORPSE_MASK | TARGET_FLAG_DEST_LOCATION);
+        targetMask |= effectTargetMask;
     }
     return targetMask;
 }
