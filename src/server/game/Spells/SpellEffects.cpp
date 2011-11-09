@@ -218,7 +218,7 @@ pEffect SpellEffects[TOTAL_SPELL_EFFECTS]=
     &Spell::EffectPullTowards,                              //145 SPELL_EFFECT_PULL_TOWARDS_DEST                      Black Hole Effect
     &Spell::EffectActivateRune,                             //146 SPELL_EFFECT_ACTIVATE_RUNE
     &Spell::EffectQuestFail,                                //147 SPELL_EFFECT_QUEST_FAIL               quest fail
-    &Spell::EffectUnused,                                   //148 SPELL_EFFECT_148   1 spell - 43509
+    &Spell::EffectTriggerMissileSpell,                      //148 SPELL_EFFECT_TRIGGER_MISSILE_SPELL_WITH_VALUE
     &Spell::EffectChargeDest,                               //149 SPELL_EFFECT_CHARGE_DEST
     &Spell::EffectQuestStart,                               //150 SPELL_EFFECT_QUEST_START
     &Spell::EffectTriggerRitualOfSummoning,                 //151 SPELL_EFFECT_TRIGGER_SPELL_2
@@ -233,7 +233,7 @@ pEffect SpellEffects[TOTAL_SPELL_EFFECTS]=
     &Spell::EffectNULL,                                     //160 SPELL_EFFECT_160                      1 spell - 45534
     &Spell::EffectSpecCount,                                //161 SPELL_EFFECT_TALENT_SPEC_COUNT        second talent spec (learn/revert)
     &Spell::EffectActivateSpec,                             //162 SPELL_EFFECT_TALENT_SPEC_SELECT       activate primary/secondary spec
-    &Spell::EffectTriggerMissileSpell,                      //148 SPELL_EFFECT_TRIGGER_MISSILE_SPELL_WITH_VALUE
+    &Spell::EffectNULL,                                     //163 unused
     &Spell::EffectRemoveAura,                               //164 SPELL_EFFECT_REMOVE_AURA
     &Spell::EffectNULL,                                     //165
     &Spell::EffectNULL,                                     //166
@@ -2778,6 +2778,11 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
                break;
         }
     }
+}
+void Spell::SpellDamageHeal(SpellEffIndex effIndex)
+{
+    if (effectHandleMode != SPELL_EFFECT_HANDLE_LAUNCH_TARGET)
+        return;
 
     if (unitTarget && unitTarget->isAlive() && damage >= 0)
     {
@@ -5494,7 +5499,7 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
 					break;
                     }
                     return;
-                }					
+                }
 				// Mug Transformation
                 case 41931:
                 {
@@ -5701,7 +5706,7 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                             unitTarget->CastSpell(unitTarget, 54726, true);
                     }
                     return;
-                }					
+                }
                 case 58418:                                 // Portal to Orgrimmar
                 case 58420:                                 // Portal to Stormwind
                 {
@@ -5955,7 +5960,7 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                             unitTarget->CastSpell(unitTarget, 75957, true);
                     }
                     return;
-                }				
+                }
                 case 59317:                                 // Teleporting
                     if (!unitTarget || unitTarget->GetTypeId() != TYPEID_PLAYER)
                         return;
