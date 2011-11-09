@@ -2643,7 +2643,7 @@ uint32 Spell::SelectEffectTargets(uint32 i, SpellImplicitTargetInfo const& cur)
                                 {
                                     if (m_caster->GetTypeId() == TYPEID_PLAYER)
                                         m_caster->ToPlayer()->RemoveSpellCooldown(m_spellInfo->Id, true);
-                                    SendCastResult(SPELL_FAILED_);
+                                    SendCastResult(SPELL_CAST_OK);
                                     finish(false);
                                 }
                             }
