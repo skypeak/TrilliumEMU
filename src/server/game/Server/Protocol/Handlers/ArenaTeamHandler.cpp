@@ -45,11 +45,8 @@ void WorldSession::HandleArenaTeamCreateOpcode(WorldPacket & recvData)
     recvData >> name;
     
     // Perform checks    
-    if (_player->getLevel() < 80) // TODO: Make config for this
-    {
-        SendArenaTeamCommandResult(ERR_ARENA_TEAM_CREATE_S, "", player->GetName(), ERR_ARENA_TEAM_TARGET_TOO_LOW_S);
+    if (_player->getLevel() < 80) // TODO: Make config for this & implement error message
         return;
-    }
     
     if (_player->GetArenaTeamId(slot))
     {
