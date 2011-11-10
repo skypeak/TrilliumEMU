@@ -470,7 +470,7 @@ void LoadDataStorages(const std::string& dataPath)
     LoadData(availableDbcLocales, bad_dbc_files, sSpellCategoriesStore,     storagesPath,"SpellCategories.dbc");
     LoadData(availableDbcLocales, bad_dbc_files, sSpellClassOptionsStore,   storagesPath,"SpellClassOptions.dbc");
     LoadData(availableDbcLocales, bad_dbc_files, sSpellCooldownsStore,      storagesPath,"SpellCooldowns.dbc");
-    LoadData(availableDbcLocales, bad_dbc_files, sSpellEffectStore,         storagesPath,"SpellEffect.dbc");
+    LoadData(availableDbcLocales, bad_dbc_files, sSpellEffectStore,         storagesPath,"SpellEffect.dbc", &CustomSpellEffectEntryfmt, &CustomSpellEffectIndex);
 
     for (uint32 i = 1; i < sSpellEffectStore.GetNumRows(); ++i)
     {
