@@ -139,7 +139,7 @@ void WorldSession::HandleArenaTeamInviteOpcode(WorldPacket & recvData)
     recvData >> arenaTeamId >> invitedName;
 
     if (invitedName.empty())
-        return
+        return;
     
     if (!normalizePlayerName(invitedName))
         return;
