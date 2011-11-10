@@ -468,7 +468,7 @@ void LoadDataStorages(const std::string& dataPath)
     LoadData(availableDbcLocales, bad_dbc_files, sSpellAuraRestrictionsStore, storagesPath,"SpellAuraRestrictions.dbc");
     LoadData(availableDbcLocales, bad_dbc_files, sSpellCastingRequirementsStore, storagesPath,"SpellCastingRequirements.dbc");
     LoadData(availableDbcLocales, bad_dbc_files, sSpellCategoriesStore,     storagesPath,"SpellCategories.dbc");
-    LoadData(availableDbcLocales, bad_dbc_files, sSpellClassOptionsStore,   storagesPath,"SpellClassOptions.dbc");
+    LoadData(availableDbcLocales, bad_dbc_files, sSpellClassOptionsStore,   storagesPath,"SpellClassOptions.dbc", &CustomSpellClassOptionsEntryfmt, &CustomSpellClassOptionsIndex);
     LoadData(availableDbcLocales, bad_dbc_files, sSpellCooldownsStore,      storagesPath,"SpellCooldowns.dbc");
     LoadData(availableDbcLocales, bad_dbc_files, sSpellEffectStore,         storagesPath,"SpellEffect.dbc", &CustomSpellEffectEntryfmt, &CustomSpellEffectIndex);
 
