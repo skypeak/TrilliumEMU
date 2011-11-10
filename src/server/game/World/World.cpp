@@ -1066,6 +1066,7 @@ void World::LoadConfigSettings(bool reload)
     m_int_configs[CONFIG_ARENA_START_MATCHMAKER_RATING]              = ConfigMgr::GetIntDefault ("Arena.ArenaStartMatchmakerRating", 1500);
     m_int_configs[CONFIG_ARENA_CONQUEST_POINTS_REWARD]               = ConfigMgr::GetIntDefault ("Arena.ConquestPointsReward", 180);
     m_bool_configs[CONFIG_ARENA_SEASON_IN_PROGRESS]                  = ConfigMgr::GetBoolDefault("Arena.ArenaSeason.InProgress", true);
+    m_int_configs[CONFIG_ARENA_MIN_LEVEL]                            = ConfigMgr::GetIntDefault(("Arena.MinPlayerLevel", 80)
 
     m_bool_configs[CONFIG_OFFHAND_CHECK_AT_SPELL_UNLEARN]            = ConfigMgr::GetBoolDefault("OffhandCheckAtSpellUnlearn", true);
 

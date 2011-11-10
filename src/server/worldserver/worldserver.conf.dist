@@ -2575,6 +2575,13 @@ Arena.ArenaStartMatchmakerRating = 1500
 Arena.ConquestPointsReward = 180
 
 #
+#     Arena.MinPlayerLevel
+#        Description: The min Player level what needs for use it
+#        Default:     80
+
+Arena.MinPlayerLevel = 80
+
+#
 ###################################################################################################
 
 ###################################################################################################

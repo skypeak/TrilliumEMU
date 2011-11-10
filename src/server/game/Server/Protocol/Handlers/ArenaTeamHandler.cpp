@@ -32,10 +32,10 @@
 void WorldSession::HandleArenaTeamCreateOpcode(WorldPacket & recvData)
 {
     sLog->outDebug(LOG_FILTER_NETWORKIO, "CMSG_ARENA_TEAM_CREATE");
-    
+
     uint32 icon, backgroundColor, borderColor, iconColor, border, slot;
     std::string name;
-    
+
     recvData >> icon;
     recvData >> backgroundColor;
     recvData >> borderColor;
@@ -43,29 +43,29 @@ void WorldSession::HandleArenaTeamCreateOpcode(WorldPacket & recvData)
     recvData >> border;
     recvData >> slot;
     recvData >> name;
-    
-    // Perform checks    
-    if (_player->getLevel() < 80) // TODO: Make config for this & implement error message
+
+    // Perform checks
+    if (_player->getLevel() < sWorld->getIntConfig(CONFIG_ARENA_MIN_LEVEL)) // TODO: implement error message
         return;
-    
+
     if (_player->GetArenaTeamId(slot))
     {
         SendArenaTeamCommandResult(ERR_ARENA_TEAM_CREATE_S, name, "", ERR_ALREADY_IN_ARENA_TEAM);
         return;
     }
-    
+
     if (sArenaTeamMgr->GetArenaTeamByName(name))
     {
         SendArenaTeamCommandResult(ERR_ARENA_TEAM_CREATE_S, name, "", ERR_ARENA_TEAM_NAME_EXISTS_S);
         return;
     }
-    
+
     if (sObjectMgr->IsReservedName(name) || !ObjectMgr::IsValidCharterName(name))
     {
         SendArenaTeamCommandResult(ERR_ARENA_TEAM_CREATE_S, name, "", ERR_ARENA_TEAM_NAME_INVALID);
         return;
     }
-    
+
     // Create arena team
     ArenaTeam* arenaTeam = new ArenaTeam();
 
@@ -137,10 +137,10 @@ void WorldSession::HandleArenaTeamInviteOpcode(WorldPacket & recvData)
 
     if (invitedName.empty())
         return;
-    
+
     if (!normalizePlayerName(invitedName))
         return;
-    
+
     Player* player = sObjectAccessor->FindPlayerByName(invitedName.c_str());
 
     if (!player)
@@ -149,7 +149,7 @@ void WorldSession::HandleArenaTeamInviteOpcode(WorldPacket & recvData)
         return;
     }
 
-    if (player->getLevel() < 80) // TODO: Make config for this
+    if (player->getLevel() < sWorld->getIntConfig(CONFIG_ARENA_MIN_LEVEL))
     {
         SendArenaTeamCommandResult(ERR_ARENA_TEAM_CREATE_S, "", player->GetName(), ERR_ARENA_TEAM_TARGET_TOO_LOW_S);
         return;
