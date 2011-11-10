@@ -844,7 +844,7 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( CMSG_MOVE_SET_CAN_FLY_ACK,                    STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleMoveSetCanFlyAckOpcode    );
     DEFINE_OPCODE_HANDLER( CMSG_MOVE_SET_FLY,                            STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleMovementOpcodes           );
     DEFINE_OPCODE_HANDLER( CMSG_SOCKET_GEMS,                             STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleSocketOpcode              );
-    DEFINE_OPCODE_HANDLER( CMSG_ARENA_TEAM_CREATE,                       STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
+    DEFINE_OPCODE_HANDLER( CMSG_ARENA_TEAM_CREATE,                       STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleArenaTeamCreateOpcode     );
     DEFINE_OPCODE_HANDLER( SMSG_ARENA_TEAM_COMMAND_RESULT,               STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( CMSG_ARENA_TEAM_QUERY,                        STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleArenaTeamQueryOpcode      );
     DEFINE_OPCODE_HANDLER( SMSG_ARENA_TEAM_QUERY_RESPONSE,               STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
