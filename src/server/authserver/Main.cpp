@@ -76,7 +76,7 @@ extern int main(int argc, char **argv)
 {
     sLogMgr->ResetLogDb();
     // Command line parsing to get the configuration file name
-    char const *cfg_file = _AUTHSERVER_CONFIG;
+    char const* cfg_file = _AUTHSERVER_CONFIG;
     int c = 1;
     while (c < argc)
     {

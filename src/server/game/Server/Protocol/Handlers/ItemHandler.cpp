@@ -501,27 +501,6 @@ void WorldSession::HandleBuyItemInSlotOpcode(WorldPacket & recv_data)
     if (slot > 0)
         --slot;
     else
-        return;                                             // cheating
-
-    GetPlayer()->BuyItemFromVendorSlot(vendorguid, slot, item, count, NULL_BAG, NULL_SLOT);
-}
-
-void WorldSession::HandleBuyItemOpcode(WorldPacket & recv_data)
-{
-    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_BUY_ITEM");
-    uint64 vendorguid, unk1;
-    uint32 item, slot, count;
-    uint8 unk2, unk;
-
-    recv_data >> vendorguid;
-    recv_data >> unk;
-    recv_data >> item >> slot >> count;
-    recv_data >> unk1 >> unk2;
-
-    // client expects count starting at 1, and we send vendorslot+1 to client already
-    if (slot > 0)
-        --slot;
-    else
         return; // cheating
 
     GetPlayer()->BuyItemFromVendorSlot(vendorguid, slot, item, count, NULL_BAG, NULL_SLOT);
@@ -565,8 +544,8 @@ void WorldSession::SendListInventory(uint64 vendorGuid)
     {
         WorldPacket data(SMSG_LIST_INVENTORY, 1 + 8 + 4 + 1 + 1);
 
-		data << uint8(0x00);
-        data << uint32(0);
+        data << uint8(0x00);
+        data << uint32(0);                                   // count == 0, next will be error code
         data << uint8(0);                                   // "Vendor has no inventory"
         SendPacket(&data);
         return;
@@ -575,7 +554,7 @@ void WorldSession::SendListInventory(uint64 vendorGuid)
     uint32 itemCount = vendorItems->GetItemCount();
     uint32 count = 0;
 
-    WorldPacket data(SMSG_LIST_INVENTORY, 1 + 8 + 4 + 1 + itemCount * 10 * 4);
+    WorldPacket data(SMSG_LIST_INVENTORY, 1 + 6 + 4 + 1 + itemCount * 10 * 4);
 
     // ToDo: vendorGuid
     data << uint8(0xEB);
@@ -591,7 +570,7 @@ void WorldSession::SendListInventory(uint64 vendorGuid)
 
     data << uint8((count % 10) == 0 ? count / 10 : (count / 10) + 1);
 
-	data << uint8(0);
+    data << uint8(0);
 
     float discountMod = _player->GetReputationPriceDiscount(vendor);
 
@@ -826,7 +805,6 @@ void WorldSession::SendEnchantmentLog(uint64 Target, uint64 Caster, uint32 ItemI
     data << uint64(Caster);
     data << uint32(ItemID);
     data << uint32(SpellID);
-    data << uint8(0);
     SendPacket(&data);
 }
 
