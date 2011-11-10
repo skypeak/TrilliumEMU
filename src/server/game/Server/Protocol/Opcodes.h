@@ -1161,7 +1161,7 @@ enum Opcodes
     CMSG_CHAR_CUSTOMIZE                              = 0x02A66, // 4.2.0:14480
     SMSG_CHAR_CUSTOMIZE                              = 0x02E7F, // 14480
     SMSG_PET_RENAMEABLE                              = 0x02E3F, // 14480
-    CMSG_REQUEST_VEHICLE_EXIT                        = 0x10237, //
+    CMSG_REQUEST_VEHICLE_EXIT                        = 0x03a3e, // 14480
     CMSG_REQUEST_PLAYER_VEHICLE_EXIT                 = 0x00CC6, // 4.2.0:14480
     CMSG_REQUEST_VEHICLE_PREV_SEAT                   = 0x0723F, // 4.2.0:14480
     CMSG_REQUEST_VEHICLE_NEXT_SEAT                   = 0x0EE72, // 4.2.0:14480
