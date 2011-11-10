@@ -7,5 +7,5 @@ CREATE TABLE `spellclassoptions_dbc` (
 	`spellClassMask_3` INT UNSIGNED NOT NULL DEFAULT '0',
 	`spellClassSet` INT UNSIGNED NOT NULL DEFAULT '0',
 	`description` TEXT NOT NULL,
-	PRIMARY KEY (`m_ID`)
+	PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='';
