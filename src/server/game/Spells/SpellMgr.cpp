@@ -3023,7 +3023,7 @@ void SpellMgr::LoadDbcDataCorrections()
             spellEffect->EffectBasePoints = 12;
             break;
         case 77489: // Mastery: Echo of Light
-            spellAuOpt->StackAmount = 100; // should be inf
+            spellAuOpt->StackAmount = 1; // should be inf
             break;
             case 42835: // Spout
                 spellEffect->Effect = 0; // remove damage effect, only anim is needed
