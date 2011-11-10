@@ -924,7 +924,7 @@ enum Opcodes
     CMSG_SET_TAXI_BENCHMARK_MODE                     = 0x07E3F, // 14480
     SMSG_REALM_SPLIT                                 = 0x0A266, // 14480
     CMSG_REALM_SPLIT                                 = 0x0B6E2, // 14480
-    CMSG_MOVE_CHNG_TRANSPORT                         = 0x101A3, //
+    CMSG_MOVE_CHNG_TRANSPORT                         = 0x08841, // 14480
     MSG_PARTY_ASSIGNMENT                             = 0x0A22A, // 14480
     SMSG_OFFER_PETITION_ERROR                        = 0x0267B, // 14480
     SMSG_TIME_SYNC_REQ                               = 0x04F21, // 14480
