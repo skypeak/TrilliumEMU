@@ -111,11 +111,11 @@ class TypeMapContainer
         }
 
         ///  Removes the object from the container, and returns the removed object
-        template<class SPECIFIC_TYPE> bool remove(SPECIFIC_TYPE* obj)
-        {
-            SPECIFIC_TYPE* t = Trillium::Remove(i_elements, obj);
-            return (t != NULL);
-        }
+        //template<class SPECIFIC_TYPE> bool remove(SPECIFIC_TYPE* obj)
+        //{
+        //    SPECIFIC_TYPE* t = Trillium::Remove(i_elements, obj);
+        //    return (t != NULL);
+        //}
 
         ContainerMapList<OBJECT_TYPES> & GetElements(void) { return i_elements; }
         const ContainerMapList<OBJECT_TYPES> & GetElements(void) const { return i_elements;}

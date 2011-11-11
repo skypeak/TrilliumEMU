@@ -4775,24 +4775,37 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex) // Damage made by Weapons
             // Templar's Verdict
             if (m_spellInfo->Id == 85256)
             {
-                switch (m_caster->GetPower(POWER_HOLY_POWER))
+				float bonus_damage = 0;
+                
+				// Crusader
+				if (AuraEffect const * aurEff = m_caster->GetAuraEffect(SPELL_AURA_ADD_PCT_MODIFIER, SPELLFAMILY_PALADIN, 2171, 1))
+					bonus_damage = aurEff->GetAmount()/100.0f;
+
+                if (m_caster->HasAura(90174))
                 {
-                    // 1 Holy Power
-                    case 0:
-                        (m_caster->HasAura(31866) || m_caster->HasAura(31867) || m_caster->HasAura(31868)) ? totalDamagePercentMod += 0.3f : 0; //Crusade Rank 1, 2, 3 - 133%
-                    break;
-                    // 2 Holy Power
-                    case 1:
-                        totalDamagePercentMod += 2.0f; // 3*30 = 90%
-                        (m_caster->HasAura(31866) || m_caster->HasAura(31867) || m_caster->HasAura(31868)) ? totalDamagePercentMod += 0.3f : 0; //Crusade Rank 1, 2, 3 - 133%
-                    break;
-                    // 3 Holy Power
-                    case 2:
-                        totalDamagePercentMod += 6.5f; // 7.5*30 = 225%
-                        (m_caster->HasAura(31866) || m_caster->HasAura(31867) || m_caster->HasAura(31868)) ? totalDamagePercentMod += 0.9f : 0; //Crusade Rank 1, 2, 3  - 199%
-                    break;
+                    totalDamagePercentMod += 3.0f;
+                    totalDamagePercentMod += bonus_damage;
                 }
-                (m_caster->HasAura(63220)) ? totalDamagePercentMod *= 1.15f : 0 ; // Glyphe of Templar's Verdict
+                else
+                {
+                    switch (m_caster->GetPower(POWER_HOLY_POWER))
+                    {
+                        // 1 Holy Power
+                        case 1:
+                            totalDamagePercentMod += bonus_damage;
+                        break;
+                        // 2 Holy Power
+                        case 2:
+                            totalDamagePercentMod += bonus_damage;
+                        break;
+                        // 3 Holy Power
+                        case 3:
+                            totalDamagePercentMod += 2.0f; 
+                            totalDamagePercentMod += bonus_damage;
+                        break;
+                    }
+                }
+                (m_caster->HasAura(63220)) ? totalDamagePercentMod *= 1.15f : 0 ; // Glyph of Templar's Verdict
             }
 
             // Seal of Command Unleashed

@@ -311,23 +311,14 @@ void WorldSession::HandleGameobjectReportUse(WorldPacket& recvPacket)
 
     // ignore for remote control state
     if (_player->m_mover != _player)
-    {
-        recvPacket.rfinish(); // prevent spam at ignore packet
         return;
-    }
 
     GameObject* go = GetPlayer()->GetMap()->GetGameObject(guid);
     if (!go)
-    {
-        recvPacket.rfinish(); // prevent spam at ignore packet
         return;
-    }
 
     if (!go->IsWithinDistInMap(_player, INTERACTION_DISTANCE))
-    {
-        recvPacket.rfinish(); // prevent spam at ignore packet
         return;
-    }
 
     go->AI()->GossipHello(_player);
 
