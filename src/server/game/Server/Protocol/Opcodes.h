@@ -1243,7 +1243,6 @@ enum Opcodes
     SMSG_SPLINE_MOVE_UNKNOWN_1236                    = 0x10275, //
     CMSG_EQUIPMENT_SET_USE                           = 0x026BA, // 14480
     SMSG_EQUIPMENT_SET_USE_RESULT                    = 0x0727F, // 4.2.0:14480
-    SMSG_UNKNOWN_1240                                = 0x10278, //
     CMSG_CHAR_FACTION_CHANGE                         = 0x07636, // 4.2.0:14480
     SMSG_CHAR_FACTION_CHANGE                         = 0x066EF, // 14480
     SMSG_BATTLEFIELD_MGR_ENTRY_INVITE                = 0x0D325, // 14480
@@ -1267,7 +1266,6 @@ enum Opcodes
     SMSG_WORLD_STATE_UI_TIMER_UPDATE                 = 0x018b5, //
     CMSG_CHAR_RACE_CHANGE                            = 0x0B276, // 4.2.0:14480
     SMSG_TALENTS_INVOLUNTARILY_RESET                 = 0x03ABE, // 14480
-    SMSG_UNKNOWN_1276                                = 0x10284, //
     SMSG_LOOT_SLOT_CHANGED                           = 0x02EFB, // 14480
     CMSG_READY_FOR_ACCOUNT_DATA_TIMES                = 0x0F226, // 14480
     CMSG_QUERY_QUESTS_COMPLETED                      = 0x0FE33, // 4.2.0:14480
@@ -1287,21 +1285,8 @@ enum Opcodes
     SMSG_COMBAT_LOG_MULTIPLE                         = 0x0EE77, // 14480
     SMSG_LFG_OPEN_FROM_GOSSIP                        = 0x0AEFA, // 14480
     CMSG_LFG_GET_PLAYER_INFO                         = 0x0B6E3, // 14480
-    SMSG_UNKNOWN_1302                                = 0x1028F, //
-    CMSG_UNKNOWN_1303                                = 0x10290, //
-    SMSG_UNKNOWN_1304                                = 0x10291, //
     CMSG_COMMENTATOR_SKIRMISH_QUEUE_COMMAND          = 0x07A76, // 14480
-    SMSG_UNKNOWN_1308                                = 0x10292, //
     CMSG_TRANSFORM                                   = 0x10293, //
-    SMSG_UNKNOWN_1310                                = 0x10294, //
-    SMSG_UNKNOWN_1311                                = 0x10295, //
-    SMSG_UNKNOWN_1312                                = 0x10296, //
-    SMSG_UNKNOWN_1314                                = 0x10297, //
-    SMSG_UNKNOWN_1315                                = 0x10298, //
-    SMSG_UNKNOWN_1316                                = 0x10299, //
-    SMSG_UNKNOWN_1317                                = 0x1029A, //
-    CMSG_UNKNOWN_1320                                = 0x1029B, //
-    SMSG_UNKNOWN_1329                                = 0x1029C, //
     SMSG_SEND_QUEUED_PACKETS                         = 0x1029D, //
     CMSG_REDIRECT_AUTH_PROOF                         = 0x02120, // 14480
     CMSG_AUTO_DECLINE_GUILD_INVITES                  = 0x1029F, //
