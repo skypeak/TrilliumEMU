@@ -280,7 +280,7 @@ void WorldSession::HandleDestroyItemOpcode(WorldPacket & recv_data)
 // Only _static_ data send in this packet !!!
 void WorldSession::HandleItemQuerySingleOpcode(WorldPacket & recv_data)
 {
-    sLog->outDebug(LOG_FILTER_PACKETIO, "WORLD: CMSG_ITEM_QUERY_SINGLE");
+    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_ITEM_QUERY_SINGLE");
     uint64 unk;
     uint32 item, unk1;
 
