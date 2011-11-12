@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS `command`;
-
 CREATE TABLE `command` (
   `name` varchar(50) NOT NULL DEFAULT '',
   `security` tinyint(3) unsigned NOT NULL DEFAULT '0',
