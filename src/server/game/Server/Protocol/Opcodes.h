@@ -1288,11 +1288,11 @@ enum Opcodes
     CMSG_COMMENTATOR_SKIRMISH_QUEUE_COMMAND          = 0x07A76, // 14480
     CMSG_TRANSFORM                                   = 0x10293, //
     SMSG_SEND_QUEUED_PACKETS                         = 0x1029D, //
-    CMSG_REDIRECT_AUTH_PROOF                         = 0x02120, // 14480
+    CMSG_REDIRECT_AUTH_PROOF                         = 0x02120, // 14480    CMSG_ENABLE_NAGLE
     CMSG_AUTO_DECLINE_GUILD_INVITES                  = 0x1029F, //
     CMSG_SET_PRIMARY_TALENT_TREE                     = 0x0B627, // 14480
     CMSG_GROUP_SET_ROLES                             = 0x102A0, //
-    CMSG_WORLD_LOGIN                                 = 0x04011, // 14480
+    CMSG_WORLD_LOGIN                                 = 0x04011, // 14480    CMSG_LOADING_SCREEN_NOTIFY
     CMSG_RETURN_TO_GRAVEYARD                         = 0x0B8EB, // 14480    CMSG_PORT_GRAVEYARD
     CMSG_REFORGE                                     = 0x02869, //
     SMSG_SHOW_REFORGE                                = 0x00C5C, //
@@ -1309,13 +1309,23 @@ enum Opcodes
 
     // SMSG_MOVES                                    = 0x0A6EE, // 4.20a 14480
     // MSG_MOVE_SET_COLLISION_HGT                    = 0x04765, // 4.20a 14480
+    // SMSG_AREA_TRIGGER_NO_CORPSE                   = 0x0BAB7, // 4.20a 14480
+    // SMSG_CATEGORY_COOLDOWNS                       = 0x0D327, // 4.20a 14480
+    // SMSG_COMPRESSED_COMPOUND_PACKET               = 0x03C02, // 4.20a 14480
+    // SMSG_COMPOUND_PACKET                          = 0x00490, // 4.20a 14480
+    // CMSG_CHAR_CHANGE_ORDER                        = 0x01090, // 4.20a 14480
+    // SMSG_PVP_TYPES_ENABLED                        = 0x00725, // 4.20a 14480
+    // SMSG_WEEKLY_SPELL_USAGE                       = 0x05727, // 4.20a 14480
+    // SMSG_INSTANCE_INFO                            = 0x08F07, // 4.20a 14480
+    // SMSG_GUILD_ACHIEVEMENT_DATA                   = 0x04B27, // 4.20a 14480
+    // SMSG_ITEM_UPDATED_MULTIPLE                    = 0x00B27, // 4.20a 14480
+    // CMSG_SET_CEMETERY_PREFERENCE                  = 0x03861, // 4.20a 14480
     // SMSG_MOVE_SET_COLLISION_HGT
     // CMSG_MOVE_SET_COLLISION_HGT_ACK
     // CMSG_CLEAR_RANDOM_BG_WIN_TIME
     // CMSG_CLEAR_HOLIDAY_BG_WIN_TIME
     // SMSG_COMMENTATOR_SKIRMISH_QUEUE_RESULT1
     // SMSG_COMMENTATOR_SKIRMISH_QUEUE_RESULT2
-    // SMSG_AREA_TRIGGER_NO_CORPSE                   = 0x0BAB7, // 4.20a 14480
     // CMSG_DEBUG_PASSIVE_AURA
     // CMSG_CHANGE_GDF_ARENA_RATING
     // CMSG_SET_ARENA_TEAM_RATING_BY_INDEX
