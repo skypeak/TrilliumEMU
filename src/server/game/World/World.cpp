@@ -77,7 +77,6 @@
 #include "CreatureTextMgr.h"
 #include "SmartAI.h"
 #include "Channel.h"
-#include "ItemInfoMgr.h"
 #include "TransportMgr.h"
 
 volatile bool World::m_stopEvent = false;
