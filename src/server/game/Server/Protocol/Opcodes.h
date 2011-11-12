@@ -569,7 +569,7 @@ enum Opcodes
     SMSG_GOSSIP_POI                                  = 0x0223A, // 14480
     CMSG_CHAT_IGNORED                                = 0x100EF, //
     CMSG_GUILD_RANK                                  = 0x100F0, //
-    SMSG_GUILD_RANK                                  = 0x00F05, // 4.2.0:14480
+    SMSG_GUILD_RANK                                  = 0x00F05, // 4.2.0:14480  SMSG_GUILD_RANKS
     CMSG_GUILD_ADD_RANK                              = 0x100F2, //
     CMSG_GUILD_DEL_RANK                              = 0x100F3, //
     CMSG_GUILD_SWITCH_RANK                           = 0x100F4, //
@@ -1320,6 +1320,37 @@ enum Opcodes
     // SMSG_GUILD_ACHIEVEMENT_DATA                   = 0x04B27, // 4.20a 14480
     // SMSG_ITEM_UPDATED_MULTIPLE                    = 0x00B27, // 4.20a 14480
     // CMSG_SET_CEMETERY_PREFERENCE                  = 0x03861, // 4.20a 14480
+    // CMSG_CANCEL_QUEUED_SPELL                      = 0x018E0, // 4.20a 14480
+    // SMSG_ROLE_CHANGED_INFORM                      = 0x04321, // 4.20a 14480
+    // SMSG_ROLE_POLL_BEGIN                          = 0x0CB41, // 4.20a 14480
+    // CMSG_SET_PLAYER_ROLE                          = 0x01011, // 4.20a 14480
+    // CMSG_INITIATE_ROLE_POLL                       = 0x04090, // 4.20a 14480
+    // SMSG_RESEARCH_HISTORY                         = 0x0C301, // 4.20a 14480
+    // SMSG_COMPRESSED_RESEARCH_HISTORY              = 0x06E05, // 4.20a 14480
+    // CMSG_REQUEST_RESEARCH_HISTORY                 = 0x0284B, // 4.20a 14480
+    // SMSG_LF_GUILD_REQUEST_MEMBERSHIP_LIST_UPDATE  = 0x0D725, // 4.20a 14480
+    // CMSG_LF_GUILD_GET_REQUEST_MEMBERSHIP_LIST     = 0x0A401, // 4.20a 14480
+    // SMSG_LF_GUILD_REQUEST_MEMBERSHIP_CHANGED      = 0x04301, // 4.20a 14480
+    // SMSG_LF_GUILD_BROWSE_UPDATE                   = 0x0CF21, // 4.20a 14480
+    // CMSG_LF_GUILD_BROWSE                          = 0x0010C, // 4.20a 14480
+    // CMSG_LF_GUILD_CANCEL_MEMBERSHIP_REQUEST       = 0x004E1, // 4.20a 14480
+    // CMSG_LF_GUILD_REQUEST_MEMBERSHIP              = 0x00108, // 4.20a 14480
+    // SMSG_LF_GUILD_RECRUITS                        = 0x00B47, // 4.20a 14480
+    // CMSG_LF_GUILD_GET_RECRUITS                    = 0x08400, // 4.20a 14480
+    // CMSG_LG_GUILD_REQUEST_GUILD_POST              = 0x084E1, // 4.20a 14480
+    // CMSG_LF_GUILD_POST                            = 0x04108, // 4.20a 14480
+    // SMSG_LF_GUILD_POST                            = 0x01B23, // 4.20a 14480
+    // SMSG_GUILD_RECIPE_KNOWN_BY_MEMBERS            = 0x05F23, // 4.20a 14480
+    // SMSG_COMPRESSED_GUILD_TRADESKILL_UPDATE       = 0x0AE44, // 4.20a 14480
+    // SMSG_LOG_GUILD_XPGAIN                         = 0x0C305, // 4.20a 14480
+    // SMSG_GUILD_UPDATE_PARTY_STATE                 = 0x04747, // 4.20a 14480
+    // CMSG_GUILD_UPDATE_PARTY_STATE                 = 0x02A20, // 4.20a 14480
+    // SMSG_COMPRESSED_AUCTION_LIST_RESULT           = 0x01E0E, // 4.20a 14480
+    // SMSG_COMPRESSED_ALL_ACHIEVEMENT_DATA          = 0x0B610, // 4.20a 14480
+    // SMSG_COMPRESSED_GUILD_ROSTER                  = 0x02E80, // 4.20a 14480
+    // CMSG_REGISTER_ADDON_PREFIXES                  = 0x01B11, // 4.20a 14480
+    // SMSG_CHAT_SERVER_RECONNECTED                  = 0x07A77, // 4.20a 14480
+    // SMSG_RAID_SUMMON_FAILED                       = 0x08305, // 4.20a 14480
     // SMSG_MOVE_SET_COLLISION_HGT
     // CMSG_MOVE_SET_COLLISION_HGT_ACK
     // CMSG_CLEAR_RANDOM_BG_WIN_TIME
