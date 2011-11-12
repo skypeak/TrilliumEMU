@@ -441,8 +441,8 @@ enum Opcodes
     CMSG_SELL_ITEM                                   = 0x026B3, // 4.2.0:14480
     SMSG_SELL_ITEM                                   = 0x100B8, //
     CMSG_BUY_ITEM                                    = 0x0626A, // 4.2.0:14480
-    SMSG_BUY_ITEM                                    = 0x100B9, //
-    SMSG_BUY_FAILED                                  = 0x100BA, //
+    SMSG_BUY_ITEM                                    = 0x0B6EF, // 4.20a 14480
+    SMSG_BUY_FAILED                                  = 0x02666, // 4.20a 14480
     CMSG_TAXICLEARALLNODES                           = 0x100BB, // Unused
     CMSG_TAXIENABLEALLNODES                          = 0x100BC, // Unused
     CMSG_TAXISHOWNODES                               = 0x0AA77, // 14480
@@ -1353,8 +1353,6 @@ enum Opcodes
     // CMSG_SET_PAID_SERVICE_CHEAT
     // CMSG_BATTLEFIELD_MANAGER_ADVANCE_STATE
     // CMSG_BATTLEFIELD_MANAGER_SET_NEXT_TRANSITION_TIME
-    // CMSG_XPGAIN
-    // SMSG_XPGAIN
     // SMSG_GMTICKET_CREATE_RESPONSE_TICKET
     // CMSG_GM_CREATE_TICKET_RESPONSE
     // CMSG_SERVERINFO
