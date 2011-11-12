@@ -200,28 +200,28 @@ enum Opcodes
     CMSG_DESTROY_ITEMS                               = 0x10046, //
     SMSG_GAMEOBJECT_CUSTOM_ANIM                      = 0x0766E, // 14480
     CMSG_AREATRIGGER                                 = 0x062A6, // 14480
-    MSG_MOVE_START_FORWARD                           = 0x018E1, // 4.2.0:14480
-    MSG_MOVE_START_BACKWARD                          = 0x00863, // 14480
-    MSG_MOVE_STOP                                    = 0x0286A, // 4.2.0:14480
-    MSG_MOVE_START_STRAFE_LEFT                       = 0x088C2, // 14480
-    MSG_MOVE_START_STRAFE_RIGHT                      = 0x0B843, // 14480
-    MSG_MOVE_STOP_STRAFE                             = 0x0A8E0, // 14480
-    MSG_MOVE_JUMP                                    = 0x0386A, // 14480
-    MSG_MOVE_START_TURN_LEFT                         = 0x0084A, // 14480
-    MSG_MOVE_START_TURN_RIGHT                        = 0x088E0, // 14480
-    MSG_MOVE_STOP_TURN                               = 0x03862, // 14480
+    MSG_MOVE_START_FORWARD                           = 0x018E1, // 4.2.0:14480  CMSG_MOVE_START_FORWARD
+    MSG_MOVE_START_BACKWARD                          = 0x00863, // 14480        CMSG_MOVE_START_BACKWARD
+    MSG_MOVE_STOP                                    = 0x0286A, // 4.2.0:14480  CMSG_MOVE_STOP
+    MSG_MOVE_START_STRAFE_LEFT                       = 0x088C2, // 14480        CMSG_MOVE_START_STRAFE_LEFT
+    MSG_MOVE_START_STRAFE_RIGHT                      = 0x0B843, // 14480        CMSG_MOVE_START_STRAFE_RIGHT
+    MSG_MOVE_STOP_STRAFE                             = 0x0A8E0, // 14480        CMSG_MOVE_STOP_STRAFE
+    MSG_MOVE_JUMP                                    = 0x0386A, // 14480        CMSG_MOVE_JUMP
+    MSG_MOVE_START_TURN_LEFT                         = 0x0084A, // 14480        CMSG_MOVE_START_TURN_LEFT
+    MSG_MOVE_START_TURN_RIGHT                        = 0x088E0, // 14480        CMSG_MOVE_START_TURN_RIGHT
+    MSG_MOVE_STOP_TURN                               = 0x03862, // 14480        CMSG_MOVE_STOP_TURN
     MSG_MOVE_START_PITCH_UP                          = 0x1004A, //
     MSG_MOVE_START_PITCH_DOWN                        = 0x1004B, //
     MSG_MOVE_STOP_PITCH                              = 0x1004C, //
-    MSG_MOVE_SET_RUN_MODE                            = 0x038CB, // 4.2.0:14480
-    MSG_MOVE_SET_WALK_MODE                           = 0x088E9, // 4.2.0:14480
+    MSG_MOVE_SET_RUN_MODE                            = 0x038CB, // 4.2.0:14480  CMSG_MOVE_SET_RUN_MODE
+    MSG_MOVE_SET_WALK_MODE                           = 0x088E9, // 4.2.0:14480  CMSG_MOVE_SET_WALK_MODE
     MSG_MOVE_TOGGLE_LOGGING                          = 0x1004F, //
-    MSG_MOVE_TELEPORT                                = 0x10050, //
+    MSG_MOVE_TELEPORT                                = 0x09767, // 4.20a 14480  SMSG_MOVE_TELEPORT
     MSG_MOVE_TELEPORT_CHEAT                          = 0x10051, //
     MSG_MOVE_TELEPORT_ACK                            = 0x10052, //
     MSG_MOVE_TOGGLE_FALL_LOGGING                     = 0x10053, //
-    MSG_MOVE_FALL_LAND                               = 0x088E1, // 14480
-    MSG_MOVE_START_SWIM                              = 0x0B841, // 14480
+    MSG_MOVE_FALL_LAND                               = 0x088E1, // 14480        CMSG_MOVE_FALL_LAND
+    MSG_MOVE_START_SWIM                              = 0x0B841, // 14480        CMSG_MOVE_SET_FACING
     MSG_MOVE_STOP_SWIM                               = 0x10055, //
     MSG_MOVE_SET_RUN_SPEED_CHEAT                     = 0x10056, //
     MSG_MOVE_SET_RUN_SPEED                           = 0x00B21, // 14480
@@ -239,7 +239,7 @@ enum Opcodes
     MSG_MOVE_TOGGLE_COLLISION_CHEAT                  = 0x10063, //
     MSG_MOVE_SET_FACING                              = 0x09848, // 14480
     MSG_MOVE_SET_PITCH                               = 0x0B861, // 14480
-    MSG_MOVE_WORLDPORT_ACK                           = 0x05050, // 14480 /NOT SURE
+    MSG_MOVE_WORLDPORT_ACK                           = 0x05050, // 14480
     SMSG_PLAYER_MOVE                                 = 0x05341, // 14480
     SMSG_MONSTER_MOVE                                = 0x0AAE6, // 14480
     SMSG_MOVE_WATER_WALK                             = 0x10067, // 4.2.0:14480
@@ -807,7 +807,7 @@ enum Opcodes
     CMSG_DEBUG_ACTIONS_STOP                          = 0x10164, //
     CMSG_SET_FACTION_INACTIVE                        = 0x0FE33, // 14480
     CMSG_SET_WATCHED_FACTION                         = 0x03637, // 14480
-    MSG_MOVE_TIME_SKIPPED                            = 0x10165, //
+    MSG_MOVE_TIME_SKIPPED                            = 0x01F41, // 4.20a 14480   SMSG_MOVE_TIME_SKIPPED
     SMSG_SPLINE_MOVE_ROOT                            = 0x10166, //
     CMSG_SET_EXPLORATION_ALL                         = 0x10167, //
     SMSG_INVALIDATE_PLAYER                           = 0x0A2FF, // 14480
@@ -1132,7 +1132,7 @@ enum Opcodes
     CMSG_SET_RUNE_COUNT                              = 0x1021A, //
     CMSG_SET_RUNE_COOLDOWN                           = 0x1021B, //
     MSG_MOVE_SET_PITCH_RATE_CHEAT                    = 0x1021C, //
-    MSG_MOVE_SET_PITCH_RATE                          = 0x1021D, //
+    MSG_MOVE_SET_PITCH_RATE                          = 0x0CB27, // 4.20a 14480
     SMSG_FORCE_PITCH_RATE_CHANGE                     = 0x1021E, //
     CMSG_FORCE_PITCH_RATE_CHANGE_ACK                 = 0x1021F, //
     SMSG_SPLINE_SET_PITCH_RATE                       = 0x10220, //
@@ -1321,6 +1321,9 @@ enum Opcodes
     SMSG_CUF_PROFILES_LOAD                           = 0x0CF23, // 14480
     CMSG_REQUEST_CEMETERY_LIST                       = 0x098E8, // 14480
     SMSG_REQUEST_CEMETERY_LIST_RESPONSE              = 0x09701, // 14480
+
+    // SMSG_MOVES                                    = 0x0A6EE, // 4.20a 14480
+    // MSG_MOVE_SET_COLLISION_HGT                    = 0x04765, // 4.20a 14480
 };
 
 /// Player state
