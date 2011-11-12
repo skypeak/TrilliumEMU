@@ -2873,4 +2873,13 @@ LevelReq.Auction = 1
 LevelReq.Mail = 1
 
 #
+#   DuelResetCooldown
+#	Reseting cooldown and restore health to when duel finished in the follow zones:
+#   Elwyn, Durotar, Tirisfal, Tendrasil, Dun Morogh, Gurubashi Arena, Exodar, Mulgore
+#	Default: 0 - Disable
+#		 1 - Enable
+
+DuelResetCooldown = 1
+
+#
 ###################################################################################################
