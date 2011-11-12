@@ -48,8 +48,6 @@
 #include "ScriptMgr.h"
 #include "SpellScript.h"
 #include "PoolMgr.h"
-#include "ItemInfo.h"
-#include "ItemInfoMgr.h"
 
 ScriptMapMap sQuestEndScripts;
 ScriptMapMap sQuestStartScripts;
@@ -1038,25 +1036,24 @@ void ObjectMgr::LoadEquipmentTemplates()
             if (!equipmentInfo.ItemEntry[i])
                 continue;
 
-            ItemInfo const* itemInfo = sItemInfoMgr->GetItemInfo(equipmentInfo.ItemEntry[i]);
-            // HACKY
-            if (!itemInfo)
+            ItemEntry const* item = sItemStore.LookupEntry(equipmentInfo.ItemEntry[i]);
+            if (!item)
             {
-             //   sLog->outErrorDb("Unknown item (entry=%u) in creature_equip_template.itemEntry%u for entry = %u, forced to 0.",
-             //       equipmentInfo.ItemEntry[i], i+1, entry);
-             //   equipmentInfo.ItemEntry[i] = 0;
+                sLog->outErrorDb("Unknown item (entry=%u) in creature_equip_template.itemEntry%u for entry = %u, forced to 0.",
+                    equipmentInfo.ItemEntry[i], i+1, entry);
+                equipmentInfo.ItemEntry[i] = 0;
                 continue;
             }
 
-            if (itemInfo->InventoryType != INVTYPE_WEAPON &&
-                itemInfo->InventoryType != INVTYPE_SHIELD &&
-                itemInfo->InventoryType != INVTYPE_RANGED &&
-                itemInfo->InventoryType != INVTYPE_2HWEAPON &&
-                itemInfo->InventoryType != INVTYPE_WEAPONMAINHAND &&
-                itemInfo->InventoryType != INVTYPE_WEAPONOFFHAND &&
-                itemInfo->InventoryType != INVTYPE_HOLDABLE &&
-                itemInfo->InventoryType != INVTYPE_THROWN &&
-                itemInfo->InventoryType != INVTYPE_RANGEDRIGHT)
+            if (item->InventoryType != INVTYPE_WEAPON &&
+                item->InventoryType != INVTYPE_SHIELD &&
+                item->InventoryType != INVTYPE_RANGED &&
+                item->InventoryType != INVTYPE_2HWEAPON &&
+                item->InventoryType != INVTYPE_WEAPONMAINHAND &&
+                item->InventoryType != INVTYPE_WEAPONOFFHAND &&
+                item->InventoryType != INVTYPE_HOLDABLE &&
+                item->InventoryType != INVTYPE_THROWN &&
+                item->InventoryType != INVTYPE_RANGEDRIGHT)
             {
                 sLog->outErrorDb("Item (entry=%u) in creature_equip_template.itemEntry%u for entry = %u is not equipable in a hand, forced to 0.",
                     equipmentInfo.ItemEntry[i], i+1, entry);
