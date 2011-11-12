@@ -280,9 +280,11 @@ void WorldSession::HandleDestroyItemOpcode(WorldPacket & recv_data)
 // Only _static_ data send in this packet !!!
 void WorldSession::HandleItemQuerySingleOpcode(WorldPacket & recv_data)
 {
-    //sLog->outDebug(LOG_FILTER_PACKETIO, "WORLD: CMSG_ITEM_QUERY_SINGLE");
-    uint32 item;
-    recv_data >> item;
+    sLog->outDebug(LOG_FILTER_PACKETIO, "WORLD: CMSG_ITEM_QUERY_SINGLE");
+    uint64 unk;
+    uint32 item, unk1;
+
+    recv_data >> unk >> item >> unk1;
 
     sLog->outDetail("STORAGE: Item Query = %u", item);
 
@@ -302,16 +304,32 @@ void WorldSession::HandleItemQuerySingleOpcode(WorldPacket & recv_data)
             }
         }
                                                             // guess size
-        WorldPacket data(SMSG_ITEM_QUERY_SINGLE_RESPONSE, 600);
+        // item.dbc
+        WorldPacket data(SMSG_ITEM_QUERY_SINGLE_RESPONSE, 12*4);
+        data << uint32(0x22);                               // Random uint32 4.0.1
+        data << uint32(0x50238EC2);                         // Random uint32 4.0.1
+        data << pProto->ItemId;
+        data << uint32(0x20);
         data << pProto->ItemId;
         data << pProto->Class;
         data << pProto->SubClass;
-        data << int32(pProto->Unk0);                        // new 2.0.3, not exist in wdb cache?
-        data << Name;
-        data << uint8(0x00);                                //pProto->Name2; // blizz not send name there, just uint8(0x00); <-- \0 = empty string = empty name...
-        data << uint8(0x00);                                //pProto->Name3; // blizz not send name there, just uint8(0x00);
-        data << uint8(0x00);                                //pProto->Name4; // blizz not send name there, just uint8(0x00);
+        data << int32(-1);
+        data << pProto->Material;
         data << pProto->DisplayInfoID;
+        data << pProto->InventoryType;
+        data << pProto->Sheath;
+        SendPacket(&data);
+
+        uint32 bytecount = 0;
+        // sparse-item.db2
+        data.Initialize(SMSG_ITEM_QUERY_SINGLE_RESPONSE, 600);
+        data << uint32(0x22);                            // Random uint32 4.0.1
+        data << uint32(0x919BE54E);                        // Random uint32 4.0.1
+        data << pProto->ItemId;
+
+        size_t pos = data.wpos();
+        data << uint32(bytecount);
+        data << pProto->ItemId;
         data << pProto->Quality;
         data << pProto->Flags;
         data << pProto->Flags2;
@@ -332,39 +350,25 @@ void WorldSession::HandleItemQuerySingleOpcode(WorldPacket & recv_data)
         data << int32(pProto->MaxCount);
         data << int32(pProto->Stackable);
         data << pProto->ContainerSlots;
-        data << pProto->StatsCount;                         // item stats count
-        for (uint32 i = 0; i < pProto->StatsCount; ++i)
-        {
+        for (uint32 i = 0; i < 10; ++i)
             data << pProto->ItemStat[i].ItemStatType;
+        for (uint32 i = 0; i < 10; ++i)
             data << pProto->ItemStat[i].ItemStatValue;
-        }
+        for (uint32 i = 0; i < 10; ++i)
+            data << uint32(0);                              // 4.0.0
+        for (uint32 i = 0; i < 10; ++i)
+            data << uint32(0);                              // 4.0.0
         data << pProto->ScalingStatDistribution;            // scaling stats distribution
-        data << pProto->ScalingStatValue;                   // some kind of flags used to determine stat values column
-        for (int i = 0; i < MAX_ITEM_PROTO_DAMAGES; ++i)
-        {
-            data << pProto->Damage[i].DamageMin;
-            data << pProto->Damage[i].DamageMax;
-            data << pProto->Damage[i].DamageType;
-        }
 
-        // resistances (7)
-        data << pProto->Armor;
-        data << pProto->HolyRes;
-        data << pProto->FireRes;
-        data << pProto->NatureRes;
-        data << pProto->FrostRes;
-        data << pProto->ShadowRes;
-        data << pProto->ArcaneRes;
-
-        data << pProto->AmmoType;                           // swapped with Delay
-        data << pProto->Delay;                              // swapped with AmmoType
+        data << uint32(0);                                  // DamageType
+        data << pProto->Delay;
         data << pProto->RangedModRange;
 
         for (int s = 0; s < MAX_ITEM_PROTO_SPELLS; ++s)
         {
             // send DBC data for cooldowns in same way as it used in Spell::SendSpellCooldown
             // use `item_template` or if not set then only use spell cooldowns
-            SpellEntry const* spell = sSpellStore.LookupEntry(pProto->Spells[s].SpellId);
+            SpellInfo const* spell = sSpellMgr->GetSpellInfo(pProto->Spells[s].SpellId);
             if (spell)
             {
                 bool db_data = pProto->Spells[s].SpellCooldown >= 0 || pProto->Spells[s].SpellCategoryCooldown >= 0;
@@ -381,9 +385,9 @@ void WorldSession::HandleItemQuerySingleOpcode(WorldPacket & recv_data)
                 }
                 else
                 {
-                    data << uint32(spell->GetRecoveryTime());
-                    data << uint32(spell->GetCategory());
-                    data << uint32(spell->GetCategoryRecoveryTime());
+                    data << uint32(spell->RecoveryTime);
+                    data << uint32(spell->Category);
+                    data << uint32(spell->CategoryRecoveryTime);
                 }
             }
             else
@@ -397,7 +401,13 @@ void WorldSession::HandleItemQuerySingleOpcode(WorldPacket & recv_data)
             }
         }
         data << pProto->Bonding;
+        data << uint16(0x16);
+        data << Name;
+        data << uint8(0x00);                                //pProto->Name2; // blizz not send name there, just uint8(0x00); <-- \0 = empty string = empty name...
+        data << uint8(0x00);                                //pProto->Name3; // blizz not send name there, just uint8(0x00);
+        data << uint8(0x00);                                //pProto->Name4; // blizz not send name there, just uint8(0x00);
         data << Description;
+        data << uint32(0);
         data << pProto->PageText;
         data << pProto->LanguageID;
         data << pProto->PageMaterial;
@@ -407,7 +417,6 @@ void WorldSession::HandleItemQuerySingleOpcode(WorldPacket & recv_data)
         data << pProto->Sheath;
         data << pProto->RandomProperty;
         data << pProto->RandomSuffix;
-        data << pProto->Block;
         data << pProto->ItemSet;
         data << pProto->MaxDurability;
         data << pProto->Area;
@@ -421,7 +430,7 @@ void WorldSession::HandleItemQuerySingleOpcode(WorldPacket & recv_data)
         }
         data << pProto->socketBonus;
         data << pProto->GemProperties;
-        data << pProto->RequiredDisenchantSkill;
+        data << int32(pProto->RequiredDisenchantSkill);
         data << pProto->ArmorDamageModifier;
         data << uint32(abs(pProto->Duration));              // added in 2.4.2.8209, duration (seconds)
         data << pProto->ItemLimitCategory;                  // WotLK, ItemLimitCategory
@@ -429,6 +438,9 @@ void WorldSession::HandleItemQuerySingleOpcode(WorldPacket & recv_data)
         data << float(0);                                   // damage/armor scaling factor
         data << uint32(0);                                  // 4.0.0
         data << uint32(0);                                  // 4.0.0
+
+        data.put<uint32>(pos, data.wpos()-16);
+
         SendPacket(&data);
     }
     else
