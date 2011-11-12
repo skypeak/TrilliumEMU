@@ -830,8 +830,6 @@ void WorldSession::SendListInventory(uint64 vendorGuid)
                     continue;
 
                 ++count;
-                if (count == MAX_VENDOR_ITEMS)
-                    break;
 
                 // reputation discount
                 uint32 buyCost = item->IsGoldRequired(itemTemplate) ? uint32(floor(itemTemplate->BuyPrice * discountMod)) : 0;
