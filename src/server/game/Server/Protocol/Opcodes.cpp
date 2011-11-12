@@ -437,7 +437,7 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( SMSG_LIST_INVENTORY,                          STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( CMSG_SELL_ITEM,                               STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleSellItemOpcode            );
     DEFINE_OPCODE_HANDLER( SMSG_SELL_ITEM,                               STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
-    DEFINE_OPCODE_HANDLER( CMSG_BUY_ITEM,                                STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleBuyItemInSlotOpcode       );
+    DEFINE_OPCODE_HANDLER( CMSG_BUY_ITEM,                                STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleBuyItemOpcode             );
     DEFINE_OPCODE_HANDLER( SMSG_BUY_ITEM,                                STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( SMSG_BUY_FAILED,                              STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( CMSG_TAXICLEARALLNODES,                       STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );

@@ -376,7 +376,7 @@ void WorldSession::HandleItemQuerySingleOpcode(WorldPacket & recv_data)
                 data << pProto->Spells[s].SpellId;
                 data << pProto->Spells[s].SpellTrigger;
                 data << uint32(-abs(pProto->Spells[s].SpellCharges));
-                
+
                 if (db_data)
                 {
                     data << uint32(pProto->Spells[s].SpellCooldown);
@@ -501,13 +501,26 @@ void WorldSession::HandlePageQuerySkippedOpcode(WorldPacket & recv_data)
 void WorldSession::HandleSellItemOpcode(WorldPacket & recv_data)
 {
     sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_SELL_ITEM");
-    uint64 vendorguid, itemguid;
-    uint32 count;
+    uint64 vendorguid;
+    uint64 itemguid;
+    uint8 packetGuid;
+    uint32 byte1;
+    uint8 byte2;
 
-    recv_data >> vendorguid >> itemguid >> count;
+    recv_data >> byte1;
+    recv_data >> byte2;
+    recv_data.read_skip<uint8>();
+    recv_data.read_skip<uint8>();
+    recv_data >> packetGuid;
+    recv_data >> itemguid;
+    recv_data.read_skip<uint32>();
+
+    uint32 count = 0; // Need to get count from packet..
 
     if (!itemguid)
         return;
+
+    vendorguid = GetRealCreatureGUID(packetGuid, byte1, byte2);
 
     Creature *pCreature = GetPlayer()->GetNPCIfCanInteractWith(vendorguid, UNIT_NPC_FLAG_VENDOR);
     if (!pCreature)
@@ -553,9 +566,7 @@ void WorldSession::HandleSellItemOpcode(WorldPacket & recv_data)
 
         // special case at auto sell (sell all)
         if (count == 0)
-        {
             count = pItem->GetCount();
-        }
         else
         {
             // prevent sell more items that exist in stack (possible only not from client)
@@ -616,9 +627,19 @@ void WorldSession::HandleBuybackItem(WorldPacket & recv_data)
 {
     sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_BUYBACK_ITEM");
     uint64 vendorguid;
+    uint8 packetGuid;
+    uint32 byte1;
+    uint8 byte2;
     uint32 slot;
 
-    recv_data >> vendorguid >> slot;
+    recv_data >> byte1;
+    recv_data >> byte2;
+    recv_data.read_skip<uint8>();
+    recv_data.read_skip<uint8>();
+    recv_data >> packetGuid;
+    recv_data >> slot;
+
+    vendorguid = GetRealCreatureGUID(packetGuid, byte1, byte2);
 
     Creature *pCreature = GetPlayer()->GetNPCIfCanInteractWith(vendorguid, UNIT_NPC_FLAG_VENDOR);
     if (!pCreature)
@@ -663,14 +684,65 @@ void WorldSession::HandleBuybackItem(WorldPacket & recv_data)
 void WorldSession::HandleBuyItemInSlotOpcode(WorldPacket & recv_data)
 {
     sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_BUY_ITEM_IN_SLOT");
+    uint64 vendorguid, bagguid;
+    uint32 item, slot, count;
+    uint8 bagslot;
+
+    recv_data >> vendorguid >> item  >> slot >> bagguid >> bagslot >> count;
+
+    // client expects count starting at 1, and we send vendorslot+1 to client already
+    if (slot > 0)
+        --slot;
+    else
+        return;                                             // cheating
+
+    uint8 bag = NULL_BAG;                                   // init for case invalid bagGUID
+
+    // find bag slot by bag guid
+    if (bagguid == _player->GetGUID())
+        bag = INVENTORY_SLOT_BAG_0;
+    else
+    {
+        for (int i = INVENTORY_SLOT_BAG_START; i < INVENTORY_SLOT_BAG_END; ++i)
+        {
+            if (Bag* pBag = _player->GetBagByPos(i))
+            {
+                if (bagguid == pBag->GetGUID())
+                {
+                    bag = i;
+                    break;
+                }
+            }
+        }
+    }
+
+    // bag not found, cheating?
+    if (bag == NULL_BAG)
+        return;
+
+    GetPlayer()->BuyItemFromVendorSlot(vendorguid, slot, item, count, bag, bagslot);
+}
+
+void WorldSession::HandleBuyItemOpcode(WorldPacket & recv_data)
+{
+    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_BUY_ITEM");
     uint64 vendorguid;
+    uint8 packetGuid;
+    uint32 byte1;
+    uint8 byte2;
     uint32 item, slot, count;
 
-    recv_data >> vendorguid;
+    recv_data >> byte1;
+    recv_data >> byte2;
+    recv_data.read_skip<uint8>();
+    recv_data.read_skip<uint8>();
+    recv_data >> packetGuid;
     recv_data.read_skip<uint8>();
     recv_data >> item >> slot >> count;
     recv_data.read_skip<uint64>();
     recv_data.read_skip<uint8>();
+
+    vendorguid = GetRealCreatureGUID(packetGuid, byte1, byte2);
 
     // client expects count starting at 1, and we send vendorslot+1 to client already
     if (slot > 0)
@@ -684,7 +756,6 @@ void WorldSession::HandleBuyItemInSlotOpcode(WorldPacket & recv_data)
 void WorldSession::HandleListInventoryOpcode(WorldPacket & recv_data)
 {
     uint64 guid;
-
     recv_data >> guid;
 
     if (!GetPlayer()->isAlive())
@@ -713,12 +784,10 @@ void WorldSession::SendListInventory(uint64 vendorGuid)
     if (vendor->HasUnitState(UNIT_STAT_MOVING))
         vendor->StopMoving();
 
-    VendorItemData const* vendorItems = vendor->GetVendorItems();
-
-    if (!vendorItems)
+    VendorItemData const* items = vendor->GetVendorItems();
+    if (!items)
     {
         WorldPacket data(SMSG_LIST_INVENTORY, 1 + 8 + 4 + 1 + 1);
-
         data << uint8(0x00);
         data << uint32(0);                                   // count == 0, next will be error code
         data << uint8(0);                                   // "Vendor has no inventory"
@@ -726,32 +795,25 @@ void WorldSession::SendListInventory(uint64 vendorGuid)
         return;
     }
 
-    uint32 itemCount = vendorItems->GetItemCount();
+    uint32 itemCount = items->GetItemCount();
     uint32 count = 0;
 
     WorldPacket data(SMSG_LIST_INVENTORY, 1 + 6 + 4 + 1 + itemCount * 10 * 4);
-
-    // ToDo: vendorGuid
     data << uint8(0xEB);
 
-    data << uint8(0);
-    data << uint8(0);
-    data << uint8(0);
-    data << uint8(0);
+    data << uint32(vendorGuid);
     data << uint8(0);
 
     size_t countPos = data.wpos();
     data << uint32(count);
-
     data << uint8((count % 10) == 0 ? count / 10 : (count / 10) + 1);
-
     data << uint8(0);
 
     float discountMod = _player->GetReputationPriceDiscount(vendor);
 
-    for (uint32 vendorSlot = 0; vendorSlot < itemCount; ++vendorSlot)
+    for (uint32 slot = 0; slot < itemCount; ++slot)
     {
-        if (VendorItem const* item = vendorItems->GetItem(vendorSlot))
+        if (VendorItem const* item = items->GetItem(slot))
         {
             if (ItemTemplate const* itemTemplate = sObjectMgr->GetItemTemplate(item->item))
             {
@@ -766,24 +828,24 @@ void WorldSession::SendListInventory(uint64 vendorGuid)
                 uint32 leftInStock = !item->maxcount ? 0xFFFFFFFF : vendor->GetVendorItemCurrentCount(item);
                 if (!_player->isGameMaster() && !leftInStock)
                     continue;
+
                 ++count;
                 if (count == MAX_VENDOR_ITEMS)
-                    break; // client can only display 15 pages
+                    break;
 
                 // reputation discount
                 uint32 buyCost = item->IsGoldRequired(itemTemplate) ? uint32(floor(itemTemplate->BuyPrice * discountMod)) : 0;
 
-				// 4.2.0.14480
-                data << uint32(buyCost); 						// BuyCost
-                data << uint32(0);								// Unknown 4.2.0.14333
-                data << uint32(1); 								// Unknown 4.2.0.14333
-                data << uint32(itemTemplate->MaxDurability); 	// Durability
-                data << uint32(item->ExtendedCost); 			// ExtendedCost
-                data << uint32(itemTemplate->BuyCount); 		// BuyCount
-                data << uint32(leftInStock); 					// MaxCount
-                data << uint32(vendorSlot + 1); 				// client expects counting to start at 1
-                data << uint32(itemTemplate->DisplayInfoID); 	// DisplayId
-                data << item->item; 							// ItemId
+                data << uint32(buyCost);                      // BuyCost
+                data << uint32(0);                            // Unknown 4.2.0.14333 (It just can be 0 or 1 or ?? - Strange..)
+                data << uint32(item->maxcount);               // Maxcount
+                data << uint32(itemTemplate->MaxDurability);  // Durability
+                data << uint32(item->ExtendedCost);           // ExtendedCost
+                data << uint32(itemTemplate->BuyCount);       // BuyCount
+                data << uint32(leftInStock);                  // Count of item list
+                data << uint32(slot + 1);                     // client expects counting to start at 1
+                data << uint32(itemTemplate->DisplayInfoID);  // DisplayId
+                data << item->item;                           // ItemId
             }
         }
     }
@@ -1448,4 +1510,39 @@ void WorldSession::HandleReforgeOpcode(WorldPacket & recv_data )
     _player->ApplyEnchantment(item, REFORGE_ENCHANTMENT_SLOT, true);
 
     item->ClearSoulboundTradeable(_player);
+}
+
+uint64 WorldSession::GetRealCreatureGUID(uint8 packetGuid, uint32 byte1, uint8 byte2)
+{
+    uint64 realguid;
+    uint32 realentry;
+    uint32 entry; // Not always true.
+
+    if (byte1 % 2 == 0)
+        ++byte1;
+    else
+        --byte1;
+    if (byte2 % 2 == 0)
+        ++byte2;
+    else
+        --byte2;
+    if (packetGuid % 2 == 0)
+        ++packetGuid;
+    else
+        --packetGuid;
+
+    entry = byte1/256;
+
+    uint32 RealpacketGuid = packetGuid;
+
+    uint32 coef = (byte1-((entry*256)-1));
+    if (coef > 1)
+        RealpacketGuid += 65536*(coef-1);
+
+    realguid = ((byte2*256)+RealpacketGuid);
+
+    realentry = sObjectMgr->GetCreatureData(realguid)->id;
+    realguid = ConvertToRealHighGuid(realguid, realentry);
+
+    return realguid;
 }

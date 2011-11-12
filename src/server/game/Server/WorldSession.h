@@ -398,9 +398,16 @@ class WorldSession
         uint32 GetRecruiterId() { return recruiterId; }
         bool IsARecruiter() { return isRecruiter; }
 
-        uint64 GetRealGUID(uint8 packetGuid, uint8 byte, std::string ErrorMessage);
-		uint64 GetRealGOGUID() { return realgoguid; }
+        uint64 GetRealCharGUID(uint8 packetGuid, uint8 byte, std::string ErrorMessage);
+        uint64 GetRealCreatureGUID(uint8 packetGuid, uint32 byte1, uint8 byte2);
+        uint64 GetRealGOGUID() { return realgoguid; }
         uint32 GetRealGOEntry() { return realgoentry; }
+        uint64 ConvertToRealHighGuid(uint64 guid, uint32 entry)
+        {
+            uint64 coef = 0x1000000;
+            // 17379390962022744064 -> 0x1035892424704000000
+            return guid+17379390962022744064+coef*entry;
+        }
     public:                                                 // opcodes handlers
 
         void Handle_NULL(WorldPacket& recvPacket);          // not used
