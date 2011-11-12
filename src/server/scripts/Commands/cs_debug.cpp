@@ -28,6 +28,8 @@
 #include "GridNotifiers.h"
 #include "GridNotifiersImpl.h"
 #include "GossipDef.h"
+#include "GroupMgr.h"
+#include "Group.h"
 
 #include <fstream>
 
@@ -60,6 +62,11 @@ public:
             { "spellfail",      SEC_ADMINISTRATOR,  false, &HandleDebugSendSpellFailCommand,      "", NULL },
             { NULL,             0,                  false, NULL,                                  "", NULL }
         };
+        static ChatCommand debugGroupCommandTable[] =
+        {
+            { "add",            SEC_MODERATOR,      false, &HandleDebugGroupAddCommand,           "", NULL },
+            { NULL,             0,                  false, NULL,                                  "", NULL }
+        };
         static ChatCommand debugCommandTable[] =
         {
             { "setbit",         SEC_ADMINISTRATOR,  false, &HandleDebugSet32BitCommand,        "", NULL },
@@ -85,6 +92,7 @@ public:
             { "update",         SEC_ADMINISTRATOR,  false, &HandleDebugUpdateCommand,          "", NULL },
             { "itemexpire",     SEC_ADMINISTRATOR,  false, &HandleDebugItemExpireCommand,      "", NULL },
             { "areatriggers",   SEC_ADMINISTRATOR,  false, &HandleDebugAreaTriggersCommand,    "", NULL },
+            { "group",          SEC_MODERATOR,      false, NULL,             "", debugGroupCommandTable },
             { NULL,             0,                  false, NULL,                               "", NULL }
         };
         static ChatCommand commandTable[] =
@@ -1226,6 +1234,54 @@ public:
         target->SetUInt32Value(Opcode ,  iValue);
 
         handler->PSendSysMessage(LANG_SET_32BIT_FIELD, Opcode, iValue);
+        return true;
+    }
+
+    static bool HandleDebugGroupAddCommand(ChatHandler* handler, const char* args)
+    {
+        Player* target;
+        uint64 target_guid;
+        std::string target_name;
+        if (!handler->extractPlayerTarget((char*)args, &target, &target_guid, &target_name))
+            return false;
+
+        Player* leader = handler->GetSession()->GetPlayer();
+        if (target == leader)
+            return false;
+
+        Group* group = leader->GetGroup();
+        if (group && group->isBGGroup())
+            group = leader->GetOriginalGroup();
+
+        Group* group2 = target->GetGroup();
+        if (group2 && group2->isBGGroup())
+            group2 = target->GetOriginalGroup();
+
+        if (group2 || target->GetGroupInvite())
+        {
+            return false; // player already in another group or invited
+        }
+
+        if (!group)
+            group = new Group;
+
+        // Group is full
+        if (group->IsFull())
+            return false;
+
+        // Forming a new group, create it
+        if (!group->IsCreated())
+        {
+            group->Create(leader);
+            sGroupMgr->AddGroup(group);
+        }
+
+        // Everything is fine, do it, PLAYER'S GROUP IS SET IN ADDMEMBER!!!
+        if (!group->AddMember(target))
+            return false;
+
+        group->BroadcastGroupUpdate();
+
         return true;
     }
 };
