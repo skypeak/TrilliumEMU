@@ -2427,8 +2427,8 @@ void World::LoadGameObjectCheck()
         LastId = fields[1].GetInt32();
         uint32 Guid = fields[0].GetInt32();
         do
-            Guid=Guid-65536;
-        while (Guid>65535);
+            Guid = Guid - 65536;
+        while (Guid > 65535);
 
         ggameobjects.guid = Guid;
         ggameobjects.id = LastId;
@@ -2460,20 +2460,72 @@ void World::LoadGameObjectCheck()
             Triple = false;
             switch (ii)
             {
-            case  0: tablename = "game_event_gameobject"; columnname = "guid";                                      break;
-            case  1: tablename = "gameobject";            columnname = "guid";                                      break;
-            case  2: tablename = "gameobject_scripts";    columnname = "id";                                        break;
-            case  3: tablename = "linked_respawn";        columnname = "linkedGuid"; typestr = " and `linkType`=1"; break;
-            case  4: tablename = "linked_respawn";        columnname = "guid";       typestr = " and `linkType`=2"; break;
-            case  5: tablename = "linked_respawn";        columnname = "linkedGuid"; typestr = " and `linkType`=2"; break;
-            case  6: tablename = "linked_respawn";        columnname = "guid";       typestr = " and `linkType`=3"; break;
-            case  7: tablename = "pool_gameobject";       columnname = "guid";                                      break;
-            case  8: tablename = "gameobject_scripts";    columnname = "datalong";   Triple = true;                 break;
-            case  9: tablename = "spell_scripts";         columnname = "datalong";   Triple = true;                 break;
-            case  10: tablename = "quest_start_scripts";  columnname = "datalong";   Triple = true;                 break;
-            case  11: tablename = "quest_end_scripts";    columnname = "datalong";   Triple = true;                 break;
-            case  12: tablename = "event_scripts";        columnname = "datalong";   Triple = true;                 break;
-            case  13: tablename = "waypoint_scripts";     columnname = "datalong";   Triple = true;                 break;
+                case  0:
+                    tablename = "game_event_gameobject";
+                    columnname = "guid";
+                    break;
+                case  1:
+                    tablename = "gameobject";
+                    columnname = "guid";
+                    break;
+                case  2:
+                    tablename = "gameobject_scripts";
+                    columnname = "id";
+                    break;
+                case  3:
+                    tablename = "linked_respawn";
+                    columnname = "linkedGuid";
+                    typestr = " and `linkType`=1";
+                    break;
+                case  4:
+                    tablename = "linked_respawn";
+                    columnname = "guid";
+                    typestr = " and `linkType`=2";
+                    break;
+                case  5:
+                    tablename = "linked_respawn";
+                    columnname = "linkedGuid";
+                    typestr = " and `linkType`=2";
+                    break;
+                case  6:
+                    tablename = "linked_respawn";
+                    columnname = "guid";
+                    typestr = " and `linkType`=3";
+                    break;
+                case  7:
+                    tablename = "pool_gameobject";
+                    columnname = "guid";
+                    break;
+                case  8:
+                    tablename = "gameobject_scripts";
+                    columnname = "datalong";
+                    Triple = true;
+                    break;
+                case  9:
+                    tablename = "spell_scripts";
+                    columnname = "datalong";
+                    Triple = true;
+                    break;
+                case  10:
+                    tablename = "quest_start_scripts";
+                    columnname = "datalong";
+                    Triple = true;
+                    break;
+                case  11:
+                    tablename = "quest_end_scripts";
+                    columnname = "datalong";
+                    Triple = true;
+                    break;
+                case  12:
+                    tablename = "event_scripts";
+                    columnname = "datalong";
+                    Triple = true;
+                    break;
+                case  13:
+                    tablename = "waypoint_scripts";
+                    columnname = "datalong";
+                    Triple = true;
+                    break;
             }
 
             if (Triple == false)
@@ -2485,9 +2537,15 @@ void World::LoadGameObjectCheck()
                 {
                     switch (iii)
                     {
-                    case 0: typestr = " and `command`=9"; break;
-                    case 1: typestr = " and `command`=11"; break;
-                    case 2: typestr = " and `command`=12"; break;
+                        case 0:
+                            typestr = " and `command`=9";
+                            break;
+                        case 1:
+                            typestr = " and `command`=11";
+                            break;
+                        case 2:
+                            typestr = " and `command`=12";
+                            break;
                     }
                     WorldDatabase.PExecute("UPDATE `%s` SET `%s`=%u WHERE `%s`=%u%s",
                         tablename.c_str(), columnname.c_str(), newguid, columnname.c_str(), oldguid, typestr.c_str());
@@ -2497,7 +2555,7 @@ void World::LoadGameObjectCheck()
     }
 
     sLog->outString(">> Loaded %u gameobjects for the guid check in %u ms", count, GetMSTimeDiffToNow(oldMSTime));
-        sLog->outString();
+    sLog->outString();
 }
 
 void World::Update(uint32 diff)
