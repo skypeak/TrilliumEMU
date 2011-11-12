@@ -599,7 +599,8 @@ void World::LoadConfigSettings(bool reload)
     m_int_configs[CONFIG_INTERVAL_SAVE] = ConfigMgr::GetIntDefault("PlayerSaveInterval", 15 * MINUTE * IN_MILLISECONDS);
     m_int_configs[CONFIG_INTERVAL_DISCONNECT_TOLERANCE] = ConfigMgr::GetIntDefault("DisconnectToleranceInterval", 0);
     m_bool_configs[CONFIG_STATS_SAVE_ONLY_ON_LOGOUT] = ConfigMgr::GetBoolDefault("PlayerSave.Stats.SaveOnlyOnLogout", true);
-
+	m_bool_configs[CONFIG_DUEL_RESET_COOLDOWN] = ConfigMgr::GetBoolDefault("DuelResetCooldown", false);
+	
     m_int_configs[CONFIG_MIN_LEVEL_STAT_SAVE] = ConfigMgr::GetIntDefault("PlayerSave.Stats.MinLevel", 0);
     if (m_int_configs[CONFIG_MIN_LEVEL_STAT_SAVE] > MAX_LEVEL)
     {
@@ -1211,6 +1212,10 @@ void World::LoadConfigSettings(bool reload)
     // MySQL ping time interval
     m_int_configs[CONFIG_DB_PING_INTERVAL] = ConfigMgr::GetIntDefault("MaxPingTime", 30);
 
+	// Area DuelReset
+    m_int_configs[CONFIG_DUEL_RESET_ONE] = ConfigMgr::GetIntDefault("Duel.Reset.Area.One", 1);
+    m_int_configs[CONFIG_DUEL_RESET_TWO] = ConfigMgr::GetIntDefault("Duel.Reset.Area.Two", 616);
+	
     sScriptMgr->OnConfigLoad(reload);
 }
 
@@ -1249,9 +1254,11 @@ void World::SetInitialWorldSettings()
 
     ///- Initialize pool manager
     sPoolMgr->Initialize();
+	sLog->outString("Initialize pool manager...");
 
     ///- Initialize game event manager
     sGameEventMgr->Initialize();
+	sLog->outString("Initialize game event manager...");
 
     ///- Loading strings. Getting no records means core load has to be canceled because no error message can be output.
     sLog->outString();
