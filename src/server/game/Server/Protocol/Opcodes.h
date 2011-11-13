@@ -218,7 +218,7 @@ enum Opcodes
     MSG_MOVE_TELEPORT_ACK                            = 0x10052, //
     MSG_MOVE_TOGGLE_FALL_LOGGING                     = 0x10053, //
     MSG_MOVE_FALL_LAND                               = 0x088E1, // 14480        CMSG_MOVE_FALL_LAND
-    MSG_MOVE_START_SWIM                              = 0x0B841, // 14480        CMSG_MOVE_SET_FACING
+    MSG_MOVE_START_SWIM                              = 0x0B841, // 14480
     MSG_MOVE_STOP_SWIM                               = 0x10055, //
     MSG_MOVE_SET_RUN_SPEED_CHEAT                     = 0x10056, //
     MSG_MOVE_SET_RUN_SPEED                           = 0x00B21, // 14480
@@ -234,7 +234,7 @@ enum Opcodes
     MSG_MOVE_SET_TURN_RATE_CHEAT                     = 0x10061, //
     MSG_MOVE_SET_TURN_RATE                           = 0x05703, // 14480
     MSG_MOVE_TOGGLE_COLLISION_CHEAT                  = 0x10063, //
-    MSG_MOVE_SET_FACING                              = 0x09848, // 14480
+    MSG_MOVE_SET_FACING                              = 0x09848, // 4.20a 14480  CMSG_MOVE_SET_FACING
     MSG_MOVE_SET_PITCH                               = 0x0B861, // 14480
     MSG_MOVE_WORLDPORT_ACK                           = 0x05050, // 14480
     SMSG_PLAYER_MOVE                                 = 0x05341, // 14480
@@ -255,7 +255,7 @@ enum Opcodes
     CMSG_FORCE_MOVE_UNROOT_ACK                       = 0x0A8E2, // 14480
     MSG_MOVE_ROOT                                    = 0x10075, //
     MSG_MOVE_UNROOT                                  = 0x10076, //
-    MSG_MOVE_HEARTBEAT                               = 0x028E3, // 4.2.0:14480
+    MSG_MOVE_HEARTBEAT                               = 0x028E3, // 4.20a 14480  CMSG_MOVE_HEARTBEAT
     SMSG_MOVE_KNOCK_BACK                             = 0x10077, //
     CMSG_MOVE_KNOCK_BACK_ACK                         = 0x10078, //
     MSG_MOVE_KNOCK_BACK                              = 0x10079, //
@@ -435,7 +435,7 @@ enum Opcodes
     CMSG_LIST_INVENTORY                              = 0x0EAFB, // 4.2.0:14480
     SMSG_LIST_INVENTORY                              = 0x0CB43, // 4.2.0:14480
     CMSG_SELL_ITEM                                   = 0x026B3, // 4.2.0:14480
-    SMSG_SELL_ITEM                                   = 0x100B8, //
+    SMSG_SELL_ITEM                                   = 0x0B227, // 4.20a 14480
     CMSG_BUY_ITEM                                    = 0x0626A, // 4.2.0:14480
     SMSG_BUY_ITEM                                    = 0x0B6EF, // 4.20a 14480
     SMSG_BUY_FAILED                                  = 0x02666, // 4.20a 14480
@@ -1224,7 +1224,7 @@ enum Opcodes
     CMSG_EQUIPMENT_SET_SAVE                          = 0x0E26E, // 14480
     CMSG_UPDATE_PROJECTILE_POSITION                  = 0x1026B, //
     SMSG_SET_PROJECTILE_POSITION                     = 0x0FA23, // 4.2.0:14480
-    SMSG_TALENTS_INFO                                = 0x0BABF, // 14480
+    SMSG_TALENTS_INFO                                = 0x0BABF, // 14480     SMSG_TALENT_UPDATE
     CMSG_LEARN_PREVIEW_TALENTS                       = 0x0F22A, // 14480
     CMSG_LEARN_PREVIEW_TALENTS_PET                   = 0x032FA, // 14480
     SMSG_ARENA_OPPONENT_UPDATE                       = 0x07A6F, // 4.2.0:14480
@@ -1277,8 +1277,8 @@ enum Opcodes
     SMSG_SUSPEND_COMMS                               = 0x08490, // 4.20a 14480
     CMSG_SUSPEND_COMMS_ACK                           = 0x1028C, //
     SMSG_FORCE_SEND_QUEUED_PACKETS                   = 0x00C10, // 14480
-    CMSG_REDIRECTION_AUTH_PROOF                      = 0x001A0, // 14480
-    SMSG_COMBAT_LOG_MULTIPLE                         = 0x0EE77, // 14480
+    CMSG_REDIRECTION_AUTH_PROOF                      = 0x001A0, // 14480   CMSG_AUTH_CONTINUED_SESSION
+    SMSG_COMBAT_LOG_MULTIPLE                         = 0x0EE77, // 14480   SMSG_SEND_ALL_COMBAT_LOG
     SMSG_LFG_OPEN_FROM_GOSSIP                        = 0x0AEFA, // 14480
     CMSG_LFG_GET_PLAYER_INFO                         = 0x0B6E3, // 14480
     CMSG_COMMENTATOR_SKIRMISH_QUEUE_COMMAND          = 0x07A76, // 14480
@@ -1347,6 +1347,13 @@ enum Opcodes
     // CMSG_REGISTER_ADDON_PREFIXES                  = 0x01B11, // 4.20a 14480
     // SMSG_CHAT_SERVER_RECONNECTED                  = 0x07A77, // 4.20a 14480
     // SMSG_RAID_SUMMON_FAILED                       = 0x08305, // 4.20a 14480
+    // CMSG_MESSAGECHAT_WHISPER_ADDON                = 0x053B5, // 4.20a 14480
+    // CMSG_MESSAGECHAT_GUILD_ADDON                  = 0x013B5, // 4.20a 14480
+    // CMSG_MESSAGECHAT_OFFICER_ADDON                = 0x011B5, // 4.20a 14480
+    // CMSG_MESSAGECHAT_PARTY_ADDON                  = 0x01991, // 4.20a 14480
+    // CMSG_MESSAGECHAT_RAID_ADDON                   = 0x019B1, // 4.20a 14480
+    // CMSG_MESSAGECHAT_BATTLEGROUND_ADDON           = 0x05995, // 4.20a 14480
+    // SMSG_SEND_ALL_COMBAT_LOG
     // SMSG_MOVE_SET_COLLISION_HGT
     // CMSG_MOVE_SET_COLLISION_HGT_ACK
     // CMSG_CLEAR_RANDOM_BG_WIN_TIME
