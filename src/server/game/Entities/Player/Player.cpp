@@ -25238,16 +25238,21 @@ void Player::SendRefundInfo(Item *item)
         return;
     }
 
-    WorldPacket data(SMSG_ITEM_REFUND_INFO_RESPONSE, 8+4+4+4+4*4+4*4+4+4);
-    data << uint64(item->GetGUID());                    // item guid
-    data << uint32(item->GetPaidMoney());               // money cost
+    WorldPacket data(SMSG_ITEM_REFUND_INFO_RESPONSE, 4 * 5 + 4 * 5 + 4 + 4 * 5 + 4 * 5 + 4 + 8 + 4);
     for (uint8 i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i)                       // item cost data
     {
-        data << uint32(iece->RequiredCurrency[i]);
-        data << uint32(iece->RequiredCurrencyCount[i]);
+        data << uint32(iece->RequiredItemCount[i]);
+        data << uint32(iece->RequiredItem[i]);
     }
-    data << uint32(0);
+    data << uint32(0);                                  // unknown
+    for (uint8 i = 0; i < MAX_EXTENDED_COST_CURRENCIES; ++i)  // currency cost
+    {
+        data << uint32(iece->RequiredCurrencyCount[i] / PLAYER_CURRENCY_PRECISION);  // 4.06: count before id
+        data << uint32(iece->RequiredCurrency[i]);
+    }
     data << uint32(GetTotalPlayedTime() - item->GetPlayedTime());
+    data << uint64(item->GetGUID());                    // item guid
+    data << uint32(item->GetPaidMoney());               // money cost
     GetSession()->SendPacket(&data);
 }
 
@@ -25285,9 +25290,10 @@ void Player::RefundItem(Item *item)
     if (item->IsRefundExpired())    // item refund has expired
     {
         item->SetNotRefundable(this);
-        WorldPacket data(SMSG_ITEM_REFUND_RESULT, 8+4);
+        WorldPacket data(SMSG_ITEM_REFUND_RESULT, 1 + 8 + 1);
+        data << uint8(0x00);                         // refund failed
         data << uint64(item->GetGUID());             // Guid
-        data << uint32(10);                          // Error!
+        data << uint8(1);                            // item can't be refunded
         GetSession()->SendPacket(&data);
         return;
     }
@@ -25326,24 +25332,30 @@ void Player::RefundItem(Item *item)
 
     if (store_error)
     {
-        WorldPacket data(SMSG_ITEM_REFUND_RESULT, 8+4);
-        data << uint64(item->GetGUID());                 // Guid
-        data << uint32(10);                              // Error!
+        WorldPacket data(SMSG_ITEM_REFUND_RESULT, 1 + 8 + 1);
+        data << uint8(0x00);                         // refund failed
+        data << uint64(item->GetGUID());             // Guid
+        data << uint8(9);                            // bag is full
         GetSession()->SendPacket(&data);
         return;
     }
 
-    WorldPacket data(SMSG_ITEM_REFUND_RESULT, 8+4+4+4+4+4*4+4*4);
+    WorldPacket data(SMSG_ITEM_REFUND_RESULT, 1 + 8 + 4 * 5 + 4 * 5 + 4 + 4 * 5 + 4 * 5 + 1);
+    data << uint8(0x80);                                // success
     data << uint64(item->GetGUID());                    // item guid
-    data << uint32(0);                                  // 0, or error code
-    data << uint32(item->GetPaidMoney());               // money cost
-    data << uint32(0);
-    data << uint32(0);
-    for (uint8 i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i) // item cost data
+    for (uint8 i = 0; i < MAX_EXTENDED_COST_ITEMS; ++i) // item cost data
     {
-        data << uint32(iece->RequiredCurrency[i]);
-        data << uint32(iece->RequiredCurrencyCount[i]);
+        data << uint32(iece->RequiredItemCount[i]);     // count before id
+        data << uint32(iece->RequiredItem[i]);
     }
+    data << uint32(item->GetPaidMoney());               // money cost
+    for (uint8 i = 0; i < MAX_EXTENDED_COST_CURRENCIES; ++i) // item cost data
+    {
+        data << uint32(iece->RequiredCurrencyCount[i] / PLAYER_CURRENCY_PRECISION);
+        data << uint32(iece->RequiredCurrency[i]);
+    }
+    data << uint32(0);                                  // 0, or error code
+
     GetSession()->SendPacket(&data);
 
     uint32 moneyRefund = item->GetPaidMoney();  // item-> will be invalidated in DestroyItem
