@@ -44,8 +44,6 @@ enum Opcodes
 
     CMSG_WORLD_TELEPORT                              = 0x00080, // 14480
     CMSG_TELEPORT_TO_UNIT                            = 0x0E62B, // 4.2.0:14480
-    SMSG_CHECK_FOR_BOTS                              = 0x10002, //
-    CMSG_BOT_DETECTED2                               = 0x10003, //
     SMSG_FORCEACTIONSHOW                             = 0x07AEA, // 14480
     SMSG_PETGODMODE                                  = 0x072FA, // 14480
     SMSG_GODMODE                                     = 0x076E7, // 14480
@@ -197,7 +195,6 @@ enum Opcodes
     SMSG_READ_ITEM_FAILED                            = 0x06EE7, // 14480
     SMSG_ITEM_COOLDOWN                               = 0x0F6FE, // 14480
     CMSG_GAMEOBJ_USE                                 = 0x072BB, // 14480
-    CMSG_DESTROY_ITEMS                               = 0x10046, //
     SMSG_GAMEOBJECT_CUSTOM_ANIM                      = 0x0766E, // 14480
     CMSG_AREATRIGGER                                 = 0x062A6, // 14480
     MSG_MOVE_START_FORWARD                           = 0x018E1, // 4.2.0:14480  CMSG_MOVE_START_FORWARD
@@ -342,7 +339,6 @@ enum Opcodes
     CMSG_SET_SELECTION                               = 0x06626, // 14480
     CMSG_EQUIPMENT_SET_DELETE                        = 0x0FEBF, // 14480
     CMSG_INSTANCE_LOCK_WARNING_RESPONSE              = 0x0BEFE, // 14480 // NOT SURE
-    CMSG_UNUSED2                                     = 0x100A3, //
     CMSG_ATTACKSWING                                 = 0x0663B, // 14480
     CMSG_ATTACKSTOP                                  = 0x06EAB, // 14480
     SMSG_ATTACKSTART                                 = 0x06A22, // 4.2.0:14480
@@ -1234,10 +1230,10 @@ enum Opcodes
     SMSG_ARENA_OPPONENT_UPDATE                       = 0x07A6F, // 4.2.0:14480
     SMSG_ARENA_TEAM_CHANGE_FAILED_QUEUED             = 0x0A22B, // 14480
     SMSG_MULTIPLE_PACKETS                            = 0x02A76, // 14480
-    SMSG_MOVE_GRAVITY_DISABLE                        = 0x1026F,
-    CMSG_MOVE_GRAVITY_DISABLE_ACK                    = 0x10270,
-    SMSG_MOVE_GRAVITY_ENABLE                         = 0x10271,
-    CMSG_MOVE_GRAVITY_ENABLE_ACK                     = 0x10272,
+    SMSG_MOVE_GRAVITY_DISABLE                        = 0x1026F, //
+    CMSG_MOVE_GRAVITY_DISABLE_ACK                    = 0x10270, //
+    SMSG_MOVE_GRAVITY_ENABLE                         = 0x10271, //
+    CMSG_MOVE_GRAVITY_ENABLE_ACK                     = 0x10272, //
     SMSG_MOVE_LEVITATING                             = 0x10273, //
     SMSG_SPLINE_MOVE_UNKNOWN_1235                    = 0x10274, //
     SMSG_SPLINE_MOVE_UNKNOWN_1236                    = 0x10275, //

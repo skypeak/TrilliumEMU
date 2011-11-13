@@ -46,8 +46,6 @@ void InitOpcodes()
 
     DEFINE_OPCODE_HANDLER( CMSG_WORLD_TELEPORT,                          STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleWorldTeleportOpcode       );
     DEFINE_OPCODE_HANDLER( CMSG_TELEPORT_TO_UNIT,                        STATUS_LOGGEDIN, PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
-    DEFINE_OPCODE_HANDLER( SMSG_CHECK_FOR_BOTS,                          STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
-    DEFINE_OPCODE_HANDLER( CMSG_BOT_DETECTED2,                           STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( SMSG_FORCEACTIONSHOW,                         STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( SMSG_PETGODMODE,                              STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( SMSG_GODMODE,                                 STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
@@ -196,7 +194,6 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( SMSG_READ_ITEM_FAILED,                        STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( SMSG_ITEM_COOLDOWN,                           STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( CMSG_GAMEOBJ_USE,                             STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleGameObjectUseOpcode       );
-    DEFINE_OPCODE_HANDLER( CMSG_DESTROY_ITEMS,                           STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( SMSG_GAMEOBJECT_CUSTOM_ANIM,                  STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( CMSG_AREATRIGGER,                             STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleAreaTriggerOpcode         );
     DEFINE_OPCODE_HANDLER( MSG_MOVE_START_FORWARD,                       STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleMovementOpcodes           );
@@ -339,7 +336,6 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( CMSG_SET_SELECTION,                           STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleSetSelectionOpcode        );
     DEFINE_OPCODE_HANDLER( CMSG_EQUIPMENT_SET_DELETE,                    STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleEquipmentSetDelete        );
     DEFINE_OPCODE_HANDLER( CMSG_INSTANCE_LOCK_WARNING_RESPONSE,          STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleInstanceLockResponse      );
-    DEFINE_OPCODE_HANDLER( CMSG_UNUSED2,                                 STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( CMSG_ATTACKSWING,                             STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleAttackSwingOpcode         );
     DEFINE_OPCODE_HANDLER( CMSG_ATTACKSTOP,                              STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleAttackStopOpcode          );
     DEFINE_OPCODE_HANDLER( SMSG_ATTACKSTART,                             STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
