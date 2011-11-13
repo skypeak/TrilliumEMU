@@ -208,7 +208,6 @@ extern DataStorage <WorldSafeLocsEntry>           sWorldSafeLocsStore;
 
 //DB2 Storage
 extern DataStorage <ItemEntry>                    sItemStore;
-extern DataStorage <ItemSparseEntry>              sItemSparseStore;
 extern DataStorage <ItemExtendedCostEntry>        sItemExtendedCostStore;
 void LoadDataStorages(const std::string& dataPath);
 
