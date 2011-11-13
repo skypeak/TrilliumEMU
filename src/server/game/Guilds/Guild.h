@@ -122,6 +122,7 @@ enum GuildCommandError // 4.20a 14480
     ERR_GUILD_UNDELETABLE_DUE_TO_LEVEL = 0x25,
 };
 
+//TODO: Update this to 420a.
 enum GuildEvents
 {
     GE_PROMOTION                    = 0x00,
@@ -265,6 +266,13 @@ private:
             uint32 resetTime;
         };
 
+        struct Profession
+        {
+            uint32 skillID;
+            uint32 title;
+            uint32 level;
+        };
+
     public:
         Member(uint32 guildId, uint64 guid, uint8 rankId) : m_guildId(guildId), m_guid(guid), m_logoutTime(::time(NULL)), m_rankId(rankId) { }
 
@@ -313,8 +321,10 @@ private:
         uint8  m_rankId;
         std::string m_publicNote;
         std::string m_officerNote;
+        uint32 m_achievementPoints;
 
         RemainingValue m_bankRemaining[GUILD_BANK_MAX_TABS + 1];
+        Profession professions[2];
     };
 
     // Base class for event entries
@@ -670,6 +680,7 @@ public:
     bool AddMember(uint64 guid, uint8 rankId = GUILD_RANK_NONE);
     void DeleteMember(uint64 guid, bool isDisbanding = false, bool isKicked = false);
     bool ChangeMemberRank(uint64 guid, uint8 newRank);
+    RankInfo & GetRankInfo(uint32 rankId) {return m_ranks[rankId];}
 
     // Bank
     void SwapItems(Player* player, uint8 tabId, uint8 slotId, uint8 destTabId, uint8 destSlotId, uint32 splitedAmount);
