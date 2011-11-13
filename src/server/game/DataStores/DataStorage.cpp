@@ -113,7 +113,6 @@ DataStorage <GtSpellScalingEntry>          sGtSpellScalingStore(GtSpellScalingfm
 DataStorage <HolidaysEntry>                sHolidaysStore(Holidaysfmt);
 
 DataStorage <ItemEntry>                    sItemStore(Itemfmt);
-DataStorage <ItemSparseEntry>              sItemSparseStore(ItemSparsefmt);
 DataStorage <ItemArmorQualityEntry>        sItemArmorQualityStore(ItemArmorQualityfmt);
 DataStorage <ItemArmorShieldEntry>         sItemArmorShieldStore(ItemArmorShieldfmt);
 DataStorage <ItemArmorTotalEntry>          sItemArmorTotalStore(ItemArmorTotalfmt);
@@ -296,7 +295,6 @@ void LoadDataStorages(const std::string& dataPath)
 
     // DB2 Files
     LoadData(availableDbcLocales, bad_dbc_files, sItemStore,                   storagesPath, "Item.db2");
-    LoadData(availableDbcLocales, bad_dbc_files, sItemSparseStore,             storagesPath, "Item-sparse.db2");
     LoadData(availableDbcLocales, bad_dbc_files, sItemExtendedCostStore,       storagesPath, "ItemExtendedCost.db2");
 
     for (uint32 i = 0; i < sItemStore.GetNumRows(); ++i)
