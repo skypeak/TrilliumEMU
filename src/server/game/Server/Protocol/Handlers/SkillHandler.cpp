@@ -71,7 +71,7 @@ void WorldSession::HandleLearnPreviewTalents(WorldPacket& recvPacket)
             {
                 TalentTreePrimarySpellsEntry const *talentInfo = sTalentTreePrimarySpellsStore.LookupEntry(i);
 
-                if (!talentInfo || talentInfo->TalentTabID != _player->TalentBranchSpec(_player->m_activeSpec))
+                if (!talentInfo || talentInfo->TalentTabID != specID)
                     continue;
 
                 _player->learnSpell(talentInfo->SpellID, true);
