@@ -362,27 +362,20 @@ void Pet::SavePetToDB(PetSlot mode)
     if (!IS_PLAYER_GUID(GetOwnerGUID()))
         return;
 
-    Player* pOwner = (Player*)GetOwner();
-    if (!pOwner)
+    Player* owner = (Player*)GetOwner();
+    if (!owner)
         return;
 
-    //if (mode == PET_SAVE_AS_CURRENT)
-    //    mode = pOwner->m_currentPetSlot;
-    //if (mode >= PET_SLOT_HUNTER_FIRST && mode <= PET_SLOT_HUNTER_LAST && getPetType() != HUNTER_PET)
-    //    assert(false);
-    //if (mode == PET_SAVE_NOT_IN_SLOT && getPetType() == HUNTER_PET)
-    //    assert(false);
-
     // not save pet as current if another pet temporary unsummoned
-    if (mode == pOwner->m_currentPetSlot && pOwner->GetTemporaryUnsummonedPetNumber() &&
-        pOwner->GetTemporaryUnsummonedPetNumber() != m_charmInfo->GetPetNumber())
+    if (mode == PET_SAVE_AS_CURRENT && owner->GetTemporaryUnsummonedPetNumber() &&
+        owner->GetTemporaryUnsummonedPetNumber() != m_charmInfo->GetPetNumber())
     {
         // pet will lost anyway at restore temporary unsummoned
         if (getPetType() == HUNTER_PET)
             return;
 
         // for warlock case
-        mode = PET_SLOT_OTHER_PET;
+        mode = PET_SAVE_NOT_IN_SLOT;
     }
 
     uint32 curhealth = GetHealth();
@@ -393,7 +386,7 @@ void Pet::SavePetToDB(PetSlot mode)
     _SaveAuras(trans);
 
     // stable and not in slot saves
-    if (mode > PET_SLOT_HUNTER_LAST)
+    if (mode > PET_SAVE_AS_CURRENT)
         RemoveAllAuras();
 
     _SaveSpells(trans);
@@ -401,7 +394,7 @@ void Pet::SavePetToDB(PetSlot mode)
     CharacterDatabase.CommitTransaction(trans);
 
     // current/stable/not_in_slot
-    if (mode >= PET_SLOT_HUNTER_FIRST)
+    if (mode >= PET_SAVE_AS_CURRENT)
     {
         uint32 owner = GUID_LOPART(GetOwnerGUID());
         std::string name = m_name;
@@ -410,9 +403,18 @@ void Pet::SavePetToDB(PetSlot mode)
         // remove current data
         trans->PAppend("DELETE FROM character_pet WHERE owner = '%u' AND id = '%u'", owner, m_charmInfo->GetPetNumber());
 
+        // prevent duplicate using slot (except PET_SAVE_NOT_IN_SLOT)
+        if (mode <= PET_SAVE_LAST_STABLE_SLOT)
+            trans->PAppend("UPDATE character_pet SET slot = '%u' WHERE owner = '%u' AND slot = '%u'",
+                PET_SAVE_NOT_IN_SLOT, owner, uint32(mode));
+
+        // prevent existence another hunter pet in PET_SAVE_AS_CURRENT and PET_SAVE_NOT_IN_SLOT
+        if (getPetType() == HUNTER_PET && (mode == PET_SAVE_AS_CURRENT||mode > PET_SAVE_LAST_STABLE_SLOT))
+            trans->PAppend("DELETE FROM character_pet WHERE owner = '%u' AND (slot = '%u' OR slot > '%u')",
+                owner, PET_SAVE_AS_CURRENT, PET_SAVE_LAST_STABLE_SLOT);
         // save pet
         std::ostringstream ss;
-        ss  << "INSERT INTO character_pet (id, entry,  owner, modelid, level, exp, Reactstate, slot, name, renamed, curhealth, curmana, curhappiness, abdata, savetime, resettalents_cost, resettalents_time, CreatedBySpell, PetType) "
+        ss 	<< "REPLACE INTO character_pet (id, entry,  owner, modelid, level, exp, Reactstate, slot, name, renamed, curhealth, curmana, curhappiness, abdata, savetime, CreatedBySpell, PetType, resettalents_cost, resettalents_time) "
             << "VALUES ("
             << m_charmInfo->GetPetNumber() << ','
             << GetEntry() << ','
@@ -434,12 +436,12 @@ void Pet::SavePetToDB(PetSlot mode)
                << uint32(m_charmInfo->GetActionBarEntry(i)->GetAction()) << ' ';
         };
 
-        ss  << "', "
-            << time(NULL) << ','
-            << uint32(m_resetTalentsCost) << ', '
-            << uint64(m_resetTalentsTime) << ', '			
+        ss << "', "
+            << time(NULL) << ','	
             << GetUInt32Value(UNIT_CREATED_BY_SPELL) << ','
-            << uint32(getPetType()) << ')';
+            << uint32(getPetType()) << ','
+            << uint32(m_resetTalentsCost) << ','
+            << uint64(m_resetTalentsTime) << ')';
 
         trans->Append(ss.str().c_str());
         CharacterDatabase.CommitTransaction(trans);
@@ -447,8 +449,6 @@ void Pet::SavePetToDB(PetSlot mode)
     // delete
     else
     {
-        if (pOwner->m_currentPetSlot >= PET_SLOT_HUNTER_FIRST && pOwner->m_currentPetSlot <= PET_SLOT_HUNTER_LAST)
-            pOwner->setPetSlotUsed(pOwner->m_currentPetSlot, false);
         RemoveAllAuras();
         DeleteFromDB(m_charmInfo->GetPetNumber());
     }
@@ -1555,7 +1555,7 @@ bool Pet::resetTalents(bool no_cost)
     if (owner->ToPlayer()->HasAtLoginFlag(AT_LOGIN_RESET_PET_TALENTS))
         owner->ToPlayer()->RemoveAtLoginFlag(AT_LOGIN_RESET_PET_TALENTS, true);
 
-    CreatureTemplate const * ci = GetCreatureInfo();
+    CreatureTemplate const* ci = GetCreatureInfo();
     if (!ci)
         return false;
     // Check pet talent type
@@ -1563,7 +1563,7 @@ bool Pet::resetTalents(bool no_cost)
     if (!pet_family || pet_family->petTalentType == PET_TALENT_TYPE_NOT_HUNTER_PET)
         return false;
 
-    Player *player = owner->ToPlayer();
+    Player* player = owner->ToPlayer();
 
     uint8 level = getLevel();
     uint32 talentPointsForLevel = GetMaxTalentPointsForLevel(level);

@@ -1157,7 +1157,7 @@ class Player : public Unit, public GridObject<Player>
         bool Moving;
         uint32 LastPoint;
         uint32 CurrentPoint;
-        uint32 Player::currenttraveltime[3000];
+        uint32 currenttraveltime[3000];
         uint32 totaltraveltime;
         Player::Position FlightPos[3000];
 
