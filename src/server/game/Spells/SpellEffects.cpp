@@ -1597,24 +1597,6 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
 
             break;
         }
-        case SPELLFAMILY_MAGE:
-            switch (m_spellInfo->Id)
-            {
-                // Nether Vortex
-                case 30451:
-                {
-                    if (m_caster->GetTypeId() == TYPEID_PLAYER)
-                    {
-                        if (m_caster->HasSpell(86209))
-                        {
-                            if (!unitTarget->HasAura(36843))
-                                m_caster->AddAura(36843, unitTarget);
-                        }
-                    }
-                }
-                break;
-            }
-            break;
         case SPELLFAMILY_HUNTER:
             // steady shot focus effect (it has its own skill for this)
             if (m_spellInfo->SpellFamilyFlags[1] & 0x1)
