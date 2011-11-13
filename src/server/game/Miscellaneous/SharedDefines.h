@@ -2936,7 +2936,8 @@ enum DiminishingGroup
     DIMINISHING_SILENCE             = 16,
     DIMINISHING_SLEEP               = 17,
     DIMINISHING_TAUNT               = 18,
-    DIMINISHING_LIMITONLY           = 19  // No diminishing return, but duration limited to 10 seconds
+    DIMINISHING_LIMITONLY           = 19,  // No diminishing return, but duration limited to 10 seconds
+	DIMINISHING_DRAGONS_BREATH      = 20,
 };
 
 enum SummonCategory
