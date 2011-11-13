@@ -13962,7 +13962,6 @@ uint32 Unit::GetCreatePowers(Powers power) const
                 return false;
             else
                 return GetCreateMana();
-
         case POWER_RAGE:
             return 1000;
         case POWER_FOCUS:

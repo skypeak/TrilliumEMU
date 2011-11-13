@@ -7160,8 +7160,8 @@ void Player::RewardReputation(Unit *pVictim, float rate)
     {
         // support for: Championing - http://www.wowwiki.com/Championing
 
-        Map const *pMap = GetMap();
-        if (pMap && pMap->IsDungeon())
+        Map const* map = GetMap();
+        if (map && map->IsDungeon())
         {
             uint32 dungeonLevel = GetChampioningFactionDungeonLevel();
             if (dungeonLevel)
@@ -25245,7 +25245,7 @@ void Player::SendRefundInfo(Item *item)
         data << uint32(iece->RequiredItem[i]);
     }
     data << uint32(0);                                  // unknown
-    for (uint8 i = 0; i < MAX_EXTENDED_COST_CURRENCIES; ++i)  // currency cost
+    for (uint8 i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i)  // currency cost
     {
         data << uint32(iece->RequiredCurrencyCount[i] / PLAYER_CURRENCY_PRECISION);  // 4.06: count before id
         data << uint32(iece->RequiredCurrency[i]);
@@ -25343,13 +25343,13 @@ void Player::RefundItem(Item *item)
     WorldPacket data(SMSG_ITEM_REFUND_RESULT, 1 + 8 + 4 * 5 + 4 * 5 + 4 + 4 * 5 + 4 * 5 + 1);
     data << uint8(0x80);                                // success
     data << uint64(item->GetGUID());                    // item guid
-    for (uint8 i = 0; i < MAX_EXTENDED_COST_ITEMS; ++i) // item cost data
+    for (uint8 i = 0; i < MAX_ITEM_EXT_COST_ITEMS; ++i) // item cost data
     {
         data << uint32(iece->RequiredItemCount[i]);     // count before id
         data << uint32(iece->RequiredItem[i]);
     }
     data << uint32(item->GetPaidMoney());               // money cost
-    for (uint8 i = 0; i < MAX_EXTENDED_COST_CURRENCIES; ++i) // item cost data
+    for (uint8 i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i) // item cost data
     {
         data << uint32(iece->RequiredCurrencyCount[i] / PLAYER_CURRENCY_PRECISION);
         data << uint32(iece->RequiredCurrency[i]);
