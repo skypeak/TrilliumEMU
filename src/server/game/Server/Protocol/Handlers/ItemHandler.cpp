@@ -502,10 +502,10 @@ void WorldSession::HandleSellItemOpcode(WorldPacket & recv_data)
 {
     sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_SELL_ITEM");
     uint64 vendorguid;
-    uint64 itemguid;
-    uint8 packetGuid;
     uint32 byte1;
-    uint8 byte2;
+    uint8 byte2, packetGuid;
+    uint64 itemguid;
+    uint32 count;
 
     recv_data >> byte1;
     recv_data >> byte2;
@@ -513,9 +513,7 @@ void WorldSession::HandleSellItemOpcode(WorldPacket & recv_data)
     recv_data.read_skip<uint8>();
     recv_data >> packetGuid;
     recv_data >> itemguid;
-    recv_data.read_skip<uint32>();
-
-    uint32 count = 0; // Need to get count from packet..
+    recv_data >> count;
 
     if (!itemguid)
         return;
@@ -1539,7 +1537,7 @@ uint64 WorldSession::GetRealCreatureGUID(uint8 packetGuid, uint32 byte1, uint8 b
 
     realguid = ((byte2*256)+RealpacketGuid);
 
-    realentry = sObjectMgr->GetCreatureData(realguid)->id;
+    realentry = sObjectMgr->GetCreatureData(uint32(realguid))->id;
     realguid = ConvertToRealHighGuid(realguid, realentry);
 
     return realguid;
