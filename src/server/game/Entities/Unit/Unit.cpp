@@ -5802,8 +5802,6 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
             }
             switch (dummySpell->Id)
             {
-                switch(dummySpell->Id)
-                {
                 // Nether Vortex
                 case 86181:
                 case 86209:
