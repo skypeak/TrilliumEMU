@@ -654,7 +654,7 @@ void Guild::Member::WritePacket(WorldPacket& data) const
         data << uint32(m_rankId);
         data << float(float(::time(NULL) - m_logoutTime) / DAY);
         data << uint8(0);                                                      //not-connected
-        data << uint32(/*achievementPoints*/0);                                //Achievement
+        data << uint32(player->GetAchievementMgr().GetAchievementPoints());    //Achievement
         data << uint32(player->GetZoneId());
         data << uint8(m_level);
         data << uint64(0);                                                     //unk
