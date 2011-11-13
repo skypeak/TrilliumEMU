@@ -861,6 +861,7 @@ Player::Player(WorldSession *session): Unit(), m_achievementMgr(this), m_reputat
     sWorld->IncreasePlayerCount();
 
     m_ChampioningFaction = 0;
+    m_ChampioningFactionDungeonLevel = 0;
 
     for (uint8 i = 0; i < MAX_POWERS; ++i)
         m_powerFraction[i] = 0;
@@ -7136,16 +7137,22 @@ void Player::RewardReputation(Unit *pVictim, float rate)
         Map const *pMap = GetMap();
         if (pMap && pMap->IsDungeon())
         {
-            InstanceTemplate const *pInstance = sObjectMgr->GetInstanceTemplate(pMap->GetId());
-            if (pInstance)
+            uint32 dungeonLevel = GetChampioningFactionDungeonLevel();
+            if (dungeonLevel)
             {
-                AccessRequirement const *pAccessRequirement = sObjectMgr->GetAccessRequirement(pMap->GetId(), ((InstanceMap*)pMap)->GetDifficulty());
-                if (pAccessRequirement)
+                InstanceTemplate const *instance = sObjectMgr->GetInstanceTemplate(map->GetId());
+                if (instance)
                 {
-                    if (!pMap->IsRaid() && pAccessRequirement->levelMin == 80)
-                        ChampioningFaction = GetChampioningFaction();
+                    AccessRequirement const *pAccessRequirement = sObjectMgr->GetAccessRequirement(map->GetId(), ((InstanceMap*)map)->GetDifficulty());
+                    if (pAccessRequirement)
+                    {
+                        if (!map->IsRaid() && pAccessRequirement->levelMin >= dungeonLevel)
+                            ChampioningFaction = GetChampioningFaction();
+                    }
                 }
             }
+            else
+                ChampioningFaction = GetChampioningFaction();
         }
     }
 
