@@ -1448,14 +1448,14 @@ struct QuestSortEntry
 
 struct QuestXPEntry
 {
-  uint32      id;
-  uint32      Exp[10];
+    uint32      id;
+    uint32      Exp[10];
 };
 
 struct QuestFactionRewEntry
 {
-  uint32      id;
-  int32       QuestRewFactionValue[10];
+    uint32      id;
+    int32       QuestRewFactionValue[10];
 };
 
 struct RandomPropertiesPointsEntry
@@ -1809,9 +1809,9 @@ struct SpellScalingEntry
 struct SpellShapeshiftEntry
 {
     uint32    Id;                                           // 0 - m_ID
-    uint32    Stances;                                      // 1 - m_shapeshiftMask
+    uint32    StancesNot;                                   // 1 - m_shapeshiftExclude
     // uint32 unk_320_2;                                    // 2 - 3.2.0
-    uint32    StancesNot;                                   // 3 - m_shapeshiftExclude
+    uint32    Stances;                                      // 3 - m_shapeshiftMask
     // uint32 unk_320_3;                                    // 4 - 3.2.0
     // uint32    StanceBarOrder;                            // 5 - m_stanceBarOrder not used
 };
@@ -1848,8 +1848,8 @@ struct SpellEntry
     uint32    AttributesEx6;                                // 7        m_attributesExF
     uint32    AttributesEx7;                                // 8        m_attributesExG
     uint32    AttributesEx8;                                // 9        m_attributesExH
-    //uint32 AttributesEx;                                  // 10       m_attributesEx
-    //uint32 AttributesEx                                   // 11       m_attributesEx
+    uint32    AttributesEx9;                                // 10       m_attributesExI
+    uint32    AttributesEx10;                               // 11       m_attributesExJ
     uint32    CastingTimeIndex;                             // 12       SpellCastTimes.dbc
     uint32    DurationIndex;                                // 13       SpellDuration.dbc
     uint32    powerType;                                    // 14       m_powerType

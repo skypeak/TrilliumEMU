@@ -7,8 +7,8 @@ Current Trillium Issues - Not a complete list
 - Spells DBC [almost complete] Will add custom support
 - Random client crashs related to ByteBufferException DATATYPES [unidentified] Will be rewrited.
 - Grab 4.2.0a Opcodes [almost complete]
-- Guild system [not complete]
-- Reforge system [almost complete]
+- Guild system [not complete] started.
+- Reforge system [almost complete] what is missed here?
 - Auction House [almost complete]
 - Party system [not complete]
 - Battlegrounds/arenas [not complete]
