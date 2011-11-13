@@ -626,6 +626,8 @@ void WorldSession::HandleBattlemasterJoinArena(WorldPacket & recv_data)
     if (arenaType == 0xFF)
         return;
 
+    sLog->outDebug(LOG_FILTER_BATTLEGROUND, "Battleground: arena team id %u, leader %s tries to queue for arena type %u", _player->GetArenaTeamId(arenaSlot), _player->GetName(), arenaType);
+
     uint32 arenaRating = 0;
     uint32 matchmakerRating = 0;
 
@@ -659,9 +661,7 @@ void WorldSession::HandleBattlemasterJoinArena(WorldPacket & recv_data)
         return;
     err = grp->CanJoinBattlegroundQueue(bg, bgQueueTypeId, arenaType, arenaType, true, arenaSlot);
 
-    uint32 ateamId = 0;
-
-    ateamId = _player->GetArenaTeamId(arenaSlot);
+    uint32 ateamId = _player->GetArenaTeamId(arenaSlot);
     // check real arenateam existence only here (if it was moved to group->CanJoin .. () then we would ahve to get it twice)
     ArenaTeam* at = sArenaTeamMgr->GetArenaTeamById(ateamId);
     if (!at)
