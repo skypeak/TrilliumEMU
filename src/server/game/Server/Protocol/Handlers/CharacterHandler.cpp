@@ -749,6 +749,7 @@ void WorldSession::HandleCharCreateCallback(PreparedQueryResult result, Characte
             createInfo->CharCount += 1;
 
             SQLTransaction trans = LoginDatabase.BeginTransaction();
+			
 			// Count guids and assign the first free
 			QueryResult result2 = CharacterDatabase.PQuery("SELECT id FROM character_pet ORDER BY id DESC LIMIT 1");
 			uint32 pet_id = 1;
@@ -765,7 +766,7 @@ void WorldSession::HandleCharCreateCallback(PreparedQueryResult result, Characte
 			{
 				CharacterDatabase.PExecute("REPLACE INTO character_pet (`id`, `entry`, `owner`, `modelid`, `CreatedBySpell`, `PetType`, `level`, `exp`, `Reactstate`, `name`, `renamed`, `slot`, `curhealth`, `curmana`, `curhappiness`, `savetime`, `resettalents_cost`, `resettalents_time`, `abdata`) VALUES ('%u', 416, '%u', 4449, 0, 0, 1, 0, 0, 'Imp', 1, 100, 282, 72, 0, 1295721046, 0, 0, '7 2 7 1 7 0 129 3110 1 0 1 0 1 0 6 2 6 1 6 0 ')",  pet_id, newChar.GetGUIDLow());
 				CharacterDatabase.PExecute("UPDATE characters SET currentPetSlot = '100', petSlotUsed = '3452816845' WHERE guid = %u", newChar.GetGUIDLow());
-			//newChar->SetTemporaryUnsummonedPetNumber(pet_id);
+			newChar.SetTemporaryUnsummonedPetNumber(pet_id);
 			}
 			if (createInfo->Class == CLASS_HUNTER)
 			{
@@ -806,7 +807,7 @@ void WorldSession::HandleCharCreateCallback(PreparedQueryResult result, Characte
 				break;
 			}
 			CharacterDatabase.PExecute("UPDATE characters SET currentPetSlot = '0', petSlotUsed = '1' WHERE guid = %u", newChar.GetGUIDLow());
-			//newChar->SetTemporaryUnsummonedPetNumber(pet_id);
+			newChar.SetTemporaryUnsummonedPetNumber(pet_id);
 			}
 			
             PreparedStatement* stmt = LoginDatabase.GetPreparedStatement(LOGIN_DEL_REALMCHARACTERS);
