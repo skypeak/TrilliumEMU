@@ -488,8 +488,9 @@ void MotionMaster::MoveTaxiFlight(uint32 path, uint32 pathnode)
         if (path < sTaxiPathNodesByPath.size())
         {
             sLog->outStaticDebug("%s taxi to (Path %u node %u)", i_owner->GetName(), path, pathnode);
-            FlightPathMovementGenerator* mgen = new FlightPathMovementGenerator(sTaxiPathNodesByPath[path], pathnode);
-            Mutate(mgen, MOTION_SLOT_CONTROLLED);
+            //FlightPathMovementGenerator* mgen = new FlightPathMovementGenerator(sTaxiPathNodesByPath[path],pathnode);
+            //Mutate(mgen, MOTION_SLOT_CONTROLLED);
+            MoveFlyPath(path, 15.0f, MOTION_SLOT_CONTROLLED);
         }
         else
         {
@@ -546,6 +547,91 @@ void MotionMaster::Mutate(MovementGenerator *m, MovementSlot slot)
         needInit[slot] = false;
         m->Initialize(*i_owner);
     }
+}
+
+uint32 GetLastFlyPathPoint(uint32 pathid)
+{
+    for (int i = 0; i < 1000; ++i)
+    {
+        if (sObjectMgr->GetFlyPath(pathid, i) == 0)
+            return i-1;
+    }
+    return NULL;
+}
+
+double MotionMaster::GetPointTime(float currentx, float currenty, float newx, float newy)
+{
+    double delta_x1 = currentx;
+    double delta_x2 = newx;
+    double delta_y1 = currenty;
+    double delta_y2 = newy;
+    double Xdifference = int32(delta_x1-delta_x2);
+    double Ydifference = int32(delta_y1-delta_y2);
+    double Xreal = Xdifference*Xdifference;
+    double Yreal = Ydifference*Ydifference;
+    double XYtotal = Xreal+Yreal;
+    double DISTANCE = sqrtf(XYtotal); // Geometry
+
+    uint32 SPEED = 5; // Original speed
+    double TIME = DISTANCE / SPEED; // Math
+
+    return TIME;
+}
+
+void MotionMaster::MoveFlyPath(uint32 path, float speed, MovementSlot slot)
+{
+    if (i_owner->GetTypeId() != TYPEID_PLAYER)
+        return;
+
+    Player* player = i_owner->ToPlayer();
+
+    Position Pos = {0,0,0,0};
+
+    for (int i = 0; i < 3001; ++i)
+    {
+        player->FlightPos[i] = Pos;
+        player->currenttraveltime[i] = 0;
+    }
+    player->totaltraveltime = 0;
+    player->Moving = false;
+
+    uint32 last = GetLastFlyPathPoint(path);
+    player->LastPoint = last;
+    player->CurrentPoint = 0;
+    
+    player->getHostileRefManager().setOnlineOfflineState(false);
+    player->AddUnitState(UNIT_STAT_IN_FLIGHT);
+    player->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE | UNIT_FLAG_TAXI_FLIGHT);
+    bool Next = false;
+    
+    if (Next == false)
+        for (int i = 0; i < last+1; ++i)
+        {
+            const FlyPathsEntry * FlyPath = sObjectMgr->GetFlyPath(path, i);
+            if (!FlyPath)
+                return;
+
+            Position Pos   = {FlyPath->position_x, FlyPath->position_y, FlyPath->position_z, player->GetOrientation()};
+
+            player->FlightPos[i] = Pos;
+
+            if (i == last)
+                Next = true;
+        }
+
+    for (int i = player->CurrentPoint-1; i < player->LastPoint+1; ++i)
+    {
+        if (i == player->CurrentPoint-1)
+        player->currenttraveltime[i] = GetPointTime(player->GetPositionX(), player->GetPositionY(), 
+        player->FlightPos[i].GetPositionX(), player->FlightPos[i].GetPositionY());
+        else
+        player->currenttraveltime[i] = GetPointTime(player->FlightPos[i].GetPositionX(), player->FlightPos[i].GetPositionY(), 
+        player->FlightPos[i+1].GetPositionX(), player->FlightPos[i+1].GetPositionY());
+
+        player->totaltraveltime += player->currenttraveltime[i];
+    }
+
+    player->Flight = true;
 }
 
 void MotionMaster::MovePath(uint32 path_id, bool repeatable)

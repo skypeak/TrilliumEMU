@@ -577,6 +577,23 @@ struct LanguageDesc
 extern LanguageDesc lang_description[LANGUAGES_COUNT];
 LanguageDesc const* GetLanguageDescByID(uint32 lang);
 
+struct FlyPathsEntry
+{
+    FlyPathsEntry() : pathid(0), point(0), map(0), position_x(0), position_y(0), position_z(0) {}
+    FlyPathsEntry(uint32 _pathid, uint32 _point, uint32 _map, float _position_x, float _position_y, float _position_z) : 
+    pathid(_pathid), point(_point), map(_map), position_x(_position_x), position_y(_position_y), position_z(_position_z) {}
+
+    int       pathid;
+    int       point;
+    int       map;
+    float     position_x;
+    float     position_y;
+    float     position_z;
+};
+
+typedef std::list<FlyPathsEntry> FlyPathsList;
+typedef UNORDERED_MAP<uint32, FlyPathsList> FlyPathsMap;
+
 enum EncounterCreditType
 {
     ENCOUNTER_CREDIT_KILL_CREATURE  = 0,
@@ -929,6 +946,7 @@ class ObjectMgr
 
         void LoadVendors();
         void LoadTrainerSpell();
+		void LoadFlyPaths();
         void AddSpellToTrainer(uint32 entry, uint32 spell, uint32 spellCost, uint32 reqSkill, uint32 reqSkillValue, uint32 reqLevel);
 
         std::string GeneratePetName(uint32 entry);
@@ -1143,6 +1161,21 @@ class ObjectMgr
             return &iter->second;
         }
 
+        FlyPathsEntry const* GetFlyPath(uint32 pathid, uint32 point)
+        {
+			for (int i = 1; i < 38184; i++)
+			{
+				FlyPathsMap::const_iterator path_itr = mFlyPathsMap.find(i);
+				if (path_itr == mFlyPathsMap.end())
+					return NULL;
+
+				for (FlyPathsList::const_iterator itr = path_itr->second.begin(); itr != path_itr->second.end(); ++itr)
+					if (itr->pathid == pathid && itr->point == point)
+						return &*itr;
+			}
+            return NULL;
+        }
+		
         VendorItemData const* GetNpcVendorItemList(uint32 entry) const
         {
             CacheVendorItemMap::const_iterator  iter = m_mCacheVendorItemMap.find(entry);
@@ -1344,6 +1377,8 @@ class ObjectMgr
         CacheVendorItemMap m_mCacheVendorItemMap;
         CacheTrainerSpellMap m_mCacheTrainerSpellMap;
 
+		FlyPathsMap mFlyPathsMap;
+		
         std::set<uint32> difficultyEntries[MAX_DIFFICULTY - 1]; // already loaded difficulty 1 value in creatures, used in CheckCreatureTemplate
         std::set<uint32> hasDifficultyEntries[MAX_DIFFICULTY - 1]; // already loaded creatures with difficulty 1 values, used in CheckCreatureTemplate
 

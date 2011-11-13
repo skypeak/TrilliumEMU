@@ -595,6 +595,41 @@ bool ChatHandler::HandleLookupTeleCommand(const char * args)
     return true;
 }
 
+bool ChatHandler::HandleGoFlyPathCommand(const char* args)
+{
+    if (!*args)
+        return false;
+
+    Player* _player = m_session->GetPlayer();
+
+    char* pid = strtok((char*)args, " ");
+    char* p = strtok(NULL, " ");
+
+    if (!pid || !p)
+        return false;
+
+    int pathid = (int)atof(pid);
+    int point = (int)atof(p);
+
+    const FlyPathsEntry * FlyPath = sObjectMgr->GetFlyPath(pathid, point);
+    if (!FlyPath)
+        return false;
+
+    // stop flight if need
+    if (_player->isInFlight())
+    {
+        _player->GetMotionMaster()->MovementExpired();
+        _player->CleanupAfterTaxiFlight();
+    }
+    // save only in non-flight case
+    else
+        _player->SaveRecallPosition();
+
+    _player->TeleportTo(FlyPath->map, FlyPath->position_x, FlyPath->position_y, FlyPath->position_z, _player->GetOrientation());
+
+    return true;
+}
+
 //Enable\Dissable accept whispers (for GM)
 bool ChatHandler::HandleWhispersCommand(const char* args)
 {

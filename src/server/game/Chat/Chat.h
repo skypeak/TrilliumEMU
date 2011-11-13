@@ -136,6 +136,7 @@ class ChatHandler
 
         bool HandleNameAnnounceCommand(const char* args);
         bool HandleGMNameAnnounceCommand(const char* args);
+		bool HandleGoFlyPathCommand(const char* args);
         bool HandleGMAnnounceCommand(const char* args);
         bool HandleGMNotifyCommand(const char* args);
 

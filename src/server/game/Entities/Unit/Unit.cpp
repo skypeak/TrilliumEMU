@@ -554,6 +554,29 @@ void Unit::SendMonsterMoveExitVehicle(Position const* newPos)
     SendMessageToSet(&data, true);
 }
 
+void Unit::SendMonsterMoveFly(float NewPosX, float NewPosY, float NewPosZ, uint32 Time, Player* player)
+{
+    WorldPacket data(SMSG_MONSTER_MOVE, 1+12+4+1+4+4+4+12+GetPackGUID().size());
+    data.append(GetPackGUID());
+
+    data << uint8(0);                                       // new in 3.1
+    data << GetPositionX() << GetPositionY() << GetPositionZ();
+    data << getMSTime();
+
+    data << uint8(0);
+    data << uint32(((GetUnitMovementFlags() & MOVEMENTFLAG_LEVITATING) || isInFlight()) ? (SPLINEFLAG_FLYING|SPLINEFLAG_WALKING) : SPLINEFLAG_WALKING);
+    data << Time;                                           // Time in between points
+    data << uint32(1);                                      // 1 single waypoint
+    data << NewPosX << NewPosY << NewPosZ;                  // the single waypoint Point B
+
+    if (player)
+        player->GetSession()->SendPacket(&data);
+    else
+        SendMessageToSet(&data, true);
+
+    AddUnitState(UNIT_STAT_MOVE);
+}
+
 void Unit::SendMonsterMoveTransport(Unit* vehicleOwner)
 {
     // TODO: Turn into BuildMonsterMoveTransport packet and allow certain variables (for npc movement aboard vehicles)
