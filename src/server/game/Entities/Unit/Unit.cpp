@@ -10769,23 +10769,8 @@ uint32 Unit::SpellDamageBonus(Unit* victim, SpellInfo const* spellProto, uint32 
                 }
         break;
         case SPELLFAMILY_PRIEST:
-            // Mind Flay
-            if (spellProto->SpellFamilyFlags[0] & 0x800000)
-            {
-                // Glyph of Shadow Word: Pain
-                if (AuraEffect* aurEff = GetAuraEffect(55687, 0))
-                    // Increase Mind Flay damage if Shadow Word: Pain present on target
-                    if (victim->GetAuraEffect(SPELL_AURA_PERIODIC_DAMAGE, SPELLFAMILY_PRIEST, 0x8000, 0, 0, GetGUID()))
-                        AddPctN(DoneTotalMod, aurEff->GetAmount());
-
-                // Twisted Faith - Mind Flay part
-                if (AuraEffect* aurEff = GetAuraEffect(SPELL_AURA_OVERRIDE_CLASS_SCRIPTS, SPELLFAMILY_PRIEST, 2848, 1))
-                    // Increase Mind Flay damage if Shadow Word: Pain present on target
-                    if (victim->GetAuraEffect(SPELL_AURA_PERIODIC_DAMAGE, SPELLFAMILY_PRIEST, 0x8000, 0, 0, GetGUID()))
-                        AddPctN(DoneTotalMod, aurEff->GetAmount());
-            }
             // Smite
-            else if (spellProto->SpellFamilyFlags[0] & 0x80)
+            if (spellProto->SpellFamilyFlags[0] & 0x80)
             {
                 // Glyph of Smite
                 if (AuraEffect* aurEff = GetAuraEffect(55692, 0))
@@ -10802,23 +10787,6 @@ uint32 Unit::SpellDamageBonus(Unit* victim, SpellInfo const* spellProto, uint32 
             }
         break;
         case SPELLFAMILY_PALADIN:
-            // Judgement of Vengeance/Judgement of Corruption
-            if ((spellProto->SpellFamilyFlags[1] & 0x400000) && spellProto->SpellIconID == 2292)
-            {
-                // Get stack of Holy Vengeance/Blood Corruption on the target added by caster
-                uint32 stacks = 0;
-                Unit::AuraEffectList const& auras = victim->GetAuraEffectsByType(SPELL_AURA_PERIODIC_DAMAGE);
-                for (Unit::AuraEffectList::const_iterator itr = auras.begin(); itr != auras.end(); ++itr)
-                    if (((*itr)->GetId() == 31803 || (*itr)->GetId() == 53742) && (*itr)->GetCasterGUID() == GetGUID())
-                    {
-                        stacks = (*itr)->GetBase()->GetStackAmount();
-                        break;
-                    }
-                // + 10% for each application of Holy Vengeance/Blood Corruption on the target
-                if (stacks)
-                    AddPctU(DoneTotalMod, 10 * stacks);
-            }
-        break;
         case SPELLFAMILY_DRUID:
             // Thorns
             if (spellProto->SpellFamilyFlags[0] & 0x100)
@@ -11919,7 +11887,7 @@ void Unit::MeleeDamageBonus(Unit* victim, uint32 *pdamage, WeaponAttackType attT
     {
         if (spellProto)
         {
-            if ((*i)->GetMiscValue() & spellProto->GetSchoolMask() && !(spellProto->GetSchoolMask() & SPELL_SCHOOL_MASK_NORMAL))
+            if ((*i)->GetMiscValue() & spellProto->GetSchoolMask())
             {
                 if ((*i)->GetSpellInfo()->EquippedItemClass == -1)
                     AddPctN(DoneTotalMod, (*i)->GetAmount());
