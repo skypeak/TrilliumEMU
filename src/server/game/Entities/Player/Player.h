@@ -1153,6 +1153,13 @@ class Player : public Unit, public GridObject<Player>
     public:
         explicit Player (WorldSession *session);
         ~Player ();
+        bool Flight;
+        bool Moving;
+        uint32 LastPoint;
+        uint32 CurrentPoint;
+        uint32 Player::currenttraveltime[3000];
+        uint32 totaltraveltime;
+        Player::Position FlightPos[3000];
 
         void CleanupsBeforeDelete(bool finalCleanup = true);
 

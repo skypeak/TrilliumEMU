@@ -1749,6 +1749,9 @@ void World::SetInitialWorldSettings()
     sLog->outString("Starting continent transports...");
     sTransportMgr->SpawnContinentTransports();
 
+    sLog->outString("Loading Fly Paths...");
+    sObjectMgr->LoadFlyPaths();	
+	
     sLog->outString("Deleting expired bans...");
     LoginDatabase.Execute("DELETE FROM ip_banned WHERE unbandate <= UNIX_TIMESTAMP() AND unbandate<>bandate");
 

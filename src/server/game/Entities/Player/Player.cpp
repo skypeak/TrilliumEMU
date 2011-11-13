@@ -1759,6 +1759,32 @@ void Player::Update(uint32 p_time)
             m_nextSave -= p_time;
     }
 
+    // Flight
+    if (Flight == true)
+    {
+        if (CurrentPoint == LastPoint)
+        {
+            GetMotionMaster()->MovementExpired();
+            CleanupAfterTaxiFlight();
+            Flight = false;
+        }
+
+        if (Moving == false)
+        {
+            if (CurrentPoint != LastPoint+1)
+                SendMonsterMoveFly(FlightPos[CurrentPoint].GetPositionX(), FlightPos[CurrentPoint].GetPositionY(), 
+                    FlightPos[CurrentPoint].GetPositionZ(), currenttraveltime[CurrentPoint], this);
+            Moving = true;
+        }
+
+        if (GetDistance2d(FlightPos[CurrentPoint].GetPositionX(), FlightPos[CurrentPoint].GetPositionY()) <= 1)
+        {
+            if (CurrentPoint != LastPoint+1)
+                ++CurrentPoint;
+            Moving = false;
+        }
+    }
+
     //Handle Water/drowning
     HandleDrowning(p_time);
 

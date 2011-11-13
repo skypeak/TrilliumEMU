@@ -8538,6 +8538,44 @@ bool ObjectMgr::IsVendorItemValid(uint32 vendor_entry, uint32 item_id, int32 max
     return true;
 }
 
+void ObjectMgr::LoadFlyPaths()
+{
+    uint32 oldMSTime = getMSTime();
+
+    mFlyPathsMap.clear();                             // need for reload case
+
+    //                                           0         1       2     3       4           5           6       
+    QueryResult result = WorldDatabase.Query("SELECT Id, pathid, point, map, position_x, position_y, position_z FROM `fly_paths`");
+    if (!result)
+    {
+       sLog->outString(">> Loaded 0 fly paths, DB table `fly_paths` is empty.");
+       sLog->outString();
+      return;
+    }
+
+    uint32 count = 0;
+
+    do
+    {
+        Field *fields = result->Fetch();
+
+        uint32 id          = fields[0].GetUInt32();
+        uint32 pathid      = fields[1].GetUInt32();
+        uint32 point       = fields[2].GetUInt32();
+        uint32 map         = fields[3].GetUInt32();
+        float position_x   = fields[4].GetFloat();
+        float position_y   = fields[5].GetFloat();
+        float position_z   = fields[6].GetFloat();
+
+        mFlyPathsMap[id].push_back(FlyPathsEntry(pathid, point, map, position_x, position_y, position_z));
+
+        ++count;
+    } while (result->NextRow());
+
+    sLog->outString(">> Loaded %u fly paths in %u ms.", count, GetMSTimeDiffToNow(oldMSTime));
+    sLog->outString();
+}
+
 void ObjectMgr::LoadScriptNames()
 {
     uint32 oldMSTime = getMSTime();

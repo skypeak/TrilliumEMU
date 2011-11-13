@@ -145,6 +145,7 @@ public:
             { "spell_target_position",        SEC_ADMINISTRATOR, true,  &HandleReloadSpellTargetPositionCommand,        "", NULL },
             { "spell_threats",                SEC_ADMINISTRATOR, true,  &HandleReloadSpellThreatsCommand,               "", NULL },
             { "spell_group_stack_rules",      SEC_ADMINISTRATOR, true,  &HandleReloadSpellGroupStackRulesCommand,       "", NULL },
+			{ "fly_paths",                    SEC_ADMINISTRATOR, true,  &HandleReloadFlyPathsCommand,                   "", NULL },
             { "core_strings",              SEC_ADMINISTRATOR, true,  &HandleReloadTrilliumStringCommand,              "", NULL },
             { "waypoint_scripts",             SEC_ADMINISTRATOR, true,  &HandleReloadWpScriptsCommand,                  "", NULL },
             { "vehicle_accessory",            SEC_ADMINISTRATOR, true,  &HandleReloadVehicleAccessoryCommand,           "", NULL },
@@ -289,6 +290,7 @@ public:
         HandleReloadSpellTargetPositionCommand(handler, "a");
         HandleReloadSpellThreatsCommand(handler, "a");
         HandleReloadSpellGroupStackRulesCommand(handler, "a");
+		HandleReloadFlyPathsCommand(handler,"a");
         HandleReloadSpellPetAurasCommand(handler, "a");
         return true;
     }
@@ -370,6 +372,14 @@ public:
         sLog->outString("Re-Loading AreaTrigger teleport definitions...");
         sObjectMgr->LoadAreaTriggerTeleports();
         handler->SendGlobalGMSysMessage("DB table `areatrigger_teleport` reloaded.");
+        return true;
+    }
+
+    static bool HandleReloadFlyPathsCommand(ChatHandler* handler, const char* /*args*/)
+    {
+        sLog->outString("Re-Loading Fly Paths...");
+        sObjectMgr->LoadFlyPaths();
+        handler->SendGlobalGMSysMessage("DB table `fly_paths` reloaded.");
         return true;
     }
 
