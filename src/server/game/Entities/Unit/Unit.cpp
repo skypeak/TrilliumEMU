@@ -5802,6 +5802,21 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
             }
             switch (dummySpell->Id)
             {
+                // Nether Vortex
+                case 86181:
+                case 86209:
+                {
+                    // the proc result will be casted on the victim
+                    target = victim;
+
+                    // if no target is currently affected by Slow...
+                    if (victim->HasAura(31589))
+                        return false;
+
+                    // ...trigger slow on the target
+                    triggered_spell_id = 31589;
+                    break;
+                }
                 // Glyph of Polymorph
                 case 56375:
                 {
