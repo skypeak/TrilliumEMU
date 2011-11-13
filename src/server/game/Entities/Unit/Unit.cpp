@@ -6950,7 +6950,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                         return false;
 
                     // At melee attack or Hammer of the Righteous spell damage considered as melee attack
-                    bool stacker = !procSpell || procSpell->Id == 53595;
+                    bool stacker = !procSpell || procSpell->Id == 53595 || procSpell->Id == 71433 || procSpell->Id == 71434;
+
                     // spells with SPELL_DAMAGE_CLASS_MELEE excluding Judgements
                     bool damager = procSpell && procSpell->EquippedItemClass != -1;
 
@@ -6982,8 +6983,9 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                         return false;
 
                     // At melee attack or Hammer of the Righteous spell damage considered as melee attack
-                    bool stacker = !procSpell || procSpell->Id == 53595;
-                    // spells with SPELL_DAMAGE_CLASS_MELEE excluding Judgements
+                    bool stacker = !procSpell || procSpell->Id == 53595 || procSpell->Id == 71433 || procSpell->Id == 71434;
+
+                     // spells with SPELL_DAMAGE_CLASS_MELEE excluding Judgements
                     bool damager = procSpell && procSpell->EquippedItemClass != -1;
 
                     if (!stacker && !damager)
@@ -13339,8 +13341,8 @@ int32 Unit::CalcSpellDuration(SpellInfo const* spellProto)
 
 int32 Unit::ModSpellDuration(SpellInfo const* spellProto, Unit const* target, int32 duration, bool positive, uint32 effectMask)
 {
-    // don't mod permament auras duration
-    if (duration < 0)
+    //don't mod permament auras duration + special Envenom handling
+    if (duration < 0 || ( spellProto->SpellFamilyName == SPELLFAMILY_ROGUE && spellProto->SpellFamilyFlags[1] & 0x8))
         return duration;
 
     // cut duration only of negative effects
@@ -15951,6 +15953,8 @@ void Unit::SetControlled(bool apply, UnitState state)
             case UNIT_STAT_CONFUSED:
                 if (!HasUnitState(UNIT_STAT_STUNNED))
                 {
+                    ClearUnitState(UNIT_STAT_MELEE_ATTACKING);
+                    SendMeleeAttackStop(m_attacking);					
                     SetConfused(true);
                     CastStop();
                 }
@@ -15958,6 +15962,8 @@ void Unit::SetControlled(bool apply, UnitState state)
             case UNIT_STAT_FLEEING:
                 if (!HasUnitState(UNIT_STAT_STUNNED | UNIT_STAT_CONFUSED))
                 {
+                    ClearUnitState(UNIT_STAT_MELEE_ATTACKING);
+                    SendMeleeAttackStop(m_attacking);					
                     SetFeared(true);
                     CastStop();
                 }

@@ -60,6 +60,8 @@ enum CombatPhases
     OUTRO
 };
 
+#define MalGanis_Kill_Credit 31006
+
 class boss_mal_ganis : public CreatureScript
 {
 public:
@@ -217,12 +219,22 @@ public:
                                 uiOutroTimer = 500;
                                 break;
                             case 5:
+                                if (pInstance)
+                                {
+                                    Map::PlayerList const & PlList = pInstance->instance->GetPlayers();
+                                    if (!PlList.isEmpty())
+                                        for (Map::PlayerList::const_iterator itr = PlList.begin(); itr != PlList.end(); ++itr)
+                                            if (Player * player = itr->getSource())
+                                                player->KilledMonsterCredit(MalGanis_Kill_Credit, 0);
+                                }								
                                 me->SetVisible(false);
                                 me->Kill(me);
                                 break;
 
                         }
-                    } else uiOutroTimer -= diff;
+                    } 
+					else 
+					   uiOutroTimer -= diff;
                     break;
             }
         }
