@@ -429,6 +429,7 @@ void AchievementMgr::Reset()
     }
 
     m_completedAchievements.clear();
+    m_achievementPoints = 0;
     m_criteriaProgress.clear();
     DeleteFromDB(m_player->GetGUIDLow());
 
@@ -473,6 +474,7 @@ void AchievementMgr::DeleteFromDB(uint32 lowguid)
     SQLTransaction trans = CharacterDatabase.BeginTransaction();
     trans->PAppend("DELETE FROM character_achievement WHERE guid = %u", lowguid);
     trans->PAppend("DELETE FROM character_achievement_progress WHERE guid = %u", lowguid);
+    trans->PAppend("UPDATE characters SET achievementPoints = 0 WHERE guid = %u", lowguid);
     CharacterDatabase.CommitTransaction(trans);
 }
 
@@ -582,8 +584,6 @@ void AchievementMgr::SaveToDB(SQLTransaction& trans)
 
 void AchievementMgr::LoadFromDB(PreparedQueryResult achievementResult, PreparedQueryResult criteriaResult)
 {
-    m_achievementPoints = 0;
-
     if (achievementResult)
     {
         do
@@ -608,6 +608,9 @@ void AchievementMgr::LoadFromDB(PreparedQueryResult achievementResult, PreparedQ
                     if (CharTitlesEntry const* titleEntry = sCharTitlesStore.LookupEntry(titleId))
                         if (!GetPlayer()->HasTitle(titleEntry))
                             GetPlayer()->SetTitle(titleEntry);
+            
+            if (AchievementEntry const* pAchievement = sAchievementStore.LookupEntry(achievementid))
+                m_achievementPoints += pAchievement->points;
 
         } while (achievementResult->NextRow());
     }
@@ -2028,6 +2031,9 @@ void AchievementMgr::CompletedAchievement(AchievementEntry const* achievement)
     CompletedAchievementData& ca =  m_completedAchievements[achievement->ID];
     ca.date = time(NULL);
     ca.changed = true;
+    
+    if (AchievementEntry const* pAchievement = sAchievementStore.LookupEntry(achievement->ID))
+        m_achievementPoints += pAchievement->points;
 
     // don't insert for ACHIEVEMENT_FLAG_REALM_FIRST_KILL since otherwise only the first group member would reach that achievement
     // TODO: where do set this instead?
