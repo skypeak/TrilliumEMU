@@ -831,8 +831,8 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
             break;
         case SPELL_AURA_MOUNTED:
         {
-            Player* plr = caster->ToPlayer();
-            if (plr)
+            Player* player = caster->ToPlayer();
+            if (player)
             {
                 // find the spell we need
                 MountTypeEntry const* type = sMountTypeStore.LookupEntry(GetMiscValueB());
@@ -840,8 +840,8 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                     return 0;
 
                 uint32 spellId = 0;
-                uint32 plrskill = plr->GetSkillValue(SKILL_RIDING);
-                uint32 map = GetVirtualMapForMapAndZone(plr->GetMapId(), plr->GetZoneId());
+                uint32 plrskill = player->GetSkillValue(SKILL_RIDING);
+                uint32 map = GetVirtualMapForMapAndZone(player->GetMapId(), player->GetZoneId());
                 uint32 maxSkill = 0;
                 for (int i = 0; i < MAX_MOUNT_TYPE_COLUMN; i++)
                 {
@@ -852,7 +852,7 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                         continue;
                     if (cap->reqSkillLevel && (cap->reqSkillLevel > plrskill || cap->reqSkillLevel <= maxSkill))
                         continue;
-                    if (cap->reqSpell && !plr->HasSpell(cap->reqSpell))
+                    if (cap->reqSpell && !player->HasSpell(cap->reqSpell))
                         continue;
                     maxSkill = cap->reqSkillLevel;
                     spellId = cap->spell;
@@ -2990,16 +2990,16 @@ void AuraEffect::HandleAuraMounted(AuraApplication const* aurApp, uint8 mode, bo
     if (apply)
     {
         uint32 spellId = 0;
-        Player *plr = target->ToPlayer();
-        if (plr)
+        Player* player = target->ToPlayer();
+        if (player)
         {
             // find the spell we need
             const MountTypeEntry *type = sMountTypeStore.LookupEntry(GetMiscValueB());
             if (!type)
                 return;
 
-            uint32 plrskill = plr->GetSkillValue(SKILL_RIDING);
-            uint32 map = plr->GetMapId();
+            uint32 plrskill = player->GetSkillValue(SKILL_RIDING);
+            uint32 map = player->GetMapId();
             uint32 maxSkill = 0;
             for (int i = 0; i < MAX_MOUNT_TYPE_COLUMN; i++)
             {
@@ -3010,7 +3010,7 @@ void AuraEffect::HandleAuraMounted(AuraApplication const* aurApp, uint8 mode, bo
                    continue;
                if (cap->reqSkillLevel && (cap->reqSkillLevel > plrskill || cap->reqSkillLevel <= maxSkill))
                    continue;
-               if (cap->reqSpell && !plr->HasSpell(cap->reqSpell))
+               if (cap->reqSpell && !player->HasSpell(cap->reqSpell))
                    continue;
                maxSkill = cap->reqSkillLevel;
                spellId = cap->spell;
@@ -3091,7 +3091,7 @@ void AuraEffect::HandleAuraAllowFlight(AuraApplication const* aurApp, uint8 mode
     if (target->GetTypeId() == TYPEID_UNIT)
         target->SetFlying(apply);
 
-    if (Player* plr = target->m_movedPlayer)
+    if (Player* player = target->m_movedPlayer)
     {
         // allow flying
         WorldPacket data;
@@ -3101,7 +3101,7 @@ void AuraEffect::HandleAuraAllowFlight(AuraApplication const* aurApp, uint8 mode
             data.Initialize(SMSG_MOVE_UNSET_CAN_FLY, 12);
         data.append(target->GetPackGUID());
         data << uint32(0);                                      // unk
-        plr->SendDirectMessage(&data);
+        player->SendDirectMessage(&data);
     }
 }
 
@@ -3506,16 +3506,16 @@ void AuraEffect::HandleAuraModIncreaseFlightSpeed(AuraApplication const* aurApp,
         // do not remove unit flag if there are more than this auraEffect of that kind on unit on unit
         if (mode & AURA_EFFECT_HANDLE_SEND_FOR_CLIENT_MASK && (apply || (!target->HasAuraType(SPELL_AURA_MOD_INCREASE_MOUNTED_FLIGHT_SPEED) && !target->HasAuraType(SPELL_AURA_FLY))))
         {
-            if (Player* plr = target->m_movedPlayer)
+            if (Player* player = target->m_movedPlayer)
             {
                 WorldPacket data;
                 if (apply)
                     data.Initialize(SMSG_MOVE_SET_CAN_FLY, 12);
                 else
                     data.Initialize(SMSG_MOVE_UNSET_CAN_FLY, 12);
-                data.append(plr->GetPackGUID());
+                data.append(player->GetPackGUID());
                 data << uint32(0);                                      // unknown
-                plr->SendDirectMessage(&data);
+                player->SendDirectMessage(&data);
             }
         }
 
@@ -5795,9 +5795,9 @@ void AuraEffect::HandleAuraConvertRune(AuraApplication const* aurApp, uint8 mode
     if (target->GetTypeId() != TYPEID_PLAYER)
         return;
 
-    Player* plr = (Player*)target;
+    Player* player = (Player*)target;
 
-    if (plr->getClass() != CLASS_DEATH_KNIGHT)
+    if (player->getClass() != CLASS_DEATH_KNIGHT)
         return;
 
     uint32 runes = m_amount;
@@ -5806,17 +5806,17 @@ void AuraEffect::HandleAuraConvertRune(AuraApplication const* aurApp, uint8 mode
     {
         for (uint32 i = 0; i < MAX_RUNES && runes; ++i)
         {
-            if (GetMiscValue() != plr->GetCurrentRune(i))
+            if (GetMiscValue() != player->GetCurrentRune(i))
                 continue;
-            if (!plr->GetRuneCooldown(i))
+            if (!player->GetRuneCooldown(i))
             {
-                plr->AddRuneByAuraEffect(i, RuneType(GetMiscValueB()), this);
+                player->AddRuneByAuraEffect(i, RuneType(GetMiscValueB()), this);
                 --runes;
             }
         }
     }
     else
-        plr->RemoveRunesByAuraEffect(this);
+        player->RemoveRunesByAuraEffect(this);
 }
 
 void AuraEffect::HandleAuraLinked(AuraApplication const* aurApp, uint8 mode, bool apply) const

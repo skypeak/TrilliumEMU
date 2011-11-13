@@ -8757,8 +8757,8 @@ void Player::_ApplyAllLevelScaleItemMods(bool apply)
     }
 }
 
-/*  If in a battleground a player dies, and an enemy removes the insignia, the player's bones is lootable
-    Called by remove insignia spell effect    */
+// If in a battleground a player dies, and an enemy removes the insignia, 
+// The player's bones is lootable called by remove insignia spell effect
 void Player::RemovedInsignia(Player* looterPlr)
 {
     if (!GetBattlegroundId())
