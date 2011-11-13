@@ -2093,6 +2093,8 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
     }
 
     *data << fields[1].GetString();                       // name
+	sLog->outDetail("Name: %s", fields[1].GetString().c_str());
+	
     *data << uint32(fields[9].GetUInt32());               // map
 	sLog->outDetail("Map: %i", fields[9].GetUInt32());
 
