@@ -19729,32 +19729,6 @@ void Player::RemovePet(Pet* pet, PetSlot mode, bool returnreagent)
     if (mode == PET_SLOT_ACTUAL_PET_SLOT)
         mode = m_currentPetSlot;
 
-    if (returnreagent && (pet || m_temporaryUnsummonedPetNumber) && !InBattleground())
-    {
-        //returning of reagents only for players, so best done here
-        uint32 spellId = pet ? pet->GetUInt32Value(UNIT_CREATED_BY_SPELL) : m_oldpetspell;
-        SpellInfo const *spellInfo = sSpellMgr->GetSpellInfo(spellId);
-
-        if (spellInfo)
-        {
-            for (uint32 i = 0; i < MAX_SPELL_REAGENTS; ++i)
-            {
-                if (spellInfo->Reagent[i] > 0)
-                {
-                    ItemPosCountVec dest;                   //for succubus, voidwalker, felhunter and felguard credit soulshard when despawn reason other than death (out of range, logout)
-                    InventoryResult msg = CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, spellInfo->Reagent[i], spellInfo->ReagentCount[i]);
-                    if (msg == EQUIP_ERR_OK)
-                    {
-                        Item* item = StoreNewItem(dest, spellInfo->Reagent[i], true);
-                        if (IsInWorld())
-                            SendNewItem(item, spellInfo->ReagentCount[i], true, false);
-                    }
-                }
-            }
-        }
-        m_temporaryUnsummonedPetNumber = 0;
-    }
-
     if (!pet || pet->GetOwnerGUID() != GetGUID())
         return;
 
@@ -24134,7 +24108,7 @@ bool Player::HasAchieved(uint32 entry)
     return false;
 }
 
-void Player::LearnTalent(uint32 talentId, uint32 talentRank, bool learn)
+void Player::LearnTalent(uint32 talentId, uint32 talentRank, bool one)
 {
     uint32 CurTalentPoints = GetFreeTalentPoints();
 
@@ -24154,7 +24128,7 @@ void Player::LearnTalent(uint32 talentId, uint32 talentRank, bool learn)
     if (!talentTabInfo)
         return;
 
-    if (learn && talentTabInfo->TalentTabID != TalentBranchSpec(m_activeSpec))
+    if (one && talentTabInfo->TalentTabID != TalentBranchSpec(m_activeSpec))
     {
         uint32 pointsinBranchSpec = 0;
         for (PlayerTalentMap::iterator itr = m_talents[m_activeSpec]->begin(); itr != m_talents[m_activeSpec]->end(); itr++)
@@ -25335,7 +25309,7 @@ void Player::RefundItem(Item *item)
         WorldPacket data(SMSG_ITEM_REFUND_RESULT, 1 + 8 + 1);
         data << uint8(0x00);                         // refund failed
         data << uint64(item->GetGUID());             // Guid
-        data << uint8(9);                            // bag is full
+        data << uint8(10);                            // bag is full
         GetSession()->SendPacket(&data);
         return;
     }
