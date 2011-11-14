@@ -1253,7 +1253,8 @@ enum Opcodes
     CMSG_BATTLEFIELD_MGR_EXIT_REQUEST                = 0x1027D, //
     SMSG_BATTLEFIELD_MGR_STATE_CHANGE                = 0x00363, // 14480
     MSG_SET_RAID_DIFFICULTY                          = 0x0FA73, // 14480
-    SMSG_TOGGLE_XP_GAIN                              = 0x06AB6, // 14480
+    // CMSG_XPGAIN                                   = 0x00000, //
+    SMSG_XPGAIN                                      = 0x06AB6, // 4.20a 14480
     SMSG_GMRESPONSE_DB_ERROR                         = 0x0726A, // 14480
     SMSG_GMRESPONSE_RECEIVED                         = 0x0BA66, // 14480
     CMSG_GMRESPONSE_RESOLVE                          = 0x0363E, // 14480
