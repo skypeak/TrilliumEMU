@@ -1207,7 +1207,7 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( CMSG_EQUIPMENT_SET_SAVE,                      STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleEquipmentSetSave          );
     DEFINE_OPCODE_HANDLER( CMSG_UPDATE_PROJECTILE_POSITION,              STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleUpdateProjectilePosition  );
     DEFINE_OPCODE_HANDLER( SMSG_SET_PROJECTILE_POSITION,                 STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
-    DEFINE_OPCODE_HANDLER( SMSG_TALENTS_INFO,                            STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
+    DEFINE_OPCODE_HANDLER( SMSG_TALENT_UPDATE,                           STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( CMSG_LEARN_PREVIEW_TALENTS,                   STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleLearnPreviewTalents       );
     DEFINE_OPCODE_HANDLER( CMSG_LEARN_PREVIEW_TALENTS_PET,               STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleLearnPreviewTalentsPet    );
     DEFINE_OPCODE_HANDLER( SMSG_ARENA_OPPONENT_UPDATE,                   STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
@@ -1236,7 +1236,7 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( CMSG_BATTLEFIELD_MGR_EXIT_REQUEST,            STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( SMSG_BATTLEFIELD_MGR_STATE_CHANGE,            STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( MSG_SET_RAID_DIFFICULTY,                      STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleSetRaidDifficultyOpcode   );
-    DEFINE_OPCODE_HANDLER( SMSG_TOGGLE_XP_GAIN,                          STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
+    DEFINE_OPCODE_HANDLER( SMSG_XPGAIN,                                  STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( SMSG_GMRESPONSE_DB_ERROR,                     STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( SMSG_GMRESPONSE_RECEIVED,                     STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( CMSG_GMRESPONSE_RESOLVE,                      STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleGMResponseResolve         );
@@ -1269,7 +1269,7 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( CMSG_AUTO_DECLINE_GUILD_INVITES,              STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( CMSG_SET_PRIMARY_TALENT_TREE,                 STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( CMSG_GROUP_SET_ROLES,                         STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
-    DEFINE_OPCODE_HANDLER( CMSG_RETURN_TO_GRAVEYARD,                     STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleMoveToGraveyard           );
+    DEFINE_OPCODE_HANDLER( CMSG_PORT_GRAVEYARD,                          STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleMoveToGraveyard           );
     DEFINE_OPCODE_HANDLER( CMSG_REFORGE,                                 STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleReforgeOpcode             );
     DEFINE_OPCODE_HANDLER( CMSG_VIOLENCE_LEVEL,                          STATUS_AUTHED,   PROCESS_THREADUNSAFE,  &WorldSession::PlayerViolenceLevel             );
     DEFINE_OPCODE_HANDLER( CMSG_LOG_DISCONNECT,                          STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );

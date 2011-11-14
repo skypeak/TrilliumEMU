@@ -598,20 +598,20 @@ void MotionMaster::MoveFlyPath(uint32 path, float speed, MovementSlot slot)
     uint32 last = GetLastFlyPathPoint(path);
     player->LastPoint = last;
     player->CurrentPoint = 0;
-    
+
     player->getHostileRefManager().setOnlineOfflineState(false);
     player->AddUnitState(UNIT_STAT_IN_FLIGHT);
     player->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE | UNIT_FLAG_TAXI_FLIGHT);
     bool Next = false;
-    
+
     if (Next == false)
-        for (int i = 0; i < last+1; ++i)
+        for (uint32 i = 0; i < last+1; ++i)
         {
-            const FlyPathsEntry * FlyPath = sObjectMgr->GetFlyPath(path, i);
+            const FlyPathsEntry* FlyPath = sObjectMgr->GetFlyPath(path, i);
             if (!FlyPath)
                 return;
 
-            Position Pos   = {FlyPath->position_x, FlyPath->position_y, FlyPath->position_z, player->GetOrientation()};
+            Position Pos = {FlyPath->position_x, FlyPath->position_y, FlyPath->position_z, player->GetOrientation()};
 
             player->FlightPos[i] = Pos;
 
@@ -619,19 +619,19 @@ void MotionMaster::MoveFlyPath(uint32 path, float speed, MovementSlot slot)
                 Next = true;
         }
 
-    for (int i = player->CurrentPoint-1; i < player->LastPoint+1; ++i)
-    {
-        if (i == player->CurrentPoint-1)
-        player->currenttraveltime[i] = GetPointTime(player->GetPositionX(), player->GetPositionY(), 
-        player->FlightPos[i].GetPositionX(), player->FlightPos[i].GetPositionY());
-        else
-        player->currenttraveltime[i] = GetPointTime(player->FlightPos[i].GetPositionX(), player->FlightPos[i].GetPositionY(), 
-        player->FlightPos[i+1].GetPositionX(), player->FlightPos[i+1].GetPositionY());
+        for (uint32 i = player->CurrentPoint - 1; i < player->LastPoint + 1; ++i)
+        {
+            if (i == player->CurrentPoint-1)
+                player->currenttraveltime[i] = GetPointTime(player->GetPositionX(), player->GetPositionY(),
+                                                            player->FlightPos[i].GetPositionX(), player->FlightPos[i].GetPositionY());
+            else
+                player->currenttraveltime[i] = GetPointTime(player->FlightPos[i].GetPositionX(), player->FlightPos[i].GetPositionY(),
+                                                            player->FlightPos[i+1].GetPositionX(), player->FlightPos[i+1].GetPositionY());
 
-        player->totaltraveltime += player->currenttraveltime[i];
-    }
+            player->totaltraveltime += player->currenttraveltime[i];
+        }
 
-    player->Flight = true;
+        player->Flight = true;
 }
 
 void MotionMaster::MovePath(uint32 path_id, bool repeatable)

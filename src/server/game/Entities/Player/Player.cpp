@@ -22015,7 +22015,7 @@ void Player::SendInitialPacketsBeforeAddToMap()
 
     GetReputationMgr().SendForceReactions();                // SMSG_SET_FORCED_REACTIONS
 
-    // SMSG_TALENTS_INFO x 2 for pet (unspent points and talents in separate packets...)
+    // SMSG_TALENT_UPDATE x 2 for pet (unspent points and talents in separate packets...)
     // SMSG_PET_GUIDS
     // SMSG_UPDATE_WORLD_STATE
     // SMSG_POWER_UPDATE
@@ -24633,7 +24633,7 @@ void Player::BuildPetTalentsInfoData(WorldPacket *data)
 
 void Player::SendTalentsInfoData(bool pet)
 {
-    WorldPacket data(SMSG_TALENTS_INFO, 50);
+    WorldPacket data(SMSG_TALENT_UPDATE, 50);
     data << uint8(pet ? 1 : 0);
     if (pet)
         BuildPetTalentsInfoData(&data);
