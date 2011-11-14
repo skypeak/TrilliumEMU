@@ -8,11 +8,11 @@ Current Trillium Issues - Not a complete list
 - Random client crashs related to ByteBufferException DATATYPES [unidentified] Will be rewrited.
 - Grab 4.2.0a Opcodes [almost complete]
 - Guild system [not complete] started.
-- Reforge system [almost complete] what is missed here?
+- Reforge system [almost complete] what is missed here? // Grab opcodes for CMSG_REFORGE & SMSG_SHOW_REFORGE
 - Auction House [almost complete]
-- Party system [not complete]
+- Party system [not complete] started.
 - Battlegrounds/arenas [not complete]
-- Pet system [almost complete]
+- Pet system [almost complete] TODO: Fix revive and summon spells.
 - Exp 3 / based on creature class level stats calculation [almost complete]
 - Unable to loot game object. [unidentified] That will fix next days
-- Taxi system [unidentified] Will fix next days.
+- Taxi system [not complete] TODO: Fix write and load string from db

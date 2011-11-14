@@ -75,7 +75,7 @@ void WorldSession::SendBattlegGroundList(uint64 guid, BattlegroundTypeId bgTypeI
 
 void WorldSession::HandleBattlemasterJoinOpcode(WorldPacket & recv_data)
 {
-    uint32 bgTypeId_;
+    uint32 bgTypeId_ = 0; // fix this
     uint8 joinFlags;
     bool isPremade = false;
     Group* grp = NULL;

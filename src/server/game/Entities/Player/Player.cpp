@@ -2093,6 +2093,8 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
     }
 
     *data << fields[1].GetString();                       // name
+	sLog->outDetail("Name: %s", fields[1].GetString().c_str());
+	
     *data << uint32(fields[9].GetUInt32());               // map
 	sLog->outDetail("Map: %i", fields[9].GetUInt32());
 
@@ -8755,8 +8757,8 @@ void Player::_ApplyAllLevelScaleItemMods(bool apply)
     }
 }
 
-/*  If in a battleground a player dies, and an enemy removes the insignia, the player's bones is lootable
-    Called by remove insignia spell effect    */
+// If in a battleground a player dies, and an enemy removes the insignia, 
+// The player's bones is lootable called by remove insignia spell effect
 void Player::RemovedInsignia(Player* looterPlr)
 {
     if (!GetBattlegroundId())
@@ -22013,7 +22015,7 @@ void Player::SendInitialPacketsBeforeAddToMap()
 
     GetReputationMgr().SendForceReactions();                // SMSG_SET_FORCED_REACTIONS
 
-    // SMSG_TALENTS_INFO x 2 for pet (unspent points and talents in separate packets...)
+    // SMSG_TALENT_UPDATE x 2 for pet (unspent points and talents in separate packets...)
     // SMSG_PET_GUIDS
     // SMSG_UPDATE_WORLD_STATE
     // SMSG_POWER_UPDATE
@@ -24631,7 +24633,7 @@ void Player::BuildPetTalentsInfoData(WorldPacket *data)
 
 void Player::SendTalentsInfoData(bool pet)
 {
-    WorldPacket data(SMSG_TALENTS_INFO, 50);
+    WorldPacket data(SMSG_TALENT_UPDATE, 50);
     data << uint8(pet ? 1 : 0);
     if (pet)
         BuildPetTalentsInfoData(&data);

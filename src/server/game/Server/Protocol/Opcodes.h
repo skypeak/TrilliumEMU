@@ -1224,7 +1224,7 @@ enum Opcodes
     CMSG_EQUIPMENT_SET_SAVE                          = 0x0E26E, // 14480
     CMSG_UPDATE_PROJECTILE_POSITION                  = 0x1026B, //
     SMSG_SET_PROJECTILE_POSITION                     = 0x0FA23, // 4.2.0:14480
-    SMSG_TALENTS_INFO                                = 0x0BABF, // 14480     SMSG_TALENT_UPDATE
+    SMSG_TALENT_UPDATE                               = 0x0BABF, // 4.20a 14480
     CMSG_LEARN_PREVIEW_TALENTS                       = 0x0F22A, // 14480
     CMSG_LEARN_PREVIEW_TALENTS_PET                   = 0x032FA, // 14480
     SMSG_ARENA_OPPONENT_UPDATE                       = 0x07A6F, // 4.2.0:14480
@@ -1253,7 +1253,8 @@ enum Opcodes
     CMSG_BATTLEFIELD_MGR_EXIT_REQUEST                = 0x1027D, //
     SMSG_BATTLEFIELD_MGR_STATE_CHANGE                = 0x00363, // 14480
     MSG_SET_RAID_DIFFICULTY                          = 0x0FA73, // 14480
-    SMSG_TOGGLE_XP_GAIN                              = 0x06AB6, // 14480
+    // CMSG_XPGAIN                                   = 0x00000, //
+    SMSG_XPGAIN                                      = 0x06AB6, // 4.20a 14480
     SMSG_GMRESPONSE_DB_ERROR                         = 0x0726A, // 14480
     SMSG_GMRESPONSE_RECEIVED                         = 0x0BA66, // 14480
     CMSG_GMRESPONSE_RESOLVE                          = 0x0363E, // 14480
@@ -1289,7 +1290,7 @@ enum Opcodes
     CMSG_SET_PRIMARY_TALENT_TREE                     = 0x0B627, // 14480
     CMSG_GROUP_SET_ROLES                             = 0x102A0, //
     CMSG_WORLD_LOGIN                                 = 0x04011, // 14480    CMSG_LOADING_SCREEN_NOTIFY
-    CMSG_RETURN_TO_GRAVEYARD                         = 0x0B8EB, // 14480    CMSG_PORT_GRAVEYARD
+    CMSG_PORT_GRAVEYARD                              = 0x0B8EB, // 4.20a 14480
     CMSG_REFORGE                                     = 0x02869, //
     SMSG_SHOW_REFORGE                                = 0x00C5C, //
     CMSG_VIOLENCE_LEVEL                              = 0x08842, // 14480
