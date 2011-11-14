@@ -468,11 +468,11 @@ void WorldSession::HandleLootMasterGiveOpcode(WorldPacket & recv_data)
     }
     else if (IS_GAMEOBJECT_GUID(GetPlayer()->GetLootGUID()))
     {
-        GameObject *pGO = GetPlayer()->GetMap()->GetGameObject(lootguid);
-        if (!pGO)
+        GameObject *go = GetPlayer()->GetMap()->GetGameObject(lootguid);
+        if (!go)
             return;
 
-        pLoot = &pGO->loot;
+        pLoot = &go->loot;
     }
 
     if (!pLoot)
