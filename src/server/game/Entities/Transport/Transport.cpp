@@ -204,8 +204,8 @@ void Transport::AddPassenger(Unit* passenger)
     if (_passengers.insert(passenger).second)
         sLog->outDetail("Unit %s boarded transport %s.", passenger->GetName(), GetName());
 
-    if (Player* plr = passenger->ToPlayer())
-        sScriptMgr->OnAddPassenger(this, plr);
+    if (Player* player = passenger->ToPlayer())
+        sScriptMgr->OnAddPassenger(this, player);
 }
 
 void Transport::RemovePassenger(Unit* passenger)
@@ -213,8 +213,8 @@ void Transport::RemovePassenger(Unit* passenger)
     if (_passengers.erase(passenger))
         sLog->outDetail("Unit %s removed from transport %s.", passenger->GetName(), GetName());
 
-    if (Player* plr = passenger->ToPlayer())
-        sScriptMgr->OnRemovePassenger(this, plr);
+    if (Player* player = passenger->ToPlayer())
+        sScriptMgr->OnRemovePassenger(this, player);
 }
 
 void Transport::Update(uint32 diff)
