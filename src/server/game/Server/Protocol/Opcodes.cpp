@@ -1269,7 +1269,7 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( CMSG_AUTO_DECLINE_GUILD_INVITES,              STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( CMSG_SET_PRIMARY_TALENT_TREE,                 STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
     DEFINE_OPCODE_HANDLER( CMSG_GROUP_SET_ROLES,                         STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
-    DEFINE_OPCODE_HANDLER( CMSG_RETURN_TO_GRAVEYARD,                     STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleMoveToGraveyard           );
+    DEFINE_OPCODE_HANDLER( CMSG_PORT_GRAVEYARD,                          STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleMoveToGraveyard           );
     DEFINE_OPCODE_HANDLER( CMSG_REFORGE,                                 STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleReforgeOpcode             );
     DEFINE_OPCODE_HANDLER( CMSG_VIOLENCE_LEVEL,                          STATUS_AUTHED,   PROCESS_THREADUNSAFE,  &WorldSession::PlayerViolenceLevel             );
     DEFINE_OPCODE_HANDLER( CMSG_LOG_DISCONNECT,                          STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
