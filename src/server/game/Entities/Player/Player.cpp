@@ -22361,7 +22361,7 @@ void Player::learnSkillRewardedSpells(uint32 skill_id, uint32 skill_value)
 void Player::SendAurasForTarget(Unit* target)
 {
     // Client requires this packet on login to initialize so we can't skip it for self
-    if (!target || target->GetVisibleAuras()->empty() && target != this )                 // speedup things
+    if (!target || (target->GetVisibleAuras()->empty() && target != this))                  // speedup things
         return;
 
     WorldPacket data(SMSG_AURA_UPDATE_ALL);

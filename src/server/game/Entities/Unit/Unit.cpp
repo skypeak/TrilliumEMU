@@ -381,7 +381,7 @@ void Unit::Update(uint32 p_time)
 bool Unit::haveOffhandWeapon() const
 {
     if (GetTypeId() == TYPEID_PLAYER)
-        return this->ToPlayer()->GetWeaponForAttack(OFF_ATTACK, true);
+        return ToPlayer()->GetWeaponForAttack(OFF_ATTACK, true);
     else
         return m_canDualWield;
 }
@@ -638,7 +638,7 @@ bool Unit::IsWithinMeleeRange(const Unit* obj, float dist) const
 void Unit::GetRandomContactPoint(const Unit* obj, float &x, float &y, float &z, float distance2dMin, float distance2dMax) const
 {
     float combat_reach = GetCombatReach();
-    if (combat_reach < 0.1) // sometimes bugged for players
+    if (combat_reach < 0.1f) // sometimes bugged for players
         combat_reach = DEFAULT_COMBAT_REACH;
 
     uint32 attacker_number = getAttackers().size();
