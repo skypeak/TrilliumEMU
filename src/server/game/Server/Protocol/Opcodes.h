@@ -1224,7 +1224,7 @@ enum Opcodes
     CMSG_EQUIPMENT_SET_SAVE                          = 0x0E26E, // 14480
     CMSG_UPDATE_PROJECTILE_POSITION                  = 0x1026B, //
     SMSG_SET_PROJECTILE_POSITION                     = 0x0FA23, // 4.2.0:14480
-    SMSG_TALENTS_INFO                                = 0x0BABF, // 14480     SMSG_TALENT_UPDATE
+    SMSG_TALENT_UPDATE                               = 0x0BABF, // 4.20a 14480
     CMSG_LEARN_PREVIEW_TALENTS                       = 0x0F22A, // 14480
     CMSG_LEARN_PREVIEW_TALENTS_PET                   = 0x032FA, // 14480
     SMSG_ARENA_OPPONENT_UPDATE                       = 0x07A6F, // 4.2.0:14480

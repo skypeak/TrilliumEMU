@@ -1207,7 +1207,7 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( CMSG_EQUIPMENT_SET_SAVE,                      STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleEquipmentSetSave          );
     DEFINE_OPCODE_HANDLER( CMSG_UPDATE_PROJECTILE_POSITION,              STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleUpdateProjectilePosition  );
     DEFINE_OPCODE_HANDLER( SMSG_SET_PROJECTILE_POSITION,                 STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
-    DEFINE_OPCODE_HANDLER( SMSG_TALENTS_INFO,                            STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
+    DEFINE_OPCODE_HANDLER( SMSG_TALENT_UPDATE,                           STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( CMSG_LEARN_PREVIEW_TALENTS,                   STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleLearnPreviewTalents       );
     DEFINE_OPCODE_HANDLER( CMSG_LEARN_PREVIEW_TALENTS_PET,               STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::HandleLearnPreviewTalentsPet    );
     DEFINE_OPCODE_HANDLER( SMSG_ARENA_OPPONENT_UPDATE,                   STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
