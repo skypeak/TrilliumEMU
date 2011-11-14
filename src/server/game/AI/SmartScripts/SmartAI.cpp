@@ -578,7 +578,7 @@ void SmartAI::JustReachedHome()
 
 void SmartAI::EnterCombat(Unit* enemy)
 {
-    me->InterruptNonMeleeSpells(false);//msut be before ProcessEvents
+    me->InterruptNonMeleeSpells(false); //must be before ProcessEvents
     GetScript()->ProcessEventsFor(SMART_EVENT_AGGRO, enemy);
     me->GetPosition(&mLastOOCPos);
 }
@@ -902,7 +902,7 @@ uint32 SmartGameObjectAI::GetDialogStatus(Player* /*player*/) { return 100; }
 // Called when the gameobject is destroyed (destructible buildings only).
 void SmartGameObjectAI::Destroyed(Player* player, uint32 eventId)
 {
-    GetScript()->ProcessEventsFor(SMART_EVENT_DEATH, player, eventId , 0 , false, NULL, go);
+    GetScript()->ProcessEventsFor(SMART_EVENT_DEATH, player, eventId, 0 , false, NULL, go);
 }
 
 void SmartGameObjectAI::SetData(uint32 id, uint32 value)
