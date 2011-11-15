@@ -19,7 +19,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gamePCH.h"
 #include "Common.h"
 #include "DatabaseEnv.h"
 #include "WorldPacket.h"
@@ -2752,7 +2751,7 @@ void Spell::EffectPowerBurn(SpellEffIndex effIndex)
 
 void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
 {
-    if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
+    if (effectHandleMode != SPELL_EFFECT_HANDLE_LAUNCH_TARGET)
         return;
 
     /* Chakra */
@@ -2771,11 +2770,6 @@ void Spell::EffectHeal(SpellEffIndex /*effIndex*/)
                break;
         }
     }
-}
-void Spell::SpellDamageHeal(SpellEffIndex effIndex)
-{
-    if (effectHandleMode != SPELL_EFFECT_HANDLE_LAUNCH_TARGET)
-        return;
 
     if (unitTarget && unitTarget->isAlive() && damage >= 0)
     {
@@ -3527,7 +3521,7 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
 
 void Spell::EffectSummonChangeItem(SpellEffIndex effIndex)
 {
-    if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
+    if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT)
         return;
 
     if (m_caster->GetTypeId() != TYPEID_PLAYER)
@@ -3807,7 +3801,7 @@ void Spell::EffectSummonType(SpellEffIndex effIndex)
 
 void Spell::EffectLearnSpell(SpellEffIndex effIndex)
 {
-    if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT)
+    if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
         return;
 
     if (!unitTarget)
