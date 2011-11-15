@@ -1573,13 +1573,13 @@ bool Pet::resetTalents(bool no_cost)
         return false;
     }
 
-    uint32 cost = 0;
+    uint64 cost = 0;
 
     if (!no_cost)
     {
         cost = resetTalentsCost();
 
-        if (!player->HasEnoughMoney(uint64(cost)))
+        if (!player->HasEnoughMoney(cost))
         {
             player->SendBuyError(BUY_ERR_NOT_ENOUGHT_MONEY, 0, 0, 0);
             return false;
@@ -1649,7 +1649,7 @@ void Pet::resetTalentsForAllPetsOf(Player* owner, Pet* online_pet /*= NULL*/)
 
     // reset for online
     if (online_pet)
-        online_pet->resetTalents();
+        online_pet->resetTalents(true);
 
     // now need only reset for offline pets (all pets except online case)
     uint32 except_petnumber = online_pet ? online_pet->GetCharmInfo()->GetPetNumber() : 0;
@@ -1724,7 +1724,7 @@ void Pet::InitTalentForLevel()
     uint32 talentPointsForLevel = GetMaxTalentPointsForLevel(level);
     // Reset talents in case low level (on level down) or wrong points for level (hunter can unlearn TP increase talent)
     if (talentPointsForLevel == 0 || m_usedTalentCount > talentPointsForLevel)
-        resetTalents(); // Remove all talent points
+        resetTalents(true); // Remove all talent points
 
     SetFreeTalentPoints(talentPointsForLevel - m_usedTalentCount);
 

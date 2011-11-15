@@ -510,10 +510,10 @@ void PlayerMenu::SendQuestQueryResponse(Quest const* quest) const
     for (int i = 0; i < QUEST_REPUTATIONS_COUNT; ++i)           // unk (0)
         data << int32(quest->RewRepValue[i]);
 
-    data << quest->GetPointMapId();
-    data << quest->GetPointX();
-    data << quest->GetPointY();
-    data << quest->GetPointOpt();
+    data << uint32(quest->GetPointMapId());
+    data << float(quest->GetPointX());
+    data << float(quest->GetPointY());
+    data << uint32(quest->GetPointOpt());
 
     data << questTitle;
     data << questObjectives;

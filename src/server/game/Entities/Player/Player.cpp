@@ -2780,12 +2780,12 @@ void Player::RegenerateHealth()
         {
             AuraEffectList const& mModHealthRegenPct = GetAuraEffectsByType(SPELL_AURA_MOD_HEALTH_REGEN_PERCENT);
             for (AuraEffectList::const_iterator i = mModHealthRegenPct.begin(); i != mModHealthRegenPct.end(); ++i)
-                AddPctN(addvalue, (*i)->GetAmount() / 100.0f);
+                AddPctN(addvalue, (*i)->GetAmount());
 
             addvalue += GetTotalAuraModifier(SPELL_AURA_MOD_REGEN) * 2 * IN_MILLISECONDS / (5 * IN_MILLISECONDS);
         }
         else if (HasAuraType(SPELL_AURA_MOD_REGEN_DURING_COMBAT))
-            ApplyPctN(addvalue, GetTotalAuraModifier(SPELL_AURA_MOD_REGEN_DURING_COMBAT) / 100.0f);
+            ApplyPctN(addvalue, GetTotalAuraModifier(SPELL_AURA_MOD_REGEN_DURING_COMBAT));
 
         if (!IsStandState())
             addvalue *= 1.5;
@@ -3269,8 +3269,12 @@ void Player::InitTalentForLevel()
     // talents base at level diff (talents = level - 9 but some can be used already)
     if (level < 10)
     {
-        resetTalents(true);
-        SetFreeTalentPoints(0);
+        // Remove all talent points
+        if (m_usedTalentCount > 0)                           // Free any used talents
+        {
+            resetTalents(true);
+            SetFreeTalentPoints(0);
+        }
     }
     else
     {
@@ -4624,8 +4628,8 @@ bool Player::resetTalents(bool no_cost)
 
     SQLTransaction trans = CharacterDatabase.BeginTransaction();
     _SaveTalents(trans);
-    _SaveTalentBranchSpecs(trans);
     _SaveSpells(trans);
+    _SaveTalentBranchSpecs(trans);
     CharacterDatabase.CommitTransaction(trans);
 
     SetFreeTalentPoints(talentPointsForLevel);
@@ -17384,8 +17388,8 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder, WorldSession *sessi
 
     _LoadCurrency(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOADCURRENCY));
     _LoadConquestPointsWeekCap(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_CP_WEEK_CAP));
-    _LoadTalentBranchSpecs(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOADBRANCHSPECS));
     _LoadTalents(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOADTALENTS));
+    _LoadTalentBranchSpecs(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOADBRANCHSPECS));
     _LoadSpells(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOADSPELLS));
     _LoadGlyphs(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOADGLYPHS));
     _LoadAuras(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOADAURAS), time_diff);
@@ -18261,7 +18265,7 @@ void Player::_LoadCurrency(PreparedQueryResult result)
         {
             Field* fields = result->Fetch();
 
-            uint32 currency_id = fields[0].GetUInt16();
+            uint32 currency_id = fields[0].GetUInt32();
             uint32 totalCount = fields[1].GetUInt32();
             uint32 weekCount = fields[2].GetUInt32();
 
@@ -20937,9 +20941,6 @@ bool Player::BuyItemFromVendorSlot(uint64 vendorguid, uint32 vendorslot, uint32 
         return false;
     }
 
-    if (count == pProto->BuyCount)
-        count = 1;
-
     // check current item amount if it limited
     if (crItem->maxcount != 0)
     {
@@ -22018,6 +22019,7 @@ void Player::SendInitialPacketsAfterAddToMap()
     uint32 newzone, newarea;
     GetZoneAndAreaId(newzone, newarea);
     UpdateZone(newzone, newarea);                            // also call SendInitWorldStates();
+    SendInitWorldStates(newzone, newarea);
 
     ResetTimeSync();
     SendTimeSync();
@@ -25058,7 +25060,7 @@ void Player::ActivateSpec(uint8 spec)
         if (!talentInfo || talentInfo->TalentTabID != TalentBranchSpec(m_activeSpec))
             continue;
 
-        removeSpell(talentInfo->SpellID, true);
+        removeSpell(talentInfo->SpellID, false);
     }
 
     // set glyphs
