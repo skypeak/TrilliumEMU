@@ -3202,6 +3202,10 @@ void SpellMgr::LoadDbcDataCorrections()
             case 51904: // Summon Ghouls On Scarlet Crusade (this should use conditions table, script for this spell needs to be fixed)
                 spellEffect->EffectImplicitTargetA = TARGET_UNIT_CASTER;
                 break;
+            case 46363: // Midsummer - Beam Attack against Ahune
+                spellEffect->EffectImplicitTargetA = TARGET_SRC_CASTER;
+                spellEffect->EffectImplicitTargetB = TARGET_UNIT_TARGET_ANY;
+                break;				
             case 29809: // Desecration Arm - 36 instead of 37 - typo? :/
                 spellEffect->EffectRadiusIndex = 37;
                 break;
