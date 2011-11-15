@@ -1121,6 +1121,12 @@ bool Player::Create(uint32 guidlow, CharacterCreateInfo* createInfo, uint32 acco
         SetPower(POWER_MANA, GetMaxPower(POWER_MANA));
     }
 
+    if (getPowerType() != POWER_MANA)                        // hide additional mana bar if we have no mana
+    {
+        SetPower(POWER_MANA, 0);
+        SetMaxPower(POWER_MANA, 0);
+    }
+	
     // original spells
     learnDefaultSpells();
 
