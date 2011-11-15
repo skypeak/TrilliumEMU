@@ -66,7 +66,6 @@ enum Texts
 
 enum Gameobjects
 {
-
 };
 
 enum NPCs
@@ -219,7 +218,6 @@ public:
             me->DespawnOrUnsummon();
         }
     };
-
 };
 
 class mob_choas_portal : public CreatureScript
@@ -297,7 +295,6 @@ public:
             me->DespawnOrUnsummon();
         }
     };
-
 };
 
 class mob_void_sentinel : public CreatureScript
@@ -355,7 +352,6 @@ public:
             me->DespawnOrUnsummon();
         }
     };
-
 };
 
 class mob_void_seeker : public CreatureScript
@@ -406,10 +402,7 @@ public:
             me->DespawnOrUnsummon();
         }
     };
-
 };
-
-
 
 void AddSC_boss_setesh()
 {

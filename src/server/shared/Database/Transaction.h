@@ -49,7 +49,6 @@ class Transaction
 
     private:
         bool _cleanedUp;
-
 };
 typedef ACE_Refcounted_Auto_Ptr<Transaction, ACE_Null_Mutex> SQLTransaction;
 

@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2011 TrilliumEMU <http://www.arkania.net/>
 
-
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -60,7 +59,6 @@ class DestinationHolder
 
     private:
         void _findOffSetPoint(float x1, float y1, float x2, float y2, float offset, float &x, float &y);
-
 };
 #endif
 

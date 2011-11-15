@@ -749,7 +749,6 @@ public:
             EnterEvadeIfOutOfCombatArea(uiDiff);
         }
     };
-
 };
 
 enum TeneText
@@ -960,7 +959,6 @@ struct dummy_dragonAI : public ScriptedAI
             pPortal->SetPhaseMask(17,true);
 
             m_guidPortal = pPortal->GetGUID();
-
         }
 
         switch(me->GetEntry())
@@ -1043,7 +1041,6 @@ struct dummy_dragonAI : public ScriptedAI
         }
         m_guidPortal = 0;
     }
-
 
     void JustDied(Unit* /*killer*/)
     {
@@ -1238,7 +1235,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*######
@@ -1364,7 +1360,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*######
@@ -1481,7 +1476,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*######
@@ -1591,7 +1585,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*######
@@ -1685,7 +1678,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*######
@@ -1758,7 +1750,6 @@ public:
         void AttackStart(Unit* /*who*/) {}
         void MoveInLineOfSight(Unit* /*who*/) {}
     };
-
 };
 
 /*######
@@ -1784,7 +1775,6 @@ public:
             DoCast(me,SPELL_FLAME_TSUNAMI_COMBINE_AURA,true);
             fwAction = ACTION_MOVE_NONE;
             me->SetSpeed(MOVE_FLIGHT,2.0f,true);
-
         }
 
         //uint32 Tsunami_Timer;
@@ -1864,7 +1854,6 @@ public:
             //}else TsunamiBuff_timer -= diff;
         }
     };
-
 };
 
 // Twilight Fissure
@@ -1918,7 +1907,6 @@ public:
             } else VoidBlast_Timer -= diff;
         }
     };
-
 };
 
 /*######
@@ -1969,7 +1957,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class go_twilight_portal : public GameObjectScript

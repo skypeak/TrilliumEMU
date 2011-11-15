@@ -70,7 +70,6 @@ public:
         pInstance->SetData(TYPE_BARON_RUN, IN_PROGRESS);
         return false;
     }
-
 };
 
 /*######
@@ -104,7 +103,6 @@ public:
 
         void EnterCombat(Unit* /*who*/) {}
     };
-
 };
 
 /*######
@@ -182,7 +180,6 @@ public:
             }
         }
     };
-
 };
 
 /*######
@@ -279,7 +276,6 @@ public:
             }
         }
     };
-
 };
 
 void AddSC_stratholme()

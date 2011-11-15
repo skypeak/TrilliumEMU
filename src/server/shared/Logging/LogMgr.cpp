@@ -782,7 +782,6 @@ inline void LogMgr::_WriteConsole(LogLevel level, bool appendNewLine, const char
         if (_useColor && appendNewLine)
             ResetConsoleColor(isError);
     }
-
 }
 
 void LogMgr::WriteConsoleLn(LogLevel level, const std::string& msg) const

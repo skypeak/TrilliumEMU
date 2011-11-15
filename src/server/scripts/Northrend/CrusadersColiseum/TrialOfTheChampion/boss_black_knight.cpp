@@ -598,12 +598,6 @@ public:
     };
 };
 
-
-
-
-
-
-
 class npc_gr : public CreatureScript
 {
 public:
@@ -616,7 +610,6 @@ public:
 
     struct npc_grAI : public npc_escortAI
     {
-
         npc_grAI(Creature* creature) : npc_escortAI(creature)
         {
             Start(false,true,0,NULL);
@@ -678,7 +671,6 @@ public:
             }
         }
 
-
         void UpdateAI(const uint32 uiDiff)
         {
             npc_escortAI::UpdateAI(uiDiff);
@@ -686,7 +678,6 @@ public:
             if (!UpdateVictim())
                 return;
         }
-
 };
 };
 

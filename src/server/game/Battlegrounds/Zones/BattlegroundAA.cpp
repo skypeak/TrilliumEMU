@@ -39,7 +39,6 @@ BattlegroundAA::BattlegroundAA()
 
 BattlegroundAA::~BattlegroundAA()
 {
-
 }
 
 void BattlegroundAA::StartingEventCloseDoors()

@@ -39,7 +39,6 @@ public:
 
 private:
     ACE_Reactor* m_Reactor;
-
 };
 
 #endif /* _TRILLIUMEMU_RARUNNABLE_H_ */

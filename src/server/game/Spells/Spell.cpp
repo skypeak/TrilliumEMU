@@ -4631,7 +4631,6 @@ SpellCastResult Spell::CheckCast(bool strict)
             return SPELL_FAILED_MOVING;
     }
 
-
     Vehicle* vehicle = m_caster->GetVehicle();
     if (vehicle && !(_triggeredCastFlags & TRIGGERED_IGNORE_CASTER_MOUNTED_OR_ON_VEHICLE))
     {
@@ -4849,7 +4848,6 @@ SpellCastResult Spell::CheckCast(bool strict)
                     Unit* target = m_targets.GetUnitTarget();
                     if (!target || !target->IsFriendlyTo(m_caster) || target->getAttackers().empty())
                         return SPELL_FAILED_BAD_TARGETS;
-
                 }
                 break;
             }

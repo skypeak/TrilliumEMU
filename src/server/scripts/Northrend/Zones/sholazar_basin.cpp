@@ -491,7 +491,6 @@ public:
 
 enum o_npc_high_oracle_soo_say
 {
-
     ITEM_JALOOTS_FAVORITE_CRYSTAL = 38623,
     ITEM_LAFOOS_BUG_BAG = 38622,
     ITEM_MOODLES_STRESS_BALL = 38624,
@@ -550,7 +549,6 @@ public:
         return true;
     }
 
-
     bool OnGossipHello(Player* pPlayer, Creature* pCreature)
     {
         if (pCreature->isQuestGiver())
@@ -585,7 +583,6 @@ public:
         pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature),pCreature->GetGUID());
         return true;
     }
-
 };
 
 /*####
@@ -807,7 +804,6 @@ public:
                         me->MonsterSay(Special_sayings[7], LANG_UNIVERSAL, 0);
                 break;
                 }
-
             }
 
             void UpdateFollowerAI(const uint32 diff)
@@ -1110,7 +1106,6 @@ public:
     {
         return new npc_mosswalker_victimAI(pCreature);
     }
-
 };
 
 /*######
@@ -1154,7 +1149,6 @@ public:
 
         void Aggro()
         {
-
         }
 
         void JustDied(Unit *killer)
@@ -1193,7 +1187,6 @@ public:
     {
         return new npc_artruis_the_heartlessAI(pCreature);
     }
-
 };
 
 /*#####
@@ -1861,7 +1854,6 @@ public:
 
     bool OnGossipHello(Player* player, Creature* creature)
     {
-
         if (player->GetQuestStatus(12536) == QUEST_STATUS_INCOMPLETE)
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_B, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
         player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
@@ -1971,7 +1963,6 @@ public:
 
     bool OnGossipHello(Player* player, Creature* creature)
     {
-
         if ((player->GetQuestStatus(12536) == QUEST_STATUS_COMPLETE || player->GetQuestStatus(12536) == QUEST_STATUS_REWARDED) && !player->HasItemCount(38512, 1))
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_ZEPIK, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
         player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());

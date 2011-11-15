@@ -333,7 +333,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class achievement_split_personality : public AchievementCriteriaScript

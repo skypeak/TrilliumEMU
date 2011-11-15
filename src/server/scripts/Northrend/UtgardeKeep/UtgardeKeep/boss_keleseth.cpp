@@ -106,7 +106,6 @@ public:
                 me->DealDamage(me, me->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
         }
     };
-
 };
 
 class boss_keleseth : public CreatureScript
@@ -249,7 +248,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class mob_vrykul_skeleton : public CreatureScript
@@ -353,10 +351,8 @@ public:
                 if (me->isAlive())
                     me->DealDamage(me, me->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
             }
-
         }
     };
-
 };
 
 void AddSC_boss_keleseth()

@@ -278,7 +278,6 @@ public:
     {
         return new boss_marwynAI(creature);
     }
-
 };
 
 void AddSC_boss_marwyn()

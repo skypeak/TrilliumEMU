@@ -247,7 +247,6 @@ public:
             return false;
         }
     };
-
 };
 
 void AddSC_instance_onyxias_lair()

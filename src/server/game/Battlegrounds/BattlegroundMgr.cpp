@@ -1171,7 +1171,6 @@ void BattlegroundMgr::LoadBattleMastersEntry()
         }
 
         mBattleMastersMap[entry] = BattlegroundTypeId(bgTypeId);
-
     }
     while (result->NextRow());
 

@@ -7773,7 +7773,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 triggered_spell_id = 50536;
                 basepoints0 += victim->GetRemainingPeriodicAmount(GetGUID(), triggered_spell_id, SPELL_AURA_PERIODIC_DAMAGE);
                 break;
-            }	
+            }
             // Vendetta
             if (dummySpell->SpellFamilyFlags[0] & 0x10000)
             {
@@ -11095,7 +11095,6 @@ int32 Unit::SpellBaseDamageBonus(SpellSchoolMask schoolMask)
         for (AuraEffectList::const_iterator i =mDamageDonebyAP.begin(); i != mDamageDonebyAP.end(); ++i)
             if ((*i)->GetMiscValue() & schoolMask)
                 DoneAdvertisedBenefit += int32(CalculatePctN(GetTotalAttackPowerValue(BASE_ATTACK), (*i)->GetAmount()));
-
     }
     return DoneAdvertisedBenefit > 0 ? DoneAdvertisedBenefit : 0;
 }
@@ -14082,7 +14081,6 @@ void Unit::CleanupBeforeRemoveFromMap(bool finalCleanup)
     DeleteThreatList();
     getHostileRefManager().setOnlineOfflineState(false);
     GetMotionMaster()->Clear(false);                    // remove different non-standard movement generators.
-
 }
 
 void Unit::CleanupsBeforeDelete(bool finalCleanup)
@@ -15600,7 +15598,6 @@ bool Unit::HandleAuraRaidProcFromChargeWithValue(AuraEffect* triggeredByAura)
     // heal
     CastCustomSpell(this, 33110, &heal, NULL, NULL, true, NULL, NULL, caster_guid);
     return true;
-
 }
 bool Unit::HandleAuraRaidProcFromCharge(AuraEffect* triggeredByAura)
 {
@@ -15959,7 +15956,7 @@ void Unit::SetControlled(bool apply, UnitState state)
                 {
                     ClearUnitState(UNIT_STAT_MELEE_ATTACKING);
                     SendMeleeAttackStop();
-                    // SendAutoRepeatCancel ?				
+                    // SendAutoRepeatCancel ?
                     SetConfused(true);
                     CastStop();
                 }
@@ -18017,7 +18014,6 @@ void Unit::SetEclipsePower(int32 power)
     data << int32(eclipse);
     SendMessageToSet(&data, GetTypeId() == TYPEID_PLAYER ? true : false);
 }
-
 
 uint32 Unit::GetHealingDoneInPastSecs(uint32 secs)
 {

@@ -166,7 +166,7 @@ void ConfusedMovementGenerator<T>::Finalize(T &unit)
 {
     unit.RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_CONFUSED);
     unit.ClearUnitState(UNIT_STAT_CONFUSED);
-	
+
     if (unit.GetTypeId() == TYPEID_UNIT && unit.getVictim())
         unit.SetTarget(unit.getVictim()->GetGUID());
 }

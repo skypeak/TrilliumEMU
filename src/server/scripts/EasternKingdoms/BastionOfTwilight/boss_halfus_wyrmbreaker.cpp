@@ -42,7 +42,6 @@ class boss_halfus_wyrmbreaker : public CreatureScript
 				uiFuriousRoarTimer = 30000;
 				uiShadowNovaTimer = 30000;
 				pInstance->SetData(DATA_WYRMBREAKER_EVENT,NOT_STARTED);
-
 			}
 
 			void EnterCombat()
@@ -106,7 +105,6 @@ class boss_halfus_wyrmbreaker : public CreatureScript
 			uint32 uiFuriousRoarTimer;
 			uint32 uiMalevolentStrikeTimer;
 			uint32 uiShadowNovaTimer;
-
 		};
 
 		CreatureAI* GetAI(Creature* pCreature) const
@@ -130,7 +128,6 @@ class npc_proto_behemoth : public CreatureScript{
 			uint64 uiFireballTimer;
 			//uint64 uiScorchingBreathTimer;
 			uint64 uiFireballBaradgeTimer;
-
 
 			void Reset()
 			{
@@ -170,7 +167,6 @@ class npc_proto_behemoth : public CreatureScript{
         {
 			return new npc_proto_behemothAI(pCreature);
         }
-
 };
 
 class npc_halfus_dragon : public CreatureScript{
@@ -251,7 +247,6 @@ class npc_halfus_dragon : public CreatureScript{
 				}
             	return true;
         }
-
 };
 
 class npc_cyclon_winds : public CreatureScript

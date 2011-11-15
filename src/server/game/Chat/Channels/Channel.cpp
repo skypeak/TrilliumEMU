@@ -122,7 +122,6 @@ void Channel::UpdateChannelInDB() const
 
         sLog->outDebug(LOG_FILTER_CHATSYS, "Channel(%s) updated in database", m_name.c_str());
     }
-
 }
 
 void Channel::UpdateChannelUseageInDB() const
@@ -783,12 +782,10 @@ void Channel::SendToOne(WorldPacket *data, uint64 who)
 
 void Channel::Voice(uint64 /*guid1*/, uint64 /*guid2*/)
 {
-
 }
 
 void Channel::DeVoice(uint64 /*guid1*/, uint64 /*guid2*/)
 {
-
 }
 
 // done

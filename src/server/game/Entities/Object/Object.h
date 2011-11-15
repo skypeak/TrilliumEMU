@@ -670,7 +670,7 @@ class WorldObject : public Object, public WorldLocation
             return d > 0.0f ? d : 0.0f;
         }
         float GetDistanceZ(const WorldObject* obj) const;
-		
+
         bool IsSelfOrInSameMap(const WorldObject* obj) const
         {
             if (this == obj)

@@ -332,7 +332,6 @@ class boss_nalorakk : public CreatureScript
                             inMove = false;
                             return;
                     }
-
                 }
             }
 

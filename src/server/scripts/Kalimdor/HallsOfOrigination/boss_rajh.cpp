@@ -220,7 +220,6 @@ public:
             me->DespawnOrUnsummon();
         }
     };
-
 };
 
 void AddSC_boss_rajh()

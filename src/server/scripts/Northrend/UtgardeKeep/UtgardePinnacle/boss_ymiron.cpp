@@ -69,7 +69,6 @@ enum Yells
     SAY_SLAY_3                              = -1575038,
     SAY_SLAY_4                              = -1575039,
     SAY_DEATH                               = -1575040,
-
 };
 
 enum Creatures
@@ -447,7 +446,6 @@ public:
             m_uiCreatureGUID = 0;
         }
     };
-
 };
 
 void AddSC_boss_ymiron()

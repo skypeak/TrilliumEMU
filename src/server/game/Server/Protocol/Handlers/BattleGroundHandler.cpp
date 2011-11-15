@@ -86,7 +86,7 @@ void WorldSession::HandleBattlemasterJoinOpcode(WorldPacket & recv_data)
     recv_data.read_skip<uint32>();  // BG id? somewhy is always 0
     recv_data.read_skip<uint8>();   // unk
     recv_data.read_skip<uint8>();   // unk
-    
+
     bool joinAsGroup = (joinFlags & 0x01); // Make flags enum?
 
     if (!sBattlemasterListStore.LookupEntry(bgTypeId_))
@@ -239,7 +239,6 @@ void WorldSession::HandleBattlemasterJoinOpcode(WorldPacket & recv_data)
             sLog->outDebug(LOG_FILTER_BATTLEGROUND, "Battleground: player joined queue for bg queue type %u bg type %u: GUID %u, NAME %s", bgQueueTypeId, bgTypeId, member->GetGUIDLow(), member->GetName());
         }
         sLog->outDebug(LOG_FILTER_BATTLEGROUND, "Battleground: group end");
-
     }
     sBattlegroundMgr->ScheduleQueueUpdate(0, 0, bgQueueTypeId, bgTypeId, bracketEntry->GetBracketId());
 }

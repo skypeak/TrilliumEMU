@@ -105,7 +105,6 @@ public:
                 DoScriptText(SAY_DISARMED, me);
         }
     };
-
 };
 
 class boss_midnight : public CreatureScript
@@ -226,7 +225,6 @@ public:
             CAST_AI(boss_attumen::boss_attumenAI, pAttumen->AI())->Midnight = value;
         }
     };
-
 };
 
 void boss_attumen::boss_attumenAI::UpdateAI(const uint32 diff)

@@ -154,7 +154,6 @@ enum WorldBoolConfigs
     CONFIG_DUEL_RESET_TWO,
 	CONFIG_DUEL_RESET_COOLDOWN,
 	BOOL_CONFIG_VALUE_COUNT
-	
 };
 
 enum WorldFloatConfigs
@@ -534,7 +533,6 @@ struct GameObjectss
 };
 
 typedef UNORDERED_MAP<uint32, GameObjectss> GameObjectsContainer;
-
 
 struct CharacterNameData
 {

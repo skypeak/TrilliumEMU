@@ -71,7 +71,6 @@ public:
 
         return ai;
     }
-
 };
 
 void AddSC_molten_core()

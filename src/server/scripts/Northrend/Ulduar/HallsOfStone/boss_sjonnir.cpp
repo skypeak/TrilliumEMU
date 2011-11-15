@@ -239,7 +239,6 @@ public:
             return 0;
         }
     };
-
 };
 
 class mob_malformed_ooze : public CreatureScript
@@ -282,7 +281,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class mob_iron_sludge : public CreatureScript
@@ -311,7 +309,6 @@ public:
                     Sjonnir->AI()->DoAction(ACTION_OOZE_DEAD);
         }
     };
-
 };
 
 class achievement_abuse_the_ooze : public AchievementCriteriaScript

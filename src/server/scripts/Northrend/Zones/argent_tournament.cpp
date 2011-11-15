@@ -17,7 +17,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "ScriptPCH.h"
 #include "SpellAuraEffects.h"
 #include "ScriptMgr.h"
@@ -69,7 +68,6 @@ class spell_tournament_charge : public SpellScriptLoader
         }
 };
 
-
 class spell_tournament_shield_breaker : public SpellScriptLoader
 {
     public:
@@ -116,7 +114,6 @@ class spell_tournament_shield_breaker : public SpellScriptLoader
         }
 };
 
-
 class spell_tournament_trust : public SpellScriptLoader
 {
     public:
@@ -153,7 +150,6 @@ class spell_tournament_trust : public SpellScriptLoader
             return new spell_tournament_trust_SpellScript();
         }
 };
-
 
 class spell_tournament_duel : public SpellScriptLoader
 {

@@ -491,8 +491,6 @@ void WorldSession::SendStablePetCallback(QueryResult result, uint64 guid)
             data << fields[5].GetString();                          // name
             data << uint8(fields[1].GetUInt32() <= PET_SLOT_STABLE_FIRST ? 1 : 2);   // 1 = current, 2/3 = in stable (any from 4,5,... create problems with proper show)
 
-
-
             ++num;
         }
         while (result->NextRow());

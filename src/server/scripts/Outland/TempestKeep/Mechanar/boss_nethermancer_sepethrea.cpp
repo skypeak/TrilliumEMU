@@ -249,7 +249,6 @@ class mob_ragin_flames : public CreatureScript
 
                     DoMeleeAttackIfReady();
                 }
-
             };
             CreatureAI* GetAI(Creature* creature) const
             {

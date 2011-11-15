@@ -29,7 +29,7 @@ class Reset_OnDuelEnd : public PlayerScript
 
     void OnDuelEnd(Player *winner, Player *looser, DuelCompleteType type)
     {
-        // reset cooldowns (in order) Elwyn, Durotar, Tirisfal, Tendrasil, Dun Morogh, Gurubashi Arena, Exodar, Mulgore 
+        // reset cooldowns (in order) Elwyn, Durotar, Tirisfal, Tendrasil, Dun Morogh, Gurubashi Arena, Exodar, Mulgore
 		//int32 ZONE_ONE = sWorld->getIntConfig(CONFIG_DUEL_RESET_ONE);
 		//int32 ZONE_TWO = sWorld->getIntConfig(CONFIG_DUEL_RESET_TWO);
         if (sWorld->getBoolConfig(CONFIG_DUEL_RESET_COOLDOWN))
@@ -40,9 +40,9 @@ class Reset_OnDuelEnd : public PlayerScript
 				looser->RemoveArenaSpellCooldowns();
 				winner->SetHealth(winner->GetMaxHealth());
 				looser->SetHealth(looser->GetMaxHealth());
-            if (winner->getPowerType() == POWER_MANA) 
+            if (winner->getPowerType() == POWER_MANA)
                 winner->SetPower(POWER_MANA, winner->GetMaxPower(POWER_MANA));
-            if (looser->getPowerType() == POWER_MANA) 
+            if (looser->getPowerType() == POWER_MANA)
                 looser->SetPower(POWER_MANA, looser->GetMaxPower(POWER_MANA));
 			}
         }

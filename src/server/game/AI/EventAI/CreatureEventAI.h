@@ -592,7 +592,6 @@ struct CreatureEventAIHolder
 
 class CreatureEventAI : public CreatureAI
 {
-
     public:
         explicit CreatureEventAI(Creature* c);
         ~CreatureEventAI()

@@ -19,7 +19,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "ObjectMgr.h"
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
@@ -376,7 +375,6 @@ class boss_blood_queen_lana_thel : public CreatureScript
                                         if (Item* shadowsEdge = _offtank->GetWeaponForAttack(BASE_ATTACK, true))
                                             if (!_offtank->HasAura(SPELL_THIRST_QUENCHED) && shadowsEdge->GetEntry() == ITEM_SHADOW_S_EDGE && !_offtank->HasAura(SPELL_GUSHING_WOUND))
                                                 _offtank->CastSpell(_offtank, SPELL_GUSHING_WOUND, true);
-
                                     }
                                 }
                             }

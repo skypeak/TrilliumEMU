@@ -854,7 +854,6 @@ public:
                             events.ScheduleEvent(EVENT_LIGHTNING_TENDRILS_START, urand(40000, 80000));
                     }
                 break;
-
             }
         }
 

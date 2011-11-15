@@ -65,7 +65,6 @@ public:
 
         return true;
     }
-
 };
 
 /*######
@@ -101,7 +100,6 @@ public:
         player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
         return true;
     }
-
 };
 
 /*######
@@ -135,7 +133,6 @@ public:
 
         return true;
     }
-
 };
 
 /*######
@@ -246,7 +243,6 @@ public:
     {
         return new npc_ranger_lilathaAI(creature);
     }
-
 };
 
 void AddSC_ghostlands()

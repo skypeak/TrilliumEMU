@@ -3438,7 +3438,6 @@ bool ChatHandler::HandleBanListIPCommand(const char *args)
     return true;
 }
 
-
 bool ChatHandler::HandleRespawnCommand(const char* /*args*/)
 {
     Player* pl = m_session->GetPlayer();

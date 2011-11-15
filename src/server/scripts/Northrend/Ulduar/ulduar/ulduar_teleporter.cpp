@@ -116,7 +116,6 @@ public:
         player->SEND_GOSSIP_MENU(pGO->GetGOInfo()->GetGossipMenuId(), pGO->GetGUID());
         return true;
     }
-
 };
 
 void AddSC_ulduar_teleporter()

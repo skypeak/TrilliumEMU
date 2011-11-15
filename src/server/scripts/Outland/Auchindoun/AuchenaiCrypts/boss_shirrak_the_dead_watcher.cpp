@@ -156,7 +156,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class mob_focus_fire : public CreatureScript
@@ -207,7 +206,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 void AddSC_boss_shirrak_the_dead_watcher()

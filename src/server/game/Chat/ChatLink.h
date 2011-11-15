@@ -174,5 +174,4 @@ private:
     std::istringstream _iss;
 };
 
-
 #endif // TRILLIUMEMU_CHATLINK_H

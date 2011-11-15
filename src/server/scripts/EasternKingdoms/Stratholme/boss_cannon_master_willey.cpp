@@ -212,7 +212,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 void AddSC_boss_cannon_master_willey()

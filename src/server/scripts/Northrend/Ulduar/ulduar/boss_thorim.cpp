@@ -276,7 +276,6 @@ SummonLocation giantAddLocations[]=
     {2230.93f, -434.27f, 412.26f, 1.931f, 33110}
 };
 
-
 class boss_thorim : public CreatureScript
 {
 public:
@@ -598,7 +597,6 @@ public:
         }
     };
 };
-
 
 class npc_thorim_pre_phase : public CreatureScript
 {
@@ -1002,7 +1000,6 @@ class npc_runic_smash : public CreatureScript
         private:
             uint32 ExplodeTimer;
         };
-
 
         CreatureAI* GetAI(Creature* creature) const
         {

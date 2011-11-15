@@ -127,7 +127,6 @@ SummonLocation addLocations[]=
 #define NORMAL_COUNT 4
 #define RAID_COUNT 8
 
-
 class boss_hodir : public CreatureScript
 {
 public:
@@ -355,9 +354,7 @@ public:
             }
         }
     };
-
 };
-
 
 class npc_icicle : public CreatureScript
 {
@@ -396,7 +393,6 @@ public:
             else IcicleTimer -= diff;
         }
     };
-
 };
 
 class npc_icicle_snowdrift : public CreatureScript

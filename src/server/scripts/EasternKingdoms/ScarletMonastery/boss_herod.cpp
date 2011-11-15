@@ -111,7 +111,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class mob_scarlet_trainee : public CreatureScript
@@ -151,7 +150,6 @@ public:
             npc_escortAI::UpdateAI(diff);
         }
     };
-
 };
 
 void AddSC_boss_herod()

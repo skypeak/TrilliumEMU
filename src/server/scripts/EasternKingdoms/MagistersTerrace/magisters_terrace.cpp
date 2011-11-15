@@ -164,7 +164,6 @@ public:
             }
         }
     };
-
 };
 
 void AddSC_magisters_terrace()

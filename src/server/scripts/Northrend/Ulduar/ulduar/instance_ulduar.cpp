@@ -474,7 +474,6 @@ public:
                         creature->SetVisible(false);
                     break;
             }
-
          }
 
         void OnGameObjectCreate(GameObject* go)
@@ -655,7 +654,6 @@ public:
                     break;
             }
         }
-
 
         void ProcessEvent(WorldObject* /*gameObject*/, uint32 eventId)
         {

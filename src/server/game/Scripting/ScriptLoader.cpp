@@ -269,7 +269,6 @@ void AddSC_boss_renataki();
 void AddSC_boss_wushoolay();
 void AddSC_instance_zulgurub();
 
-
 //void AddSC_alterac_mountains();
 void AddSC_arathi_highlands();
 void AddSC_blasted_lands();
@@ -297,7 +296,6 @@ void AddSC_undercity();
 void AddSC_western_plaguelands();
 void AddSC_westfall();
 void AddSC_wetlands();
-
 
 //kalimdor
 void AddSC_blackfathom_deeps();              //Blackfathom Depths
@@ -398,7 +396,6 @@ void AddSC_thousand_needles();
 void AddSC_thunder_bluff();
 void AddSC_ungoro_crater();
 void AddSC_winterspring();
-
 
 //northrend
 void AddSC_boss_slad_ran();

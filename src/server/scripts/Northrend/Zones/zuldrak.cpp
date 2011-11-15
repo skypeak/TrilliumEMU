@@ -696,7 +696,6 @@ public:
 
             if (killer->GetTypeId() == TYPEID_PLAYER)
                 killer->GetCharmerOrOwnerPlayerOrPlayerItself()->GroupEventHappens(QUEST_AMPHITHEATER_ANGUISH_TUSKARRMAGEDDON, killer);
-
         }
     };
 
@@ -1084,7 +1083,6 @@ public:
                     SummonList.push_back(summon->GetGUID());
                 }
             }
-
         }
 
         void EnterCombat(Unit* pUnit)
@@ -1211,7 +1209,6 @@ public:
         {
             if (uiData == 1)
                 uiSpell = Boss[uiValue].uiAddSpell;
-
         }
 
         void UpdateAI(const uint32 uiDiff)

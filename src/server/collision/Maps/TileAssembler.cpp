@@ -492,7 +492,6 @@ namespace VMAP
             #undef READ_OR_RETURN
             #undef READ_OR_RETURN_WITH_DELETE
             #undef CMP_OR_RETURN
-
         }
         fclose(rf);
 

@@ -266,7 +266,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 enum eSpells
@@ -437,7 +436,6 @@ public:
             } else uiDespawnTimer -= diff;
         }
     };
-
 };
 
 void AddSC_boss_ingvar_the_plunderer()

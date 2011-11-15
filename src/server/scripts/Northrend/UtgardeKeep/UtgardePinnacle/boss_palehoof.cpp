@@ -269,7 +269,6 @@ public:
             DoCast(me, SPELL_FREEZE);
         }
     };
-
 };
 
 //ravenous furbolg's spells
@@ -382,7 +381,6 @@ public:
             DoCast(me, SPELL_FREEZE);
         }
     };
-
 };
 
 //frenzied worgen's spells
@@ -497,7 +495,6 @@ public:
             DoCast(me, SPELL_FREEZE);
         }
     };
-
 };
 
 //ferocious rhino's spells
@@ -612,7 +609,6 @@ public:
             DoCast(me, SPELL_FREEZE);
         }
     };
-
 };
 
 //massive jormungar's spells
@@ -733,7 +729,6 @@ public:
             DoCast(me, SPELL_FREEZE);
         }
     };
-
 };
 
 class mob_palehoof_orb : public CreatureScript
@@ -793,7 +788,6 @@ public:
                         pNext->SetStandState(UNIT_STAND_STATE_STAND);
                         pNext->SetInCombatWithZone();
                         pNext->Attack(pNext->SelectNearestTarget(100), true);
-
                    }
                    currentPhase = PHASE_NONE;
                 }
@@ -822,7 +816,6 @@ public:
             SummonTimer = 5000;
         }
     };
-
 };
 
 class go_palehoof_sphere : public GameObjectScript
@@ -844,7 +837,6 @@ public:
         }
         return true;
     }
-
 };
 
 void AddSC_boss_palehoof()

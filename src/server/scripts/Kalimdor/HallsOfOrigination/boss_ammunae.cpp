@@ -59,8 +59,6 @@ enum Spells
     //Spore
     SPELL_NOXIOUS_SPORE                    = 75702,    //Triggered by Spore Cloud
     SPELL_SPORE_CLOUD                      = 75701
-
-
 };
 
 enum NPCs
@@ -80,7 +78,6 @@ enum ScriptTexts
 
 enum Gameobjects
 {
-
 };
 
 enum Events
@@ -267,7 +264,6 @@ public:
             me->DespawnOrUnsummon();
         }
     };
-
 };
 
 class mob_seed_pod : public CreatureScript
@@ -340,7 +336,6 @@ public:
             me->DespawnOrUnsummon();
         }
     };
-
 };
 
 class mob_spore : public CreatureScript
@@ -391,9 +386,7 @@ public:
             me->DespawnOrUnsummon();
         }
     };
-
 };
-
 
 void AddSC_boss_ammunae()
 {

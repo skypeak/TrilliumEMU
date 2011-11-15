@@ -553,7 +553,6 @@ void WorldSession::HandleCharCreateCallback(PreparedQueryResult result, Characte
                 return;
             }
 
-
             ASSERT(_charCreateCallback.GetParam() == createInfo);
 
             PreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_GET_SUM_CHARS);
@@ -749,7 +748,7 @@ void WorldSession::HandleCharCreateCallback(PreparedQueryResult result, Characte
             createInfo->CharCount += 1;
 
             SQLTransaction trans = LoginDatabase.BeginTransaction();
-			
+
 			// Count guids and assign the first free
 			QueryResult result2 = CharacterDatabase.PQuery("SELECT id FROM character_pet ORDER BY id DESC LIMIT 1");
 			uint32 pet_id = 1;
@@ -809,7 +808,7 @@ void WorldSession::HandleCharCreateCallback(PreparedQueryResult result, Characte
 			CharacterDatabase.PExecute("UPDATE characters SET currentPetSlot = '0', petSlotUsed = '1' WHERE guid = %u", newChar.GetGUIDLow());
 			newChar.SetTemporaryUnsummonedPetNumber(pet_id);
 			}
-			
+
             PreparedStatement* stmt = LoginDatabase.GetPreparedStatement(LOGIN_DEL_REALMCHARACTERS);
             stmt->setUInt32(0, GetAccountId());
             stmt->setUInt32(1, realmID);

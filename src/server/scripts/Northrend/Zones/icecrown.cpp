@@ -387,7 +387,6 @@ public:
                 who->CastSpell(who, SPELL_TRESPASSER_H, true);
             else
                 who->CastSpell(who, SPELL_TRESPASSER_A, true);
-
         }
     };
 
@@ -429,7 +428,6 @@ public:
                         {
                             owner->ToPlayer()->KilledMonsterCredit(NPC_GEIST_RETURN_BUNNY_KC, 0);
                             who->ToCreature()->DisappearAndDie();
-
                     }
                 }
             }
@@ -569,7 +567,6 @@ enum BlessedBannerSummondNPCs
     ENTRY_HIDEOUS_PLAGEBRINGER          = 30987,
     ENTRY_HALOF_THE_DEATHBRINGER        = 30989,
 };
-
 
 const Position CrusaderPos[8] =
 {
@@ -720,9 +717,7 @@ public:
                             break;
                         }
                         says++;
-
                     }else say_Timer -= diff;
-
 
                 if(uiSummon_Timer <= diff)
                 {
@@ -786,7 +781,6 @@ public:
                                 tempsum->SetHomePosition(CrusaderPos[0]);
                             }
                         }
-
                     }
 
                     PhaseCount++;
@@ -1433,7 +1427,6 @@ public:
     };
 };
 
-
 class spell_tournament_defend : public SpellScriptLoader
 {
     public:
@@ -1622,7 +1615,6 @@ enum eAchievementsTournamentFactionChampion
     ACHIEVEMENT_CHAMPION_OF_SILVERMOON      = 2785,
     ACHIEVEMENT_CHAMPION_OF_THUNDERBLUFF    = 2786,
     ACHIEVEMENT_CHAMPION_OF_UNDERCITY       = 2787,
-
 };
 
 enum eNPCVendorEntrys
@@ -1638,7 +1630,6 @@ enum eNPCVendorEntrys
     ENTRY_SILVERMOON_VENDOR                 = 33557,
     ENTRY_THUNDERBLUFF_VENDOR               = 33556,
     ENTRY_UNDERCITY_VENDOR                  = 33555,
-
 };
 
 class npc_vendor_tournament_fraction_champion : public CreatureScript
@@ -1957,7 +1948,6 @@ public:
         }
     }
 
-
     bool OnGossipHello(Player* player, Creature* creature)
     {
         switch(creature->GetEntry())
@@ -2226,13 +2216,11 @@ public:
     }
 };
 
-
 enum eBlackKnight
 {
     SPELL_BK_CHARGE                 = 63003,
     //SPELL_SHIELD_BREAKER        = 65147,
     SPELL_DARK_SHIELD               = 64505,
-
 };
 
 #define YELL_ATTACK_PHASE_1_END         "Get off that horse and fight me man-to-man!"
@@ -2307,13 +2295,11 @@ public:
 
             if(uiId == 1)
             {
-
                 chargeing = false;
 
                 DoCastVictim(SPELL_BK_CHARGE);
                 if(me->getVictim())
                     me->GetMotionMaster()->MoveChase(me->getVictim());
-
             }else if(uiId == 2)
             {
                 if(Player* plr = Player::GetPlayer(*me,guidAttacker))
@@ -2540,7 +2526,6 @@ enum eSquireGruntling
     SPELL_PEND_UND                  = 63441,
     SPELL_PEND_THU                  = 63445,
 
-
     ACHIEVEMENT_CHAMP_DARNASSUS     = 2777,
     ACHIEVEMENT_CHAMP_GNOMEREGAN    = 2779,
     ACHIEVEMENT_CHAMP_IRONFORGE     = 2780,
@@ -2745,7 +2730,6 @@ public:
         pPlayer->CLOSE_GOSSIP_MENU();
         return true;
     }
-
 };
 
 /*######
@@ -3005,7 +2989,6 @@ public:
                     uiSpeakTimer = 3000;
                 }else uiSpeakTimer -= uiDiff;
 
-
                 if(Creature* cre = Creature::GetCreature(*me,guidAssassin))
                 {
                     if(cre->isDead())
@@ -3017,7 +3000,6 @@ public:
                     bEventRunning = false;
                     summons.DespawnAll();
                 }
-
             }
         }
     };
@@ -3123,7 +3105,6 @@ class spell_flaming_spear_targeting : public SpellScriptLoader
                         i--;
                     }
                 }
-
             }
 
             void Register()

@@ -31,7 +31,6 @@ CreatureGroupInfoType   CreatureGroupMap;
 
 namespace FormationMgr
 {
-
 void AddCreatureToGroup(uint32 groupId, Creature* member)
 {
     Map* map = member->FindMap();
@@ -102,7 +101,6 @@ void LoadCreatureFormations()
             uint32 guid = fields[0].GetUInt32();
 
             guidSet.insert(guid);
-
         } while (guidResult->NextRow());
     }
 
@@ -156,7 +154,6 @@ void LoadCreatureFormations()
     sLog->outString(">> Loaded %u creatures in formations in %u ms", count, GetMSTimeDiffToNow(oldMSTime));
     sLog->outString();
 }
-
 } // Namespace
 
 void CreatureGroup::AddMember(Creature* member)

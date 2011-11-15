@@ -589,7 +589,6 @@ public:
                 me->SummonCreature(CREATURE_TRIGGER, Location[i]);
         }
     };
-
 };
 
 class go_harpoon_launcher : public GameObjectScript

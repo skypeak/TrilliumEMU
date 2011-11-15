@@ -38,7 +38,6 @@ public:
     {
 		instance_the_bastion_of_twilight_InstanceMapScript(Map* map) : InstanceScript(map) {}
 
-
 		void Initialize()
         {
              for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
@@ -62,7 +61,6 @@ public:
              if (instance->IsHeroic())
                  uiSinestra = 0;
              uiAscendantCouncilPhase = 1;
-
         }
 
 		bool IsEncounterInProgress() const
@@ -355,7 +353,6 @@ public:
                     }
                     else uiHalfusNormalTimer = 604800000;
 				}
-
             }
             else OUT_LOAD_INST_DATA_FAIL;
 
@@ -401,7 +398,6 @@ public:
             }
             else if (uiAscendantCouncilPhase == 3)
             {
-
             }
         }
 
@@ -458,7 +454,6 @@ public:
 		uint32 uiTeamInInstance;
 		uint32 uiEncounter[MAX_ENCOUNTER];
         uint8  uiAscendantCouncilPhase;
-
 	};
 };
 void AddSC_instance_the_bastion_of_twilight()

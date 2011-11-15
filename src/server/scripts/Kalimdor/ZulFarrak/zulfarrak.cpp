@@ -188,7 +188,6 @@ public:
                    crew->setFaction(FACTION_HOSTILE);
         }
     };
-
 };
 
 /*######
@@ -226,7 +225,6 @@ public:
         }
         return false;
     }
-
 };
 
 /*######
@@ -386,7 +384,6 @@ public:
             }
         }
     };
-
 };
 
 /*######
@@ -421,7 +418,6 @@ public:
         pGo->AddUse();
         return false;
     }
-
 };
 
 /*######
@@ -449,7 +445,6 @@ public:
         pZumrah->setFaction(ZUMRAH_HOSTILE_FACTION);
         return true;
     }
-
 };
 
 void AddSC_zulfarrak()
