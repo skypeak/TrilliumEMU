@@ -194,11 +194,11 @@ public:
         {
             if (m_pInstance && m_pInstance->GetData(TYPE_VALKIRIES) != DONE)
             {
-                Map* pMap = me->GetMap();
-                if (pMap && pMap->IsDungeon())
+                Map* map = me->GetMap();
+                if (map && map->IsDungeon())
                 {
-                    pMap->LoadGrid(563.46f, 139.33f);
-                    Map::PlayerList const &PlayerList = pMap->GetPlayers();
+                    map->LoadGrid(563.46f, 139.33f);
+                    Map::PlayerList const &PlayerList = map->GetPlayers();
 
                     if (!PlayerList.isEmpty())
                         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)

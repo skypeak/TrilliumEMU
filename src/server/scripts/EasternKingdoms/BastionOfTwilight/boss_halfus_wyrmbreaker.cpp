@@ -30,9 +30,9 @@ class boss_halfus_wyrmbreaker : public CreatureScript
 
 		struct boss_halfus_wyrmbreakerAI : public BossAI
 		{
-			boss_halfus_wyrmbreakerAI(Creature * pCreature) : BossAI(pCreature, DATA_WYRMBREAKER)
+			boss_halfus_wyrmbreakerAI(Creature * creature) : BossAI(creature, DATA_WYRMBREAKER)
 			{
-				pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+				pInstance = (InstanceScript*)creature->GetInstanceScript();
 			}
 
 			void Reset()
@@ -107,9 +107,9 @@ class boss_halfus_wyrmbreaker : public CreatureScript
 			uint32 uiShadowNovaTimer;
 		};
 
-		CreatureAI* GetAI(Creature* pCreature) const
+		CreatureAI* GetAI(Creature* creature) const
         {
-			return new boss_halfus_wyrmbreakerAI(pCreature);
+			return new boss_halfus_wyrmbreakerAI(creature);
         }
 };
 
@@ -118,9 +118,9 @@ class npc_proto_behemoth : public CreatureScript{
 		npc_proto_behemoth() : CreatureScript("npc_proto_behemoth") { }
 
 		struct npc_proto_behemothAI : public ScriptedAI {
-			npc_proto_behemothAI(Creature * pCreature) : ScriptedAI(pCreature)
+			npc_proto_behemothAI(Creature * creature) : ScriptedAI(creature)
 			{
-				pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+				pInstance = (InstanceScript*)creature->GetInstanceScript();
 			}
 
 			InstanceScript* pInstance;
@@ -163,9 +163,9 @@ class npc_proto_behemoth : public CreatureScript{
 			}
 		};
 
-		CreatureAI* GetAI(Creature* pCreature) const
+		CreatureAI* GetAI(Creature* creature) const
         {
-			return new npc_proto_behemothAI(pCreature);
+			return new npc_proto_behemothAI(creature);
         }
 };
 
@@ -174,9 +174,9 @@ class npc_halfus_dragon : public CreatureScript{
 		npc_halfus_dragon() : CreatureScript("npc_halfus_dragon") { }
 
 		struct npc_halfus_dragonAI : public ScriptedAI {
-			npc_halfus_dragonAI(Creature * pCreature) : ScriptedAI(pCreature)
+			npc_halfus_dragonAI(Creature * creature) : ScriptedAI(creature)
 			{
-				pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+				pInstance = (InstanceScript*)creature->GetInstanceScript();
 			}
 
 			InstanceScript* pInstance;
@@ -199,24 +199,24 @@ class npc_halfus_dragon : public CreatureScript{
 			}
 		};
 
-		CreatureAI* GetAI(Creature* pCreature) const
+		CreatureAI* GetAI(Creature* creature) const
         {
-			return new npc_halfus_dragonAI(pCreature);
+			return new npc_halfus_dragonAI(creature);
         }
 
-		bool OnGossipHello(Player* pPlayer, Creature* pCreature){
+		bool OnGossipHello(Player* pPlayer, Creature* creature){
 			char const* _message = "Simple Text!";
 			pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT,_message,GOSSIP_SENDER_MAIN ,GOSSIP_ACTION_INFO_DEF+1);
-			pPlayer->SEND_GOSSIP_MENU(68,pCreature->GetGUID());
+			pPlayer->SEND_GOSSIP_MENU(68,creature->GetGUID());
 
 			return true;
 		}
 
-		bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 /*uiSender*/, uint32 uiAction)
+		bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
         {
             	pPlayer->PlayerTalkClass->ClearMenus();
 				InstanceScript* pInstance;
-            	pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+            	pInstance = (InstanceScript*)creature->GetInstanceScript();
 				if (!pInstance) return false;
 
 				pPlayer->CLOSE_GOSSIP_MENU();
@@ -224,24 +224,24 @@ class npc_halfus_dragon : public CreatureScript{
             	switch (uiAction)
             	{
 					case GOSSIP_ACTION_INFO_DEF+1:
-						if (Creature * Halfus = Unit::GetCreature(*pCreature,pInstance->GetData64(DATA_WYRMBREAKER)))
+						if (Creature * Halfus = Unit::GetCreature(*creature,pInstance->GetData64(DATA_WYRMBREAKER)))
 						{
-							switch (pCreature->GetEntry())
+							switch (creature->GetEntry())
 							{
 								case NPC_SLATE_DRAKE:
-									pCreature->AddAura(SPELL_STONE_TOUCH,Halfus);
+									creature->AddAura(SPELL_STONE_TOUCH,Halfus);
 									break;
 								case NPC_NETHER_SCION:
-									pCreature->AddAura(SPELL_NETHER_BLINDNESS,Halfus);
+									creature->AddAura(SPELL_NETHER_BLINDNESS,Halfus);
 									break;
 								case NPC_STORM_RIDER:
-                                    pCreature->CastSpell(pCreature->GetPositionX(),pCreature->GetPositionY(),pCreature->GetPositionZ(),SPELL_CYCLONE_WINDS,false);
+                                    creature->CastSpell(creature->GetPositionX(),creature->GetPositionY(),creature->GetPositionZ(),SPELL_CYCLONE_WINDS,false);
 									break;
 							}
-							Halfus->AddAura(SPELL_BIND_WILL,pCreature);
-                            pCreature->SetAuraStack(SPELL_DRAGON_VENGEANCE,Halfus,Halfus->GetAuraCount(SPELL_DRAGON_VENGEANCE)+1);
-							pCreature->SetReactState(REACT_AGGRESSIVE);
-							pCreature->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
+							Halfus->AddAura(SPELL_BIND_WILL,creature);
+                            creature->SetAuraStack(SPELL_DRAGON_VENGEANCE,Halfus,Halfus->GetAuraCount(SPELL_DRAGON_VENGEANCE)+1);
+							creature->SetReactState(REACT_AGGRESSIVE);
+							creature->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
 						}
 						break;
 				}
@@ -256,9 +256,9 @@ class npc_cyclon_winds : public CreatureScript
 
         struct npc_cyclon_windsAI : public ScriptedAI
         {
-            npc_cyclon_windsAI(Creature * pCreature) : ScriptedAI(pCreature)
+            npc_cyclon_windsAI(Creature * creature) : ScriptedAI(creature)
             {
-                pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+                pInstance = (InstanceScript*)creature->GetInstanceScript();
             }
 
             InstanceScript* pInstance;
@@ -282,9 +282,9 @@ class npc_cyclon_winds : public CreatureScript
             }
         };
 
-        CreatureAI * GetAI(Creature * pCreature) const
+        CreatureAI * GetAI(Creature * creature) const
         {
-            return new npc_cyclon_windsAI(pCreature);
+            return new npc_cyclon_windsAI(creature);
         }
 };
 class spell_cyclon_winds : public SpellScriptLoader

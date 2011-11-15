@@ -660,13 +660,13 @@ void Creature::DoFleeToGetAssistance()
     float radius = sWorld->getFloatConfig(CONFIG_CREATURE_FAMILY_FLEE_ASSISTANCE_RADIUS);
     if (radius >0)
     {
-        Creature* pCreature = NULL;
+        Creature* creature = NULL;
 
         CellCoord p(Trillium::ComputeCellCoord(GetPositionX(), GetPositionY()));
         Cell cell(p);
         cell.SetNoCreate();
         Trillium::NearestAssistCreatureInCreatureRangeCheck u_check(this, getVictim(), radius);
-        Trillium::CreatureLastSearcher<Trillium::NearestAssistCreatureInCreatureRangeCheck> searcher(this, pCreature, u_check);
+        Trillium::CreatureLastSearcher<Trillium::NearestAssistCreatureInCreatureRangeCheck> searcher(this, creature, u_check);
 
         TypeContainerVisitor<Trillium::CreatureLastSearcher<Trillium::NearestAssistCreatureInCreatureRangeCheck>, GridTypeMapContainer > grid_creature_searcher(searcher);
 
@@ -675,12 +675,12 @@ void Creature::DoFleeToGetAssistance()
         SetNoSearchAssistance(true);
         UpdateSpeed(MOVE_RUN, false);
 
-        if (!pCreature)
+        if (!creature)
             //SetFeared(true, getVictim()->GetGUID(), 0 , sWorld->getIntConfig(CONFIG_CREATURE_FAMILY_FLEE_DELAY));
             //TODO: use 31365
             SetControlled(true, UNIT_STAT_FLEEING);
         else
-            GetMotionMaster()->MoveSeekAssistance(pCreature->GetPositionX(), pCreature->GetPositionY(), pCreature->GetPositionZ());
+            GetMotionMaster()->MoveSeekAssistance(creature->GetPositionX(), creature->GetPositionY(), creature->GetPositionZ());
     }
 }
 
@@ -1445,14 +1445,14 @@ bool Creature::canStartAttack(Unit const* who, bool force) const
     return IsWithinLOSInMap(who);
 }
 
-float Creature::GetAttackDistance(Unit const* pl) const
+float Creature::GetAttackDistance(Unit const* player) const
 {
     float aggroRate = sWorld->getRate(RATE_CREATURE_AGGRO);
     if (aggroRate == 0)
         return 0.0f;
 
-    uint32 playerlevel   = pl->getLevelForTarget(this);
-    uint32 creaturelevel = getLevelForTarget(pl);
+    uint32 playerlevel   = player->getLevelForTarget(this);
+    uint32 creaturelevel = getLevelForTarget(player);
 
     int32 leveldif       = int32(playerlevel) - int32(creaturelevel);
 
@@ -1473,7 +1473,7 @@ float Creature::GetAttackDistance(Unit const* pl) const
         RetDistance += GetTotalAuraModifier(SPELL_AURA_MOD_DETECT_RANGE);
 
         // detected range auras
-        RetDistance += pl->GetTotalAuraModifier(SPELL_AURA_MOD_DETECTED_RANGE);
+        RetDistance += player->GetTotalAuraModifier(SPELL_AURA_MOD_DETECTED_RANGE);
     }
 
     // "Minimum Aggro Radius for a mob seems to be combat range (5 yards)"
@@ -1682,9 +1682,9 @@ bool Creature::IsImmunedToSpellEffect(SpellInfo const* spellInfo, uint32 index) 
     return Unit::IsImmunedToSpellEffect(spellInfo, index);
 }
 
-SpellInfo const *Creature::reachWithSpellAttack(Unit *pVictim)
+SpellInfo const *Creature::reachWithSpellAttack(Unit *victim)
 {
-    if (!pVictim)
+    if (!victim)
         return NULL;
 
     for (uint32 i=0; i < CREATURE_MAX_SPELLS; ++i)
@@ -1717,7 +1717,7 @@ SpellInfo const *Creature::reachWithSpellAttack(Unit *pVictim)
             continue;
         float range = spellInfo->GetMaxRange(false);
         float minrange = spellInfo->GetMinRange(false);
-        float dist = GetDistance(pVictim);
+        float dist = GetDistance(victim);
         if (dist > range || dist < minrange)
             continue;
         if (spellInfo->PreventionType == SPELL_PREVENTION_TYPE_SILENCE && HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SILENCED))
@@ -1729,9 +1729,9 @@ SpellInfo const *Creature::reachWithSpellAttack(Unit *pVictim)
     return NULL;
 }
 
-SpellInfo const *Creature::reachWithSpellCure(Unit *pVictim)
+SpellInfo const *Creature::reachWithSpellCure(Unit *victim)
 {
-    if (!pVictim)
+    if (!victim)
         return NULL;
 
     for (uint32 i=0; i < CREATURE_MAX_SPELLS; ++i)
@@ -1761,8 +1761,8 @@ SpellInfo const *Creature::reachWithSpellCure(Unit *pVictim)
 
         float range = spellInfo->GetMaxRange(true);
         float minrange = spellInfo->GetMinRange(true);
-        float dist = GetDistance(pVictim);
-        //if (!isInFront(pVictim, range) && spellInfo->AttributesEx)
+        float dist = GetDistance(victim);
+        //if (!isInFront(victim, range) && spellInfo->AttributesEx)
         //    continue;
         if (dist > range || dist < minrange)
             continue;
@@ -1999,30 +1999,30 @@ void Creature::SaveRespawnTime()
 }
 
 // this should not be called by petAI or
-bool Creature::canCreatureAttack(Unit const *pVictim, bool force) const
+bool Creature::canCreatureAttack(Unit const *victim, bool force) const
 {
-    if (!pVictim->IsInMap(this))
+    if (!victim->IsInMap(this))
         return false;
 
-    if (!IsValidAttackTarget(pVictim))
+    if (!IsValidAttackTarget(victim))
         return false;
 
-    if (!pVictim->isInAccessiblePlaceFor(this))
+    if (!victim->isInAccessiblePlaceFor(this))
         return false;
 
-    if (IsAIEnabled && !AI()->CanAIAttack(pVictim))
+    if (IsAIEnabled && !AI()->CanAIAttack(victim))
         return false;
 
     if (sMapStore.LookupEntry(GetMapId())->IsDungeon())
         return true;
 
     //Use AttackDistance in distance check if threat radius is lower. This prevents creature bounce in and out of combat every update tick.
-    float dist = std::max(GetAttackDistance(pVictim), sWorld->getFloatConfig(CONFIG_THREAT_RADIUS)) + m_CombatDistance;
+    float dist = std::max(GetAttackDistance(victim), sWorld->getFloatConfig(CONFIG_THREAT_RADIUS)) + m_CombatDistance;
 
     if (Unit *unit = GetCharmerOrOwner())
-        return pVictim->IsWithinDist(unit, dist);
+        return victim->IsWithinDist(unit, dist);
     else
-        return pVictim->IsInDist(&m_homePosition, dist);
+        return victim->IsInDist(&m_homePosition, dist);
 }
 
 CreatureAddon const* Creature::GetCreatureAddon() const
@@ -2128,15 +2128,15 @@ void Creature::SetInCombatWithZone()
         return;
     }
 
-    Map* pMap = GetMap();
+    Map* map = GetMap();
 
-    if (!pMap->IsDungeon())
+    if (!map->IsDungeon())
     {
-        sLog->outError("Creature entry %u call SetInCombatWithZone for map (id: %u) that isn't an instance.", GetEntry(), pMap->GetId());
+        sLog->outError("Creature entry %u call SetInCombatWithZone for map (id: %u) that isn't an instance.", GetEntry(), map->GetId());
         return;
     }
 
-    Map::PlayerList const &PlList = pMap->GetPlayers();
+    Map::PlayerList const &PlList = map->GetPlayers();
 
     if (PlList.isEmpty())
         return;

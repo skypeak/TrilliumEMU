@@ -80,16 +80,16 @@ class boss_isiset : public CreatureScript
     public:
         boss_isiset() : CreatureScript("boss_isiset") { }
 
-        CreatureAI* GetAI(Creature* pCreature) const
+        CreatureAI* GetAI(Creature* creature) const
         {
-            return new boss_isisetAI(pCreature);
+            return new boss_isisetAI(creature);
         }
 
         struct boss_isisetAI : public ScriptedAI
         {
-            boss_isisetAI(Creature* pCreature) : ScriptedAI(pCreature)
+            boss_isisetAI(Creature* creature) : ScriptedAI(creature)
             {
-                pInstance = pCreature->GetInstanceScript();
+                pInstance = creature->GetInstanceScript();
                 SetCombatMovement(true);
             }
 

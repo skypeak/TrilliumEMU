@@ -49,7 +49,7 @@ class instance_deadmines : public InstanceMapScript
 
         struct instance_deadmines_InstanceMapScript : public InstanceScript
         {
-            instance_deadmines_InstanceMapScript(Map* pMap) : InstanceScript(pMap) {}
+            instance_deadmines_InstanceMapScript(Map* map) : InstanceScript(map) {}
 
             uint64 FactoryDoorGUID;
             uint64 IronCladDoorGUID;
@@ -245,9 +245,9 @@ class instance_deadmines : public InstanceMapScript
             }
         };
 
-        InstanceScript* GetInstanceScript(InstanceMap* pMap) const
+        InstanceScript* GetInstanceScript(InstanceMap* map) const
         {
-            return new instance_deadmines_InstanceMapScript(pMap);
+            return new instance_deadmines_InstanceMapScript(map);
         }
 };
 

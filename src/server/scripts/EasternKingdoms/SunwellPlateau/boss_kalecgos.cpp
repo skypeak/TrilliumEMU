@@ -537,11 +537,11 @@ public:
     bool OnGossipHello(Player* player, GameObject* pGo)
     {
         uint8 SpectralPlayers = 0;
-        Map* pMap = pGo->GetMap();
-        if (!pMap->IsDungeon())
+        Map* map = pGo->GetMap();
+        if (!map->IsDungeon())
             return true;
 
-        Map::PlayerList const &PlayerList = pMap->GetPlayers();
+        Map::PlayerList const &PlayerList = map->GetPlayers();
         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
         {
             if (i->getSource() && i->getSource()->GetPositionZ() < DEMON_REALM_Z + 5)
@@ -668,9 +668,9 @@ public:
 
         void TeleportAllPlayersBack()
         {
-            Map* pMap = me->GetMap();
-            if (!pMap->IsDungeon()) return;
-            Map::PlayerList const &PlayerList = pMap->GetPlayers();
+            Map* map = me->GetMap();
+            if (!map->IsDungeon()) return;
+            Map::PlayerList const &PlayerList = map->GetPlayers();
             for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
             {
                 if (i->getSource()->GetPositionZ() <= DRAGON_REALM_Z-5)

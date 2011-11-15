@@ -369,9 +369,9 @@ class boss_janalai : public CreatureScript
                     BombSequenceTimer = 100;
 
                     //Teleport every Player into the middle
-                    Map* pMap = me->GetMap();
-                    if (!pMap->IsDungeon()) return;
-                    Map::PlayerList const &PlayerList = pMap->GetPlayers();
+                    Map* map = me->GetMap();
+                    if (!map->IsDungeon()) return;
+                    Map::PlayerList const &PlayerList = map->GetPlayers();
                     for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
                         if (Player* i_pl = i->getSource())
                             if (i_pl->isAlive())

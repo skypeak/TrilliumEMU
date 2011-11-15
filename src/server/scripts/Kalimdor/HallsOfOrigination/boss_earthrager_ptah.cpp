@@ -86,9 +86,9 @@ class boss_ptah : public CreatureScript
 
         struct boss_ptahAI : public ScriptedAI
         {
-            boss_ptahAI(Creature* pCreature) : ScriptedAI(pCreature), Summons(me)
+            boss_ptahAI(Creature* creature) : ScriptedAI(creature), Summons(me)
             {
-                pInstance = pCreature->GetInstanceScript();
+                pInstance = creature->GetInstanceScript();
             }
 
             InstanceScript* pInstance;

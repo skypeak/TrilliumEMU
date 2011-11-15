@@ -49,8 +49,8 @@ namespace Trillium
     class AchievementChatBuilder
     {
         public:
-            AchievementChatBuilder(Player const& pl, ChatMsg msgtype, int32 textId, uint32 ach_id)
-                : i_player(pl), i_msgtype(msgtype), i_textId(textId), i_achievementId(ach_id) {}
+            AchievementChatBuilder(Player const& player, ChatMsg msgtype, int32 textId, uint32 ach_id)
+                : i_player(player), i_msgtype(msgtype), i_textId(textId), i_achievementId(ach_id) {}
             void operator()(WorldPacket& data, LocaleConstant loc_idx)
             {
                 char const* text = sObjectMgr->GetTrilliumString(i_textId, loc_idx);

@@ -34,9 +34,9 @@ class boss_theralion : public CreatureScript
 
         struct boss_theralionAI : public BossAI
         {
-            boss_theralionAI(Creature * pCreature) : BossAI(pCreature,DATA_THERALION), summons(me)
+            boss_theralionAI(Creature * creature) : BossAI(creature,DATA_THERALION), summons(me)
             {
-                pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+                pInstance = (InstanceScript*)creature->GetInstanceScript();
             }
 
             void Reset()
@@ -72,11 +72,11 @@ class boss_theralion : public CreatureScript
                 return me->GetCreature(*me,pInstance->GetData64(DATA_VALIONA));
             }
 
-            void JustSummoned(Creature * pCreature)
+            void JustSummoned(Creature * creature)
             {
-                if (pCreature->GetEntry() == NPC_THERALION_FLIGHT_TARGET_STALKER)
+                if (creature->GetEntry() == NPC_THERALION_FLIGHT_TARGET_STALKER)
                 {
-                    DoCast(pCreature,SPELL_TWILIGHT_BLAST);
+                    DoCast(creature,SPELL_TWILIGHT_BLAST);
                 }
             }
 
@@ -188,9 +188,9 @@ class boss_theralion : public CreatureScript
             uint32 uiDazzlingDestructionTimer;
         };
 
-        CreatureAI* GetAI(Creature* pCreature) const
+        CreatureAI* GetAI(Creature* creature) const
         {
-            return new boss_theralionAI(pCreature);
+            return new boss_theralionAI(creature);
         }
 };
 class boss_valiona : public CreatureScript
@@ -200,9 +200,9 @@ class boss_valiona : public CreatureScript
 
         struct boss_valionaAI : public BossAI
         {
-            boss_valionaAI(Creature * pCreature) : BossAI(pCreature,DATA_VALIONA)
+            boss_valionaAI(Creature * creature) : BossAI(creature,DATA_VALIONA)
             {
-                pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+                pInstance = (InstanceScript*)creature->GetInstanceScript();
             }
 
             void Reset()
@@ -293,9 +293,9 @@ class boss_valiona : public CreatureScript
             uint32 uiTwilightMeteoriteTimer;
         };
 
-        CreatureAI * GetAI(Creature * pCreature) const
+        CreatureAI * GetAI(Creature * creature) const
         {
-            return new boss_valionaAI(pCreature);
+            return new boss_valionaAI(creature);
         }
 };
 class spell_dazzling_destruction : public SpellScriptLoader

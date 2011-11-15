@@ -108,9 +108,9 @@ class boss_general_umbriss : public CreatureScript
 
         struct boss_general_umbrissAI : public ScriptedAI
         {
-            boss_general_umbrissAI(Creature* pCreature) : ScriptedAI(pCreature), Summons(me)
+            boss_general_umbrissAI(Creature* creature) : ScriptedAI(creature), Summons(me)
             {
-                pInstance = pCreature->GetInstanceScript();
+                pInstance = creature->GetInstanceScript();
             }
 
             InstanceScript* pInstance;
@@ -194,7 +194,7 @@ class boss_general_umbriss : public CreatureScript
                 DoMeleeAttackIfReady();
             }
 
-            void KilledUnit(Unit* /*pVictim*/)
+            void KilledUnit(Unit* /*victim*/)
             {
                 DoScriptText(SAY_SLAY_1, me);
             }
@@ -262,9 +262,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_malveillantAI (pCreature);
+        return new npc_malveillantAI (creature);
     }
 };
 
@@ -314,9 +314,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_habitantAI (pCreature);
+        return new npc_habitantAI (creature);
     }
 };
 

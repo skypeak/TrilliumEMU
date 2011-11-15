@@ -72,7 +72,7 @@ public:
              return false;
         }
 
-		void OnCreatureCreate(Creature* pCreature, bool /*add*/)
+		void OnCreatureCreate(Creature* creature, bool /*add*/)
         {
             Map::PlayerList const &players = instance->GetPlayers();
 
@@ -82,106 +82,106 @@ public:
                     uiTeamInInstance = pPlayer->GetTeam();
             }
 
-			switch (pCreature->GetEntry())
+			switch (creature->GetEntry())
             {
 				case BOSS_WYRMBREAKER:
-					uiWyrmbreaker = pCreature->GetGUID();
+					uiWyrmbreaker = creature->GetGUID();
 					if (Creature * SlateDrake = instance->GetCreature(GetData64(NPC_SLATE_DRAKE)))
 					{
 						if (!SlateDrake->HasAura(SPELL_UNRESPONSIVE_DRAKE))
 						{
-							SlateDrake->AddAura(SPELL_MALEVOLENT_STRIKES,pCreature);
+							SlateDrake->AddAura(SPELL_MALEVOLENT_STRIKES,creature);
 						}
 					}
 					if (Creature * StormRider = instance->GetCreature(GetData64(NPC_STORM_RIDER)))
 					{
 						if (!StormRider->HasAura(SPELL_UNRESPONSIVE_DRAKE))
 						{
-							StormRider->AddAura(SPELL_SHADOW_WARPED,pCreature);
+							StormRider->AddAura(SPELL_SHADOW_WARPED,creature);
 						}
 					}
 					if (Creature * NetherScion = instance->GetCreature(GetData64(NPC_NETHER_SCION)))
 					{
 						if (!NetherScion->HasAura(SPELL_UNRESPONSIVE_DRAKE))
 						{
-							NetherScion->AddAura(SPELL_FRENZIED_ASSAULT,pCreature);
+							NetherScion->AddAura(SPELL_FRENZIED_ASSAULT,creature);
 						}
 					}
 					break;
 				case BOSS_VALIONA:
-					uiValiona = pCreature->GetGUID();
+					uiValiona = creature->GetGUID();
 					break;
 				case BOSS_THERALION:
-					uiTheralion = pCreature->GetGUID();
+					uiTheralion = creature->GetGUID();
 					break;
 				case BOSS_FELUDIUS:
-					uiFeludius = pCreature->GetGUID();
+					uiFeludius = creature->GetGUID();
 					break;
 				case BOSS_IGNACIOUS:
-					uiIgnacious = pCreature->GetGUID();
+					uiIgnacious = creature->GetGUID();
 					break;
 				case BOSS_ARION:
-					uiArion = pCreature->GetGUID();
+					uiArion = creature->GetGUID();
 					break;
 				case BOSS_TERRASTRA:
-					uiTerrastra = pCreature->GetGUID();
+					uiTerrastra = creature->GetGUID();
 					break;
 				case BOSS_MONSTROSITY:
-					uiMonstrosity = pCreature->GetGUID();
+					uiMonstrosity = creature->GetGUID();
 					break;
 				case BOSS_CHOGALL:
-					uiChogall = pCreature->GetGUID();
+					uiChogall = creature->GetGUID();
 					break;
                 case BOSS_SINESRTA:
-                    uiSinestra = pCreature->GetGUID();
+                    uiSinestra = creature->GetGUID();
                     break;
 				case NPC_SLATE_DRAKE:
 					if (uiRandomDragons[0] == RANDOM_DRAGON_SLATE_DRAKE || uiRandomDragons[1] == RANDOM_DRAGON_SLATE_DRAKE)
 					{
-						pCreature->AddAura(SPELL_UNRESPONSIVE_DRAKE,pCreature);
-                        pCreature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
+						creature->AddAura(SPELL_UNRESPONSIVE_DRAKE,creature);
+                        creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
 					}
-					uiSlateDrake = pCreature->GetGUID();
-					pCreature->SetReactState(REACT_PASSIVE);
-					pCreature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+					uiSlateDrake = creature->GetGUID();
+					creature->SetReactState(REACT_PASSIVE);
+					creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
 					break;
 				case NPC_STORM_RIDER:
 					if (uiRandomDragons[0] == RANDOM_DRAGON_STORM_RIDER || uiRandomDragons[1] == RANDOM_DRAGON_STORM_RIDER)
 					{
-						pCreature->AddAura(SPELL_UNRESPONSIVE_DRAKE,pCreature);
-                        pCreature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+						creature->AddAura(SPELL_UNRESPONSIVE_DRAKE,creature);
+                        creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
 					}
-					uiStormRider = pCreature->GetGUID();
-					pCreature->SetReactState(REACT_PASSIVE);
-					pCreature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
+					uiStormRider = creature->GetGUID();
+					creature->SetReactState(REACT_PASSIVE);
+					creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
 					break;
 				case NPC_NETHER_SCION:
 					if (uiRandomDragons[0] == RANDOM_DRAGON_NETHER_SCION || uiRandomDragons[1] == RANDOM_DRAGON_NETHER_SCION)
 					{
-						pCreature->AddAura(SPELL_UNRESPONSIVE_DRAKE,pCreature);
-                        pCreature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+						creature->AddAura(SPELL_UNRESPONSIVE_DRAKE,creature);
+                        creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
 					}
-					uiNetherScion = pCreature->GetGUID();
-					pCreature->SetReactState(REACT_PASSIVE);
-					pCreature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
+					uiNetherScion = creature->GetGUID();
+					creature->SetReactState(REACT_PASSIVE);
+					creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
 					break;
 				case NPC_TIME_WARDEN:
-					uiTimeWarden = pCreature->GetGUID();
-					pCreature->SetReactState(REACT_PASSIVE);
-					pCreature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-					pCreature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
+					uiTimeWarden = creature->GetGUID();
+					creature->SetReactState(REACT_PASSIVE);
+					creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+					creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
 				case NPC_PROTO_BEHEMOTH:
-					uiProtoBehemoth = pCreature->GetGUID();
+					uiProtoBehemoth = creature->GetGUID();
 					if (Unit * TimeWarden = instance->GetCreature(GetData64(NPC_TIME_WARDEN)))
 					{
 						if (!TimeWarden->HasAura(SPELL_UNRESPONSIVE_DRAKE))
 						{
-							TimeWarden->AddAura(SPELL_DANCING_FLAMES,pCreature);
+							TimeWarden->AddAura(SPELL_DANCING_FLAMES,creature);
 						}
 					}
                     break;
                 case NPC_CYCLON_WIND:
-                    uiCyclonWinds = pCreature->GetGUID();
+                    uiCyclonWinds = creature->GetGUID();
                     break;
 			}
 		}
@@ -361,28 +361,28 @@ public:
 
         void ChangeState(uint64 guid,bool active,bool finalphase)
         {
-            Creature * pCreature = instance->GetCreature(guid);
+            Creature * creature = instance->GetCreature(guid);
             uint16 talkid;
             uint16 wayid;
             if (finalphase)
             {
-                switch (pCreature->GetEntry())
+                switch (creature->GetEntry())
                 {
                 case BOSS_FELUDIUS:
                     talkid = SAY_PHASE3_FELUDIUS;
                     wayid = WALK_FELUDIUS;
                     break;
                 }
-                pCreature->AI()->Talk(talkid);
-                pCreature->UpdateWaypointID(wayid);
+                creature->AI()->Talk(talkid);
+                creature->UpdateWaypointID(wayid);
             }
             if (active)
             {
-                pCreature->RemoveAura(pCreature->GetAura(8611,guid));
+                creature->RemoveAura(creature->GetAura(8611,guid));
             }
             else
             {
-                pCreature->AddAura(8611,pCreature);
+                creature->AddAura(8611,creature);
             }
         }
 

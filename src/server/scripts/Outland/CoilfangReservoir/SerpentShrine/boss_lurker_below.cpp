@@ -247,8 +247,8 @@ public:
                 if (CheckTimer <= diff)//check if there are players in melee range
                 {
                     InRange = false;
-                    Map* pMap = me->GetMap();
-                    Map::PlayerList const &PlayerList = pMap->GetPlayers();
+                    Map* map = me->GetMap();
+                    Map::PlayerList const &PlayerList = map->GetPlayers();
                     if (!PlayerList.isEmpty())
                     {
                         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
@@ -262,10 +262,10 @@ public:
 
                 if (RotTimer)
                 {
-                    Map* pMap = me->GetMap();
-                    if (pMap->IsDungeon())
+                    Map* map = me->GetMap();
+                    if (map->IsDungeon())
                     {
-                        Map::PlayerList const &PlayerList = pMap->GetPlayers();
+                        Map::PlayerList const &PlayerList = map->GetPlayers();
                         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
                         {
                             if (i->getSource() && i->getSource()->isAlive() && me->HasInArc(float(diff/20000*M_PI*2), i->getSource()) && me->IsWithinDist(i->getSource(), SPOUT_DIST) && !i->getSource()->IsInWater())

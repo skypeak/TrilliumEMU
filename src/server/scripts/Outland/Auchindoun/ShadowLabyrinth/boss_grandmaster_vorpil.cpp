@@ -279,8 +279,8 @@ public:
 
             if (DrawShadows_Timer <= diff)
             {
-                Map* pMap = me->GetMap();
-                Map::PlayerList const &PlayerList = pMap->GetPlayers();
+                Map* map = me->GetMap();
+                Map::PlayerList const &PlayerList = map->GetPlayers();
                 for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
                     if (Player* i_pl = i->getSource())
                         if (i_pl->isAlive() && !i_pl->HasAura(SPELL_BANISH))

@@ -285,10 +285,10 @@ public:
             {
                 DoCast(me, SPELL_SUMMON_PLAYERS); // not working right
 
-                Map* pMap = me->GetMap();
-                if (pMap && pMap->IsDungeon())
+                Map* map = me->GetMap();
+                if (map && map->IsDungeon())
                 {
-                    Map::PlayerList const &PlayerList = pMap->GetPlayers();
+                    Map::PlayerList const &PlayerList = map->GetPlayers();
 
                     if (!PlayerList.isEmpty())
                         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)

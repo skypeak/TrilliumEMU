@@ -722,12 +722,12 @@ void Group::SendLootAllPassed(uint32 NumberOfPlayers, const Roll &r)
 }
 
 // notify group members which player is the allowed looter for the given creature
-void Group::SendLooter(Creature *pCreature, Player *pLooter)
+void Group::SendLooter(Creature *creature, Player *pLooter)
 {
-    ASSERT(pCreature);
+    ASSERT(creature);
 
     WorldPacket data(SMSG_LOOT_LIST, (8+8));
-    data << uint64(pCreature->GetGUID());
+    data << uint64(creature->GetGUID());
     data << uint8(0); // unk1
 
     if (pLooter)

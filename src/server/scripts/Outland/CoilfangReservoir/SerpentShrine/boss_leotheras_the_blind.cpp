@@ -761,8 +761,8 @@ public:
 
             if (Earthshock_Timer <= diff)
             {
-                Map* pMap = me->GetMap();
-                Map::PlayerList const &PlayerList = pMap->GetPlayers();
+                Map* map = me->GetMap();
+                Map::PlayerList const &PlayerList = map->GetPlayers();
                 for (Map::PlayerList::const_iterator itr = PlayerList.begin(); itr != PlayerList.end(); ++itr)
                 {
                     if (Player* i_pl = itr->getSource())

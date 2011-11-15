@@ -1222,11 +1222,11 @@ GameObject* ChatHandler::GetNearbyGameObject()
     if (!m_session)
         return NULL;
 
-    Player* pl = m_session->GetPlayer();
+    Player* player = m_session->GetPlayer();
     GameObject* obj = NULL;
-    Trillium::NearestGameObjectCheck check(*pl);
-    Trillium::GameObjectLastSearcher<Trillium::NearestGameObjectCheck> searcher(pl, obj, check);
-    pl->VisitNearbyGridObject(999, searcher);
+    Trillium::NearestGameObjectCheck check(*player);
+    Trillium::GameObjectLastSearcher<Trillium::NearestGameObjectCheck> searcher(player, obj, check);
+    player->VisitNearbyGridObject(999, searcher);
     return obj;
 }
 
@@ -1235,21 +1235,21 @@ GameObject* ChatHandler::GetObjectGlobalyWithGuidOrNearWithDbGuid(uint32 lowguid
     if (!m_session)
         return NULL;
 
-    Player* pl = m_session->GetPlayer();
+    Player* player = m_session->GetPlayer();
 
-    GameObject* obj = pl->GetMap()->GetGameObject(MAKE_NEW_GUID(lowguid, entry, HIGHGUID_GAMEOBJECT));
+    GameObject* obj = player->GetMap()->GetGameObject(MAKE_NEW_GUID(lowguid, entry, HIGHGUID_GAMEOBJECT));
 
     if (!obj && sObjectMgr->GetGOData(lowguid))                   // guid is DB guid of object
     {
         // search near player then
-        CellCoord p(Trillium::ComputeCellCoord(pl->GetPositionX(), pl->GetPositionY()));
+        CellCoord p(Trillium::ComputeCellCoord(player->GetPositionX(), player->GetPositionY()));
         Cell cell(p);
 
-        Trillium::GameObjectWithDbGUIDCheck go_check(*pl, lowguid);
-        Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck> checker(pl, obj, go_check);
+        Trillium::GameObjectWithDbGUIDCheck go_check(*player, lowguid);
+        Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck> checker(player, obj, go_check);
 
         TypeContainerVisitor<Trillium::GameObjectSearcher<Trillium::GameObjectWithDbGUIDCheck>, GridTypeMapContainer > object_checker(checker);
-        cell.Visit(p, object_checker, *pl->GetMap(), *pl, pl->GetGridActivationRange());
+        cell.Visit(p, object_checker, *player->GetMap(), *player, player->GetGridActivationRange());
     }
 
     return obj;
@@ -1435,34 +1435,34 @@ bool ChatHandler::extractPlayerTarget(char* args, Player** player, uint64* playe
             return false;
         }
 
-        Player* pl = sObjectAccessor->FindPlayerByName(name.c_str());
+        Player* player = sObjectAccessor->FindPlayerByName(name.c_str());
 
         // if allowed player pointer
         if (player)
-            *player = pl;
+            *player = player;
 
         // if need guid value from DB (in name case for check player existence)
-        uint64 guid = !pl && (player_guid || player_name) ? sObjectMgr->GetPlayerGUIDByName(name) : 0;
+        uint64 guid = !player && (player_guid || player_name) ? sObjectMgr->GetPlayerGUIDByName(name) : 0;
 
         // if allowed player guid (if no then only online players allowed)
         if (player_guid)
-            *player_guid = pl ? pl->GetGUID() : guid;
+            *player_guid = player ? player->GetGUID() : guid;
 
         if (player_name)
-            *player_name = pl || guid ? name : "";
+            *player_name = player || guid ? name : "";
     }
     else
     {
-        Player* pl = getSelectedPlayer();
+        Player* player = getSelectedPlayer();
         // if allowed player pointer
         if (player)
-            *player = pl;
+            *player = player;
         // if allowed player guid (if no then only online players allowed)
         if (player_guid)
-            *player_guid = pl ? pl->GetGUID() : 0;
+            *player_guid = player ? player->GetGUID() : 0;
 
         if (player_name)
-            *player_name = pl ? pl->GetName() : "";
+            *player_name = player ? player->GetName() : "";
     }
 
     // some from req. data must be provided (note: name is empty if player not exist)
@@ -1512,8 +1512,8 @@ char* ChatHandler::extractQuotedArg(char* args)
 
 bool ChatHandler::needReportToTarget(Player* chr) const
 {
-    Player* pl = m_session->GetPlayer();
-    return pl != chr && pl->IsVisibleGloballyFor(chr);
+    Player* player = m_session->GetPlayer();
+    return player != chr && player->IsVisibleGloballyFor(chr);
 }
 
 LocaleConstant ChatHandler::GetSessionDbcLocale() const

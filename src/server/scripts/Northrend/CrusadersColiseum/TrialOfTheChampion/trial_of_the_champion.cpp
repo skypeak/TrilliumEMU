@@ -82,17 +82,17 @@ class npc_anstart : public CreatureScript
 public:
     npc_anstart() : CreatureScript("npc_anstart") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_anstartAI (pCreature);
+        return new npc_anstartAI (creature);
     }
 
     struct npc_anstartAI : public ScriptedAI
     {
-        npc_anstartAI(Creature *pCreature) : ScriptedAI(pCreature)
+        npc_anstartAI(Creature *creature) : ScriptedAI(creature)
 
         {
-        pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+        pInstance = (InstanceScript*)creature->GetInstanceScript();
         }
 
         uint32 uiIntroTimer;
@@ -624,17 +624,17 @@ public:
                 {
                     if (player->HasUnitMovementFlag(MOVEMENTFLAG_ONTRANSPORT) && !player->isGameMaster())
                     {
-                        Creature* pCreature = player->GetVehicleBase()->ToCreature();
+                        Creature* creature = player->GetVehicleBase()->ToCreature();
 
-                        if (pCreature)
+                        if (creature)
                         {
                             pTemp->SetHomePosition(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation());
                             pTemp->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE);
                             pTemp->SetReactState(REACT_AGGRESSIVE);
-                            pTemp->SetInCombatWith(pCreature);
+                            pTemp->SetInCombatWith(creature);
                             player->SetInCombatWith(pTemp);
-                            pCreature->SetInCombatWith(pTemp);
-                            pTemp->AddThreat(pCreature, 0.0f);
+                            creature->SetInCombatWith(pTemp);
+                            pTemp->AddThreat(creature, 0.0f);
                         }
                     } else if (player->isAlive() && !player->isGameMaster() )
                     {

@@ -398,9 +398,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new boss_magus_telestra_arcaneAI(pCreature);
+        return new boss_magus_telestra_arcaneAI(creature);
     }
 };
 

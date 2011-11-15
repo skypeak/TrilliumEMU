@@ -497,10 +497,10 @@ public:
 
         Player* SelectRandomPlayer(float range = 0.0f, bool checkLoS = true)
         {
-            Map* pMap = me->GetMap();
-            if (!pMap->IsDungeon()) return NULL;
+            Map* map = me->GetMap();
+            if (!map->IsDungeon()) return NULL;
 
-            Map::PlayerList const &PlayerList = pMap->GetPlayers();
+            Map::PlayerList const &PlayerList = map->GetPlayers();
             Map::PlayerList::const_iterator i;
             if (PlayerList.isEmpty()) return NULL;
 

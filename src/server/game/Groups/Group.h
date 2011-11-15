@@ -279,7 +279,7 @@ class Group
         void SendLootRoll(uint64 SourceGuid, uint64 TargetGuid, uint8 RollNumber, uint8 RollType, const Roll &r);
         void SendLootRollWon(uint64 SourceGuid, uint64 TargetGuid, uint8 RollNumber, uint8 RollType, const Roll &r);
         void SendLootAllPassed(uint32 NumberOfPlayers, const Roll &r);
-        void SendLooter(Creature *pCreature, Player *pLooter);
+        void SendLooter(Creature *creature, Player *pLooter);
         void GroupLoot(Loot *loot, WorldObject* pLootedObject);
         void NeedBeforeGreed(Loot *loot, WorldObject* pLootedObject);
         void MasterLoot(Loot *loot, WorldObject* pLootedObject);

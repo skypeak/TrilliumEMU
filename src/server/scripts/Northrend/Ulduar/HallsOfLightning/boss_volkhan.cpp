@@ -155,10 +155,10 @@ public:
                 AchievementEntry const *AchievShatterResistant = GetAchievementStore()->LookupEntry(ACHIEVEMENT_SHATTER_RESISTANT);
                 if (AchievShatterResistant)
                 {
-                    Map* pMap = me->GetMap();
-                    if (pMap && pMap->IsDungeon())
+                    Map* map = me->GetMap();
+                    if (map && map->IsDungeon())
                     {
-                        Map::PlayerList const &players = pMap->GetPlayers();
+                        Map::PlayerList const &players = map->GetPlayers();
                         for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                             itr->getSource()->CompletedAchievement(AchievShatterResistant);
                     }

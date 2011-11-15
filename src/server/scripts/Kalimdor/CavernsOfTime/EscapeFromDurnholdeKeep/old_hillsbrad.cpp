@@ -439,9 +439,9 @@ public:
                         }
 
                         //kill credit Creature for quest
-                        Map* pMap = me->GetMap();
-                        Map::PlayerList const& players = pMap->GetPlayers();
-                        if (!players.isEmpty() && pMap->IsDungeon())
+                        Map* map = me->GetMap();
+                        Map::PlayerList const& players = map->GetPlayers();
+                        if (!players.isEmpty() && map->IsDungeon())
                         {
                             for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                             {

@@ -240,11 +240,11 @@ public:
             // Roll Insanity
             uint32 spell = GetSpellForPhaseMask(phase);
             uint32 spell2 = GetSpellForPhaseMask(nextPhase);
-            Map* pMap = me->GetMap();
-            if (!pMap)
+            Map* map = me->GetMap();
+            if (!map)
                 return;
 
-            Map::PlayerList const &PlayerList = pMap->GetPlayers();
+            Map::PlayerList const &PlayerList = map->GetPlayers();
             if (!PlayerList.isEmpty())
             {
                 for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)

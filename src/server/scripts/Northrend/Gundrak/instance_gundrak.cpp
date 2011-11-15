@@ -37,16 +37,16 @@ class instance_gundrak : public InstanceMapScript
 public:
     instance_gundrak() : InstanceMapScript("instance_gundrak", 604) { }
 
-    InstanceScript* GetInstanceScript(InstanceMap* pMap) const
+    InstanceScript* GetInstanceScript(InstanceMap* map) const
     {
-        return new instance_gundrak_InstanceMapScript(pMap);
+        return new instance_gundrak_InstanceMapScript(map);
     }
 
     struct instance_gundrak_InstanceMapScript : public InstanceScript
     {
-        instance_gundrak_InstanceMapScript(Map* pMap) : InstanceScript(pMap)
+        instance_gundrak_InstanceMapScript(Map* map) : InstanceScript(map)
         {
-            bHeroicMode = pMap->IsHeroic();
+            bHeroicMode = map->IsHeroic();
         }
 
         bool bHeroicMode;

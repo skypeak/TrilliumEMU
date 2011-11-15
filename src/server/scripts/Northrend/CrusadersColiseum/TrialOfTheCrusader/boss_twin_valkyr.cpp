@@ -267,8 +267,8 @@ struct boss_twin_baseAI : public ScriptedAI
         {
             case NPC_LIGHT_ESSENCE:
             case NPC_DARK_ESSENCE:
-                Map* pMap = me->GetMap();
-                Map::PlayerList const &lPlayers = pMap->GetPlayers();
+                Map* map = me->GetMap();
+                Map::PlayerList const &lPlayers = map->GetPlayers();
                 for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
                 {
                     Unit* player = itr->getSource();

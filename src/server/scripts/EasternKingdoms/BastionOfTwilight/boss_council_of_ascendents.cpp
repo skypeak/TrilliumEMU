@@ -29,9 +29,9 @@ class boss_feludius : public CreatureScript
 
         struct boss_feludiusAI : BossAI
         {
-            boss_feludiusAI(Creature * pCreature) : BossAI(pCreature,DATA_FELUDIUS), summons(me)
+            boss_feludiusAI(Creature * creature) : BossAI(creature,DATA_FELUDIUS), summons(me)
             {
-                pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+                pInstance = (InstanceScript*)creature->GetInstanceScript();
             }
 
             void Reset()
@@ -80,9 +80,9 @@ class boss_feludius : public CreatureScript
             uint32 uiGlaciateTimer;
         };
 
-        CreatureAI * GetAI(Creature* pCreature) const
+        CreatureAI * GetAI(Creature* creature) const
         {
-            return new boss_feludiusAI(pCreature);
+            return new boss_feludiusAI(creature);
         }
 };
 
@@ -121,9 +121,9 @@ class boss_ignacious : public CreatureScript
 
         struct boss_ignaciousAI : public BossAI
         {
-            boss_ignaciousAI(Creature * pCreature) : BossAI(pCreature,DATA_IGNACIOUS), summons(me)
+            boss_ignaciousAI(Creature * creature) : BossAI(creature,DATA_IGNACIOUS), summons(me)
             {
-                pInstance = (InstanceScript*)pCreature->GetInstanceScript();
+                pInstance = (InstanceScript*)creature->GetInstanceScript();
             }
 
             void Reset()
@@ -192,9 +192,9 @@ class boss_ignacious : public CreatureScript
                 uint64 uiInfernoLeapTimer;
         };
 
-        CreatureAI * GetAI(Creature * pCreature) const
+        CreatureAI * GetAI(Creature * creature) const
         {
-            return new boss_ignaciousAI(pCreature);
+            return new boss_ignaciousAI(creature);
         }
 };
 class spell_inferno_ping : public SpellScriptLoader

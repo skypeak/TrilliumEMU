@@ -69,7 +69,7 @@ class instance_serpent_shrine : public InstanceMapScript
 
         struct instance_serpentshrine_cavern_InstanceMapScript : public InstanceScript
         {
-            instance_serpentshrine_cavern_InstanceMapScript(Map* pMap) : InstanceScript(pMap)
+            instance_serpentshrine_cavern_InstanceMapScript(Map* map) : InstanceScript(map)
             {
             }
 
@@ -427,9 +427,9 @@ class instance_serpent_shrine : public InstanceMapScript
             bool DoSpawnFrenzy;
         };
 
-        InstanceScript* GetInstanceScript(InstanceMap* pMap) const
+        InstanceScript* GetInstanceScript(InstanceMap* map) const
         {
-            return new instance_serpentshrine_cavern_InstanceMapScript(pMap);
+            return new instance_serpentshrine_cavern_InstanceMapScript(map);
         }
 };
 

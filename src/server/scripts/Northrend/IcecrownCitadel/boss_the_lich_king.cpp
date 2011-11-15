@@ -338,19 +338,19 @@ struct Position FrostmourneRoom[] =
 
 typedef std::list<Player*> TPlayerList;
 
-TPlayerList GetPlayersInTheMap(Map *pMap)
+TPlayerList GetPlayersInTheMap(Map *map)
 {
     TPlayerList players;
-    const Map::PlayerList &PlayerList = pMap->GetPlayers();
+    const Map::PlayerList &PlayerList = map->GetPlayers();
     if (!PlayerList.isEmpty())
         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
             if (Player* player = i->getSource())
                 players.push_back(player);
     return players;
 }
-TPlayerList GetAttackablePlayersInTheMap(Map *pMap)
+TPlayerList GetAttackablePlayersInTheMap(Map *map)
 {
-    TPlayerList players = GetPlayersInTheMap(pMap);
+    TPlayerList players = GetPlayersInTheMap(map);
     for (TPlayerList::iterator it = players.begin(); it != players.end();)
         if (!(*it)->isTargetableForAttack())
             players.erase(it++);
@@ -367,15 +367,15 @@ Player *SelectRandomPlayerFromList(TPlayerList &players)
     return *it;
 }
 
-Player *SelectRandomPlayerInTheMap(Map *pMap)
+Player *SelectRandomPlayerInTheMap(Map *map)
 {
-    TPlayerList players = GetPlayersInTheMap(pMap);
+    TPlayerList players = GetPlayersInTheMap(map);
     return SelectRandomPlayerFromList(players);
 }
 
-Player *SelectRandomAttackablePlayerInTheMap(Map *pMap)
+Player *SelectRandomAttackablePlayerInTheMap(Map *map)
 {
-    TPlayerList players = GetAttackablePlayersInTheMap(pMap);
+    TPlayerList players = GetAttackablePlayersInTheMap(map);
     return SelectRandomPlayerFromList(players);
 }
 
@@ -656,14 +656,14 @@ class boss_the_lich_king : public CreatureScript
                     case NPC_DRUDGE_GHOUL:
                         summoned->CastSpell(summoned, SPELL_RAGING_GHOUL_VISUAL, true);
 
-                        if (Unit* pVictim = SelectTarget(SELECT_TARGET_RANDOM))
-                            summoned->AI()->AttackStart(pVictim);
+                        if (Unit* victim = SelectTarget(SELECT_TARGET_RANDOM))
+                            summoned->AI()->AttackStart(victim);
                         break;
                     case NPC_SHAMBLING_HORROR:
                         summoned->CastSpell(summoned, SPELL_RISEN_WITCH_DOCTOR_SPAWN, true);
 
-                        if (Unit* pVictim = SelectTarget(SELECT_TARGET_RANDOM))
-                            summoned->AI()->AttackStart(pVictim);
+                        if (Unit* victim = SelectTarget(SELECT_TARGET_RANDOM))
+                            summoned->AI()->AttackStart(victim);
                         break;
                 }
             }
@@ -2344,11 +2344,11 @@ class npc_ice_sphere : public CreatureScript
                         }
                         case EVENT_MOVE_FORWARD:
                         {
-                            if (Unit* pVictim = ObjectAccessor::GetUnit(*me, m_victimGuid))
-                                if (pVictim->isAlive() && pVictim->isTargetableForAttack())
+                            if (Unit* victim = ObjectAccessor::GetUnit(*me, m_victimGuid))
+                                if (victim->isAlive() && victim->isTargetableForAttack())
                                 {
-                                    me->SetFacingToObject(pVictim);
-                                    pVictim->GetPosition(&m_victimPos);
+                                    me->SetFacingToObject(victim);
+                                    victim->GetPosition(&m_victimPos);
                                     me->GetPosition(&m_newPos);
                                     me->MovePosition(m_newPos, 0.20f, 0.0f);
                                     me->UpdatePosition(m_newPos);

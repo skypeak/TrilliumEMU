@@ -1292,6 +1292,7 @@ void GameObject::Use(Unit* user)
                     {
                         player->UpdateFishingSkill();
 
+                        //TODO: I do not understand this hack. Need some explanation.
                         // prevent removing GO at spell cancel
                         RemoveFromOwner();
                         SetOwnerGUID(player->GetGUID());

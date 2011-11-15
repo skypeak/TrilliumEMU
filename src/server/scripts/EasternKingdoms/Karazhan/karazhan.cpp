@@ -287,11 +287,11 @@ public:
                 {
                     if (WipeTimer <= diff)
                     {
-                        Map* pMap = me->GetMap();
-                        if (!pMap->IsDungeon())
+                        Map* map = me->GetMap();
+                        if (!map->IsDungeon())
                             return;
 
-                        Map::PlayerList const &PlayerList = pMap->GetPlayers();
+                        Map::PlayerList const &PlayerList = map->GetPlayers();
                         if (PlayerList.isEmpty())
                             return;
 
@@ -530,7 +530,7 @@ public:
         uint32 NextStep(uint32 Step)
         {
             Unit* arca = Unit::GetUnit((*me), ArcanagosGUID);
-            Map* pMap = me->GetMap();
+            Map* map = me->GetMap();
             switch (Step)
             {
             case 0: return 9999999;
@@ -586,9 +586,9 @@ public:
                 me->SetVisible(false);
                 me->ClearInCombat();
 
-                if (pMap->IsDungeon())
+                if (map->IsDungeon())
                 {
-                    InstanceMap::PlayerList const &PlayerList = pMap->GetPlayers();
+                    InstanceMap::PlayerList const &PlayerList = map->GetPlayers();
                     for (InstanceMap::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
                     {
                         if (i->getSource()->isAlive())

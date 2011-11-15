@@ -62,14 +62,14 @@ class instance_dark_portal : public InstanceMapScript
 public:
     instance_dark_portal() : InstanceMapScript("instance_dark_portal", 269) { }
 
-    InstanceScript* GetInstanceScript(InstanceMap* pMap) const
+    InstanceScript* GetInstanceScript(InstanceMap* map) const
     {
-        return new instance_dark_portal_InstanceMapScript(pMap);
+        return new instance_dark_portal_InstanceMapScript(map);
     }
 
     struct instance_dark_portal_InstanceMapScript : public InstanceScript
     {
-        instance_dark_portal_InstanceMapScript(Map* pMap) : InstanceScript(pMap)
+        instance_dark_portal_InstanceMapScript(Map* map) : InstanceScript(map)
         {
         }
 

@@ -2648,7 +2648,7 @@ class npc_recon_pilot : public CreatureScript
 public:
     npc_recon_pilot() : CreatureScript("npc_recon_pilot") { }
 
-    bool OnGossipHello(Player* pPlayer, Creature* pCreature)
+    bool OnGossipHello(Player* pPlayer, Creature* creature)
     {
         if (pPlayer->GetQuestStatus(QUEST_EMERGENCY_PROTOCOL_C) == QUEST_STATUS_INCOMPLETE)
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_PILOT_1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
@@ -2656,26 +2656,26 @@ public:
         if (pPlayer->GetQuestStatus(QUEST_EMERGENCY_SUPPLIES) == QUEST_STATUS_INCOMPLETE)
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_PILOT_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
 
-        pPlayer->PlayerTalkClass->SendGossipMenu(GOSSIP_TEXT_PILOT, pCreature->GetGUID());
+        pPlayer->PlayerTalkClass->SendGossipMenu(GOSSIP_TEXT_PILOT, creature->GetGUID());
         return true;
     }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
         pPlayer->PlayerTalkClass->ClearMenus();
 
         switch (uiAction)
         {
             case GOSSIP_ACTION_INFO_DEF+1:
-                pCreature->CastSpell(pPlayer, SPELL_SUMMON_INSIGNIA, true);
+                creature->CastSpell(pPlayer, SPELL_SUMMON_INSIGNIA, true);
                 break;
             case GOSSIP_ACTION_INFO_DEF+2:
-                pCreature->CastSpell(pPlayer, SPELL_GIVE_EMERGENCY_KIT, true);
+                creature->CastSpell(pPlayer, SPELL_GIVE_EMERGENCY_KIT, true);
                 break;
         }
 
         pPlayer->CLOSE_GOSSIP_MENU();
-        pCreature->DespawnOrUnsummon();
+        creature->DespawnOrUnsummon();
 
         return true;
     }
@@ -2698,9 +2698,9 @@ class mob_steam_rager : public CreatureScript
 public:
     mob_steam_rager() : CreatureScript("mob_steam_rager") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_steam_ragerAI(pCreature);
+        return new mob_steam_ragerAI(creature);
     }
 
     struct mob_steam_ragerAI : public ScriptedAI

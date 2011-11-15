@@ -38,7 +38,7 @@ class instance_uldaman : public InstanceMapScript
 
         struct instance_uldaman_InstanceMapScript : public InstanceScript
         {
-            instance_uldaman_InstanceMapScript(Map* pMap) : InstanceScript(pMap)
+            instance_uldaman_InstanceMapScript(Map* map) : InstanceScript(map)
             {
             }
 
@@ -475,9 +475,9 @@ class instance_uldaman : public InstanceMapScript
             } // end GetData64
         };
 
-        InstanceScript* GetInstanceScript(InstanceMap* pMap) const
+        InstanceScript* GetInstanceScript(InstanceMap* map) const
         {
-            return new instance_uldaman_InstanceMapScript(pMap);
+            return new instance_uldaman_InstanceMapScript(map);
         }
 };
 

@@ -165,10 +165,10 @@ public:
                 AchievementEntry const *AchievOnTheRocks = GetAchievementStore()->LookupEntry(ACHIEVEMENT_ON_THE_ROCKS);
                 if (AchievOnTheRocks)
                 {
-                    Map* pMap = me->GetMap();
-                    if (pMap && pMap->IsDungeon())
+                    Map* map = me->GetMap();
+                    if (map && map->IsDungeon())
                     {
-                        Map::PlayerList const &players = pMap->GetPlayers();
+                        Map::PlayerList const &players = map->GetPlayers();
                         for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                             itr->getSource()->CompletedAchievement(AchievOnTheRocks);
                     }

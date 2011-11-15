@@ -518,7 +518,7 @@ class npc_high_oracle_soo_say : public CreatureScript
 public:
     npc_high_oracle_soo_say() : CreatureScript("npc_high_oracle_soo_say") { }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 /*uiSender*/, uint32 uiAction)
     {
         ItemPosCountVec dest;
         uint32 ToStoreItem;
@@ -549,10 +549,10 @@ public:
         return true;
     }
 
-    bool OnGossipHello(Player* pPlayer, Creature* pCreature)
+    bool OnGossipHello(Player* pPlayer, Creature* creature)
     {
-        if (pCreature->isQuestGiver())
-            pPlayer->PrepareQuestMenu(pCreature->GetGUID());
+        if (creature->isQuestGiver())
+            pPlayer->PrepareQuestMenu(creature->GetGUID());
 
         if (pPlayer->GetQuestStatus(QUEST_APPEASING_THE_GREAT_RAIN_STONE) == QUEST_STATUS_INCOMPLETE)
         {
@@ -560,7 +560,7 @@ public:
             pPlayer->ADD_GOSSIP_ITEM_EXTENDED(0, GOSSIP_JALOOT_ITEM, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2, "", 0, false);
             pPlayer->ADD_GOSSIP_ITEM_EXTENDED(0, GOSSIP_MOODLE_ITEM, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+3, "", 0, false);
 
-            pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature),pCreature->GetGUID());
+            pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature),creature->GetGUID());
             return true;
         }
 
@@ -580,7 +580,7 @@ public:
             && pPlayer->GetQuestStatus(QUEST_A_HEROS_BURDEN) == QUEST_STATUS_NONE))
             pPlayer->ADD_GOSSIP_ITEM_EXTENDED(0, GOSSIP_MOODLE_ITEM, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+3, "", 0, false);
 
-        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature),pCreature->GetGUID());
+        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature),creature->GetGUID());
         return true;
     }
 };
@@ -755,7 +755,7 @@ public:
 
     struct npc_generic_oracle_treasure_seekerAI: public FollowerAI
     {
-        npc_generic_oracle_treasure_seekerAI(Creature* pCreature) : FollowerAI(pCreature) {}
+        npc_generic_oracle_treasure_seekerAI(Creature* creature) : FollowerAI(creature) {}
 
             uint32 CheckTimer;
             uint32 SearchTimer;
@@ -908,9 +908,9 @@ public:
             }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_generic_oracle_treasure_seekerAI(pCreature);
+        return new npc_generic_oracle_treasure_seekerAI(creature);
     }
 };
 
@@ -957,7 +957,7 @@ public:
 
     struct npc_frenzyheart_zepikAI: public ScriptedAI
     {
-        npc_frenzyheart_zepikAI(Creature* pCreature) : ScriptedAI(pCreature) {}
+        npc_frenzyheart_zepikAI(Creature* creature) : ScriptedAI(creature) {}
 
         uint32 check_Timer;
 
@@ -985,9 +985,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_frenzyheart_zepikAI(pCreature);
+        return new npc_frenzyheart_zepikAI(creature);
     }
 };
 
@@ -1023,7 +1023,7 @@ public:
 
     struct npc_mosswalker_victimAI: public ScriptedAI
     {
-        npc_mosswalker_victimAI(Creature* pCreature) : ScriptedAI(pCreature) {}
+        npc_mosswalker_victimAI(Creature* creature) : ScriptedAI(creature) {}
 
         bool PulseChecked;
         bool hasSurvived;
@@ -1081,30 +1081,30 @@ public:
         }
     };
 
-    bool OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 sender, uint32 action )
+    bool OnGossipSelect(Player* pPlayer, Creature* creature, uint32 sender, uint32 action )
     {
         switch(action)
         {
         case GOSSIP_ACTION_INFO_DEF+1:
-            CAST_AI(npc_mosswalker_victim::npc_mosswalker_victimAI,pCreature->AI())->CheckPulse(pPlayer);
+            CAST_AI(npc_mosswalker_victim::npc_mosswalker_victimAI,creature->AI())->CheckPulse(pPlayer);
             break;
         }
         pPlayer->CLOSE_GOSSIP_MENU();
         return true;
     }
 
-    bool OnGossipHello(Player* pPlayer, Creature* pCreature)
+    bool OnGossipHello(Player* pPlayer, Creature* creature)
     {
-        if(pPlayer->GetQuestStatus(QUEST_THE_MOSSWALKER_SAVIOR) == QUEST_STATUS_INCOMPLETE && !CAST_AI(npc_mosswalker_victim::npc_mosswalker_victimAI,pCreature->AI())->PulseChecked)
+        if(pPlayer->GetQuestStatus(QUEST_THE_MOSSWALKER_SAVIOR) == QUEST_STATUS_INCOMPLETE && !CAST_AI(npc_mosswalker_victim::npc_mosswalker_victimAI,creature->AI())->PulseChecked)
            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_EVENT, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
 
-        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature), pCreature->GetGUID());
+        pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(creature), creature->GetGUID());
         return true;
     }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_mosswalker_victimAI(pCreature);
+        return new npc_mosswalker_victimAI(creature);
     }
 };
 
@@ -1126,7 +1126,7 @@ public:
 
     struct npc_artruis_the_heartlessAI: public ScriptedAI
     {
-        npc_artruis_the_heartlessAI(Creature* pCreature) : ScriptedAI(pCreature) {}
+        npc_artruis_the_heartlessAI(Creature* creature) : ScriptedAI(creature) {}
 
         uint32 shoot_Timer;
         uint32 nova_Timer;
@@ -1183,9 +1183,9 @@ public:
         }
     };
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new npc_artruis_the_heartlessAI(pCreature);
+        return new npc_artruis_the_heartlessAI(creature);
     }
 };
 
@@ -1594,14 +1594,14 @@ class npc_stormwatcher : public CreatureScript
     public:
         npc_stormwatcher() : CreatureScript("npc_stormwatcher"){ }
 
-        CreatureAI* GetAI(Creature* pCreature) const
+        CreatureAI* GetAI(Creature* creature) const
         {
-            return new npc_stormwatcherAI(pCreature);
+            return new npc_stormwatcherAI(creature);
         }
 
         struct npc_stormwatcherAI : public ScriptedAI
         {
-            npc_stormwatcherAI(Creature* pCreature) : ScriptedAI (pCreature){ }
+            npc_stormwatcherAI(Creature* creature) : ScriptedAI (creature){ }
 
             uint32 uiCallLightning_Timer;
 
@@ -1663,14 +1663,14 @@ class npc_rejek_first_blood : public CreatureScript
     public:
         npc_rejek_first_blood() : CreatureScript("npc_rejek_first_blood"){ }
 
-        CreatureAI* GetAI(Creature* pCreature) const
+        CreatureAI* GetAI(Creature* creature) const
         {
-            return new npc_rejek_first_bloodAI(pCreature);
+            return new npc_rejek_first_bloodAI(creature);
         }
 
         struct npc_rejek_first_bloodAI : public ScriptedAI
         {
-            npc_rejek_first_bloodAI(Creature* pCreature) : ScriptedAI (pCreature){ }
+            npc_rejek_first_bloodAI(Creature* creature) : ScriptedAI (creature){ }
 
             uint32 uiFlipAttack_Timer;
             uint32 uiCharge_Timer;
@@ -1771,14 +1771,14 @@ class vehicle_haiphoon : public CreatureScript
 public:
     vehicle_haiphoon() : CreatureScript("vehicle_haiphoon") { }
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new  vehicle_haiphoonAI(pCreature);
+        return new  vehicle_haiphoonAI(creature);
     }
 
     struct vehicle_haiphoonAI : public VehicleAI
     {
-        vehicle_haiphoonAI(Creature* pCreature) : VehicleAI(pCreature) { }
+        vehicle_haiphoonAI(Creature* creature) : VehicleAI(creature) { }
 
         void SpellHitTarget(Unit* target,SpellInfo const* spell)
         {

@@ -250,8 +250,8 @@ public:
             if (pInstance)
             {
                 //remove old tainted cores to prevent cheating in phase 2
-                Map* pMap = me->GetMap();
-                Map::PlayerList const &PlayerList = pMap->GetPlayers();
+                Map* map = me->GetMap();
+                Map::PlayerList const &PlayerList = map->GetPlayers();
                 for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
                 {
                     if (Player* i_pl = i->getSource())

@@ -259,10 +259,10 @@ bool ChatHandler::HandleAddItemCommand(const char *args)
     if (count == 0)
         count = 1;
 
-    Player* pl = m_session->GetPlayer();
+    Player* player = m_session->GetPlayer();
     Player* plTarget = getSelectedPlayer();
     if (!plTarget)
-        plTarget = pl;
+        plTarget = player;
 
     sLog->outDetail(GetTrilliumString(LANG_ADDITEM), itemId, count);
 
@@ -301,15 +301,15 @@ bool ChatHandler::HandleAddItemCommand(const char *args)
     Item* item = plTarget->StoreNewItem(dest, itemId, true, Item::GenerateItemRandomPropertyId(itemId));
 
     // remove binding (let GM give it to another player later)
-    if (pl == plTarget)
+    if (player == plTarget)
         for (ItemPosCountVec::const_iterator itr = dest.begin(); itr != dest.end(); ++itr)
-            if (Item* item1 = pl->GetItemByPos(itr->pos))
+            if (Item* item1 = player->GetItemByPos(itr->pos))
                 item1->SetBinding(false);
 
     if (count > 0 && item)
     {
-        pl->SendNewItem(item, count, false, true);
-        if (pl != plTarget)
+        player->SendNewItem(item, count, false, true);
+        if (player != plTarget)
             plTarget->SendNewItem(item, count, true, false);
     }
 
@@ -640,9 +640,9 @@ bool ChatHandler::HandleListObjectCommand(const char *args)
 
     if (m_session)
     {
-        Player* pl = m_session->GetPlayer();
+        Player* player = m_session->GetPlayer();
         result = WorldDatabase.PQuery("SELECT guid, position_x, position_y, position_z, map, id, (POW(position_x - '%f', 2) + POW(position_y - '%f', 2) + POW(position_z - '%f', 2)) AS order_ FROM gameobject WHERE id = '%u' ORDER BY order_ ASC LIMIT %u",
-            pl->GetPositionX(), pl->GetPositionY(), pl->GetPositionZ(), go_id, uint32(count));
+            player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), go_id, uint32(count));
     }
     else
         result = WorldDatabase.PQuery("SELECT guid, position_x, position_y, position_z, map, id FROM gameobject WHERE id = '%u' LIMIT %u",
@@ -712,9 +712,9 @@ bool ChatHandler::HandleListCreatureCommand(const char *args)
 
     if (m_session)
     {
-        Player* pl = m_session->GetPlayer();
+        Player* player = m_session->GetPlayer();
         result = WorldDatabase.PQuery("SELECT guid, position_x, position_y, position_z, map, (POW(position_x - '%f', 2) + POW(position_y - '%f', 2) + POW(position_z - '%f', 2)) AS order_ FROM creature WHERE id = '%u' ORDER BY order_ ASC LIMIT %u",
-            pl->GetPositionX(), pl->GetPositionY(), pl->GetPositionZ(), cr_id, uint32(count));
+            player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), cr_id, uint32(count));
     }
     else
         result = WorldDatabase.PQuery("SELECT guid, position_x, position_y, position_z, map FROM creature WHERE id = '%u' LIMIT %u",
@@ -3440,11 +3440,11 @@ bool ChatHandler::HandleBanListIPCommand(const char *args)
 
 bool ChatHandler::HandleRespawnCommand(const char* /*args*/)
 {
-    Player* pl = m_session->GetPlayer();
+    Player* player = m_session->GetPlayer();
 
     // accept only explicitly selected target (not implicitly self targeting case)
     Unit* target = getSelectedUnit();
-    if (pl->GetSelection() && target)
+    if (player->GetSelection() && target)
     {
         if (target->GetTypeId() != TYPEID_UNIT || target->isPet())
         {
@@ -3458,15 +3458,15 @@ bool ChatHandler::HandleRespawnCommand(const char* /*args*/)
         return true;
     }
 
-    CellCoord p(Trillium::ComputeCellCoord(pl->GetPositionX(), pl->GetPositionY()));
+    CellCoord p(Trillium::ComputeCellCoord(player->GetPositionX(), player->GetPositionY()));
     Cell cell(p);
     cell.SetNoCreate();
 
     Trillium::RespawnDo u_do;
-    Trillium::WorldObjectWorker<Trillium::RespawnDo> worker(pl, u_do);
+    Trillium::WorldObjectWorker<Trillium::RespawnDo> worker(player, u_do);
 
     TypeContainerVisitor<Trillium::WorldObjectWorker<Trillium::RespawnDo>, GridTypeMapContainer > obj_worker(worker);
-    cell.Visit(p, obj_worker, *pl->GetMap(), *pl, pl->GetGridActivationRange());
+    cell.Visit(p, obj_worker, *player->GetMap(), *player, player->GetGridActivationRange());
 
     return true;
 }
@@ -4013,9 +4013,9 @@ bool ChatHandler::HandleComeToMeCommand(const char *args)
 
     caster->SetUnitMovementFlags(newFlags);
 
-    Player* pl = m_session->GetPlayer();
+    Player* player = m_session->GetPlayer();
 
-    caster->GetMotionMaster()->MovePoint(0, pl->GetPositionX(), pl->GetPositionY(), pl->GetPositionZ());
+    caster->GetMotionMaster()->MovePoint(0, player->GetPositionX(), player->GetPositionY(), player->GetPositionZ());
     return true;
 }
 
@@ -4111,7 +4111,7 @@ bool ChatHandler::HandleInstanceUnbindCommand(const char *args)
     if (!player)
         player = m_session->GetPlayer();
 
-    char* pMap = strtok((char*)args, " ");
+    char* map = strtok((char*)args, " ");
     char* pDiff = strtok(NULL, " ");
     int8 diff = -1;
     if (pDiff)
@@ -4119,9 +4119,9 @@ bool ChatHandler::HandleInstanceUnbindCommand(const char *args)
     uint16 counter = 0;
     uint16 MapId = 0;
 
-    if (strcmp(pMap, "all"))
+    if (strcmp(map, "all"))
     {
-        MapId = uint16(atoi(pMap));
+        MapId = uint16(atoi(map));
         if (!MapId)
             return false;
     }
@@ -4159,9 +4159,9 @@ bool ChatHandler::HandleInstanceStatsCommand(const char* /*args*/)
 
 bool ChatHandler::HandleInstanceSaveDataCommand(const char * /*args*/)
 {
-    Player* pl = m_session->GetPlayer();
+    Player* player = m_session->GetPlayer();
 
-    Map* map = pl->GetMap();
+    Map* map = player->GetMap();
     if (!map->IsDungeon())
     {
         PSendSysMessage("Map is not a dungeon.");

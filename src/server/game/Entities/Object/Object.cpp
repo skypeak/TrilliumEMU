@@ -789,7 +789,7 @@ void Object::_SetCreateBits(UpdateMask* updateMask, Player* /*target*/) const
 {
     uint32 *value = m_uint32Values;
 
-    for (uint16 index = 0; index < m_valuesCount; index++, ++value)
+    for (uint16 index = 0; index < m_valuesCount; ++index, ++value)
     {
         if (*value)
             updateMask->SetBit(index);

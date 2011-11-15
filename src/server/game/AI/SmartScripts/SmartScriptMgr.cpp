@@ -552,11 +552,13 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
             break;
         case SMART_ACTION_SET_EMOTE_STATE:
         case SMART_ACTION_PLAY_EMOTE:
-            if (!IsEmoteValid(e, e.action.emote.emote)) return false;
+            if (!IsEmoteValid(e, e.action.emote.emote))
+                return false;
             break;
         case SMART_ACTION_FAIL_QUEST:
         case SMART_ACTION_ADD_QUEST:
-            if (!e.action.quest.quest || !IsQuestValid(e, e.action.quest.quest)) return false;
+            if (!e.action.quest.quest || !IsQuestValid(e, e.action.quest.quest))
+                return false;
             break;
         case SMART_ACTION_ACTIVATE_TAXI:
             {

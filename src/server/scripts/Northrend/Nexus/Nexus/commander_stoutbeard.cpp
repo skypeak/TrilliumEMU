@@ -72,7 +72,7 @@ public:
 
     struct boss_commander_stoutbeardAI : public BossAI
     {
-        boss_commander_stoutbeardAI(Creature *pCreature) : BossAI(pCreature, DATA_COMMANDER)
+        boss_commander_stoutbeardAI(Creature *creature) : BossAI(creature, DATA_COMMANDER)
         {
             me->CastSpell(me, SPELL_FROZEN_PRISON, true);
         }
@@ -174,14 +174,14 @@ class mob_alliance_cleric : public CreatureScript
 public:
     mob_alliance_cleric() : CreatureScript("mob_alliance_cleric") {}
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_alliance_clericAI (pCreature);
+        return new mob_alliance_clericAI (creature);
     }
 
     struct mob_alliance_clericAI : public ScriptedAI
     {
-        mob_alliance_clericAI(Creature *pCreature) : ScriptedAI(pCreature)
+        mob_alliance_clericAI(Creature *creature) : ScriptedAI(creature)
         {
             me->CastSpell(me, SPELL_FROZEN_PRISON, true);
         }
@@ -241,14 +241,14 @@ class mob_alliance_ranger : public CreatureScript
 public:
     mob_alliance_ranger() : CreatureScript("mob_alliance_ranger") {}
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_alliance_rangerAI (pCreature);
+        return new mob_alliance_rangerAI (creature);
     }
 
     struct mob_alliance_rangerAI : public ScriptedAI
     {
-        mob_alliance_rangerAI(Creature *pCreature) : ScriptedAI(pCreature)
+        mob_alliance_rangerAI(Creature *creature) : ScriptedAI(creature)
         {
             me->CastSpell(me, SPELL_FROZEN_PRISON, true);
         }
@@ -324,14 +324,14 @@ class mob_alliance_berserker : public CreatureScript
 public:
     mob_alliance_berserker() : CreatureScript("mob_alliance_berserker") {}
 
-    CreatureAI* GetAI(Creature* pCreature) const
+    CreatureAI* GetAI(Creature* creature) const
     {
-        return new mob_alliance_berserkerAI (pCreature);
+        return new mob_alliance_berserkerAI (creature);
     }
 
     struct mob_alliance_berserkerAI : public ScriptedAI
     {
-        mob_alliance_berserkerAI(Creature *pCreature) : ScriptedAI(pCreature)
+        mob_alliance_berserkerAI(Creature *creature) : ScriptedAI(creature)
         {
             me->CastSpell(me, SPELL_FROZEN_PRISON, true);
         }

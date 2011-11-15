@@ -29,14 +29,14 @@ class instance_razorfen_kraul : public InstanceMapScript
 public:
     instance_razorfen_kraul() : InstanceMapScript("instance_razorfen_kraul", 47) { }
 
-    InstanceScript* GetInstanceScript(InstanceMap* pMap) const
+    InstanceScript* GetInstanceScript(InstanceMap* map) const
     {
-        return new instance_razorfen_kraul_InstanceMapScript(pMap);
+        return new instance_razorfen_kraul_InstanceMapScript(map);
     }
 
     struct instance_razorfen_kraul_InstanceMapScript : public InstanceScript
     {
-        instance_razorfen_kraul_InstanceMapScript(Map* pMap) : InstanceScript(pMap) {}
+        instance_razorfen_kraul_InstanceMapScript(Map* map) : InstanceScript(map) {}
 
         uint64 DoorWardGUID;
         int WardKeeperDeath;

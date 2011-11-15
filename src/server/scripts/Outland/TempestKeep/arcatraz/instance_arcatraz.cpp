@@ -55,7 +55,7 @@ class instance_arcatraz : public InstanceMapScript
         }
         struct instance_arcatraz_InstanceMapScript : public InstanceScript
         {
-            instance_arcatraz_InstanceMapScript(Map* pMap) : InstanceScript(pMap) {}
+            instance_arcatraz_InstanceMapScript(Map* map) : InstanceScript(map) {}
 
             uint32 m_auiEncounter[MAX_ENCOUNTER];
 
@@ -223,9 +223,9 @@ class instance_arcatraz : public InstanceMapScript
             }
         };
 
-        InstanceScript* GetInstanceScript(InstanceMap* pMap) const
+        InstanceScript* GetInstanceScript(InstanceMap* map) const
         {
-            return new instance_arcatraz_InstanceMapScript(pMap);
+            return new instance_arcatraz_InstanceMapScript(map);
         }
 };
 

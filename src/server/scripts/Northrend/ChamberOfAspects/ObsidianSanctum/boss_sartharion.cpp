@@ -544,10 +544,10 @@ public:
 
         void SendFlameTsunami()
         {
-            if (Map* pMap = me->GetMap())
-                if (pMap->IsDungeon())
+            if (Map* map = me->GetMap())
+                if (map->IsDungeon())
                 {
-                    Map::PlayerList const &PlayerList = pMap->GetPlayers();
+                    Map::PlayerList const &PlayerList = map->GetPlayers();
 
                     if (!PlayerList.isEmpty())
                         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
@@ -883,11 +883,11 @@ struct dummy_dragonAI : public ScriptedAI
     //used when open portal and spawn mobs in phase
     void DoRaidWhisper(int32 iTextId)
     {
-        Map* pMap = me->GetMap();
+        Map* map = me->GetMap();
 
-        if (pMap && pMap->IsDungeon())
+        if (map && map->IsDungeon())
         {
-            Map::PlayerList const &PlayerList = pMap->GetPlayers();
+            Map::PlayerList const &PlayerList = map->GetPlayers();
 
             if (!PlayerList.isEmpty())
             {

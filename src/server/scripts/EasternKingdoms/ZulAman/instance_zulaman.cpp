@@ -56,7 +56,7 @@ class instance_zulaman : public InstanceMapScript
 
         struct instance_zulaman_InstanceMapScript : public InstanceScript
         {
-            instance_zulaman_InstanceMapScript(Map* pMap) : InstanceScript(pMap) {}
+            instance_zulaman_InstanceMapScript(Map* map) : InstanceScript(map) {}
 
             uint64 HarkorsSatchelGUID;
             uint64 TanzarsTrunkGUID;
@@ -308,9 +308,9 @@ class instance_zulaman : public InstanceMapScript
             }
         };
 
-        InstanceScript* GetInstanceScript(InstanceMap* pMap) const
+        InstanceScript* GetInstanceScript(InstanceMap* map) const
         {
-            return new instance_zulaman_InstanceMapScript(pMap);
+            return new instance_zulaman_InstanceMapScript(map);
         }
 };
 

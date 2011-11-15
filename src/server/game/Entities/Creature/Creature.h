@@ -490,7 +490,7 @@ class Creature : public Unit, public GridObject<Creature>, public MapCreature
         bool isCanTrainingOf(Player* player, bool msg) const;
         bool isCanInteractWithBattleMaster(Player* player, bool msg) const;
         bool isCanTrainingAndResetTalentsOf(Player* player) const;
-        bool canCreatureAttack(Unit const *pVictim, bool force = true) const;
+        bool canCreatureAttack(Unit const *victim, bool force = true) const;
         bool IsImmunedToSpell(SpellInfo const* spellInfo);
                                                             // redefine Unit::IsImmunedToSpell
         bool IsImmunedToSpellEffect(SpellInfo const* spellInfo, uint32 index) const;
@@ -603,15 +603,15 @@ class Creature : public Unit, public GridObject<Creature>, public MapCreature
         void RemoveLootMode(uint16 lootMode) { m_LootMode &= ~lootMode; }
         void ResetLootMode() { m_LootMode = LOOT_MODE_DEFAULT; }
 
-        SpellInfo const *reachWithSpellAttack(Unit *pVictim);
-        SpellInfo const *reachWithSpellCure(Unit *pVictim);
+        SpellInfo const *reachWithSpellAttack(Unit *victim);
+        SpellInfo const *reachWithSpellCure(Unit *victim);
 
         uint32 m_spells[CREATURE_MAX_SPELLS];
         CreatureSpellCooldowns m_CreatureSpellCooldowns;
         CreatureSpellCooldowns m_CreatureCategoryCooldowns;
 
         bool canStartAttack(Unit const* u, bool force) const;
-        float GetAttackDistance(Unit const* pl) const;
+        float GetAttackDistance(Unit const* player) const;
 
         void SendAIReaction(AiReaction reactionType);
 
