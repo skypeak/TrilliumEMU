@@ -1435,34 +1435,34 @@ bool ChatHandler::extractPlayerTarget(char* args, Player** player, uint64* playe
             return false;
         }
 
-        Player* player = sObjectAccessor->FindPlayerByName(name.c_str());
+        Player* pl = sObjectAccessor->FindPlayerByName(name.c_str());
 
         // if allowed player pointer
         if (player)
-            *player = player;
+            *player = pl;
 
         // if need guid value from DB (in name case for check player existence)
-        uint64 guid = !player && (player_guid || player_name) ? sObjectMgr->GetPlayerGUIDByName(name) : 0;
+        uint64 guid = !pl && (player_guid || player_name) ? sObjectMgr->GetPlayerGUIDByName(name) : 0;
 
         // if allowed player guid (if no then only online players allowed)
         if (player_guid)
-            *player_guid = player ? player->GetGUID() : guid;
+            *player_guid = pl ? pl->GetGUID() : guid;
 
         if (player_name)
-            *player_name = player || guid ? name : "";
+            *player_name = pl || guid ? name : "";
     }
     else
     {
-        Player* player = getSelectedPlayer();
+        Player* pl = getSelectedPlayer();
         // if allowed player pointer
         if (player)
-            *player = player;
+            *player = pl;
         // if allowed player guid (if no then only online players allowed)
         if (player_guid)
-            *player_guid = player ? player->GetGUID() : 0;
+            *player_guid = pl ? pl->GetGUID() : 0;
 
         if (player_name)
-            *player_name = player ? player->GetName() : "";
+            *player_name = pl ? pl->GetName() : "";
     }
 
     // some from req. data must be provided (note: name is empty if player not exist)
