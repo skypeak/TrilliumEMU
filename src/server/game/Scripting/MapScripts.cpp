@@ -103,24 +103,24 @@ void Map::ScriptCommandStart(ScriptInfo const& script, uint32 delay, Object* sou
 // Helpers for ScriptProcess method.
 inline Player* Map::_GetScriptPlayerSourceOrTarget(Object* source, Object* target, const ScriptInfo* scriptInfo) const
 {
-    Player *pPlayer = NULL;
+    Player *player = NULL;
     if (!source && !target)
         sLog->outError("%s source and target objects are NULL.", scriptInfo->GetDebugInfo().c_str());
     else
     {
         // Check target first, then source.
         if (target)
-            pPlayer = target->ToPlayer();
-        if (!pPlayer && source)
-            pPlayer = source->ToPlayer();
+            player = target->ToPlayer();
+        if (!player && source)
+            player = source->ToPlayer();
 
-        if (!pPlayer)
+        if (!player)
             sLog->outError("%s neither source nor target object is player (source: TypeId: %u, Entry: %u, GUID: %u; target: TypeId: %u, Entry: %u, GUID: %u), skipping.",
                 scriptInfo->GetDebugInfo().c_str(),
                 source ? source->GetTypeId() : 0, source ? source->GetEntry() : 0, source ? source->GetGUIDLow() : 0,
                 target ? target->GetTypeId() : 0, target ? target->GetEntry() : 0, target ? target->GetGUIDLow() : 0);
     }
-    return pPlayer;
+    return player;
 }
 
 inline Creature* Map::_GetScriptCreatureSourceOrTarget(Object* source, Object* target, const ScriptInfo* scriptInfo, bool bReverse) const
@@ -158,7 +158,7 @@ inline Creature* Map::_GetScriptCreatureSourceOrTarget(Object* source, Object* t
 
 inline Unit* Map::_GetScriptUnit(Object* obj, bool isSource, const ScriptInfo* scriptInfo) const
 {
-    Unit* pUnit = NULL;
+    Unit* unit = NULL;
     if (!obj)
         sLog->outError("%s %s object is NULL.", scriptInfo->GetDebugInfo().c_str(), isSource ? "source" : "target");
     else if (!obj->isType(TYPEMASK_UNIT))
@@ -166,27 +166,27 @@ inline Unit* Map::_GetScriptUnit(Object* obj, bool isSource, const ScriptInfo* s
             scriptInfo->GetDebugInfo().c_str(), isSource ? "source" : "target", obj->GetTypeId(), obj->GetEntry(), obj->GetGUIDLow());
     else
     {
-        pUnit = obj->ToUnit();
-        if (!pUnit)
+        unit = obj->ToUnit();
+        if (!unit)
             sLog->outError("%s %s object could not be casted to unit.",
                 scriptInfo->GetDebugInfo().c_str(), isSource ? "source" : "target");
     }
-    return pUnit;
+    return unit;
 }
 
 inline Player* Map::_GetScriptPlayer(Object* obj, bool isSource, const ScriptInfo* scriptInfo) const
 {
-    Player* pPlayer = NULL;
+    Player* player = NULL;
     if (!obj)
         sLog->outError("%s %s object is NULL.", scriptInfo->GetDebugInfo().c_str(), isSource ? "source" : "target");
     else
     {
-        pPlayer = obj->ToPlayer();
-        if (!pPlayer)
+        player = obj->ToPlayer();
+        if (!player)
             sLog->outError("%s %s object is not a player (TypeId: %u, Entry: %u, GUID: %u).",
                 scriptInfo->GetDebugInfo().c_str(), isSource ? "source" : "target", obj->GetTypeId(), obj->GetEntry(), obj->GetGUIDLow());
     }
-    return pPlayer;
+    return player;
 }
 
 inline Creature* Map::_GetScriptCreature(Object* obj, bool isSource, const ScriptInfo* scriptInfo) const
@@ -598,31 +598,31 @@ void Map::ScriptsProcess()
                 // Source or target must be WorldObject.
                 if (WorldObject* pSummoner = _GetScriptWorldObject(source, true, step.script))
                 {
-                    GameObject *pGO = _FindGameObject(pSummoner, step.script->RespawnGameobject.GOGuid);
-                    if (!pGO)
+                    GameObject *go = _FindGameObject(pSummoner, step.script->RespawnGameobject.GOGuid);
+                    if (!go)
                     {
                         sLog->outError("%s gameobject was not found (guid: %u).", step.script->GetDebugInfo().c_str(), step.script->RespawnGameobject.GOGuid);
                         break;
                     }
 
-                    if (pGO->GetGoType() == GAMEOBJECT_TYPE_FISHINGNODE ||
-                        pGO->GetGoType() == GAMEOBJECT_TYPE_DOOR        ||
-                        pGO->GetGoType() == GAMEOBJECT_TYPE_BUTTON      ||
-                        pGO->GetGoType() == GAMEOBJECT_TYPE_TRAP)
+                    if (go->GetGoType() == GAMEOBJECT_TYPE_FISHINGNODE ||
+                        go->GetGoType() == GAMEOBJECT_TYPE_DOOR        ||
+                        go->GetGoType() == GAMEOBJECT_TYPE_BUTTON      ||
+                        go->GetGoType() == GAMEOBJECT_TYPE_TRAP)
                     {
                         sLog->outError("%s can not be used with gameobject of type %u (guid: %u).",
-                            step.script->GetDebugInfo().c_str(), uint32(pGO->GetGoType()), step.script->RespawnGameobject.GOGuid);
+                            step.script->GetDebugInfo().c_str(), uint32(go->GetGoType()), step.script->RespawnGameobject.GOGuid);
                         break;
                     }
 
                     // Check that GO is not spawned
-                    if (!pGO->isSpawned())
+                    if (!go->isSpawned())
                     {
                         int32 nTimeToDespawn = std::max(5, int32(step.script->RespawnGameobject.DespawnDelay));
-                        pGO->SetLootState(GO_READY);
-                        pGO->SetRespawnTime(nTimeToDespawn);
+                        go->SetLootState(GO_READY);
+                        go->SetRespawnTime(nTimeToDespawn);
 
-                        pGO->GetMap()->AddToMap(pGO);
+                        go->GetMap()->AddToMap(go);
                     }
                 }
                 break;
@@ -671,8 +671,8 @@ void Map::ScriptsProcess()
                         break;
                     }
 
-                    if (GameObject *pGO = target->ToGameObject())
-                        pGO->Use(pSource);
+                    if (GameObject *go = target->ToGameObject())
+                        go->Use(pSource);
                 }
                 break;
 

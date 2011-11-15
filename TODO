@@ -2,7 +2,6 @@
 Current Trillium Issues - Not a complete list
 -----------------------
 
-- Vendors should work, but the windows open not.
 - Transport system [not complete] Should be fixed.
 - Spells DBC [almost complete] Will add custom support
 - Random client crashs related to ByteBufferException DATATYPES [unidentified] Will be rewrited.

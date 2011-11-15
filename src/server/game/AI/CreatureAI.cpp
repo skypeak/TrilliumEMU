@@ -114,20 +114,20 @@ void CreatureAI::DoZoneInCombat(Creature* creature /*= NULL*/, float maxRangeToN
     }
 }
 
-void CreatureAI::DoAttackerAreaInCombat(Unit* attacker, float range, Unit* pUnit)
+void CreatureAI::DoAttackerAreaInCombat(Unit* attacker, float range, Unit* unit)
 {
     if (!attacker)
         attacker = me;
 
-    if (!pUnit)
-        pUnit = me;
+    if (!unit)
+        unit = me;
 
-    Map *map = pUnit->GetMap();
+    Map *map = unit->GetMap();
 
     if (!map->IsDungeon())
         return;
 
-    if (!pUnit->CanHaveThreatList() || pUnit->getThreatManager().isThreatListEmpty())
+    if (!unit->CanHaveThreatList() || unit->getThreatManager().isThreatListEmpty())
         return;
 
     Map::PlayerList const &PlayerList = map->GetPlayers();
@@ -136,9 +136,9 @@ void CreatureAI::DoAttackerAreaInCombat(Unit* attacker, float range, Unit* pUnit
         if (Player* i_pl = i->getSource())
             if (i_pl->isAlive() && attacker->GetDistance(i_pl) <= range )
             {
-                pUnit->SetInCombatWith(i_pl);
-                i_pl->SetInCombatWith(pUnit);
-                pUnit->AddThreat(i_pl, 0.0f);
+                unit->SetInCombatWith(i_pl);
+                i_pl->SetInCombatWith(unit);
+                unit->AddThreat(i_pl, 0.0f);
             }
     }
 }
