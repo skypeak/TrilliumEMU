@@ -107,7 +107,7 @@ public:
 
     struct boss_lieutenant_drakeAI : public ScriptedAI
     {
-        boss_lieutenant_drakeAI(Creature* c) : ScriptedAI(c) {}
+        boss_lieutenant_drakeAI(Creature* creature) : ScriptedAI(creature) {}
 
         bool CanPatrol;
         uint32 wpId;
@@ -119,13 +119,13 @@ public:
 
         void Reset()
         {
-            CanPatrol = true;
-            wpId = 0;
+            CanPatrol          		= true;
+            wpId               		= 0;
 
-            Whirlwind_Timer = 20000;
-            Fear_Timer = 30000;
-            MortalStrike_Timer = 45000;
-            ExplodingShout_Timer = 25000;
+            Whirlwind_Timer    		= 20000;
+            Fear_Timer         		= 30000;
+            MortalStrike_Timer 		= 45000;
+            ExplodingShout_Timer 	= 25000;
         }
 
         void EnterCombat(Unit* /*who*/)
