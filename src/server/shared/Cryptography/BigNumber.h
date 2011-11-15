@@ -22,7 +22,7 @@
 #ifndef _AUTH_BIGNUMBER_H
 #define _AUTH_BIGNUMBER_H
 
-#include "Common.h"
+#include "Define.h"
 
 struct bignum_st;
 
