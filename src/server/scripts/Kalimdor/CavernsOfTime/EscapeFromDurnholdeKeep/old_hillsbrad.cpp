@@ -83,7 +83,6 @@ public:
 
         return true;
     }
-
 };
 
 /*######
@@ -555,7 +554,6 @@ public:
                 }
         }
     };
-
 };
 
 /*######
@@ -647,7 +645,6 @@ public:
             npc_escortAI::UpdateAI(diff);
         }
     };
-
 };
 
 void AddSC_old_hillsbrad()

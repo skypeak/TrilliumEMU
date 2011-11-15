@@ -453,7 +453,6 @@ class instance_uldaman : public InstanceMapScript
                     case 2748:    // Archaedas
                         uiArchaedasGUID = creature->GetGUID();
                         break;
-
                 } // end switch
             } // end OnCreatureCreate
 

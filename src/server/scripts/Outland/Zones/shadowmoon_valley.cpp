@@ -175,7 +175,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*###
@@ -317,7 +316,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*#####
@@ -397,7 +395,6 @@ public:
             }
         }
     };
-
 };
 
 /*######
@@ -427,7 +424,6 @@ public:
 
         return true;
     }
-
 };
 
 /*######
@@ -479,7 +475,6 @@ public:
 
         return true;
     }
-
 };
 
 /*######
@@ -548,7 +543,6 @@ public:
         player->SEND_GOSSIP_MENU(10940, creature->GetGUID());
         return true;
     }
-
 };
 
 /*######
@@ -624,7 +618,6 @@ public:
 
         return true;
     }
-
 };
 
 /*####
@@ -650,7 +643,6 @@ public:
 
         return true;
     }
-
 };
 
 /*####
@@ -875,7 +867,6 @@ public:
             } else ConversationTimer -= diff;
         }
     };
-
 };
 
 /*####
@@ -1053,7 +1044,6 @@ public:
             }
         }
     };
-
 };
 
 /*#####
@@ -1257,7 +1247,6 @@ public:
                 me->CombatStop();
             } else if (!Timers)
             {
-
                 SpellTimer1 = SpawnCast[6].Timer1;
                 SpellTimer2 = SpawnCast[7].Timer1;
                 SpellTimer3 = SpawnCast[8].Timer1;
@@ -1313,7 +1302,6 @@ public:
             }
         }
     };
-
 };
 
 /*#####
@@ -1459,7 +1447,6 @@ public:
                 EnterEvadeMode();
         }
     };
-
 };
 
 /*######
@@ -1578,7 +1565,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 void npc_lord_illidan_stormrage::npc_lord_illidan_stormrageAI::SummonNextWave()
@@ -1672,7 +1658,6 @@ public:
         }
      return true;
     }
-
 };
 
 /*####
@@ -1793,7 +1778,6 @@ public:
             }
         }
     };
-
 };
 
 /*#####

@@ -19,7 +19,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef DEF_THE_STONECORE_H
 #define DEF_THE_STONECORE_H
 

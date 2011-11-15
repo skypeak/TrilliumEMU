@@ -83,7 +83,6 @@ class StorageLoader
                 StorageLoader &file;
 
                 friend class StorageLoader;
-
         };
 
         // Get record by id

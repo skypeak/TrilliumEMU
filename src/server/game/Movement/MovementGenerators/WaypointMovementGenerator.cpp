@@ -277,7 +277,6 @@ void FlightPathMovementGenerator::Finalize(Player & player)
     float z = 0;
     i_destinationHolder.GetLocationNow(player.GetBaseMap(), x, y, z);
     player.UpdatePosition(x, y, z, player.GetOrientation());
-
 }
 
 bool FlightPathMovementGenerator::Update(Player &player, const uint32 diff)
@@ -375,7 +374,6 @@ void FlightPathMovementGenerator::DoEventIfAny(Player& player, TaxiPathNodeEntry
         player.GetMap()->ScriptsStart(sEventScripts, eventid, &player, &player);
     }
 }
-
 
 //
 // Unique1's ASTAR Pathfinding Code... For future use & reference...

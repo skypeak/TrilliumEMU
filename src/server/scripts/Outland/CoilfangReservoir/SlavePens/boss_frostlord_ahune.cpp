@@ -16,7 +16,7 @@
  */
 
  #include <LFGMgr.h>
- 
+
 // npc_frostlord_ahune
 #define EMOTE_SUBMERGE      "Ahune Retreats. His Defenses Diminish."
 #define EMOTE_EMERGE_SOON   "Ahune will soon resurface."

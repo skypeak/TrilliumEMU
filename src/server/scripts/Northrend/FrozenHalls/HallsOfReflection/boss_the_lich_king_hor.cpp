@@ -435,7 +435,6 @@ public:
     {
         return new npc_raging_gnoulAI(pCreature);
     }
-
 };
 /*
 class npc_risen_witch_doctor : public CreatureScript
@@ -470,7 +469,6 @@ public:
                 return;
 
             m_pInstance->SetData(DATA_SUMMONS, 0);
-
         }
 
         void AttackStart(Unit* who)
@@ -517,7 +515,6 @@ public:
     {
         return new npc_risen_witch_doctorAI(pCreature);
     }
-
 };
 */
 class npc_abon : public CreatureScript

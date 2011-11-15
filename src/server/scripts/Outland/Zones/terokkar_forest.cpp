@@ -146,7 +146,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*######
@@ -179,7 +178,6 @@ public:
                         DoCast(me, 39130, true);
         }
     };
-
 };
 
 /*######
@@ -241,7 +239,6 @@ public:
             npc_escortAI::UpdateAI(diff);
         }
     };
-
 };
 
 /*######
@@ -274,7 +271,6 @@ public:
                         DoCast(me, 39134, true);
         }
     };
-
 };
 
 /*######
@@ -327,7 +323,6 @@ public:
             }
         }
     };
-
 };
 
 /*######
@@ -435,7 +430,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*######
@@ -528,7 +522,6 @@ public:
     {
         return new npc_isla_starmaneAI(creature);
     }
-
 };
 
 /*######
@@ -623,7 +616,6 @@ public:
 
         return true;
     }
-
 };
 
 /*########
@@ -690,7 +682,6 @@ public:
             summon->AI()->AttackStart(me);
         }
     };
-
 };
 
 void AddSC_terokkar_forest()

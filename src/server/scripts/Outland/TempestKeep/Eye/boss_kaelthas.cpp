@@ -374,7 +374,6 @@ class boss_kaelthas : public CreatureScript
 
                     if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
                         AttackStart(target);
-
                 }
                 else
                 {
@@ -871,7 +870,6 @@ class boss_kaelthas : public CreatureScript
                         //Phase 5
                         if (Phase == 6)
                         {
-
                             //GravityLapse_Timer
                             if (GravityLapse_Timer <= diff)
                             {

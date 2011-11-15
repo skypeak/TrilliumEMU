@@ -65,7 +65,6 @@ namespace VMAP
         return pos;
     }
 
-
     // move to MapTree too?
     std::string VMapManager2::getMapFileName(unsigned int mapId)
     {
@@ -289,5 +288,4 @@ namespace VMAP
     {
         return StaticMapTree::CanLoadMap(std::string(basePath), mapId, x, y);
     }
-
 } // namespace VMAP

@@ -131,7 +131,6 @@ public:
                     {
                         near_f = i + 1;
                         diff = me->GetDistance2d(temp);
-
                     }
                 }
             }
@@ -156,7 +155,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 void AddSC_utgarde_keep()

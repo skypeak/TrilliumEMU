@@ -203,7 +203,6 @@ public:
             summon->SetPhaseMask(17, true);
         }
     };
-
 };
 
 class achievement_void_dance : public AchievementCriteriaScript

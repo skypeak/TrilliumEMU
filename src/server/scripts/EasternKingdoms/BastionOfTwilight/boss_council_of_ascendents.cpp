@@ -101,12 +101,10 @@ class boss_feludius : public CreatureScript
 
         void HandleDummy()
         {
-
         }
 
         void Register()
         {
-
         }
     };
 
@@ -158,7 +156,6 @@ class boss_ignacious : public CreatureScript
                             me->GetMotionMaster()->Clear(false);
                             me->GetMotionMaster()->MoveIdle();
                         //case POINT_THERALION_LAND:
-
                     }
                 }
             }
@@ -221,12 +218,10 @@ class spell_inferno_ping : public SpellScriptLoader
         void HandlerDummy()
         {
             Summon(GetCaster());
-
         }
 
         void Register()
         {
-
         }
     };
 

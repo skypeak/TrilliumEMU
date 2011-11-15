@@ -27,7 +27,6 @@
 
 namespace DisableMgr
 {
-
 namespace
 {
     struct DisableData
@@ -283,7 +282,6 @@ bool IsDisabledFor(DisableType type, uint32 entry, Unit const* unit, uint8 flags
             uint8 flags = itr->second.flags;
             if (unit)
             {
-
                 if ((flags & SPELL_DISABLE_PLAYER && unit->GetTypeId() == TYPEID_PLAYER) ||
                     (unit->GetTypeId() == TYPEID_UNIT && ((unit->ToCreature()->isPet() && flags & SPELL_DISABLE_PET) || flags & SPELL_DISABLE_CREATURE)))
                 {
@@ -357,5 +355,4 @@ bool IsDisabledFor(DisableType type, uint32 entry, Unit const* unit, uint8 flags
 
     return false;
 }
-
 } // Namespace

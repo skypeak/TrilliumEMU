@@ -139,7 +139,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class mob_coilfang_waterelemental : public CreatureScript
@@ -179,7 +178,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 void AddSC_boss_hydromancer_thespia()

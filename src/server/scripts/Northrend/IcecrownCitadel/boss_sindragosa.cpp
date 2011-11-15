@@ -277,7 +277,7 @@ class boss_sindragosa : public CreatureScript
                 {
                     if (TempSummon* summon = me->ToTempSummon())
                         summon->SetTempSummonType(TEMPSUMMON_DEAD_DESPAWN);
-						
+
                     instance->SetData(DATA_SINDRAGOSA_FROSTWYRMS, 255);
                     if (me->isDead())
                         return;
@@ -1436,7 +1436,6 @@ class spell_rimefang_icy_blast : public SpellScriptLoader
                     {
                         summon->CastSpell(summon, 65686, true); //Just visual aura
                     }
-
             }
 
             void Register()

@@ -19,7 +19,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef DEF_THRONE_OF_THE_TIDES
 #define DEF_THRONE_OF_THE_TIDES
 

@@ -359,7 +359,6 @@ public:
             }
         }
     };
-
 };
 
 void AddSC_instance_zulfarrak()

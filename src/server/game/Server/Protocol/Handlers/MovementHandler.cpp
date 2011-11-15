@@ -754,7 +754,6 @@ void WorldSession::ReadMovementInfo(WorldPacket &data, MovementInfo *mi)
     mi->t_guid = *(uint64*)tguid;
 }
 
-
 void WorldSession::WriteMovementInfo(WorldPacket &data, MovementInfo *mi)
 {
         bool HaveTransportData = mi->HasMovementFlag(MOVEMENTFLAG_ONTRANSPORT),

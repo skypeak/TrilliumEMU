@@ -504,7 +504,6 @@ public:
             }
         }
     };
-
 };
 
 class mob_aran_elemental : public CreatureScript
@@ -542,7 +541,6 @@ public:
             } else CastTimer -= diff;
         }
     };
-
 };
 
 // CONVERT TO ACID
@@ -566,7 +564,6 @@ public:
 
         return ai;
     }
-
 };
 
 void AddSC_boss_shade_of_aran()

@@ -119,7 +119,6 @@ enum DataTypes
     GUID_EDGE_DESTROY_WARNING       = 48,
     DATA_BEEN_WAITING_ACHIEVEMENT   = 49,
     DATA_NECK_DEEP_ACHIEVEMENT      = 50,
-
 };
 
 enum CreaturesIds

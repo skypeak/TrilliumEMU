@@ -164,7 +164,6 @@ public:
             if (!who)
                 return;
 
-
             if (Phase == IDLE && who->isTargetableForAttack() && me->IsHostileTo(who) && me->IsWithinDistInMap(who, 40))
             {
                 Phase = INTRO;
@@ -177,7 +176,6 @@ public:
                     if (GameObject* go = GameObject::GetGameObject(*me, uiDoodadMirror))
                         go->Use(me);
                 }
-
             }
         }
 
@@ -261,7 +259,6 @@ public:
             } else uiIntroTimer -= diff;
         }
     };
-
 };
 
 class mob_ritual_channeler : public CreatureScript
@@ -298,7 +295,6 @@ public:
         }
         }
     };
-
 };
 
 class boss_svala_sorrowgrave : public CreatureScript
@@ -523,7 +519,6 @@ public:
             DoScriptText(SAY_DEATH, me);
         }
     };
-
 };
 
 void AddSC_boss_svala()

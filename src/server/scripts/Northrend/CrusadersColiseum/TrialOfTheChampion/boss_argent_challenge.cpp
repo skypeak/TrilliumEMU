@@ -69,9 +69,6 @@ enum eSpells
     SPELL_STRIKE                = 67237,
     SPELL_CLEAVE                = 15284,
 
-
-
-
     SPELL_FONT                  = 67194,
 
     //Memory
@@ -593,7 +590,6 @@ public:
     };
 };
 
-
 // THIS AI NEEDS MORE IMPROVEMENTS
 class npc_argent_soldier : public CreatureScript
 {
@@ -637,7 +633,6 @@ public:
         uint32 uiFinalTimer;
         uint32 uiDivineTimer;
         uint32 uiResetTimer;
-
 
         uint32 uiHolySmiteTimer;
         uint32 uiFountainTimer;
@@ -695,10 +690,8 @@ public:
                     if (GameObject* pGO = GameObject::GetGameObject(*me, pInstance->GetData64(DATA_MAIN_GATE)))
                         pInstance->HandleGameObject(pGO->GetGUID(),false);
                         break;
-
                 }
                 me->SendMovementFlagUpdate();
-
             }
         }
 

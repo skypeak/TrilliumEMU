@@ -292,7 +292,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*######
@@ -378,7 +377,6 @@ public:
             // No melee attack at all!
         }
     };
-
 };
 
 void AddSC_boss_ionar()

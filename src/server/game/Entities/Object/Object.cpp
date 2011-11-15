@@ -116,7 +116,6 @@ Object::~Object()
 
     delete [] m_uint32Values;
     delete [] _changedFields;
-
 }
 
 void Object::_InitValues()
@@ -1978,7 +1977,6 @@ void WorldObject::SendMessageToSet(WorldPacket* data, bool self)
 {
     SendMessageToSetInRange(data, GetVisibilityRange(), self);
 }
-
 
 void WorldObject::SendMessageToSetInRange(WorldPacket* data, float dist, bool /*self*/)
 {

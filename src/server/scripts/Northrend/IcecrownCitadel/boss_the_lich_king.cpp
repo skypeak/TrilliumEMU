@@ -3274,7 +3274,6 @@ class spell_lich_king_vile_spirit_summon_visual : public SpellScriptLoader
         }
 };
 
-
 class spell_lich_king_winter : public SpellScriptLoader
 {
     public:
@@ -3576,7 +3575,6 @@ class spell_valkyr_eject_passenger : public SpellScriptLoader
     public:
         spell_valkyr_eject_passenger() : SpellScriptLoader("spell_valkyr_eject_passenger") { }
 
-
         class spell_valkyr_eject_passenger_SpellScript : public SpellScript
         {
             PrepareSpellScript(spell_valkyr_eject_passenger_SpellScript);
@@ -3741,7 +3739,6 @@ class spell_lich_king_harvest_soul : public SpellScriptLoader
             return new spell_lich_king_harvest_soul_AuraScript();
         }
 };
-
 
 class spell_lich_king_fury_of_frostmourne : public SpellScriptLoader
 {

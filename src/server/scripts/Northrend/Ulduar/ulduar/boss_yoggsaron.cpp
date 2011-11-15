@@ -20,7 +20,6 @@
 #include "ScriptPCH.h"
 #include "ulduar.h"
 
-
 enum Sara_Yells
 {
     SAY_SARA_PREFIGHT_1                         = -1603310,
@@ -464,7 +463,6 @@ const Position EventNpcLocation[9] =
     { 1903.41f, -160.21f, 239.99f, 1.114f }, // Immolated Champion
     { 1909.31f, -155.88f, 239.99f, 4.222f }, // Turned Champion
     { 1907.02f, -153.92f, 239.99f, 4.187f }, // The Lich King
-
 };
 
 struct EventNPC
@@ -1498,8 +1496,6 @@ public:
                                     yogg->CastSpell(yogg,SPELL_SUMMON_CRUSHER_TENTACLE,true);
                                 uiTentacle1_Timer = uiBrainEvents_Count < 4 ? urand(30000,40000) : urand(10000,15000);
                             }else uiTentacle1_Timer -= diff;
-
-
                         }else
                         {
                             if(Creature* yoggbrain = me->GetCreature(*me,guidYoggBrain))
@@ -1988,7 +1984,6 @@ public:
                 player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BE_SPELL_TARGET2,SPELL_ILLUSION_ROOM);
                 creature->DespawnOrUnsummon(500);
             }
-
         }
 
         return true;
@@ -2032,7 +2027,6 @@ public:
         void UpdateAI(uint32 const /*diff*/) {}
     };
 };
-
 
 class npc_brain_of_yogg_saron : public CreatureScript
 {
@@ -3279,7 +3273,6 @@ public:
 
     bool OnUse(Player* player, Item* pItem, SpellCastTargets const& /*targets*/)
     {
-
         if(Creature* yogg = player->FindNearestCreature(ENTRY_YOGG_SARON,20))
         {
             if(yogg->FindCurrentSpellBySpellId(SPELL_DEAFENING_ROAR))

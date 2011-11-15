@@ -79,7 +79,6 @@ enum Cords
     X = 0,
     Y = 0,
     Z = 0
-
 };
 
 enum Events
@@ -488,5 +487,4 @@ void AddSC_boss_anraphet()
     new boss_air_warden;
     new boss_earth_warden;
     new boss_water_warden;
-
 }

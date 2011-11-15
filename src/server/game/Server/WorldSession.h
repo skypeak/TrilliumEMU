@@ -403,7 +403,7 @@ class WorldSession
         bool Chest;
         uint64 Chestguid;
         uint32 Chestentry;
-		
+
         uint64 ConvertToRealHighGuid(uint64 guid, uint32 entry)
         {
             uint64 coef = 0x1000000;

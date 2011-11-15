@@ -225,7 +225,6 @@ public:
             }
             else
                 handler->PSendSysMessage(LANG_ACCOUNT_LIST_ERROR, name.c_str());
-
         }while (resultDB->NextRow());
 
         handler->SendSysMessage(LANG_ACCOUNT_LIST_BAR);
@@ -362,7 +361,6 @@ public:
                 handler->SetSentErrorMessage(true);
                 return false;
             }
-
         }
 
         // Let set addon state only for lesser (strong) security level

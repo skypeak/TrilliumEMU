@@ -255,7 +255,6 @@ void Transport::Update(uint32 diff)
             break;
         }
 
-
         MoveToNextWayPoint();
 
         SetMoving(true);

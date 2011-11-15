@@ -63,7 +63,6 @@ class boss_ayamiss : public CreatureScript
                 POISONSTINGER_Timer = 30000;
                 SUMMONSWARMER_Timer = 60000;
                 phase = 1;
-
             }
 
             void UpdateAI(uint32 const diff)

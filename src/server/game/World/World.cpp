@@ -599,7 +599,7 @@ void World::LoadConfigSettings(bool reload)
     m_int_configs[CONFIG_INTERVAL_DISCONNECT_TOLERANCE] = ConfigMgr::GetIntDefault("DisconnectToleranceInterval", 0);
     m_bool_configs[CONFIG_STATS_SAVE_ONLY_ON_LOGOUT] = ConfigMgr::GetBoolDefault("PlayerSave.Stats.SaveOnlyOnLogout", true);
 	m_bool_configs[CONFIG_DUEL_RESET_COOLDOWN] = ConfigMgr::GetBoolDefault("DuelResetCooldown", false);
-	
+
     m_int_configs[CONFIG_MIN_LEVEL_STAT_SAVE] = ConfigMgr::GetIntDefault("PlayerSave.Stats.MinLevel", 0);
     if (m_int_configs[CONFIG_MIN_LEVEL_STAT_SAVE] > MAX_LEVEL)
     {
@@ -1214,7 +1214,7 @@ void World::LoadConfigSettings(bool reload)
 	// Area DuelReset
     m_int_configs[CONFIG_DUEL_RESET_ONE] = ConfigMgr::GetIntDefault("Duel.Reset.Area.One", 1);
     m_int_configs[CONFIG_DUEL_RESET_TWO] = ConfigMgr::GetIntDefault("Duel.Reset.Area.Two", 616);
-	
+
     sScriptMgr->OnConfigLoad(reload);
 }
 
@@ -1750,8 +1750,8 @@ void World::SetInitialWorldSettings()
     sTransportMgr->SpawnContinentTransports();
 
     sLog->outString("Loading Fly Paths...");
-    sObjectMgr->LoadFlyPaths();	
-	
+    sObjectMgr->LoadFlyPaths();
+
     sLog->outString("Deleting expired bans...");
     LoginDatabase.Execute("DELETE FROM ip_banned WHERE unbandate <= UNIX_TIMESTAMP() AND unbandate<>bandate");
 
@@ -1869,7 +1869,6 @@ void World::LoadAutobroadcasts()
 
     do
     {
-
         Field* fields = result->Fetch();
         std::string message = fields[0].GetString();
 
@@ -3236,7 +3235,6 @@ void World::UpdateSessions(uint32 diff)
             RemoveQueuedPlayer(pSession);
             m_sessions.erase(itr);
             delete pSession;
-
         }
     }
 }

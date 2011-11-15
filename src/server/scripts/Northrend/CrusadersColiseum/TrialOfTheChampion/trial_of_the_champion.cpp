@@ -77,7 +77,6 @@ enum Creatures
     CREATURE_ANNOUNCER                    = 35004
 };
 
-
 class npc_anstart : public CreatureScript
 {
 public:
@@ -162,7 +161,6 @@ public:
 
         void UpdateAI(const uint32 diff)
         {
-
             if (Phase != INTRO)
                 return;
 
@@ -509,7 +507,6 @@ public:
                                 break;
                         }
                     }
-
                 }
             }
         }
@@ -606,7 +603,6 @@ public:
                     me->SetReactState(REACT_AGGRESSIVE);
                     DoScriptText(SAY_START5, me);
                 }
-
             }
         }
 
@@ -655,7 +651,6 @@ public:
                 }
             }
         }
-
 
        void UpdateAI(const uint32 uiDiff)
         {

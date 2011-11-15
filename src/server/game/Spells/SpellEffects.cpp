@@ -337,8 +337,6 @@ void Spell::EffectEnvironmentalDMG(SpellEffIndex /*effIndex*/)
 
     m_caster->CalcAbsorbResist(unitTarget, m_spellInfo->GetSchoolMask(), SPELL_DIRECT_DAMAGE, damage, &absorb, &resist, m_spellInfo);
 
-
-
     m_caster->SendSpellNonMeleeDamageLog(unitTarget, m_spellInfo->Id, damage, m_spellInfo->GetSchoolMask(), absorb, resist, false, 0, false);
     if (unitTarget->GetTypeId() == TYPEID_PLAYER)
         unitTarget->ToPlayer()->EnvironmentalDamage(DAMAGE_FIRE, damage);
@@ -348,8 +346,6 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
 {
     if (effectHandleMode != SPELL_EFFECT_HANDLE_LAUNCH_TARGET)
         return;
-
-
 
     bool apply_direct_bonus = true;
 
@@ -481,7 +477,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                     case 29142: // Eyesore Blaster
                     case 35139: // Throw Boom's Doom
                     case 46198: // Cold Slap
-                    case 46588: // Ice Spear					
+                    case 46588: // Ice Spear
                     case 42393: // Brewfest - Attack Keg
                     case 55269: // Deathly Stare
                     case 56578: // Rapid-Fire Harpoon
@@ -773,7 +769,6 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                     int32 energy = -(m_caster->ModifyPower(POWER_ENERGY, -30));
                     damage += int32(energy * multiple);
                     damage += int32(CalculatePctN(m_caster->ToPlayer()->GetComboPoints() * ap, 7));
-
                 }
                 // Starfire
                 else if (m_spellInfo->SpellFamilyFlags[0] & 0x00000004)
@@ -920,7 +915,6 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                     // TODO: should this be put on taken but not done?
                     if (found)
                         damage += m_spellInfo->Effects[EFFECT_1].CalcValue();
-
                 }
                 break;
             }
@@ -2384,9 +2378,6 @@ void Spell::EffectTriggerRitualOfSummoning(SpellEffIndex effIndex)
     }
 
     finish();
-
-
-
 
     m_caster->CastSpell((Unit*)NULL, spellInfo, false);
 }
@@ -4333,7 +4324,6 @@ void Spell::EffectEnchantItemTmp(SpellEffIndex effIndex)
         {
             sLog->outError("Spell::EffectEnchantItemTmp: unknown spell id %i", spell_id);
             return;
-
         }
 
         for (int j = BASE_ATTACK; j <= OFF_ATTACK; ++j)
@@ -4741,7 +4731,6 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex) // Damage made by Weapons
         }
         case SPELLFAMILY_PALADIN:
 		{
-
 			switch (m_spellInfo->Id)
 			{
 				case 35395:     // Crusader Strike
@@ -4778,7 +4767,7 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex) // Damage made by Weapons
             if (m_spellInfo->Id == 85256)
             {
 				float bonus_damage = 0;
-                
+
 				// Crusader
 				if (AuraEffect const * aurEff = m_caster->GetAuraEffect(SPELL_AURA_ADD_PCT_MODIFIER, SPELLFAMILY_PALADIN, 2171, 1))
 					bonus_damage = aurEff->GetAmount()/100.0f;
@@ -4802,7 +4791,7 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex) // Damage made by Weapons
                         break;
                         // 3 Holy Power
                         case 3:
-                            totalDamagePercentMod += 2.0f; 
+                            totalDamagePercentMod += 2.0f;
                             totalDamagePercentMod += bonus_damage;
                         break;
                     }
@@ -5238,7 +5227,6 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                             aurEff->GetBase()->SetDuration(uint32(aurEff->GetBase()->GetDuration() + 3000));
                             aurEff->GetBase()->SetMaxDuration(countMin + 2000);
                         }
-
                     }
                     return;
                 }
@@ -6536,8 +6524,6 @@ void Spell::EffectActivateObject(SpellEffIndex /*effIndex*/)
 {
     if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
         return;
-
-
 
     if (!gameObjTarget)
         return;

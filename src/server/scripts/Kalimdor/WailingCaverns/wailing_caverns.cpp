@@ -181,7 +181,6 @@ public:
 
         void Reset()
         {
-
         }
 
         void EnterCombat(Unit* who)
@@ -386,7 +385,6 @@ public:
             } else eventTimer -= diff;
         }
     };
-
 };
 
 void AddSC_wailing_caverns()

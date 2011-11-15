@@ -580,7 +580,7 @@ LanguageDesc const* GetLanguageDescByID(uint32 lang);
 struct FlyPathsEntry
 {
     FlyPathsEntry() : pathid(0), point(0), map(0), position_x(0), position_y(0), position_z(0) {}
-    FlyPathsEntry(uint32 _pathid, uint32 _point, uint32 _map, float _position_x, float _position_y, float _position_z) : 
+    FlyPathsEntry(uint32 _pathid, uint32 _point, uint32 _map, float _position_x, float _position_y, float _position_z) :
     pathid(_pathid), point(_point), map(_map), position_x(_position_x), position_y(_position_y), position_z(_position_z) {}
 
     int       pathid;
@@ -1175,7 +1175,7 @@ class ObjectMgr
 			}
             return NULL;
         }
-		
+
         VendorItemData const* GetNpcVendorItemList(uint32 entry) const
         {
             CacheVendorItemMap::const_iterator  iter = m_mCacheVendorItemMap.find(entry);
@@ -1378,7 +1378,7 @@ class ObjectMgr
         CacheTrainerSpellMap m_mCacheTrainerSpellMap;
 
 		FlyPathsMap mFlyPathsMap;
-		
+
         std::set<uint32> difficultyEntries[MAX_DIFFICULTY - 1]; // already loaded difficulty 1 value in creatures, used in CheckCreatureTemplate
         std::set<uint32> hasDifficultyEntries[MAX_DIFFICULTY - 1]; // already loaded creatures with difficulty 1 values, used in CheckCreatureTemplate
 
@@ -1389,7 +1389,6 @@ class ObjectMgr
             GO_TO_GO,
             GO_TO_CREATURE,         // GO is dependant on creature
         };
-
 };
 
 #define sObjectMgr ACE_Singleton<ObjectMgr, ACE_Null_Mutex>::instance()

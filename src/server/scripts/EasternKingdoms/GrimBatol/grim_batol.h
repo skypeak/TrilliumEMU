@@ -19,7 +19,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef DEF_GRIM_BATOL_H
 #define DEF_GRIM_BATOL_H
 

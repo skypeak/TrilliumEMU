@@ -423,7 +423,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class mob_swarm_scarab : public CreatureScript

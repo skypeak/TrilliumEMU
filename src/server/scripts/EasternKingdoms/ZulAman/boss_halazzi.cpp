@@ -392,7 +392,6 @@ class mob_halazzi_lynx : public CreatureScript
 
                 DoMeleeAttackIfReady();
             }
-
         };
 
         CreatureAI* GetAI(Creature* creature) const

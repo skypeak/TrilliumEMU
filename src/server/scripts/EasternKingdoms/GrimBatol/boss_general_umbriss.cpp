@@ -266,7 +266,6 @@ public:
     {
         return new npc_malveillantAI (pCreature);
     }
-
 };
 
 /****************
@@ -319,7 +318,6 @@ public:
     {
         return new npc_habitantAI (pCreature);
     }
-
 };
 
 void AddSC_boss_general_umbriss()

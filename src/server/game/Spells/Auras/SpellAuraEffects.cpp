@@ -2083,7 +2083,6 @@ void AuraEffect::HandleAuraModShapeshift(AuraApplication const* aurApp, uint8 mo
 			PowerType = POWER_ENERGY;
 			break;
 
-
         case FORM_BEAR:                                     // 0x05
         case FORM_DIREBEAR:                                 // 0x08
 

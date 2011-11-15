@@ -128,7 +128,6 @@ public:
             } else move -= diff;
         }
     };
-
 };
 
 class boss_grandmaster_vorpil : public CreatureScript
@@ -308,7 +307,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 void AddSC_boss_grandmaster_vorpil()

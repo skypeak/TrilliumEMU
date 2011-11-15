@@ -178,7 +178,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 #define SPELL_DISPEL_MAGIC          17201
@@ -256,7 +255,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 void AddSC_boss_mekgineer_steamrigger()

@@ -713,7 +713,6 @@ public:
     };
 };
 
-
 class mob_natural_bomb : public CreatureScript
 {
 public:
@@ -993,7 +992,6 @@ public:
 
             DoMeleeAttackIfReady();
         }
-
     };
 };
 
@@ -1266,7 +1264,6 @@ public:
         }
 };
 
-
 class mob_elder_brightleaf : public CreatureScript
 {
 public:
@@ -1349,7 +1346,6 @@ public:
 
             DoMeleeAttackIfReady();
         }
-
     };
 };
 
@@ -1425,7 +1421,6 @@ public:
     };
 };
 
-
 class mob_elder_ironbranch : public CreatureScript
 {
 public:
@@ -1499,7 +1494,6 @@ public:
         }
     };
 };
-
 
 class mob_elder_stonebark : public CreatureScript
 {

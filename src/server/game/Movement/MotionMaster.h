@@ -172,7 +172,7 @@ class MotionMaster //: private std::stack<MovementGenerator *>
         void MovePath(uint32 path_id, bool repeatable);
         void MoveRotate(uint32 time, RotateDirection direction);
         void MoveFlyPath(uint32 path, float speed, MovementSlot slot);
-        double GetPointTime(float currentx, float currenty, float newx, float newy);		
+        double GetPointTime(float currentx, float currenty, float newx, float newy);
 
         MovementGeneratorType GetCurrentMovementGeneratorType() const;
         MovementGeneratorType GetMotionSlotType(int slot) const;

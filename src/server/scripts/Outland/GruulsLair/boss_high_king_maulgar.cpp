@@ -297,7 +297,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 //Olm The Summoner AI
@@ -425,7 +424,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 //Kiggler The Crazed AI
@@ -547,7 +545,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 //Blindeye The Seer AI
@@ -657,7 +654,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 //Krosh Firehand AI

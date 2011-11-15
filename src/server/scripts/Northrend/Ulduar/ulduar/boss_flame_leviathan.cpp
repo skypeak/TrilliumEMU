@@ -36,7 +36,6 @@
 #include "Vehicle.h"
 #include "ulduar.h"
 
-
 enum Spells
 {
     SPELL_PURSUED                               = 62374,
@@ -339,7 +338,6 @@ class boss_flame_leviathan : public CreatureScript
                 char fText[128];
                 sprintf(fText, "DEBUG >> %u LootRecipient: %s", isAllowed, me->GetLootRecipient() ? me->GetLootRecipient()->GetName() : "not found");
                 me->MonsterYell(fText, LANG_UNIVERSAL, 0);
-
             }
 
             void SpellHitTarget(Unit* target, SpellInfo const* spell)
@@ -1045,7 +1043,6 @@ public:
             }
         }
     };
-
 };
 
 class npc_hodirs_fury : public CreatureScript

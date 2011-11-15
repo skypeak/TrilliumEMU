@@ -100,7 +100,6 @@ public:
 
     bool OnGossipHello(Player* player, Creature* creature)
     {
-
         if (player->GetQuestStatus(QUEST_MISSING_SCOUTS) == QUEST_STATUS_INCOMPLETE)
         {
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM1, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
@@ -224,7 +223,6 @@ public:
                     pGO->SetGoState(GO_STATE_READY);
             }
         }
-
     };
 
     CreatureAI* GetAI(Creature* creature) const
@@ -293,7 +291,6 @@ public:
         {
             me->RestoreFaction();
         }
-
     };
 
     bool OnGossipHello(Player* player, Creature* creature)
@@ -595,7 +592,6 @@ public:
     }
 };
 
-
 /*######
 ## Quest: Cold Hearted (12856)
 ######*/
@@ -834,7 +830,6 @@ public:
                         base->RemoveCharmedBy(base->GetCharmer());
             }
         }
-
     };
 
     CreatureAI* GetAI(Creature* creature) const

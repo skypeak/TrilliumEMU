@@ -19,7 +19,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef DEF_BARADIN_HOLD_H_
 #define DEF_BARADIN_HOLD_H_
 

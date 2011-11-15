@@ -103,7 +103,6 @@ class instance_serpent_shrine : public InstanceMapScript
                 FrenzySpawnTimer = 2000;
                 DoSpawnFrenzy = false;
                 TrashCount = 0;
-
             }
 
             bool IsEncounterInProgress() const
@@ -136,7 +135,6 @@ class instance_serpent_shrine : public InstanceMapScript
                             {
                                 if (Water == WATERSTATE_SCALDING)
                                 {
-
                                     if (!player->HasAura(SPELL_SCALDINGWATER))
                                     {
                                         player->CastSpell(player, SPELL_SCALDINGWATER, true);
@@ -158,7 +156,6 @@ class instance_serpent_shrine : public InstanceMapScript
                             if (!player->IsInWater())
                                 player->RemoveAurasDueToSpell(SPELL_SCALDINGWATER);
                         }
-
                     }
                     WaterCheckTimer = 500;//remove stress from core
                 }

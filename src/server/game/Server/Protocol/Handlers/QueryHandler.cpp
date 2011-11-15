@@ -177,7 +177,7 @@ void WorldSession::HandleGameObjectQueryOpcode(WorldPacket & recv_data)
         --guid;
         Chest = false;
     }
-	
+
     GameObjectTemplate const* info = sObjectMgr->GetGameObjectTemplate(entryID);
     if (info)
     {

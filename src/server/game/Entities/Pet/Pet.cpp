@@ -82,7 +82,6 @@ void Pet::AddToWorld()
         GetCharmInfo()->SetIsFollowing(false);
         GetCharmInfo()->SetIsReturning(false);
     }
-
 }
 
 void Pet::RemoveFromWorld()
@@ -294,7 +293,7 @@ bool Pet::LoadPetFromDB(Player* owner, uint32 petentry, uint32 petnumber, bool c
     map->AddToMap(this->ToCreature());
 
     m_resetTalentsCost = fields[15].GetUInt32();
-    m_resetTalentsTime = time_t(fields[16].GetUInt32());    
+    m_resetTalentsTime = time_t(fields[16].GetUInt32());
 	InitTalentForLevel();                                   // set original talents points before spell loading
 
     uint32 timediff = uint32(time(NULL) - fields[14].GetUInt32());
@@ -437,7 +436,7 @@ void Pet::SavePetToDB(PetSlot mode)
         };
 
         ss << "', "
-            << time(NULL) << ','	
+            << time(NULL) << ','
             << GetUInt32Value(UNIT_CREATED_BY_SPELL) << ','
             << uint32(getPetType()) << ','
             << uint32(m_resetTalentsCost) << ','

@@ -148,7 +148,6 @@ public:
             return 0;
         }
     };
-
 };
 
 void AddSC_instance_scarlet_monastery()

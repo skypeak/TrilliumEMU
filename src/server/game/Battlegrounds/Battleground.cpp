@@ -288,7 +288,7 @@ void Battleground::Update(uint32 diff)
                         else
                             EndBattleground(ALLIANCE);
                     }
-                }				
+                }
             }
             else
             {
@@ -329,7 +329,6 @@ inline void Battleground::_ProcessOfflineQueue()
             }
         }
     }
-
 }
 
 inline void Battleground::_ProcessRessurect(uint32 diff)

@@ -19,7 +19,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "Common.h"
 
 #ifdef _WIN32
@@ -301,7 +300,6 @@ bool MySQLConnection::_Query(PreparedStatement* stmt, MYSQL_RES **pResult, uint6
         *pFieldCount = mysql_stmt_field_count(msql_STMT);
 
         return true;
-
     }
 }
 

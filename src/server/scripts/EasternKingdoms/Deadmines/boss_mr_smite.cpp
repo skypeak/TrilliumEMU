@@ -156,7 +156,6 @@ public:
                             me->GetMotionMaster()->MoveChase(me->getVictim(), me->m_CombatDistance);
                             uiPhase = 0;
                             break;
-
                     }
                 } else uiTimer -= uiDiff;
             }
@@ -172,9 +171,7 @@ public:
             uiTimer = 1500;
             uiPhase = 1;
         }
-
     };
-
 };
 
 void AddSC_boss_mr_smite()

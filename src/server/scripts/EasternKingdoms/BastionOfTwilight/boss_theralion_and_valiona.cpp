@@ -105,14 +105,12 @@ class boss_theralion : public CreatureScript
                             me->GetMotionMaster()->Clear(false);
                             me->GetMotionMaster()->MoveIdle();
                         //case POINT_THERALION_LAND:
-
                     }
                 }
             }
 
             void UpdateAI(const uint32 uiDiff)
             {
-
                 Creature * Valiona = GetValiona();
 
                 if (!UpdateVictim())
@@ -173,7 +171,6 @@ class boss_theralion : public CreatureScript
                             uiTwilightBlastTimer = 3000;
                             me->SummonCreature(NPC_THERALION_FLIGHT_TARGET_STALKER,me->getVictim()->GetPositionX(),me->getVictim()->GetPositionY(),me->getVictim()->GetPositionZ(),0.0f,TEMPSUMMON_MANUAL_DESPAWN);
                         } else uiTwilightBlastTimer -= uiDiff;
-
                 }
             }
         private:
@@ -195,8 +192,6 @@ class boss_theralion : public CreatureScript
         {
             return new boss_theralionAI(pCreature);
         }
-
-
 };
 class boss_valiona : public CreatureScript
 {
@@ -246,7 +241,6 @@ class boss_valiona : public CreatureScript
                 {
                     switch (id)
                     {
-
                         case POINT_VALIONA_TAKEOFF:
                             me->GetMotionMaster()->Clear(false);
                             me->GetMotionMaster()->MoveIdle();
@@ -303,7 +297,6 @@ class boss_valiona : public CreatureScript
         {
             return new boss_valionaAI(pCreature);
         }
-
 };
 class spell_dazzling_destruction : public SpellScriptLoader
 {

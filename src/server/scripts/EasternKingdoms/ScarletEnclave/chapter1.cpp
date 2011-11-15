@@ -309,7 +309,6 @@ public:
 
         uint64 GetGUID(int32 /*id*/) { return prisonerGUID; }
     };
-
 };
 
 class go_acherus_soul_prison : public GameObjectScript
@@ -326,7 +325,6 @@ public:
 
         return false;
     }
-
 };
 
 /*######
@@ -513,7 +511,6 @@ public:
             CombatAI::UpdateAI(uiDiff);
         }
     };
-
 };
 
 /*######
@@ -582,7 +579,6 @@ public:
                         break;
                 }
             } else PhaseTimer -= diff;
-
         }
 
         void InitDespawnHorse(Unit* who)
@@ -597,9 +593,7 @@ public:
             me->SetTarget(TargetGUID);
             Intro = true;
         }
-
     };
-
 };
 
 /*######
@@ -677,7 +671,6 @@ public:
             }
         }
     };
-
 };
 
 /*######
@@ -726,7 +719,6 @@ public:
             }
         }
     };
-
 };
 
 // correct way: 52312 52314 52555 ...
@@ -774,7 +766,6 @@ public:
             }
         }
     };
-
 };
 
 class npc_scarlet_ghoul : public CreatureScript
@@ -857,7 +848,6 @@ public:
             }
         }
     };
-
 };
 
 /*####
@@ -913,7 +903,6 @@ public:
                     miner->DisappearAndDie();
         }
     };
-
 };
 
 /*####
@@ -1047,7 +1036,6 @@ public:
             npc_escortAI::UpdateAI(diff);
         }
     };
-
 };
 
 /*######
@@ -1081,7 +1069,6 @@ public:
         }
         return true;
     }
-
 };
 
 // npc 28912 quest 17217 boss 29001 mob 29007 go 191092

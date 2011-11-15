@@ -710,7 +710,6 @@ public:
                 me->AI()->AttackStart(target);
         }
 
-
         Unit* SelectPlayerTargetInRange(float range)
         {
             Player *target = NULL;
@@ -749,7 +748,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 /*-------------------------------------------------------
@@ -805,7 +803,6 @@ public:
 
         void UpdateAI(const uint32 /*diff*/) { }
     };
-
 };
 
 /*-------------------------------------------------------

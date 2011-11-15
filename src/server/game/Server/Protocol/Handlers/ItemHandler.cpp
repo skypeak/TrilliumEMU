@@ -1266,7 +1266,6 @@ void WorldSession::HandleSocketOpcode(WorldPacket& recv_data)
                         }
                     }
                 }
-
             }
         }
 

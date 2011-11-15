@@ -429,7 +429,6 @@ void ObjectMgr::LoadCreatureTemplates()
 
         uint32 entry = fields[0].GetUInt32();
 
-
         CreatureTemplate& creatureTemplate = CreatureTemplateStore[entry];
 
         creatureTemplate.Entry = entry;
@@ -482,7 +481,7 @@ void ObjectMgr::LoadCreatureTemplates()
         creatureTemplate.maxrangedmg       = fields[41].GetFloat();
         creatureTemplate.rangedattackpower = uint32(fields[42].GetUInt16());
         creatureTemplate.type              = uint32(fields[43].GetUInt8());
-        
+
         for (uint8 i = 0; i < MAX_TYPE_FLAGS; ++i)
             creatureTemplate.type_flags[i]        = fields[44].GetUInt32();
 
@@ -1374,7 +1373,6 @@ void ObjectMgr::LoadLinkedRespawn()
 
         if (!error)
             mLinkedRespawnMap[guid] = linkedGuid;
-
     }
     while (result->NextRow());
 
@@ -1571,7 +1569,6 @@ void ObjectMgr::LoadCreatures()
             AddCreatureToGrid(guid, &data);
 
         ++count;
-
     } while (result->NextRow());
 
     sLog->outString(">> Loaded %u creatures in %u ms", count, GetMSTimeDiffToNow(oldMSTime));
@@ -1880,7 +1877,6 @@ void ObjectMgr::LoadGameobjects()
         if (gameEvent == 0 && PoolId == 0)                      // if not this is to be managed by GameEvent System or Pool system
             AddGameobjectToGrid(guid, &data);
         ++count;
-
     } while (result->NextRow());
 
     sLog->outString(">> Loaded %lu gameobjects in %u ms", (unsigned long)mGameObjectDataMap.size(), GetMSTimeDiffToNow(oldMSTime));
@@ -4341,7 +4337,6 @@ void ObjectMgr::LoadScripts(ScriptsType type)
 
     do
     {
-
         Field* fields = result->Fetch();
         ScriptInfo tmp;
         tmp.type      = type;
@@ -4750,7 +4745,6 @@ void ObjectMgr::LoadWaypointScripts()
             uint32 action = fields[0].GetUInt32();
 
             actionSet.erase(action);
-
         } while (result->NextRow());
     }
 
@@ -4777,7 +4771,6 @@ void ObjectMgr::LoadSpellScriptNames()
 
     do
     {
-
         Field* fields = result->Fetch();
 
         int32 spellId         = fields[0].GetInt32();
@@ -4919,7 +4912,6 @@ void ObjectMgr::LoadPageTexts()
             PageTextContainer::const_iterator itr2 = PageTextStore.find(itr->second.NextPage);
             if (itr2 == PageTextStore.end())
                 sLog->outErrorDb("Page text (Id: %u) has not existing next page (Id: %u)", itr->first, itr->second.NextPage);
-
         }
     }
 
@@ -5111,7 +5103,6 @@ void ObjectMgr::LoadGossipText()
     int count = 0;
     if (!result)
     {
-
         sLog->outString(">> Loaded %u npc texts", count);
         sLog->outString();
         return;
@@ -5245,7 +5236,6 @@ void ObjectMgr::ReturnOrDeleteOldMails(bool serverUp)
     uint32 returnedCount = 0;
     do
     {
-
         Field* fields = result->Fetch();
         Mail *m = new Mail;
         m->messageID = fields[0].GetUInt32();
@@ -5381,7 +5371,6 @@ void ObjectMgr::LoadQuestAreaTriggers()
         }
 
         mQuestAreaTriggerMap[trigger_ID] = quest_ID;
-
     } while (result->NextRow());
 
     sLog->outString(">> Loaded %u quest trigger points in %u ms", count, GetMSTimeDiffToNow(oldMSTime));
@@ -5907,7 +5896,6 @@ void ObjectMgr::LoadAreaTriggerTeleports()
         }
 
         mAreaTriggers[Trigger_ID] = at;
-
     } while (result->NextRow());
 
     sLog->outString(">> Loaded %u area trigger teleport definitions in %u ms", count, GetMSTimeDiffToNow(oldMSTime));
@@ -6517,7 +6505,6 @@ void ObjectMgr::LoadExplorationBaseXP()
 
     do
     {
-
         Field* fields = result->Fetch();
         uint8 level  = fields[0].GetUInt8();
         uint32 basexp = fields[1].GetUInt32();
@@ -6559,7 +6546,6 @@ void ObjectMgr::LoadPetNames()
 
     do
     {
-
         Field* fields = result->Fetch();
         std::string word = fields[0].GetString();
         uint32 entry     = fields[1].GetUInt32();
@@ -6666,7 +6652,6 @@ void ObjectMgr::LoadReputationRewardRate()
 
     do
     {
-
         Field* fields = result->Fetch();
 
         uint32 factionId        = fields[0].GetUInt32();
@@ -6732,7 +6717,6 @@ void ObjectMgr::LoadCurrencyOnKill()
    do
    {
        Field* fields = result->Fetch();
-
 
        uint32 creature_id = fields[0].GetUInt32();
 
@@ -6857,7 +6841,6 @@ void ObjectMgr::LoadReputationSpilloverTemplate()
 
     do
     {
-
         Field* fields = result->Fetch();
 
         uint32 factionId                = fields[0].GetUInt32();
@@ -7031,7 +7014,6 @@ void ObjectMgr::LoadQuestPOI()
 
         do
         {
-
             Field* fields = points->Fetch();
 
             uint32 questId            = fields[0].GetUInt32();
@@ -7362,7 +7344,6 @@ void ObjectMgr::LoadQuestRelationsHelper(QuestRelations& map, std::string table,
 
     do
     {
-
         uint32 id     = result->Fetch()[0].GetUInt32();
         uint32 quest  = result->Fetch()[1].GetUInt32();
         uint32 poolId = result->Fetch()[2].GetUInt32();
@@ -7727,7 +7708,6 @@ bool ObjectMgr::LoadTrilliumStrings(char const* table, int32 min_value, int32 ma
 
     if (!result)
     {
-
         if (min_value == MIN_TRILLIUMEMU_STRING_ID)              // error only in case internal strings
             sLog->outErrorDb(">> Loaded 0 Trillium strings. DB table `%s` is empty. Cannot continue.", table);
         else
@@ -7815,7 +7795,6 @@ void ObjectMgr::LoadFishingBaseSkillLevel()
 
     do
     {
-
         Field* fields = result->Fetch();
         uint32 entry  = fields[0].GetUInt32();
         int32 skill   = fields[1].GetInt32();
@@ -7924,7 +7903,6 @@ void ObjectMgr::LoadGameTele()
 
     do
     {
-
         Field* fields = result->Fetch();
 
         uint32 id         = fields[0].GetUInt32();
@@ -8050,7 +8028,6 @@ void ObjectMgr::LoadMailLevelRewards()
 
     do
     {
-
         Field* fields = result->Fetch();
 
         uint8 level           = fields[0].GetUInt8();
@@ -8194,7 +8171,6 @@ void ObjectMgr::LoadTrainerSpell()
 
     do
     {
-
         Field* fields = result->Fetch();
 
         uint32 entry         = fields[0].GetUInt32();
@@ -8207,7 +8183,6 @@ void ObjectMgr::LoadTrainerSpell()
         AddSpellToTrainer(entry, spell, spellCost, reqSkill, reqSkillValue, reqLevel);
 
         count++;
-
     }
     while (result->NextRow());
 
@@ -8246,7 +8221,6 @@ int ObjectMgr::LoadReferenceVendor(int32 vendor, int32 item, std::set<uint32> *s
             vList.AddItem(item_id, maxcount, incrtime, ExtendedCost);
             ++count;
         }
-
     } while (result->NextRow());
 
     return count;
@@ -8297,7 +8271,6 @@ void ObjectMgr::LoadVendors()
             vList.AddItem(item_id, maxcount, incrtime, ExtendedCost);
             ++count;
         }
-
     }
     while (result->NextRow());
 
@@ -8324,7 +8297,6 @@ void ObjectMgr::LoadGossipMenu()
 
     do
     {
-
         Field* fields = result->Fetch();
 
         GossipMenus gMenu;
@@ -8376,7 +8348,6 @@ void ObjectMgr::LoadGossipMenuItems()
 
     do
     {
-
         Field* fields = result->Fetch();
 
         GossipMenuItems gMenuItem;
@@ -8547,7 +8518,7 @@ void ObjectMgr::LoadFlyPaths()
 
     mFlyPathsMap.clear();                             // need for reload case
 
-    //                                           0         1       2     3       4           5           6       
+    //                                           0         1       2     3       4           5           6
     QueryResult result = WorldDatabase.Query("SELECT Id, pathid, point, map, position_x, position_y, position_z FROM `fly_paths`");
     if (!result)
     {

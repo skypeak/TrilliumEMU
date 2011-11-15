@@ -226,14 +226,13 @@ public:
                                         for (Map::PlayerList::const_iterator itr = PlList.begin(); itr != PlList.end(); ++itr)
                                             if (Player * player = itr->getSource())
                                                 player->KilledMonsterCredit(MalGanis_Kill_Credit, 0);
-                                }								
+                                }
                                 me->SetVisible(false);
                                 me->Kill(me);
                                 break;
-
                         }
-                    } 
-					else 
+                    }
+					else
 					   uiOutroTimer -= diff;
                     break;
             }
@@ -259,7 +258,6 @@ public:
             DoScriptText(RAND(SAY_SLAY_1, SAY_SLAY_2, SAY_SLAY_3, SAY_SLAY_4), me);
         }
     };
-
 };
 
 void AddSC_boss_mal_ganis()

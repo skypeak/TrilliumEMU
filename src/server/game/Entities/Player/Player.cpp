@@ -1772,7 +1772,7 @@ void Player::Update(uint32 p_time)
         if (Moving == false)
         {
             if (CurrentPoint != LastPoint+1)
-                SendMonsterMoveFly(FlightPos[CurrentPoint].GetPositionX(), FlightPos[CurrentPoint].GetPositionY(), 
+                SendMonsterMoveFly(FlightPos[CurrentPoint].GetPositionX(), FlightPos[CurrentPoint].GetPositionY(),
                     FlightPos[CurrentPoint].GetPositionZ(), currenttraveltime[CurrentPoint], this);
             Moving = true;
         }
@@ -1857,7 +1857,6 @@ void Player::Update(uint32 p_time)
     //because we don't want player's ghost teleported from graveyard
     if (IsHasDelayedTeleport() && isAlive())
         TeleportTo(m_teleport_dest, m_teleport_options);
-
 }
 
 void Player::setDeathState(DeathState s)
@@ -2073,7 +2072,6 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
         sLog->outDetail("Guid 3: %i", uint8(guid >> 16));
     }
 
-
     *data << uint8(playerClass);                          // class
 	sLog->outDetail("Class: %i", playerClass);
 
@@ -2094,7 +2092,7 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
 
     *data << fields[1].GetString();                       // name
 	sLog->outDetail("Name: %s", fields[1].GetString().c_str());
-	
+
     *data << uint32(fields[9].GetUInt32());               // map
 	sLog->outDetail("Map: %i", fields[9].GetUInt32());
 
@@ -2667,7 +2665,6 @@ void Player::Regenerate(Powers power)
                 addvalue += -20 * RageDecreaseRate * haste;               // 2 rage by tick (= 2 seconds => 1 rage/sec)
             }
              break;
-
         }
         case POWER_HOLY_POWER:                              // Regenerate holy power
         {
@@ -2696,7 +2693,6 @@ void Player::Regenerate(Powers power)
         default:
             break;
     }
-
 
     // Mana regen calculated in Player::UpdateManaRegen()
     if (power != POWER_MANA)
@@ -4010,7 +4006,6 @@ bool Player::addSpell(uint32 spell_id, bool active, bool learning, bool dependen
                         break;
                 }
             }
-
         }
     }
 
@@ -4229,7 +4224,6 @@ void Player::removeSpell(uint32 spell_id, bool disabled, bool learn_low_rank)
                 SetSkill(prevSkill->skill, prevSkill->step, skill_value, skill_max_value);
             }
         }
-
     }
     else
     {
@@ -4511,7 +4505,6 @@ void Player::_SaveSpellCooldowns(SQLTransaction& trans)
         }
         else
             ++itr;
-
     }
     // if something changed execute
     if (!first_round)
@@ -5744,7 +5737,6 @@ void Player::CleanupChannels()
         ch->Leave(GetGUID(), false);                        // not send to client, not remove from player's channel list
         if (ChannelMgr* cMgr = channelMgr(GetTeam()))
             cMgr->LeftChannel(ch->GetName());               // deleted channel if empty
-
     }
     sLog->outDebug(LOG_FILTER_CHATSYS, "Player: channels cleaned up!");
 }
@@ -8685,7 +8677,6 @@ void Player::_RemoveAllItemMods()
                 _ApplyWeaponDependentAuraMods(m_items[i], WeaponAttackType(attacktype), false);
 
             _ApplyItemBonuses(proto, i, false);
-
         }
     }
 
@@ -8712,7 +8703,6 @@ void Player::_ApplyAllItemMods()
                 _ApplyWeaponDependentAuraMods(m_items[i], WeaponAttackType(attacktype), true);
 
             _ApplyItemBonuses(proto, i, true);
-
         }
     }
 
@@ -8757,7 +8747,7 @@ void Player::_ApplyAllLevelScaleItemMods(bool apply)
     }
 }
 
-// If in a battleground a player dies, and an enemy removes the insignia, 
+// If in a battleground a player dies, and an enemy removes the insignia,
 // The player's bones is lootable called by remove insignia spell effect
 void Player::RemovedInsignia(Player* looterPlr)
 {
@@ -12545,7 +12535,6 @@ void Player::RemoveItem(uint8 bag, uint8 slot, bool update)
                             break;
                     }
                 }
-
             }
 
             m_items[slot] = NULL;
@@ -12651,7 +12640,6 @@ void Player::DestroyItem(uint8 bag, uint8 slot, bool update)
                     RemoveItemsSetItem(this, pProto);
 
                 _ApplyItemMods(pItem, slot, false);
-
             }
 
             if (slot < EQUIPMENT_SLOT_END)
@@ -14640,7 +14628,6 @@ void Player::OnGossipSelect(WorldObject* source, uint32 gossipListId, uint32 men
 
     if (nocost == false)
         ModifyMoney(-int32(cost));
-
 }
 
 uint32 Player::GetGossipTextId(WorldObject* source)
@@ -14950,7 +14937,6 @@ bool Player::CanCompleteQuest(uint32 quest_id)
 
         if (q_status.m_status == QUEST_STATUS_INCOMPLETE)
         {
-
             if (qInfo->HasFlag(QUEST_TRILLIUMEMU_FLAGS_DELIVER))
             {
                 for (uint8 i = 0; i < QUEST_ITEM_OBJECTIVES_COUNT; i++)
@@ -15294,7 +15280,6 @@ void Player::RewardQuest(Quest const *pQuest, uint32 reward, Object* questGiver,
             GetAchievementMgr().UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_MONEY_FROM_QUEST_REWARD, uint32(moneyRew));
     }
 
-
     // title reward
     if (pQuest->GetCharTitleId())
     {
@@ -15316,7 +15301,6 @@ void Player::RewardQuest(Quest const *pQuest, uint32 reward, Object* questGiver,
         if( currId && currCount )
             ModifyCurrency(currId, currCount * PLAYER_CURRENCY_PRECISION);
     }
-
 
     // Send reward mail
     if (uint32 mail_template_id = pQuest->GetRewMailTemplateId())
@@ -18314,7 +18298,6 @@ void Player::_LoadConquestPointsWeekCap(PreparedQueryResult result)
 
             m_maxWeekRating[source] = fields[1].GetUInt16();
             m_conquestPointsWeekCap[source] = fields[2].GetUInt16();
-
         }
         while(result->NextRow());
     }
@@ -18946,7 +18929,6 @@ void Player::SaveToDB()
     // save pet (hunter pet level and experience and all type pets health/mana).
     if (Pet* pet = GetPet())
         pet->SavePetToDB(PET_SLOT_ACTUAL_PET_SLOT);
-
 }
 
 // fast save function for item/money cheating preventing - save only inventory and money state
@@ -20014,7 +19996,6 @@ void Player::VehicleSpellInitialize()
     if (!veh)
         return;
 
-
     uint8 cooldownCount = veh->m_CreatureSpellCooldowns.size() + veh->m_CreatureCategoryCooldowns.size();
 
     WorldPacket data(SMSG_PET_SPELLS, 8 + 2 + 4 + 4 + 4 * 10 + 1 + 1 + cooldownCount * (4 + 2 + 4 + 4));
@@ -20361,7 +20342,6 @@ void Player::RemovePetitionsAndSigns(uint64 guid, uint32 type)
             Player* owner = ObjectAccessor::FindPlayer(ownerguid);
             if (owner)
                 owner->GetSession()->SendPetitionQueryOpcode(petitionguid);
-
         } while (result->NextRow());
 
         if (type == 10)
@@ -22393,7 +22373,6 @@ void Player::SetDailyQuestStatus(uint32 quest_id)
                     break;
                 }
             }
-
         } else
         {
             m_DFQuests.insert(quest_id);

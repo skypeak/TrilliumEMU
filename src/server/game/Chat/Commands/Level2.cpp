@@ -268,7 +268,6 @@ bool ChatHandler::HandlePInfoCommand(const char* args)
     uint32 areaId;
     uint32 phase = 0;
 
-
     // get additional information from Player object
     if (target)
     {
@@ -670,7 +669,6 @@ bool ChatHandler::HandleCombatStopCommand(const char* args)
 
 bool ChatHandler::HandleLookupPlayerIpCommand(const char* args)
 {
-
     if (!*args)
         return false;
 
@@ -706,7 +704,6 @@ bool ChatHandler::HandleLookupPlayerAccountCommand(const char* args)
 
 bool ChatHandler::HandleLookupPlayerEmailCommand(const char* args)
 {
-
     if (!*args)
         return false;
 
@@ -761,7 +758,6 @@ bool ChatHandler::LookupPlayerSearchCommand(QueryResult result, int32 limit)
 
                 PSendSysMessage(LANG_LOOKUP_PLAYER_CHARACTER, name.c_str(), guid);
                 ++i;
-
             } while (chars->NextRow() && (limit == -1 || i < limit));
         }
     } while (result->NextRow());

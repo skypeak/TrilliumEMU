@@ -634,7 +634,7 @@ void Guild::Member::WritePacket(WorldPacket& data) const
         data << uint32(m_rankId);
         data << float(0);
         data << uint8(1);                                                      //connected
-        data << uint32(player->GetAchievementMgr().GetAchievementPoints());    //Achievement 
+        data << uint32(player->GetAchievementMgr().GetAchievementPoints());    //Achievement
         data << uint32(/*player->GetZoneId()*/ 4395);
         data << uint8(player->getLevel());
         data << uint64(0);                                                     //unk
@@ -756,10 +756,10 @@ void EmblemInfo::WritePacket(WorldPacket& data) const
     data << uint32(m_borderStyle);
     data << uint32(m_borderColor);
     data << uint32(m_backgroundColor);
-    
+
     for(int i = 0; i < 10; i++)
         data << uint32(0);                                  // something new in Cataclysm (link with rank.)
-    
+
     for(int i = 0; i < 10; i++)
         data << uint32(0);                                  // something new in Cataclysm (link with rank.)
 }
@@ -2814,21 +2814,21 @@ void Guild::SwitchRank(uint32 oldID, uint32 newID)
 {
     if (oldID == GR_GUILDMASTER || newID == GR_GUILDMASTER)
         return;
-	
+
     if (oldID == newID)
         return;
-	
+
     if (oldID > GUILD_RANKS_MIN_COUNT || newID > GUILD_RANKS_MIN_COUNT)
         return;
-	
+
     RankInfo old = m_ranks[oldID];
     m_ranks[oldID] = m_ranks[newID];
     m_ranks[newID] = old;
-   
+
     CharacterDatabase.PExecute("UPDATE guild_rank SET rid = 11 WHERE rid = '%u' AND guildid='%u'", oldID, m_id);
     CharacterDatabase.PExecute("UPDATE guild_rank SET rid = '%u' WHERE rid = '%u' AND guildid='%u'", oldID, newID, m_id);
     CharacterDatabase.PExecute("UPDATE guild_rank SET rid = '%u' WHERE rid = 11 AND guildid='%u'", newID, m_id);
-    
+
     CharacterDatabase.PExecute("UPDATE guild_bank_right SET rid = 11 WHERE rid = '%u' AND guildid='%u'", oldID, m_id);
     CharacterDatabase.PExecute("UPDATE guild_bank_right SET rid = '%u' WHERE rid = '%u' AND guildid='%u'", oldID, newID, m_id);
     CharacterDatabase.PExecute("UPDATE guild_bank_right SET rid = '%u' WHERE rid = 11 AND guildid='%u'", newID, m_id);

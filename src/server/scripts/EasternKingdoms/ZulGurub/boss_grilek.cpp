@@ -60,7 +60,6 @@ class boss_grilek : public CreatureScript
                 //Avartar_Timer
                 if (Avartar_Timer <= diff)
                 {
-
                     DoCast(me, SPELL_AVARTAR);
                     Unit* target = NULL;
 

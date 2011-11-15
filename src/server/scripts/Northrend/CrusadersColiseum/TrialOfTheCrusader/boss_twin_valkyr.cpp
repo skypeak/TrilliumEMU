@@ -604,7 +604,6 @@ public:
     };
 };
 
-
 class mob_essence_of_twin : public CreatureScript
 {
 public:

@@ -614,7 +614,7 @@ void Aura::UpdateTargetMap(Unit* caster, bool apply)
                     GetOwner()->GetName(), GetOwner()->IsInWorld() ? GetOwner()->GetMap()->GetId() : uint32(-1),
                     itr->first->GetName(), itr->first->IsInWorld() ? itr->first->GetMap()->GetId() : uint32(-1));
                 ASSERT(false);
-            }			
+            }
             itr->first->_ApplyAura(aurApp, itr->second);
         }
     }

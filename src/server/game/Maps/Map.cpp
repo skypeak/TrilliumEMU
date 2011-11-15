@@ -278,8 +278,8 @@ void Map::SwitchGridContainers(T* obj, bool on)
     ASSERT(ngrid != NULL);
 
     GridType &grid = ngrid->GetGridType(cell.CellX(), cell.CellY());
-	
-	obj->RemoveFromGrid(); //This step is not really necessary but we want to do ASSERT in remove/add	
+
+	obj->RemoveFromGrid(); //This step is not really necessary but we want to do ASSERT in remove/add
     if (on)
         grid.AddWorldObject<T>(obj);
     else
@@ -446,7 +446,7 @@ void Map::AddToMap(T *obj)
     AddToGrid(obj, cell);
     sLog->outStaticDebug("Object %u enters grid[%u, %u]", GUID_LOPART(obj->GetGUID()), cell.GridX(), cell.GridY());
 
-    //Must already be set before AddToMap. Usually during obj->Create.	
+    //Must already be set before AddToMap. Usually during obj->Create.
     //obj->SetMap(this);
     obj->AddToWorld();
     InitializeObject(obj);
@@ -809,7 +809,6 @@ void Map::MoveAllCreaturesInMoveList()
                     AddObjectToRemoveList(c);
             }
         }
-
     }
     _creaturesToMove.clear();
     _creatureToMoveLock = false;
@@ -1579,7 +1578,6 @@ float Map::GetHeight(float x, float y, float z, bool pUseVmaps, float maxSearchD
                 return vmapHeight;
             else
                 return mapHeight;                           // better use .map surface height
-
         }
         else
             return vmapHeight;                              // we have only vmapHeight (if have)
@@ -2616,7 +2614,6 @@ void BattlegroundMap::RemoveAllPlayers()
             if (Player* player = itr->getSource())
                 if (!player->IsBeingTeleportedFar())
                     player->TeleportTo(player->GetBattlegroundEntryPoint());
-
 }
 
 Creature*

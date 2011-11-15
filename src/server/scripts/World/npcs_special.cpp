@@ -1534,7 +1534,6 @@ public:
             else
                 me->SetReactState(REACT_AGGRESSIVE);
         }
-
     };
 
     CreatureAI* GetAI(Creature* creature) const

@@ -67,7 +67,6 @@ enum
 	SAY_UTHER_A_16                     = -1668020,
 	SAY_JAINA_20                       = -1668042,
 
-
 	SAY_UTHER_H_16                     = -1668035,
 	SAY_SYLVANA_20                     = -1668043,
 
@@ -668,7 +667,6 @@ public:
     {
         return new npc_jaina_and_sylvana_HRintroAI(creature);
     }
-
 };
 
 class npc_jaina_and_sylvana_HRextro : public CreatureScript
@@ -770,7 +768,6 @@ public:
             }
             if(m_pInstance->GetData(TYPE_LICH_KING) == DONE)
                 me->SetVisible(false);
-
         }
 
         void AttackStart(Unit* who)
@@ -785,7 +782,6 @@ public:
                 return;
 
             npc_escortAI::AttackStart(who);
-
         }
 
         void JustDied(Unit* killer)
@@ -1570,7 +1566,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class npc_phantom_mage : public CreatureScript
@@ -1647,7 +1642,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class npc_phantom_hallucination : public CreatureScript
@@ -1671,7 +1665,6 @@ public:
             DoCast(SPELL_HALLUCINATION_2);
         }
     };
-
 };
 
 class npc_shadowy_mercenary : public CreatureScript
@@ -1742,7 +1735,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class npc_spectral_footman : public CreatureScript
@@ -1807,7 +1799,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 class npc_tortured_rifleman : public CreatureScript
@@ -1880,7 +1871,6 @@ public:
             DoMeleeAttackIfReady();
         }
     };
-
 };
 
 void AddSC_halls_of_reflection()

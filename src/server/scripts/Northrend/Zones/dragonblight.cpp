@@ -141,7 +141,6 @@ public:
                     uiWaveCounter++;
                 }
                 else me->DespawnOrUnsummon();
-
             } else uiWaveTimer -= uiDiff;
         }
 
@@ -153,7 +152,6 @@ public:
                 player->FailQuest(13343);
             }
         }
-
     };
 
     CreatureAI* GetAI(Creature* creature) const
@@ -245,7 +243,6 @@ public:
                     }
                 }
             }
-
         }
 
         void UpdateAI(const uint32 diff)
@@ -275,7 +272,6 @@ public:
                     spell_Timer_1 = 0;
                     break;
                 }
-
             }else spell_Timer_1 -= diff;
 
             if(spell_Timer_2)
@@ -304,7 +300,6 @@ public:
     {
         return new  npc_denouncement_targetAI(_Creature);
     }
-
 };
 
 /*######
@@ -497,7 +492,6 @@ public:
         return new  npc_wintergarde_mine_bombAI(_Creature);
     }
 
-
     struct npc_wintergarde_mine_bombAI : public Scripted_NoMovementAI
     {
         npc_wintergarde_mine_bombAI(Creature *c) : Scripted_NoMovementAI(c)
@@ -530,9 +524,7 @@ public:
                 Explote_Timer = 9999999;
             }else Explote_Timer -= diff;
         }
-
     };
-
 };
 
 /*######
@@ -611,7 +603,6 @@ public:
 
             void UpdateAI(const uint32 diff)
             {
-
                 if (WaitTimer == 1)
                 {
                     me->GetMotionMaster()->Clear();
@@ -629,13 +620,11 @@ public:
 
             void EnterCombat(Unit* /*who*/) {}
     };
-
 };
 
 /*######
 ## npc_high_abbot_landgren
 ######*/
-
 
 enum eHighAbbotLandgren
 {
@@ -872,7 +861,6 @@ public:
     {
         return new npc_high_abbot_landgrenAI(pCreature);
     }
-
 };
 
 //OnLogin not implemented yet
@@ -887,7 +875,6 @@ public:
             pPlayer->FailQuest(QUEST_A_FALL_FROM_GRACE);
     }
 };
-
 
 //This function is called when the player opens the gossip menubool
 
@@ -1003,9 +990,7 @@ public:
                     }
                     break;
                 }
-
             }else check_Timer -= diff;
-
         }
     };
 
@@ -1013,7 +998,6 @@ public:
     {
         return new npc_7th_legion_siege_engineerAI(pCreature);
     }
-
 };
 
 /*######
@@ -1085,14 +1069,12 @@ public:
                 }else check_Timer -= diff;
             }
         }
-
     };
 
     CreatureAI* GetAI(Creature *_Creature) const
     {
         return new  vehicle_alliance_steamtankAI(_Creature);
     }
-
 };
 
 /*######
@@ -1144,7 +1126,6 @@ public:
         }
         return true;
     }
-
 };
 
 /*######
