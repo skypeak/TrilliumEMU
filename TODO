@@ -13,5 +13,4 @@ Current Trillium Issues - Not a complete list
 - Battlegrounds/arenas [not complete]
 - Pet system [almost complete] TODO: Fix revive and summon spells.
 - Exp 3 / based on creature class level stats calculation [almost complete]
-- Unable to loot game object. [unidentified] That will fix next days
 - Taxi system [not complete] TODO: Fix write and load string from db
