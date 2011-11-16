@@ -1281,5 +1281,6 @@ void InitOpcodes()
     DEFINE_OPCODE_HANDLER( SMSG_CUF_PROFILES_LOAD,                       STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_ServerSide               );
     DEFINE_OPCODE_HANDLER( CMSG_REQUEST_CEMETERY_LIST,                   STATUS_LOGGEDIN, PROCESS_THREADUNSAFE,  &WorldSession::PlayerRequestCemeteryList       );
     DEFINE_OPCODE_HANDLER( SMSG_REQUEST_CEMETERY_LIST_RESPONSE,          STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::HandleSendCemetryListResponse   );
+    DEFINE_OPCODE_HANDLER( CMSG_OBJECT_UPDATE_FAILED,                    STATUS_NEVER,    PROCESS_INPLACE,       &WorldSession::Handle_NULL                     );
 #undef DEFINE_OPCODE_HANDLER
 }

@@ -1303,6 +1303,7 @@ enum Opcodes
     SMSG_CUF_PROFILES_LOAD                           = 0x0CF23, // 14480
     CMSG_REQUEST_CEMETERY_LIST                       = 0x098E8, // 14480
     SMSG_REQUEST_CEMETERY_LIST_RESPONSE              = 0x09701, // 14480
+    CMSG_OBJECT_UPDATE_FAILED                        = 0x008EA, // 14480
 
     // SMSG_MOVES                                    = 0x0A6EE, // 4.20a 14480
     // MSG_MOVE_SET_COLLISION_HGT                    = 0x04765, // 4.20a 14480
