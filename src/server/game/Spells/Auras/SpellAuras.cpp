@@ -2477,6 +2477,7 @@ void Aura::CallScriptEffectAfterManaShieldHandlers(AuraEffect * aurEff, AuraAppl
 SpellSpecificType Aura::GetSpellSpecific(bool param1)
 {
     //TODO: Implement it.
+    return SPELL_SPECIFIC_AURA;
 }
 
 UnitAura::UnitAura(SpellInfo const* spellproto, uint8 effMask, WorldObject * owner, Unit* caster, int32 *baseAmount, Item* castItem, uint64 casterGUID)
