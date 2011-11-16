@@ -73,6 +73,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <assert.h>
+#include <stdexcept>
 
 #if PLATFORM == PLATFORM_WINDOWS
 #define STRCASECMP stricmp

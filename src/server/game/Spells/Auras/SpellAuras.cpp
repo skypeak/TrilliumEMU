@@ -1845,7 +1845,7 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                     }
                 }
             }
-            break;			
+            break;
         case SPELLFAMILY_DEATHKNIGHT:
             if (GetSpellInfo()->GetSpellSpecific() == SPELL_SPECIFIC_PRESENCE)
             {
@@ -2474,7 +2474,7 @@ void Aura::CallScriptEffectAfterManaShieldHandlers(AuraEffect * aurEff, AuraAppl
     }
 }
 
-SpellSpecificType Aura::GetSpellSpecific( bool param1 )
+SpellSpecificType Aura::GetSpellSpecific(bool param1)
 {
     throw std::exception("The method or operation is not implemented.");
 }
