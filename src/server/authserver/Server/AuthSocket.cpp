@@ -20,6 +20,7 @@
  */
 
 #include <openssl/md5.h>
+#include <openssl/crypto.h>
 
 #include "Common.h"
 #include "Database/DatabaseEnv.h"
