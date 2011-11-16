@@ -2476,7 +2476,7 @@ void Aura::CallScriptEffectAfterManaShieldHandlers(AuraEffect * aurEff, AuraAppl
 
 SpellSpecificType Aura::GetSpellSpecific(bool param1)
 {
-    throw std::exception("The method or operation is not implemented.");
+    //TODO: Implement it.
 }
 
 UnitAura::UnitAura(SpellInfo const* spellproto, uint8 effMask, WorldObject * owner, Unit* caster, int32 *baseAmount, Item* castItem, uint64 casterGUID)
