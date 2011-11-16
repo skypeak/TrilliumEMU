@@ -5213,7 +5213,7 @@ void AuraEffect::HandleAuraDummy(AuraApplication const* aurApp, uint8 mode, bool
 
                     target->HandleEmoteCommand(EMOTE_ONESHOT_TRAIN);
                     return;
-                }                
+                }
 				case 71563:
                 {
                     if (Aura* newAura = target->AddAura(71564, target))
@@ -5602,8 +5602,21 @@ void AuraEffect::HandleAuraDummy(AuraApplication const* aurApp, uint8 mode, bool
         }
         case SPELLFAMILY_MAGE:
         {
-            //if (!(mode & AURA_EFFECT_HANDLE_REAL))
-                //break;
+            switch (GetId())
+            {
+                case 79683:
+                {
+                    if (apply)
+                        caster->CastSpell(caster, 79808, true, NULL, NULL, GetCasterGUID());
+                    break;
+                    case 5143:
+                    {
+                        caster->RemoveAurasDueToSpell(79808);
+                        break;
+                    }
+                }
+                break;
+            }
             break;
         }
         case SPELLFAMILY_PRIEST:
