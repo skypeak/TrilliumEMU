@@ -727,8 +727,8 @@ class PlayerScript : public ScriptObject
         // Called when a player is bound to an instance
         virtual void OnBindToInstance(Player* /*player*/, Difficulty /*difficulty*/, uint32 /*mapId*/, bool /*permanent*/) { }
 
-        virtual void OnDamageDealt(Player* /*player*/, Unit* /*victim*/, uint32& /*damage*/, DamageEffectType /*damageType*/, SpellEntry const* /*spellProto*/) { }
-        virtual void OnSpellCastWithProto(Player* /*player*/, SpellEntry const* /*spellProto*/) { }
+        virtual void OnDamageDealt(Player* /*player*/, Unit* /*victim*/, uint32& /*damage*/, DamageEffectType /*damageType*/, SpellInfo const* /*spellProto*/) { }
+        virtual void OnSpellCastWithProto(Player* /*player*/, SpellInfo const* /*spellProto*/) { }
 };
 
 class GuildScript : public ScriptObject
@@ -998,8 +998,8 @@ class ScriptMgr
         void OnPlayerCreate(Player* player);
         void OnPlayerDelete(uint64 guid);
         void OnPlayerBindToInstance(Player* player, Difficulty difficulty, uint32 mapid, bool permanent);
-        void OnPlayerDamageDealt(Player* player, Unit* victim, uint32& damage, DamageEffectType damageType, SpellEntry const *spellProto);
-        void OnPlayerSpellCastWithProto(Player* player, SpellEntry const *spellProto);
+        void OnPlayerDamageDealt(Player* player, Unit* victim, uint32& damage, DamageEffectType damageType, SpellInfo const *spellProto);
+        void OnPlayerSpellCastWithProto(Player* player, SpellInfo const *spellProto);
 
     public: /* GuildScript */
 

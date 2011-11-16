@@ -680,11 +680,6 @@ void AddScripts()
 #endif
 }
 
-void AddPlayerScripts()
-{
-    AddSC_player_mage_scripts();
-}
-
 void AddExampleScripts()
 {
     AddSC_example_creature();
@@ -692,6 +687,11 @@ void AddExampleScripts()
     AddSC_example_gossip_codebox();
     AddSC_example_misc();
     AddSC_example_commandscript();
+}
+
+void AddPlayerScripts()
+{
+    AddSC_player_mage_scripts();
 }
 
 void AddSpellScripts()

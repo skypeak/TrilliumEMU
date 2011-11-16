@@ -699,15 +699,15 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
     {
         if (victim->GetTypeId() == TYPEID_PLAYER)
         {
-            Player *attacker = this->ToPlayer();
-            Player *victim = pVictim->ToPlayer();
-            sScriptMgr->OnPlayerDamageDealt(attacker, victim, damage, damagetype, spellProto);
+            Player* attacker = this->ToPlayer();
+            Player* pVictim = victim->ToPlayer();
+            sScriptMgr->OnPlayerDamageDealt(attacker, pVictim, damage, damagetype, spellProto);
         }
         else if (victim->GetTypeId() == TYPEID_UNIT)
         {
-            Player *attacker = this->ToPlayer();
-            Creature *victim = pVictim->ToCreature();
-            sScriptMgr->OnPlayerDamageDealt(attacker, victim, damage, damagetype, spellProto);
+            Player* attacker = this->ToPlayer();
+            Creature* pVictim = victim->ToCreature();
+            sScriptMgr->OnPlayerDamageDealt(attacker, pVictim, damage, damagetype, spellProto);
         }
     }
 
