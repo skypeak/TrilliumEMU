@@ -759,6 +759,8 @@ void WorldSession::HandleListInventoryOpcode(WorldPacket & recv_data)
     if (!GetPlayer()->isAlive())
         return;
 
+	sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Recvd CMSG_LIST_INVENTORY");
+
     SendListInventory(guid);
 }
 
