@@ -695,6 +695,22 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
     if (IsAIEnabled)
         GetAI()->DamageDealt(victim, damage, damagetype);
 
+    if (this->GetTypeId() == TYPEID_PLAYER)
+    {
+        if (victim->GetTypeId() == TYPEID_PLAYER)
+        {
+            Player *attacker = this->ToPlayer();
+            Player *victim = pVictim->ToPlayer();
+            sScriptMgr->OnPlayerDamageDealt(attacker, victim, damage, damagetype, spellProto);
+        }
+        else if (victim->GetTypeId() == TYPEID_UNIT)
+        {
+            Player *attacker = this->ToPlayer();
+            Creature *victim = pVictim->ToCreature();
+            sScriptMgr->OnPlayerDamageDealt(attacker, victim, damage, damagetype, spellProto);
+        }
+    }
+
     if (damagetype != NODAMAGE)
     {
         // interrupting auras with AURA_INTERRUPT_FLAG_DAMAGE before checking !damage (absorbed damage breaks that type of auras)

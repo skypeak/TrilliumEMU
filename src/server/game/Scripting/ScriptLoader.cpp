@@ -21,6 +21,9 @@
 
 #include "ScriptLoader.h"
 
+//Player Scripts
+void AddSC_player_mage_scripts();
+
 //examples
 void AddSC_example_creature();
 void AddSC_example_escort();
@@ -661,6 +664,7 @@ void AddSC_DuelReset();
 void AddScripts()
 {
     AddExampleScripts();
+    AddPlayerScripts();
     AddSpellScripts();
     AddSC_SmartSCripts();
     AddCommandScripts();
@@ -674,6 +678,11 @@ void AddScripts()
     AddOutdoorPvPScripts();
     AddCustomScripts();
 #endif
+}
+
+void AddPlayerScripts()
+{
+    AddSC_player_mage_scripts();
 }
 
 void AddExampleScripts()
