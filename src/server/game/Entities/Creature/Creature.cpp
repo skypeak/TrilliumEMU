@@ -1297,6 +1297,7 @@ bool Creature::LoadFromDB(uint32 guid, Map *map)
     }
 
     uint32 curhealth;
+	uint32 curmana;
 
     if (!m_regenHealth)
     {
@@ -1311,6 +1312,13 @@ bool Creature::LoadFromDB(uint32 guid, Map *map)
     }
     else
     {
+		curmana = data->curmana;
+        if (curmana < 1)
+		{
+        curmana = 0;
+        SetPower(POWER_MANA, 0);
+        SetMaxPower(POWER_MANA, 0);		
+		}
         curhealth = GetMaxHealth();
         SetPower(POWER_MANA, GetMaxPower(POWER_MANA));
     }

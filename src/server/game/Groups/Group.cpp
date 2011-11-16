@@ -1537,7 +1537,7 @@ GroupJoinBattlegroundResult Group::CanJoinBattlegroundQueue(Battleground const* 
     if (bgOrTemplate->isArena() && memberscount != MinPlayerCount)
         return ERR_ARENA_TEAM_PARTY_SIZE;
 
-    return GroupJoinBattlegroundResult(bgOrTemplate->GetTypeID());
+    return GroupJoinBattlegroundResult(-(bgOrTemplate->GetTypeID()));
 }
 
 //===================================================
