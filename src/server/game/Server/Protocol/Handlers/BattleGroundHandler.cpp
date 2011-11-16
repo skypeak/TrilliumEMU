@@ -680,7 +680,7 @@ void WorldSession::HandleBattlemasterJoinArena(WorldPacket & recv_data)
 
     uint32 avgTime = 0;
 
-    if (err > 0)
+    if (err < 0) // No errors
     {
         sLog->outDebug(LOG_FILTER_BATTLEGROUND, "Battleground: arena join as group start");
         sLog->outDebug(LOG_FILTER_BATTLEGROUND, "Battleground: arena team id %u, leader %s queued with matchmaker rating %u for type %u", _player->GetArenaTeamId(arenaSlot), _player->GetName(), matchmakerRating, arenaType);
@@ -698,7 +698,7 @@ void WorldSession::HandleBattlemasterJoinArena(WorldPacket & recv_data)
 
         WorldPacket data;
 
-        if (err <= 0)
+        if (err >= 0)
         {
             sBattlegroundMgr->BuildGroupJoinedBattlegroundPacket(&data, err);
             member->GetSession()->SendPacket(&data);
