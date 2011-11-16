@@ -1391,6 +1391,8 @@ void WorldSession::HandleChangePlayerNameOpcodeCallBack(QueryResult result, std:
     data << uint64(guid);
     data << newname;
     SendPacket(&data);
+	
+	sWorld->UpdateCharacterNameData(guidLow, newname);	
 }
 
 void WorldSession::HandleSetPlayerDeclinedNames(WorldPacket& recv_data)

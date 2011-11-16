@@ -293,6 +293,8 @@ void Object::_BuildMovementUpdate(ByteBuffer * data, uint16 flags) const
     // 0x20
     if (flags & UPDATEFLAG_LIVING)
     {
+        assert(dynamic_cast<Unit*>(const_cast<Object*>(this)) != NULL);
+
         ((Unit*)this)->BuildMovementPacket(data);
 
         // 9 speed floats
