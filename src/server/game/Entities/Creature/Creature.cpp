@@ -1317,7 +1317,7 @@ bool Creature::LoadFromDB(uint32 guid, Map *map)
 		{
         curmana = 0;
         SetPower(POWER_MANA, 0);
-        SetMaxPower(POWER_MANA, 0);		
+        SetMaxPower(POWER_MANA, 0);
 		}
         curhealth = GetMaxHealth();
         SetPower(POWER_MANA, GetMaxPower(POWER_MANA));

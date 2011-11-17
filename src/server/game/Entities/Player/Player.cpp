@@ -18886,6 +18886,10 @@ void Player::SaveToDB()
     ss << (uint16)(GetUInt32Value(PLAYER_BYTES_3) & 0xFFFE) << ',';
 
     ss << GetHealth();
+	
+	//ss << GetHealth() << ',';
+	
+	//ss << (GetPower(POWER_MANA)) << ',';
 
     for (uint32 i = 0; i < MAX_POWERS; ++i)
         ss << ',' << GetPower(Powers(i));
@@ -18946,6 +18950,7 @@ void Player::SaveToDB()
     _SaveInstanceTimeRestrictions(trans);
     _SaveCurrency();
     _SaveConquestPointsWeekCap();
+	_SavePowers();
 
     // check if stats should only be saved on logout
     // save stats can be out of transaction
@@ -19400,6 +19405,11 @@ void Player::_SaveConquestPointsWeekCap()
         CharacterDatabase.PExecute("INSERT INTO character_cp_weekcap (guid, source, maxWeekRating, weekCap) VALUES ('%u','%u','%u','%u')",
             GetGUIDLow(), source, m_maxWeekRating[source], m_conquestPointsWeekCap[source] );
     }
+}
+
+void Player::_SavePowers()
+{
+    CharacterDatabase.PExecute("UPDATE characters SET health = '%u' WHERE guid = '%u'", GetHealth(), GetGUIDLow());
 }
 
 // save player stats -- only for external usage

@@ -2716,6 +2716,7 @@ class Player : public Unit, public GridObject<Player>
         void _SaveStats(SQLTransaction& trans);
         void _SaveCurrency();
         void _SaveConquestPointsWeekCap();
+		void _SavePowers();
         void _SaveInstanceTimeRestrictions(SQLTransaction& trans);
 
         void _SetCreateBits(UpdateMask *updateMask, Player *target) const;
