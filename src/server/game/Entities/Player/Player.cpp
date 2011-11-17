@@ -1690,6 +1690,12 @@ void Player::Update(uint32 p_time)
         }
     }
 
+    //Remove Mount When Using Dispersion (ShadowForm + Dispersion Mount Exploit)
+    if (HasAura(47585) && HasAuraType(SPELL_AURA_MOUNTED))
+    {
+        ToPlayer()->RemoveAurasByType(SPELL_AURA_MOUNTED);
+    }
+
     if (HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING))
     {
         if (roll_chance_i(3) && GetTimeInnEnter() > 0)      // freeze update
@@ -11711,6 +11717,9 @@ InventoryResult Player::CanEquipItem(uint8 slot, uint16 &dest, Item *pItem, bool
             // check this only in game
             if (not_loading)
             {
+                //don't allow warrior and rogue class 100% ARP 100% crit chance exploit
+                if (HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISARMED) && (pProto->Class == ITEM_CLASS_WEAPON || pProto->Class == ITEM_CLASS_ARMOR))
+                    return EQUIP_ERR_CANT_DO_RIGHT_NOW;			
                 // May be here should be more stronger checks; STUNNED checked
                 // ROOT, CONFUSED, DISTRACTED, FLEEING this needs to be checked.
                 if (HasUnitState(UNIT_STAT_STUNNED))
