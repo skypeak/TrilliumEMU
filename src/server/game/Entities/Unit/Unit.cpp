@@ -5054,7 +5054,7 @@ void Unit::SendAttackStateUpdate(uint32 HitInfo, Unit* target, uint8 /*SwingType
     SendAttackStateUpdate(&dmgInfo);
 }
 
-bool Unit::HandleHasteAuraProc(Unit* victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const* /*procSpell*/, uint32 /*procFlag*/, uint32 /*procEx*/, uint32 cooldown)
+bool Unit::HandleModPowerRegenAuraProc(Unit* victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const* /*procSpell*/, uint32 /*procFlag*/, uint32 /*procEx*/, uint32 cooldown)
 {
     SpellInfo const* hasteSpell = triggeredByAura->GetSpellInfo();
 
@@ -5073,7 +5073,6 @@ bool Unit::HandleHasteAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
             {
                 // Blade Flurry
                 case 13877:
-                case 33735:
                 {
                     target = SelectNearbyTarget();
                     if (!target || target == victim)
@@ -6035,20 +6034,6 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 }
 
                 target = this;
-                break;
-            }
-            // Damage Shield
-            if (dummySpell->SpellIconID == 3214)
-            {
-                triggered_spell_id = 59653;
-                // % of amount blocked
-                basepoints0 = CalculatePctN(int32(GetShieldBlockValue()), triggerAmount);
-                break;
-            }
-            // Glyph of Blocking
-            if (dummySpell->Id == 58375)
-            {
-                triggered_spell_id = 58374;
                 break;
             }
             // Glyph of Sunder Armor
@@ -9815,6 +9800,9 @@ bool Unit::Attack(Unit* victim, bool meleeAttack)
         ToCreature()->CallAssistance();
     }
 
+    if (GetTypeId() == TYPEID_PLAYER && ToPlayer()->GetEmoteState() != 0)
+        ToPlayer()->SetEmoteState(0);
+
     // delay offhand weapon attack to next attack time
     if (haveOffhandWeapon())
         resetAttackTimer(OFF_ATTACK);
@@ -9855,6 +9843,9 @@ bool Unit::AttackStop()
     }
 
     SendMeleeAttackStop(victim);
+
+    if (GetTypeId() == TYPEID_PLAYER && ToPlayer()->GetEmoteState() != 0)
+        ToPlayer()->SetEmoteState(0);
 
     return true;
 }
@@ -12214,6 +12205,9 @@ void Unit::Mount(uint32 mount, uint32 VehicleId, uint32 creatureEntry)
 
     if (Player* player = ToPlayer())
     {
+        if (player->GetEmoteState())
+            player->SetEmoteState(0);
+
         // mount as a vehicle
         if (VehicleId)
         {
@@ -14719,10 +14713,10 @@ void Unit::ProcDamageAndSpellfor (bool isVictim, Unit* target, uint32 procFlag, 
                     if (HandleModDamagePctTakenAuraProc(target, damage, triggeredByAura, procSpell, procFlag, procExtra, cooldown))
                         takeCharges = true;
                     break;
-                case SPELL_AURA_MOD_MELEE_HASTE:
+                case SPELL_AURA_MOD_POWER_REGEN_PERCENT:
                 {
-                    sLog->outDebug(LOG_FILTER_SPELLS_AURAS, "ProcDamageAndSpell: casting spell id %u (triggered by %s haste aura of spell %u)", spellInfo->Id, (isVictim?"a victim's":"an attacker's"), triggeredByAura->GetId());
-                    if (HandleHasteAuraProc(target, damage, triggeredByAura, procSpell, procFlag, procExtra, cooldown))
+                    sLog->outDebug(LOG_FILTER_SPELLS_AURAS, "ProcDamageAndSpell: casting spell id %u (triggered by %s ModPowerRegenPCT of spell %u)", spellInfo->Id,(isVictim?"a victim's":"an attacker's"), triggeredByAura->GetId());
+                    if (HandleModPowerRegenAuraProc(target, damage, triggeredByAura, procSpell, procFlag, procExtra, cooldown))
                         takeCharges = true;
                     break;
                 }
@@ -17939,6 +17933,53 @@ uint32 Unit::GetResistance(SpellSchoolMask mask) const
 
     // resist value will never be negative here
     return uint32(resist);
+}
+
+bool Unit::IsVisionObscured(Unit* victim)
+{
+    bool isfriendly = IsFriendlyTo(victim);
+    Aura* victimAura = NULL;
+    Aura* myAura = NULL;
+    Unit* victimCaster = NULL;
+    Unit* myCaster = NULL;
+
+    AuraEffectList const& vAuras = victim->GetAuraEffectsByType(SPELL_AURA_INTERFERE_TARGETTING);
+    for (AuraEffectList::const_iterator i = vAuras.begin(); i != vAuras.end(); ++i)
+    {
+        victimAura = (*i)->GetBase();
+        victimCaster = victimAura->GetCaster();
+        break;
+    }
+    AuraEffectList const& myAuras = GetAuraEffectsByType(SPELL_AURA_INTERFERE_TARGETTING);
+    for (AuraEffectList::const_iterator i = myAuras.begin(); i != myAuras.end(); ++i)
+    {
+        myAura = (*i)->GetBase();
+        myCaster = myAura->GetCaster();
+        break;
+    }
+
+    if ((myAura != NULL && myCaster == NULL) || (victimAura != NULL && victimCaster == NULL))
+        return false; // Failed auras, will result in crash
+
+    // E.G. Victim is in smoke bomb, and I'm not
+    // Spells fail unless I'm friendly to the caster of victim's smoke bomb
+    if (victimAura != NULL && myAura == NULL)
+    {
+        if (IsFriendlyTo(victimCaster))
+            return false;
+        else
+            return true;
+    }
+    // Victim is not in smoke bomb, while I am
+    // Spells fail if my smoke bomb aura's caster is my enemy
+    else if (myAura != NULL && victimAura == NULL)
+    {
+        if (IsFriendlyTo(myCaster))
+            return false;
+        else
+            return true;
+    }
+    return false;
 }
 
 void CharmInfo::SetIsCommandAttack(bool val)

@@ -1330,6 +1330,7 @@ class Unit : public WorldObject
         Unit* SelectNearbyTarget(float dist = NOMINAL_MELEE_RANGE) const;
         void SendMeleeAttackStop(Unit* victim = NULL);
         void SendMeleeAttackStart(Unit* victim);
+        bool IsVisionObscured(Unit* victim);
 
         void AddUnitState(uint32 f) { m_state |= f; }
         bool HasUnitState(const uint32 f) const { return (m_state & f); }
@@ -2375,10 +2376,10 @@ class Unit : public WorldObject
     private:
         bool IsTriggeredAtSpellProcEvent(Unit *victim, Aura * aura, SpellInfo const* procSpell, uint32 procFlag, uint32 procExtra, WeaponAttackType attType, bool isVictim, bool active, SpellProcEventEntry const *& spellProcEvent);
         bool HandleDummyAuraProc(Unit *victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const *procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
-        bool HandleHasteAuraProc(Unit *victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const *procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
+        bool HandleModDamagePctTakenAuraProc(Unit *victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const *procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
         bool HandleSpellCritChanceAuraProc(Unit *victim, uint32 damage, AuraEffect* triggredByAura, SpellInfo const *procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
         bool HandleObsModEnergyAuraProc(Unit *victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const *procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
-        bool HandleModDamagePctTakenAuraProc(Unit *victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const *procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
+        bool HandleModPowerRegenAuraProc(Unit *victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const *procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
         bool HandleAuraProc(Unit *victim, uint32 damage, Aura* triggeredByAura, SpellInfo const* procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown, bool * handled);
         bool HandleProcTriggerSpell(Unit *victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const *procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
         bool HandleOverrideClassScriptAuraProc(Unit *victim, uint32 damage, AuraEffect* triggeredByAura, SpellInfo const *procSpell, uint32 cooldown);
