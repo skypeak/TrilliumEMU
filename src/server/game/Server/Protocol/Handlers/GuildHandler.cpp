@@ -258,28 +258,28 @@ void WorldSession::HandleGuildRewardsOpcode(WorldPacket& recvPacket)
     //if (vec.empty())
     //    return;
 
-    WorldPacket data(SMSG_GUILD_REWARDS_LIST, 8);
-    data << uint32(_player->GetGuildId()) ;
-    data << uint32(vec.size()); // counter
+    //WorldPacket data(SMSG_GUILD_REWARDS_LIST, 8);
+    //data << uint32(_player->GetGuildId()) ;
+    //data << uint32(vec.size()); // counter
 
-    for(uint32 i = 0; i < vec.size(); ++i)
-        data << uint32(0); // unk (only found 0 in retail logs)
+    //for(uint32 i = 0; i < vec.size(); ++i)
+    //    data << uint32(0); // unk (only found 0 in retail logs)
 
-    for(uint32 i = 0; i < vec.size(); ++i)
-        data << uint32(0); // unk
+    //for(uint32 i = 0; i < vec.size(); ++i)
+    //    data << uint32(0); // unk
 
-    for(uint32 i = 0; i < vec.size(); ++i)
-        data << uint64(vec[i]->price); // money price
+    //for(uint32 i = 0; i < vec.size(); ++i)
+    //    data << uint64(vec[i]->price); // money price
 
-    for(uint32 i = 0; i < vec.size(); ++i)
-        data << uint32(vec[i]->achievement); // Achievement requirement
+    //for(uint32 i = 0; i < vec.size(); ++i)
+    //    data << uint32(vec[i]->achievement); // Achievement requirement
 
-    for(uint32 i = 0; i < vec.size(); ++i)
-        data << uint32(vec[i]->standing); // // Reputation level (REP_HONORED, REP_FRIENDLY, etc)
+    //for(uint32 i = 0; i < vec.size(); ++i)
+    //    data << uint32(vec[i]->standing); // // Reputation level (REP_HONORED, REP_FRIENDLY, etc)
 
-    for(uint32 i = 0; i < vec.size(); ++i)
-        data << uint32(vec[i]->item); // item entry
-    SendPacket(&data);
+    //for(uint32 i = 0; i < vec.size(); ++i)
+    //    data << uint32(vec[i]->item); // item entry
+    //SendPacket(&data);
 }
 
 void WorldSession::HandleGuildSetNoteOpcode(WorldPacket& recvPacket)

@@ -4053,8 +4053,9 @@ void Unit::RemoveMovementImpairingAuras()
     RemoveAurasWithMechanic((1<<MECHANIC_SNARE)|(1<<MECHANIC_ROOT));
 }
 
-void Unit::RemoveAurasWithMechanic(uint32 mechanic_mask, AuraRemoveMode removemode, uint32 except)
+void Unit::RemoveAurasWithMechanic(uint32 mechanic_mask, AuraRemoveMode removemode, uint32 except, int32 count)
 {
+    int32 auracount = 0;
     for (AuraApplicationMap::iterator iter = m_appliedAuras.begin(); iter != m_appliedAuras.end();)
     {
         Aura const* aura = iter->second->GetBase();
@@ -4063,6 +4064,9 @@ void Unit::RemoveAurasWithMechanic(uint32 mechanic_mask, AuraRemoveMode removemo
             if (aura->GetSpellInfo()->GetAllEffectsMechanicMask() & mechanic_mask)
             {
                 RemoveAura(iter, removemode);
+                auracount++;
+                if (count && auracount == count)
+                    break;
                 continue;
             }
         }
@@ -5534,18 +5538,6 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                     owner->CastSpell(owner, 58227, true, castItem, triggeredByAura);
                     return true;
                 }
-                // Divine purpose
-                case 31871:
-                case 31872:
-                {
-                    // Roll chane
-                    if (!victim || !victim->isAlive() || !roll_chance_i(triggerAmount))
-                        return false;
-
-                    // Remove any stun effect on target
-                    victim->RemoveAurasWithMechanic(1<<MECHANIC_STUN, AURA_REMOVE_BY_ENEMY_SPELL);
-                    return true;
-                }
                 // Glyph of Scourge Strike
                 case 58642:
                 {
@@ -5821,15 +5813,18 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                 case 86181:
                 case 86209:
                 {
-                    // the proc result will be casted on the victim
-                    target = victim;
+                    AuraMap const &slowAura = GetOwnedAuras();
+                    for (Unit::AuraMap::const_iterator itr = slowAura.begin(); itr != slowAura.end();)
+                        if ((*itr).second->GetId() == 31589) // Found Slow, dont proc
+                            break;
+                        else
+                            itr++;
 
-                    // if no target is currently affected by Slow...
-                    if (victim->HasAura(31589))
-                        return false;
+                    target = this;
+                    triggered_spell_id = 86262;
 
-                    // ...trigger slow on the target
-                    triggered_spell_id = 31589;
+                    if (victim)
+                        CastSpell(victim, 31589, false);
                     break;
                 }
                 // Glyph of Polymorph
@@ -6917,6 +6912,17 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                     {
                         target = this;
                         triggered_spell_id = 87173;
+                        break;
+                    }
+                }
+                // Divine purpose
+                case 85117:
+                case 86172:
+                {
+                    if (roll_chance_f(triggerAmount))
+                    {
+                        target = this;
+                        triggered_spell_id = 90174;
                         break;
                     }
                 }
