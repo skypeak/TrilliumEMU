@@ -375,10 +375,10 @@ pAuraEffectHandler AuraEffectHandler[TOTAL_AURAS]=
     &AuraEffect::HandleNoImmediateEffect,                         //316 SPELL_AURA_PERIODIC_HASTE implemented in AuraEffect::CalculatePeriodic
     &AuraEffect::HandleNULL,                                      //317 SPELL_AURA_MOD_SPELL_POWER_PCT
     &AuraEffect::HandleMastery,                                   //318 SPELL_AURA_MASTERY
-    &AuraEffect::HandleNULL,                                      //319
+    &AuraEffect::HandleModMeleeSpeedPct,                          //319
     &AuraEffect::HandleNULL,                                      //320
     &AuraEffect::HandleNULL,                                      //321
-    &AuraEffect::HandleNULL,                                      //322
+    &AuraEffect::HandleNoImmediateEffect,                         //322
     &AuraEffect::HandleNULL,                                      //323
     &AuraEffect::HandleNULL,                                      //324
     &AuraEffect::HandleNULL,                                      //325

@@ -515,9 +515,6 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                 // Bloodthirst
                 if (m_spellInfo->SpellFamilyFlags[1] & 0x400)
                     ApplyPctF(damage, m_caster->GetTotalAttackPowerValue(BASE_ATTACK));
-                // Shield Slam
-                else if (m_spellInfo->SpellFamilyFlags[1] & 0x200 && m_spellInfo->Category == 1209)
-                    damage += int32(m_caster->ApplyEffectModifiers(m_spellInfo, effIndex, float(m_caster->GetShieldBlockValue())));
                 // Victory Rush
                else if (m_spellInfo->SpellFamilyFlags[1] & 0x100)
                {
@@ -6617,7 +6614,21 @@ void Spell::EffectApplyGlyph(SpellEffIndex effIndex)
 
             player->SetGlyph(m_glyphIndex, glyph);
             player->SendTalentsInfoData(false);
+            player->learnSpell(gp->SpellId, true);
         }
+    }
+    else
+    {
+        // Glyph removal
+        if (uint32 oldglyph = player->GetGlyph(m_glyphIndex))
+        {
+            if (GlyphPropertiesEntry const *old_gp = sGlyphPropertiesStore.LookupEntry(oldglyph))
+            {
+                player->RemoveAurasDueToSpell(old_gp->SpellId);
+                player->SetGlyph(m_glyphIndex, 0);
+            }
+        }
+
     }
 }
 

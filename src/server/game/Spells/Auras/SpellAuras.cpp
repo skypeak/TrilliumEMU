@@ -2610,6 +2610,12 @@ void DynObjAura::FillTargetMap(std::map<Unit *, uint8> & targets, Unit* /*caster
             Trillium::UnitListSearcher<Trillium::AnyFriendlyUnitInObjectRangeCheck> searcher(GetDynobjOwner(), targetList, u_check);
             GetDynobjOwner()->VisitNearbyObject(radius, searcher);
         }
+        else if (GetSpellInfo()->Effects[effIndex].TargetB.GetTarget() == TARGET_DEST_DYNOBJ_ALL_UNITS)
+        {
+            Trillium::AnyUnitInObjectRangeCheck u_check(GetDynobjOwner(), radius);
+            Trillium::UnitListSearcher<Trillium::AnyUnitInObjectRangeCheck> searcher(GetDynobjOwner(), targetList, u_check);
+            GetDynobjOwner()->VisitNearbyObject(radius, searcher);
+        }
         else
         {
             Trillium::AnyAoETargetUnitInObjectRangeCheck u_check(GetDynobjOwner(), dynObjOwnerCaster, radius);
