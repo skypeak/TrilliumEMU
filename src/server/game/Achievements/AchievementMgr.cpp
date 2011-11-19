@@ -2025,7 +2025,6 @@ void AchievementMgr::CompletedAchievement(AchievementEntry const* achievement)
         return;
 
     m_achievementPoints += achievement->points;
-    SendAchievementEarned(achievement);
     CompletedAchievementData& ca =  m_completedAchievements[achievement->ID];
     ca.date = time(NULL);
     ca.changed = true;
@@ -2033,6 +2032,7 @@ void AchievementMgr::CompletedAchievement(AchievementEntry const* achievement)
     if (AchievementEntry const* pAchievement = sAchievementStore.LookupEntry(achievement->ID))
         m_achievementPoints += pAchievement->points;
 
+    SendAchievementEarned(achievement);
     // don't insert for ACHIEVEMENT_FLAG_REALM_FIRST_KILL since otherwise only the first group member would reach that achievement
     // TODO: where do set this instead?
     if (!(achievement->flags & ACHIEVEMENT_FLAG_REALM_FIRST_KILL))
