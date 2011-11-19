@@ -657,7 +657,7 @@ public:
     void HandleSetEmblem(WorldSession* session, const EmblemInfo& emblemInfo);
     void HandleSetLeader(WorldSession* session, const std::string& name);
     void HandleSetBankTabInfo(WorldSession* session, uint8 tabId, const std::string& name, const std::string& icon);
-    void HandleSetMemberNote(WorldSession* session, uint64 guid, const std::string& name, const std::string& note, bool officer);
+    void HandleSetMemberNote(WorldSession* session, uint64 guid, const std::string& note, bool officer);
     void HandleSetRankInfo(WorldSession* session, uint8 rankId, const std::string& name, uint32 rights, uint32 moneyPerDay, GuildBankRightsAndSlotsVec rightsAndSlots);
     void HandleBuyBankTab(WorldSession* session, uint8 tabId);
     void HandleInviteMember(WorldSession* session, const std::string& name);

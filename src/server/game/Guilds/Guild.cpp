@@ -1495,7 +1495,7 @@ void Guild::HandleSetBankTabInfo(WorldSession* session, uint8 tabId, const std::
     }
 }
 
-void Guild::HandleSetMemberNote(WorldSession* session, uint64 guid, const std::string& name, const std::string& note, bool officer)
+void Guild::HandleSetMemberNote(WorldSession* session, uint64 guid, const std::string& note, bool officer)
 {
     // Player must have rights to set public/officer note
     if (!_HasRankRight(session->GetPlayer(), officer ? GR_RIGHT_EOFFNOTE : GR_RIGHT_EPNOTE))
