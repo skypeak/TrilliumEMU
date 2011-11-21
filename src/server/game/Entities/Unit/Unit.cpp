@@ -11341,6 +11341,7 @@ uint32 Unit::SpellCriticalDamageBonus(SpellInfo const* spellProto, uint32 damage
     // Calculate critical bonus
     int32 crit_bonus = damage;
     float crit_mod = 0.0f;
+    Player* modOwner = GetSpellModOwner();
 
     switch (spellProto->DmgClass)
     {
@@ -11350,7 +11351,10 @@ uint32 Unit::SpellCriticalDamageBonus(SpellInfo const* spellProto, uint32 damage
             crit_bonus += damage;
             break;
         default:
-            crit_bonus += damage / 2;                        // for spells is 50%
+            if (modOwner && (modOwner->getClass() == CLASS_MAGE || modOwner->getClass() == CLASS_WARLOCK))
+                crit_bonus = damage; // 100% bonus for Mages and Warlocks in Cataclysm
+            else
+                crit_bonus = damage / 2;                        // for spells is 50%
             break;
     }
 
@@ -11365,7 +11369,7 @@ uint32 Unit::SpellCriticalDamageBonus(SpellInfo const* spellProto, uint32 damage
     crit_bonus -= damage;
 
     // adds additional damage to crit_bonus (from talents)
-    if (Player* modOwner = GetSpellModOwner())
+    if (modOwner)
         modOwner->ApplySpellMod(spellProto->Id, SPELLMOD_CRIT_DAMAGE_BONUS, crit_bonus);
 
     crit_bonus += damage;
