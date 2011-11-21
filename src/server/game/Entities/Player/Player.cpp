@@ -754,7 +754,6 @@ Player::Player(WorldSession *session): Unit(), m_achievementMgr(this), m_reputat
     m_canBlock = false;
     m_canDualWield = false;
     m_canTitanGrip = false;
-    m_ammoDPS = 0.0f;
 
     m_temporaryUnsummonedPetNumber = 0;
     //cache for UNIT_CREATED_BY_SPELL to allow
