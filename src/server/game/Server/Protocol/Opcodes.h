@@ -623,7 +623,6 @@ enum Opcodes
     SMSG_SET_FLAT_SPELL_MODIFIER                     = 0x0B6EB, // 14480
     SMSG_OPEN_LFG_DUNGEON_FINDER                     = 0x08efa, // 14480
 	SMSG_SET_PCT_SPELL_MODIFIER                      = 0x0FAAF, // 14480
-    CMSG_SET_AMMO                                    = 0x100BF, // 14480          =*UNUSED*=
     SMSG_CORPSE_RECLAIM_DELAY                        = 0x0F623, // 14480
     CMSG_SET_ACTIVE_MOVER                            = 0x0B633, // 14480
     CMSG_PET_CANCEL_AURA                             = 0x066F6, // 14480
