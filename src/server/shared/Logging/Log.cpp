@@ -130,3 +130,10 @@ bool Log::IsOutDebug() const
 {
     return sLogMgr->ShouldLog(SERVER_LOG, LOGL_FULL);
 }
+
+void Log::outOpCode(uint32 op, const char * name, bool smsg)
+{
+    if (!(m_DebugLogMask & LOG_FILTER_OPCODES))
+        return;
+    outString("%s: %s 0x%.4X (%u)", smsg ? "S->C" : "C->S", name, op, op);
+}
