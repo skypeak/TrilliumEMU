@@ -76,6 +76,7 @@ DataStorage <ChrPowerTypesEntry> sChrPowerTypesStore(ChrClassesXPowerTypesfmt);
 DataStorage <CinematicSequencesEntry> sCinematicSequencesStore(CinematicSequencesEntryfmt);
 DataStorage <CreatureDisplayInfoEntry> sCreatureDisplayInfoStore(CreatureDisplayInfofmt);
 DataStorage <CreatureFamilyEntry> sCreatureFamilyStore(CreatureFamilyfmt);
+DataStorage <CreatureModelDataEntry> sCreatureModelDataStore(CreatureModelDatafmt);
 DataStorage <CreatureSpellDataEntry> sCreatureSpellDataStore(CreatureSpellDatafmt);
 DataStorage <CreatureTypeEntry> sCreatureTypeStore(CreatureTypefmt);
 DataStorage <CurrencyTypesEntry> sCurrencyTypesStore(CurrencyTypesfmt);
@@ -351,6 +352,7 @@ void LoadDataStorages(const std::string& dataPath)
     LoadData(availableDbcLocales, bad_dbc_files, sCinematicSequencesStore,     storagesPath, "CinematicSequences.dbc");
     LoadData(availableDbcLocales, bad_dbc_files, sCreatureDisplayInfoStore,    storagesPath, "CreatureDisplayInfo.dbc");
     LoadData(availableDbcLocales, bad_dbc_files, sCreatureFamilyStore,         storagesPath, "CreatureFamily.dbc");
+    LoadData(availableDbcLocales, bad_dbc_files, sCreatureModelDataStore,      storagesPath, "CreatureModelData.dbc");
     LoadData(availableDbcLocales, bad_dbc_files, sCreatureSpellDataStore,      storagesPath, "CreatureSpellData.dbc");
     LoadData(availableDbcLocales, bad_dbc_files, sCreatureTypeStore,           storagesPath, "CreatureType.dbc");
     LoadData(availableDbcLocales, bad_dbc_files, sCurrencyTypesStore,          storagesPath, "CurrencyTypes.dbc");

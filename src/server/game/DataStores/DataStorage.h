@@ -89,6 +89,7 @@ extern DataStorage <ChrPowerTypesEntry>           sChrPowerTypesStore;
 extern DataStorage <CinematicSequencesEntry>      sCinematicSequencesStore;
 extern DataStorage <CreatureDisplayInfoEntry>     sCreatureDisplayInfoStore;
 extern DataStorage <CreatureFamilyEntry>          sCreatureFamilyStore;
+extern DataStorage <CreatureModelDataEntry>       sCreatureModelDataStore;
 extern DataStorage <CreatureSpellDataEntry>       sCreatureSpellDataStore;
 extern DataStorage <CreatureTypeEntry>            sCreatureTypeStore;
 extern DataStorage <CurrencyTypesEntry>           sCurrencyTypesStore;

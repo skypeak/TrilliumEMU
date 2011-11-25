@@ -86,6 +86,7 @@ void LFGScripts::OnRemoveMember(Group* group, uint64 guid, RemoveMethod method, 
     }
 
     sLFGMgr->ClearState(guid);
+    sLFGMgr->SetState(guid, LFG_STATE_NONE);
     if (Player *player = ObjectAccessor::FindPlayer(guid))
     {
         /*
