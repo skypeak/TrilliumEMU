@@ -123,6 +123,14 @@ Map* MapManager::CreateBaseMap(uint32 id)
     return m;
 }
 
+Map* MapManager::FindBaseNonInstanceMap(uint32 mapId) const
+{
+    Map* map = FindBaseMap(mapId);
+    if(map && map->Instanceable())
+        return NULL;
+    return map;
+}
+
 Map* MapManager::CreateMap(uint32 id, Player* player)
 {
     Map* m = CreateBaseMap(id);
@@ -204,8 +212,8 @@ bool MapManager::CanPlayerEnter(uint32 mapid, Player* player, bool loginCheck)
                 if (corpseMap == mapid)
                     break;
 
-                InstanceTemplate const* instance = sObjectMgr->GetInstanceTemplate(corpseMap);
-                corpseMap = instance ? instance->Parent : 0;
+                InstanceTemplate const* corpseInstance = sObjectMgr->GetInstanceTemplate(corpseMap);
+                corpseMap = corpseInstance ? corpseInstance->Parent : 0;
             } while (corpseMap);
 
             if (!corpseMap)

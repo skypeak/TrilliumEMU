@@ -501,9 +501,9 @@ public:
             SetEscortPaused(bOnHold);
         }
 
-        void WaypointReached(uint32 i)
+        void WaypointReached(uint32 wpId)
         {
-            switch (i)
+            switch (wpId)
             {
                 case 0:
                     me->RemoveUnitMovementFlag(MOVEMENTFLAG_WALKING);
