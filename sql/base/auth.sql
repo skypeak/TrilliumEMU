@@ -134,14 +134,14 @@ CREATE TABLE `realmlist` (
   `timezone` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `allowedSecurityLevel` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `population` float unsigned NOT NULL DEFAULT '0',
-  `gamebuild` int(11) unsigned NOT NULL DEFAULT '14480',
+  `gamebuild` int(11) unsigned NOT NULL DEFAULT '14545',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='Realm System';
 
 /*Data for the table `realmlist` */
 
-insert  into `realmlist`(`id`,`name`,`address`,`port`,`icon`,`color`,`timezone`,`allowedSecurityLevel`,`population`,`gamebuild`) values (1,'Trillium World','127.0.0.1',8085,0,0,1,0,0,14480);
+insert  into `realmlist`(`id`,`name`,`address`,`port`,`icon`,`color`,`timezone`,`allowedSecurityLevel`,`population`,`gamebuild`) values (1,'Trillium World','127.0.0.1',8085,0,0,1,0,0,14545);
 
 /*Table structure for table `uptime` */
 
