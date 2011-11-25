@@ -604,7 +604,6 @@ struct ItemTemplate
     uint32 ContainerSlots;
     _ItemStat ItemStat[MAX_ITEM_PROTO_STATS];
     uint32 ScalingStatDistribution;                         // id from ScalingStatDistribution.dbc
-    uint32 ScalingStatValue;                                // mask for selecting column in ScalingStatValues.dbc
     uint32 damageType;
     uint32 Delay;
     float  RangedModRange;

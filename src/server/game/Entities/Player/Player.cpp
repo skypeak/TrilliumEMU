@@ -1201,7 +1201,7 @@ bool Player::Create(uint32 guidlow, CharacterCreateInfo* createInfo, uint32 acco
                 RemoveItem(INVENTORY_SLOT_BAG_0, i, true);
                 EquipItem(eDest, pItem, true);
             }
-            // move other items to more appropriate slots (ammo not equipped in special bag)
+            // move other items to more appropriate slots
             else
             {
                 ItemPosCountVec sDest;
@@ -3220,7 +3220,7 @@ void Player::GiveLevel(uint8 level)
     SetFullHealth();
     SetPower(POWER_MANA, GetMaxPower(POWER_MANA));
     SetPower(POWER_ENERGY, GetMaxPower(POWER_ENERGY));
-    if (GetPower(POWER_RAGE) > GetMaxPower(POWER_RAGE))
+    if ((uint32)GetPower(POWER_RAGE) > GetMaxPower(POWER_RAGE))
         SetPower(POWER_RAGE, GetMaxPower(POWER_RAGE));
     SetPower(POWER_FOCUS, 0);
 
@@ -3450,7 +3450,7 @@ void Player::InitStatsForLevel(bool reapplyMods)
     SetFullHealth();
     SetPower(POWER_MANA, GetMaxPower(POWER_MANA));
     SetPower(POWER_ENERGY, GetMaxPower(POWER_ENERGY));
-    if (GetPower(POWER_RAGE) > GetMaxPower(POWER_RAGE))
+    if ((uint32)GetPower(POWER_RAGE) > GetMaxPower(POWER_RAGE))
         SetPower(POWER_RAGE, GetMaxPower(POWER_RAGE));
     SetPower(POWER_FOCUS, GetMaxPower(POWER_FOCUS));
     SetPower(POWER_RUNIC_POWER, 0);
@@ -17428,6 +17428,11 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder, WorldSession *sessi
     // restore remembered power/health values (but not more max values)
     uint32 savedHealth = fields[46].GetUInt32();
     SetHealth(savedHealth > GetMaxHealth() ? GetMaxHealth() : savedHealth);
+    for (uint8 i = 0; i < MAX_STORED_POWERS; ++i)
+    {
+        uint32 savedPower = fields[51+i].GetUInt32();
+        SetPower(Powers(i), savedPower > GetMaxPower(Powers(i)) ? GetMaxPower(Powers(i)) : savedPower);
+    }
 
     sLog->outDebug(LOG_FILTER_PLAYER_LOADING, "The value of player %s after load item and aura is: ", m_name.c_str());
     outDebugValues();
@@ -18853,7 +18858,7 @@ void Player::SaveToDB()
 
 	//ss << (GetPower(POWER_MANA)) << ',';
 
-    for (uint32 i = 0; i < MAX_POWERS; ++i)
+    for (uint32 i = 0; i < MAX_STORED_POWERS; ++i)
         ss << ',' << GetPower(Powers(i));
 
     ss << ',';
@@ -19389,7 +19394,7 @@ void Player::_SaveStats(SQLTransaction& trans)
         "blockPct, dodgePct, parryPct, critPct, rangedCritPct, spellCritPct, attackPower, rangedAttackPower, spellPower, resilience) VALUES ("
         << GetGUIDLow() << ','
         << GetMaxHealth() << ',';
-    for (uint8 i = 0; i < MAX_POWERS; ++i)
+    for (uint8 i = 0; i < MAX_STORED_POWERS; ++i)
         ss << GetMaxPower(Powers(i)) << ',';
     for (uint8 i = 0; i < MAX_STATS; ++i)
         ss << GetStat(Stats(i)) << ',';
