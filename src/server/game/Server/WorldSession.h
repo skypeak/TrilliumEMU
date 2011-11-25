@@ -27,11 +27,11 @@
 #define __WORLDSESSION_H
 
 #include "Common.h"
-#include "Opcodes.h"
 #include "SharedDefines.h"
 #include "AddonMgr.h"
 #include "DatabaseEnv.h"
 #include "World.h"
+#include "WorldPacket.h"
 
 struct ItemTemplate;
 struct AuctionEntry;
@@ -154,6 +154,7 @@ public:
 
     virtual bool Process(WorldPacket* /*packet*/) { return true; }
     virtual bool ProcessLogout() const { return true; }
+    static Opcodes DropHighBytes(Opcodes opcode);
 
 protected:
     WorldSession* const m_pSession;
@@ -205,7 +206,7 @@ class CharacterCreateInfo
         uint8 HairColor;
         uint8 FacialHair;
         uint8 OutfitId;
-        WorldPacket& Data;
+        WorldPacket Data;
 
         /// Server side data
         uint8 CharCount;

@@ -165,6 +165,8 @@ int WorldSocket::SendPacket (const WorldPacket& pct)
     // Dump outgoing packet.
     _LogPacket(pct, true);
 
+    sLog->outOpCode(uint32(pct.GetOpcode()), LookupOpcodeName(pct.GetOpcode()), true);
+
     // Create a copy of the original packet; this is to avoid issues if a hook modifies it.
     sScriptMgr->OnPacketSend(this, WorldPacket(pct));
 
@@ -244,20 +246,8 @@ int WorldSocket::open (void *a)
 
     m_Address = remote_addr.get_host_addr();
 
-    SendAuthConnection();
-
-    // Send startup packet.
-    WorldPacket packet(SMSG_AUTH_CHALLENGE, 37);
-    packet << uint32(0);
-    packet << uint32(0);
-    packet << uint32(0);
-    packet << uint32(0);
-    packet << m_Seed;
-    packet << uint8(1);
-    packet << uint32(0);
-    packet << uint32(0);
-    packet << uint32(0);
-    packet << uint32(0);
+    WorldPacket packet(SMSG_VERIFY_CONNECTIVITY);
+    packet << "RLD OF WARCRAFT CONNECTION - SERVER TO CLIENT";
 
     if (SendPacket(packet) == -1)
         return -1;
@@ -504,7 +494,7 @@ int WorldSocket::handle_input_header (void)
 
     header.size -= 4;
 
-    ACE_NEW_RETURN (m_RecvWPct, WorldPacket ((Opcodes) header.cmd, header.size), -1);
+    ACE_NEW_RETURN (m_RecvWPct, WorldPacket (PacketFilter::DropHighBytes(Opcodes(header.cmd)), header.size), -1);
 
     if (header.size > 0)
     {
@@ -675,7 +665,7 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
     ACE_ASSERT (new_pct);
 
     // manage memory ;)
-    ACE_Auto_Ptr<WorldPacket> aptr (new_pct);
+    const ACE_UINT16 opcode = PacketFilter::DropHighBytes(new_pct->GetOpcode());
 
     const ACE_UINT16 opcode = new_pct->GetOpcode();
 
@@ -684,6 +674,8 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
 
     // Dump received packet.
     _LogPacket(*new_pct, false);
+
+    sLog->outOpCode(uint32(Opcodes(opcode)), LookupOpcodeName(Opcodes(opcode)), false);
 
     try
     {
@@ -710,14 +702,11 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
             default:
             {
                 ACE_GUARD_RETURN (LockType, Guard, m_SessionLock, -1);
-
-                if (!opcodeTable[new_pct->GetOpcode()])
+                if (!opcodeTable[Opcodes(opcode)])
                 {
                     sLog->outError("Opcode with no defined handler received from client: %u", new_pct->GetOpcode());
-					new_pct->hexlike();
                     return 0;
                 }
-
                 if (m_Session != NULL)
                 {
                     // Our Idle timer will reset on any non PING opcodes.
@@ -755,13 +744,29 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
     ACE_NOTREACHED (return 0);
 }
 
+int WorldSocket::HandleSendAuthSession()
+{
+    WorldPacket packet(SMSG_AUTH_CHALLENGE, 37);
+    packet << uint32(0);
+    packet << uint32(0);
+    packet << uint32(0);
+    packet << uint32(0);
+    packet << m_Seed;
+    packet << uint8(1);
+    packet << uint32(0);
+    packet << uint32(0);
+    packet << uint32(0);
+    packet << uint32(0);
+    return SendPacket(packet);
+}
+
 int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
 {
-    uint8 Hash[20];
+    uint8 digest[20];
     uint16 clientBuild, security;
     uint32 id;
-    uint32 clientSeed;
     uint32 m_addonSize;
+    uint32 clientSeed;
     std::string account;
     LocaleConstant locale;
 
@@ -770,27 +775,35 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
     WorldPacket packet;
 
     recvPacket.read_skip<uint8>();
-    recvPacket.read(Hash, 5);
+    recvPacket.read(digest, 5);
     recvPacket >> clientBuild;
-    recvPacket.read(Hash, 2);
+    recvPacket.read(digest, 2);
     recvPacket.read_skip<uint8>();
     recvPacket.read_skip<uint32>();
-    recvPacket.read(Hash, 4);
+    recvPacket.read(digest, 4);
     recvPacket.read_skip<uint64>();
     recvPacket.read_skip<uint8>();
-    recvPacket.read(Hash, 2);
+    recvPacket.read(digest, 2);
     recvPacket.read_skip<uint32>();
-    recvPacket.read(Hash, 4);
+    recvPacket.read(digest, 4);
     recvPacket >> clientSeed;
-    recvPacket.read(Hash, 2);
+    recvPacket.read(digest, 2);
     recvPacket.read_skip<uint32>();
-    recvPacket.read(Hash, 1);
+    recvPacket.read(digest, 1);
     recvPacket.read_skip<uint32>();
     recvPacket >> account;
+    recvPacket >> m_addonSize;
 
-    recvPacket >> m_addonSize;                            // addon data size
-    size_t addonInfoPos = recvPacket.rpos();
-    recvPacket.rpos(recvPacket.rpos() + m_addonSize);     // skip it
+    uint8 * tableauAddon = new uint8[m_addonSize];
+    WorldPacket packetAddon;
+    for (uint32 i = 0; i < m_addonSize; i++)
+    {
+        uint8 ByteSize = 0;
+        recvPacket >> ByteSize;
+        tableauAddon[i] = ByteSize;
+        packetAddon << ByteSize;
+    }
+    delete tableauAddon;
 
     if (sWorld->IsClosed())
     {
@@ -876,13 +889,7 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
 
     K.SetHexStr (fields[1].GetCString());
 
-    int64 mutetime = fields[7].GetInt64();
-    //! Negative mutetime indicates amount of seconds to be muted effective on next login - which is now.
-    if (mutetime < 0)
-    {
-        mutetime = time(NULL) + llabs(mutetime);
-        LoginDatabase.PExecute("UPDATE account SET mutetime = " SI64FMTD " WHERE id = '%u'", mutetime, id);
-    }
+    time_t mutetime = time_t (fields[7].GetUInt64());
 
     locale = LocaleConstant (fields[8].GetUInt8());
     if (locale >= TOTAL_LOCALES)
@@ -927,7 +934,7 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
     // Check locked state for server
     AccountTypes allowedAccountType = sWorld->GetPlayerSecurityLimit();
     sLog->outDebug(LOG_FILTER_NETWORKIO, "Allowed Level: %u Player Level %u", allowedAccountType, AccountTypes(security));
-    if (AccountTypes(security) < allowedAccountType)
+    if (allowedAccountType > SEC_PLAYER && AccountTypes(security) < allowedAccountType)
     {
         WorldPacket Packet (SMSG_AUTH_RESPONSE, 1);
         Packet << uint8 (AUTH_UNAVAILABLE);
@@ -981,8 +988,8 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
 
     m_Session->LoadGlobalAccountData();
     m_Session->LoadTutorialsData();
-    recvPacket.rpos(addonInfoPos);
-    m_Session->ReadAddonsInfo(recvPacket);
+    packetAddon.rpos(0);
+    m_Session->ReadAddonsInfo(packetAddon);
 
     // Sleep this Network thread for
     uint32 sleepTime = sWorld->getIntConfig(CONFIG_SESSION_ADD_DELAY);
