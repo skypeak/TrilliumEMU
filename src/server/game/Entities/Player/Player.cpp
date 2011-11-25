@@ -2321,7 +2321,7 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
         if (!sMapMgr->CanPlayerEnter(mapid, this, false))
             return false;
 
-        Map* map = sMapMgr->CreateMap(mapid, this, 0);
+        Map* map = sMapMgr->CreateMap(mapid, this);
         if (!map || map->CanEnter(this))
         {
             //lets reset near teleport flag if it wasn't reset during chained teleports
@@ -17233,7 +17233,7 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder, WorldSession *sessi
 
     // NOW player must have valid map
     // load the player's map here if it's not already loaded
-    Map *map = sMapMgr->CreateMap(mapId, this, instanceId);
+    Map *map = sMapMgr->CreateMap(mapId, this);
 
     if (!map)
     {
@@ -17251,14 +17251,14 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder, WorldSession *sessi
             RelocateToHomebind();
         }
 
-        map = sMapMgr->CreateMap(mapId, this, 0);
+        map = sMapMgr->CreateMap(mapId, this);
         if (!map)
         {
             PlayerInfo const *info = sObjectMgr->GetPlayerInfo(getRace(), getClass());
             mapId = info->mapId;
             Relocate(info->positionX, info->positionY, info->positionZ, 0.0f);
             sLog->outError("Player (guidlow %d) have invalid coordinates (X: %f Y: %f Z: %f O: %f). Teleport to default race/class locations.", guid, GetPositionX(), GetPositionY(), GetPositionZ(), GetOrientation());
-            map = sMapMgr->CreateMap(mapId, this, 0);
+            map = sMapMgr->CreateMap(mapId, this);
             if (!map)
             {
                 sLog->outError("Player (guidlow %d) has invalid default map coordinates (X: %f Y: %f Z: %f O: %f). or instance couldn't be created", guid, GetPositionX(), GetPositionY(), GetPositionZ(), GetOrientation());

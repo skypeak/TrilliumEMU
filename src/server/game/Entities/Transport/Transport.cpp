@@ -167,7 +167,7 @@ void Transport::TeleportTransport(uint32 newMapid, float x, float y, float z)
     // player far teleport would try to create same instance, but we need it NOW for transport...
     RemoveFromWorld();
     ResetMap();
-    Map * newMap = sMapMgr->CreateMap(newMapid, this, 0);
+    Map* newMap = sMapMgr->CreateBaseMap(newMapid);
     SetMap(newMap);
     ASSERT(GetMap());
     AddToWorld();

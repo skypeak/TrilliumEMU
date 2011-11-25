@@ -757,7 +757,7 @@ struct CinematicSequencesEntry
 struct CreatureDisplayInfoEntry
 {
     uint32      Displayid;                                  // 0        m_ID
-    uint32      Modelid;                                    // 1        m_modelID
+    uint32      ModelId;                                    // 1        m_modelID
                                                             // 2        m_soundID
                                                             // 3        m_extendedDisplayInfoID
     float       scale;                                      // 4        m_creatureModelScale
