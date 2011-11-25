@@ -485,8 +485,8 @@ bool ChatHandler::HandleLookupAreaCommand(const char* args)
         AreaTableEntry const *areaEntry = sAreaStore.LookupEntry (areaflag);
         if (areaEntry)
         {
-            int loc = GetSessionDbcLocale ();
-            std::string name = areaEntry->area_name[loc];
+            int loc = GetSessionDbcLocale();
+            std::string name = areaEntry->area_name;
             if (name.empty())
                 continue;
 
@@ -495,10 +495,10 @@ bool ChatHandler::HandleLookupAreaCommand(const char* args)
                 loc = 0;
                 for (; loc < TOTAL_LOCALES; ++loc)
                 {
-                    if (loc == GetSessionDbcLocale ())
+                    if (loc == GetSessionDbcLocale())
                         continue;
 
-                    name = areaEntry->area_name[loc];
+                    name = areaEntry->area_name;
                     if (name.empty ())
                         continue;
 
