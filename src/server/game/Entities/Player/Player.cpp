@@ -2321,10 +2321,11 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
         if (!sMapMgr->CanPlayerEnter(mapid, this, false))
             return false;
 
+        //I think this always returns true. Correct me if I am wrong.
         // If the map is not created, assume it is possible to enter it.
         // It will be created in the WorldPortAck.
-        Map* map = sMapMgr->FindBaseNonInstanceMap(mapid);
-        if (!map || map->CanEnter(this))
+        //Map* map = sMapMgr->FindBaseNonInstanceMap(mapid);
+        //if (!map || map->CanEnter(this))
         {
             //lets reset near teleport flag if it wasn't reset during chained teleports
             SetSemaphoreTeleportNear(false);
@@ -2454,8 +2455,8 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
             // code for finish transfer to new map called in WorldSession::HandleMoveWorldportAckOpcode at client packet
             SetSemaphoreTeleportFar(true);
         }
-        else
-            return false;
+        //else
+        //    return false;
     }
     return true;
 }
@@ -2586,7 +2587,7 @@ void Player::RegenerateAll()
     m_regenTimerCount += m_regenTimer;
 
     Regenerate(POWER_ENERGY);
-
+    Regenerate(POWER_FOCUS);
     Regenerate(POWER_MANA);
 
     // Runes act as cooldowns, and they don't need to send any data
@@ -2650,7 +2651,8 @@ void Player::Regenerate(Powers power)
                 addvalue += GetFloatValue(UNIT_FIELD_POWER_REGEN_INTERRUPTED_FLAT_MODIFIER) *  ManaIncreaseRate * 0.001f * m_regenTimer * haste;
             else
                 addvalue += GetFloatValue(UNIT_FIELD_POWER_REGEN_FLAT_MODIFIER) * ManaIncreaseRate * 0.001f * m_regenTimer * haste;
-        }   break;
+        }
+        break;
         case POWER_RAGE:                                    // Regenerate rage
         {
             if (!isInCombat() && !HasAuraType(SPELL_AURA_INTERRUPT_REGEN))
@@ -2658,14 +2660,8 @@ void Player::Regenerate(Powers power)
                 float RageDecreaseRate = sWorld->getRate(RATE_POWER_RAGE_LOSS);
                 addvalue += -20 * RageDecreaseRate * haste;               // 2 rage by tick (= 2 seconds => 1 rage/sec)
             }
-             break;
         }
-        case POWER_HOLY_POWER:                              // Regenerate holy power
-        {
-            if (!isInCombat())
-                addvalue += -0.2f;               // remove 1 each 10 sec
-            break;
-        }
+        break;
         case POWER_ENERGY:                                  // Regenerate energy (rogue)
             addvalue += 0.01f * m_regenTimer * sWorld->getRate(RATE_POWER_ENERGY);
             break;
@@ -2676,12 +2672,12 @@ void Player::Regenerate(Powers power)
                 float RunicPowerDecreaseRate = sWorld->getRate(RATE_POWER_RUNICPOWER_LOSS);
                 addvalue += -30 * RunicPowerDecreaseRate;         // 3 RunicPower by tick
             }
-            break;
         }
-        case POWER_RUNE:
+        break;
         case POWER_FOCUS:
-			addvalue += 0.01f * 800 * haste;
-        case POWER_HAPPINESS:
+            addvalue += 4.0f * m_modAttackSpeedPct[RANGED_ATTACK] * sWorld->getRate(RATE_POWER_FOCUS);
+            break;
+        case POWER_RUNE:
         case POWER_HEALTH:
             break;
         default:
@@ -3227,7 +3223,6 @@ void Player::GiveLevel(uint8 level)
     if (GetPower(POWER_RAGE) > GetMaxPower(POWER_RAGE))
         SetPower(POWER_RAGE, GetMaxPower(POWER_RAGE));
     SetPower(POWER_FOCUS, 0);
-    SetPower(POWER_HAPPINESS, 0);
 
     _ApplyAllLevelScaleItemMods(true);
 
@@ -3419,21 +3414,8 @@ void Player::InitStatsForLevel(bool reapplyMods)
     InitDataForForm(reapplyMods);
 
     // save new stats
-    for (uint32 i = 0; i <= sChrPowerTypesStore.GetNumRows(); i++)
-    {
-        ChrPowerTypesEntry const* cEntry = sChrPowerTypesStore.LookupEntry(i);
-
-        if (!cEntry)
-            continue;
-
-        if (getClass() != cEntry->classId)
-            continue;
-
-        if (cEntry->power == 10)
-            continue;
-
-        SetMaxPower(Powers(cEntry->power),  uint32(GetCreatePowers(Powers(cEntry->power))));
-    }
+    for (uint8 i = POWER_MANA; i < MAX_POWERS; ++i)
+        SetMaxPower(Powers(i), GetCreatePowers(Powers(i)));
 
     SetMaxHealth(classInfo.basehealth);                     // stamina bonus will applied later
 
@@ -3470,8 +3452,7 @@ void Player::InitStatsForLevel(bool reapplyMods)
     SetPower(POWER_ENERGY, GetMaxPower(POWER_ENERGY));
     if (GetPower(POWER_RAGE) > GetMaxPower(POWER_RAGE))
         SetPower(POWER_RAGE, GetMaxPower(POWER_RAGE));
-    SetPower(POWER_FOCUS, 0);
-    SetPower(POWER_HAPPINESS, 0);
+    SetPower(POWER_FOCUS, GetMaxPower(POWER_FOCUS));
     SetPower(POWER_RUNIC_POWER, 0);
 
     // update level to hunter/summon pet
@@ -5273,6 +5254,7 @@ void Player::ResurrectPlayer(float restore_percent, bool applySickness)
         SetPower(POWER_MANA, uint32(GetMaxPower(POWER_MANA)*restore_percent));
         SetPower(POWER_RAGE, 0);
         SetPower(POWER_ENERGY, uint32(GetMaxPower(POWER_ENERGY)*restore_percent));
+        SetPower(POWER_FOCUS, uint32(GetMaxPower(POWER_FOCUS)*restore_percent));
     }
 
     // trigger update zone for alive state zone updates
@@ -7930,7 +7912,7 @@ void Player::_ApplyItemBonuses(ItemTemplate const *proto, uint8 slot, bool apply
     if (ssd && ssd_level > ssd->MaxLevel)
         ssd_level = ssd->MaxLevel;
 
-    ScalingStatValuesEntry const *ssv = proto->ScalingStatValue ? sScalingStatValuesStore.LookupEntry(ssd_level) : NULL;
+    ScalingStatValuesEntry const* ssv = ssd ? sScalingStatValuesStore.LookupEntry(ssd_level) : NULL;
     if (only_level_scale && !ssv)
         return;
 
@@ -7944,7 +7926,7 @@ void Player::_ApplyItemBonuses(ItemTemplate const *proto, uint8 slot, bool apply
             if (ssd->StatMod[i] < 0)
                 continue;
             statType = ssd->StatMod[i];
-            val = (ssv->getssdMultiplier(proto->ScalingStatValue) * ssd->Modifier[i]) / 10000;
+            val = (ssv->GetStatMultiplier(proto->InventoryType) * ssd->Modifier[i]) / 10000;
         }
         else
         {
@@ -8104,15 +8086,14 @@ void Player::_ApplyItemBonuses(ItemTemplate const *proto, uint8 slot, bool apply
     }
 
     // Apply Spell Power from ScalingStatValue if set
-    if (ssv)
-        if (int32 spellbonus = ssv->getSpellBonus(proto->ScalingStatValue))
+    if (ssv && proto->Flags2 & ITEM_FLAGS_EXTRA_CASTER_WEAPON)
+        if (int32 spellbonus = int32(ssv->Spellpower))
             ApplySpellPowerBonus(spellbonus, apply);
 
     // If set ScalingStatValue armor get it or use item armor
     uint32 armor = proto->GetArmor();
-    if (ssv)
-        if (uint32 ssvarmor = ssv->getArmorMod(proto->ScalingStatValue))
-            armor = ssvarmor;
+    if (ssv && proto->Class == ITEM_CLASS_ARMOR)
+        armor = ssv->GetArmor(proto->InventoryType, proto->SubClass - 1);
 
     if (armor)
     {
@@ -8155,16 +8136,6 @@ void Player::_ApplyItemBonuses(ItemTemplate const *proto, uint8 slot, bool apply
 
     if (CanUseAttackType(attType))
         _ApplyWeaponDamage(slot, proto, ssv, apply);
-
-   // Apply feral bonus from ScalingStatValue if set
-    if (ssv)
-        if (int32 feral_bonus = ssv->getFeralBonus(proto->ScalingStatValue))
-            ApplyFeralAPBonus(feral_bonus, apply);
-
-    // Druids get feral AP bonus from weapon dps (lso use DPS from ScalingStatValue)
-    if (getClass() == CLASS_DRUID)
-        if (int32 feral_bonus = proto->getFeralBonus(ssv->getDPSMod(proto->ScalingStatValue)))
-            ApplyFeralAPBonus(feral_bonus, apply);
 }
 
 void Player::_ApplyWeaponDamage(uint8 slot, ItemTemplate const *proto, ScalingStatValuesEntry const *ssv, bool apply)
@@ -8187,14 +8158,16 @@ void Player::_ApplyWeaponDamage(uint8 slot, ItemTemplate const *proto, ScalingSt
     float maxDamage = proto->GetMaxDamage();
 
     // If set dpsMod in ScalingStatValue use it for min (70% from average), max (130% from average) damage
+    int32 extraDPS = 0;
     if (ssv)
     {
-        int32 extraDPS = ssv->getDPSMod(proto->ScalingStatValue);
+        float damageMultiplier = 0.0f;
+        extraDPS = ssv->GetDPSAndDamageMultiplier(proto->SubClass, proto->Flags2 & ITEM_FLAGS_EXTRA_CASTER_WEAPON, &damageMultiplier);
         if (extraDPS)
         {
             float average = extraDPS * proto->Delay / 1000.0f;
-            minDamage = 0.7f * average;
-            maxDamage = 1.3f * average;
+            minDamage = (1.0f - damageMultiplier) * average;
+            maxDamage = (1.0f + damageMultiplier) * average;
         }
     }
 
@@ -8226,6 +8199,11 @@ void Player::_ApplyWeaponDamage(uint8 slot, ItemTemplate const *proto, ScalingSt
 
     if (CanModifyStats() && (damage || proto->Delay))
         UpdateDamagePhysical(attType);
+
+    // Druids get feral AP bonus from weapon dps (lso use DPS from ScalingStatValue)
+    if (getClass() == CLASS_DRUID)
+        if (int32 feral_bonus = proto->getFeralBonus(extraDPS))
+            ApplyFeralAPBonus(feral_bonus, apply);
 }
 
 void Player::_ApplyWeaponDependentAuraMods(Item *item, WeaponAttackType attackType, bool apply)
@@ -14884,7 +14862,7 @@ Quest const* Player::GetNextQuest(uint64 guid, Quest const *quest)
 
 bool Player::CanSeeStartQuest(Quest const *quest)
 {
-    if (SatisfyQuestRace(quest, false) && SatisfyQuestSkillOrClass(quest, false) &&
+    if (SatisfyQuestClass(quest, false) && SatisfyQuestRace(quest, false) && SatisfyQuestSkill(quest, false) &&
         SatisfyQuestExclusiveGroup(quest, false) && SatisfyQuestReputation(quest, false) &&
         SatisfyQuestPreviousQuest(quest, false) && SatisfyQuestNextChain(quest, false) &&
         SatisfyQuestPrevChain(quest, false) && SatisfyQuestDay(quest, false) && SatisfyQuestWeek(quest, false) &&
@@ -14899,8 +14877,8 @@ bool Player::CanSeeStartQuest(Quest const *quest)
 bool Player::CanTakeQuest(Quest const *quest, bool msg)
 {
     return SatisfyQuestStatus(quest, msg) && SatisfyQuestExclusiveGroup(quest, msg)
-        && SatisfyQuestRace(quest, msg) && SatisfyQuestLevel(quest, msg)
-        && SatisfyQuestSkillOrClass(quest, msg) && SatisfyQuestReputation(quest, msg)
+        && SatisfyQuestClass(quest, msg) && SatisfyQuestRace(quest, msg) && SatisfyQuestLevel(quest, msg)
+        && SatisfyQuestSkill(quest, msg) && SatisfyQuestReputation(quest, msg)
         && SatisfyQuestPreviousQuest(quest, msg) && SatisfyQuestTimed(quest, msg)
         && SatisfyQuestNextChain(quest, msg) && SatisfyQuestPrevChain(quest, msg)
         && SatisfyQuestDay(quest, msg) && SatisfyQuestWeek(quest, msg)
@@ -15434,47 +15412,21 @@ void Player::FailQuest(uint32 questId)
     }
 }
 
-bool Player::SatisfyQuestSkillOrClass(Quest const* qInfo, bool msg)
+bool Player::SatisfyQuestSkill(Quest const* qInfo, bool msg) const
 {
-    int32 zoneOrSort = qInfo->GetZoneOrSort();
-    int32 skillOrClassMask = qInfo->GetSkillOrClassMask();
+    uint32 skill = qInfo->GetRequiredSkill();
 
-    // skip zone zoneOrSort and 0 case skillOrClass
-    if (zoneOrSort >= 0 && skillOrClassMask == 0)
+    // skip 0 case RequiredSkill
+    if (skill == 0)
         return true;
 
-    int32 questSort = -zoneOrSort;
-    uint8 reqSortClass = ClassByQuestSort(questSort);
-
-    // check class sort cases in zoneOrSort
-    if (reqSortClass != 0 && getClass() != reqSortClass)
+    // check skill value
+    if (GetSkillValue(skill) < qInfo->GetRequiredSkillValue())
     {
         if (msg)
             SendCanTakeQuestResponse(INVALIDREASON_DONT_HAVE_REQ);
-        return false;
-    }
 
-    // check class
-    if (skillOrClassMask < 0)
-    {
-        uint32 reqClassMask = -int32(skillOrClassMask);
-        if (!(reqClassMask & getClassMask()))
-        {
-            if (msg)
-                SendCanTakeQuestResponse(INVALIDREASON_DONT_HAVE_REQ);
-            return false;
-        }
-    }
-    // check skill
-    else if (skillOrClassMask > 0)
-    {
-        uint32 reqSkill = skillOrClassMask;
-        if (GetSkillValue(reqSkill) < qInfo->GetRequiredSkillValue())
-        {
-            if (msg)
-                SendCanTakeQuestResponse(INVALIDREASON_DONT_HAVE_REQ);
-            return false;
-        }
+        return false;
     }
 
     return true;
@@ -15600,6 +15552,24 @@ bool Player::SatisfyQuestPreviousQuest(Quest const* qInfo, bool msg)
         SendCanTakeQuestResponse(INVALIDREASON_DONT_HAVE_REQ);
 
     return false;
+}
+
+bool Player::SatisfyQuestClass(Quest const* qInfo, bool msg) const
+{
+    uint32 reqClass = qInfo->GetRequiredClasses();
+
+    if (reqClass == 0)
+        return true;
+
+    if ((reqClass & getClassMask()) == 0)
+    {
+        if (msg)
+            SendCanTakeQuestResponse(INVALIDREASON_DONT_HAVE_REQ);
+
+        return false;
+    }
+
+    return true;
 }
 
 bool Player::SatisfyQuestRace(Quest const* qInfo, bool msg)
@@ -16587,7 +16557,7 @@ void Player::SendQuestTimerFailed(uint32 quest_id)
     }
 }
 
-void Player::SendCanTakeQuestResponse(uint32 msg)
+void Player::SendCanTakeQuestResponse(uint32 msg) const
 {
     WorldPacket data(SMSG_QUESTGIVER_QUEST_INVALID, 4);
     data << uint32(msg);
@@ -23016,8 +22986,8 @@ void Player::ResurectUsingRequestData()
         SetPower(POWER_MANA, GetMaxPower(POWER_MANA));
 
     SetPower(POWER_RAGE, 0);
-
     SetPower(POWER_ENERGY, GetMaxPower(POWER_ENERGY));
+    SetPower(POWER_FOCUS, GetMaxPower(POWER_FOCUS));
 
     SpawnCorpseBones();
 }
