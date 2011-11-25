@@ -4642,7 +4642,7 @@ bool Player::resetTalents(bool no_cost)
         if (!talentInfo || talentInfo->TalentTabID != TalentBranchSpec(m_activeSpec))
             continue;
 
-        removeSpell(talentInfo->SpellID, false);
+        removeSpell(talentInfo->SpellID, true);
     }
 
     m_branchSpec[m_activeSpec] = 0;
