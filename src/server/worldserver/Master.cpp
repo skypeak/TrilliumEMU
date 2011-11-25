@@ -129,17 +129,15 @@ int Master::Run()
     sLog->outString("%s (worldserver-daemon)", _FULLVERSION);
     sLog->outString("<Ctrl-C> to stop.\n");
 
-	sLog->outString("#######                                        ####### #     # #     # ");
-	sLog->outString("   #    #####  # #      #      # #    # #    # #       ##   ## #     # ");
-	sLog->outString("   #    #    # # #      #      # #    # ##  ## #       # # # # #     # ");
-	sLog->outString("   #    #    # # #      #      # #    # # ## # #####   #  #  # #     # ");
-	sLog->outString("   #    #####  # #      #      # #    # #    # #       #     # #     # ");
-	sLog->outString("   #    #   #  # #      #      # #    # #    # #       #     # #     # ");
-	sLog->outString("   #    #    # # ###### ###### #  ####  #    # ####### #     #  #####  ");
-	sLog->outString(" ");
-	sLog->outString("World of Warcraft: Cataclysm Emulator Framework");
-	sLog->outString("Arkania Community 2011 (c) ");
-	sLog->outString("Website: http://arkania.net ");
+sLog->outString("    Arkania Community (c) 2011 <http://arkania.net/> ");
+sLog->outString("    ______            ___    ___                            ____             __  __ ");
+sLog->outString("   /\\__  _\\       __ /\\_ \\  /\\_ \\    __                    /\\  _`\\   /'\\_/`\\/\\ \\/\\ \\");
+sLog->outString("   \\/_/\\ \\/ _ __ /\\_\\\\//\\ \\ \\//\\ \\  /\\_\\  __  __    ___ ___\\ \\ \\L\\_\\/\\      \\ \\ \\ \\ \\");
+sLog->outString("      \\ \\ \\/\\`'__\\/\\ \\ \\ \\ \\  \\ \\ \\ \\/\\ \\/\\ \\/\\ \\ /' __` __`\\ \\  _\\L\\ \\ \\__\\ \\ \\ \\ \\ \\");
+sLog->outString("       \\ \\ \\ \\ \\/ \\ \\ \\ \\_\\ \\_ \\_\\ \\_\\ \\ \\ \\ \\_\\ \\/\\ \\/\\ \\/\\ \\ \\ \\L\\ \\ \\ \\_/\\ \\ \\ \\_\\ \\");
+sLog->outString("        \\ \\_\\ \\_\\  \\ \\_\\/\\____\\/\\____\\\\ \\_\\ \\____/\\ \\_\\ \\_\\ \\_\\ \\____/\\ \\_\\\\ \\_\\ \\_____\\");
+sLog->outString("         \\/_/\\/_/   \\/_/\\/____/\\/____/ \\/_/\\/___/  \\/_/\\/_/\\/_/\\/___/  \\/_/ \\/_/\\/_____/");
+sLog->outString("                                                         A World of Warcraft: Cataclysm Core Emulator");
 
 #ifdef USE_SFMT_FOR_RNG
     sLog->outString("\n");
