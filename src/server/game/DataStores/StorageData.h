@@ -281,7 +281,7 @@ enum AchievementCategory
 
 enum AreaFlags
 {
-    AREA_FLAG_UNK0             = 0x00000001,                // Unknown
+    AREA_FLAG_SNOW             = 0x00000001,                // snow (only Dun Morogh, Naxxramas, Razorfen Downs and Winterspring)
     AREA_FLAG_UNK1             = 0x00000002,                // Razorfen Downs, Naxxramas and Acherus: The Ebon Hold (3.3.5a)
     AREA_FLAG_UNK2             = 0x00000004,                // Only used for areas on map 571 (development before)
     AREA_FLAG_SLAVE_CAPITAL    = 0x00000008,                // city and city subsones
