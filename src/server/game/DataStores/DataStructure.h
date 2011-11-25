@@ -866,9 +866,9 @@ struct DungeonEncounterEntry
     uint32 difficulty;                                      // 2        instance mode
     //uint32 unk0;                                          // 3
     uint32 encounterIndex;                                  // 4        encounter index for creating completed mask
-    DBCString encounterName;                                // 5-20     encounter name
-    //uint32 nameFlags;                                     // 21
-    //uint32 unk1;                                          // 22
+    DBCString encounterName;                                // 5        encounter name
+    //uint32 nameFlags;                                     // 6
+    //uint32 unk1;                                          // 7
 };
 
 struct DurabilityCostsEntry
@@ -886,7 +886,7 @@ struct DurabilityQualityEntry
 struct EmotesEntry
 {
     uint32  Id;                                             // 0
-    //DBCString   Name;                                         // 1, internal name
+    //DBCString   Name;                                     // 1, internal name
     //uint32  AnimationId;                                  // 2, ref to animationData
     uint32  Flags;                                          // 3, bitmask, may be unit_flags
     uint32  EmoteType;                                      // 4, Can be 0, 1 or 2 (determine how emote are shown)
