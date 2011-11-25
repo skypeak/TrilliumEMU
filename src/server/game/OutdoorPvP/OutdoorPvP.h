@@ -114,9 +114,9 @@ class OPvPCapturePoint
         // checks if player is in range of a capture credit marker
         bool IsInsideObjective(Player* player) const;
 
-        virtual bool HandleCustomSpell(Player *player, uint32 spellId, GameObject* go);
+        virtual bool HandleCustomSpell(Player* player, uint32 spellId, GameObject* go);
 
-        virtual int32 HandleOpenGo(Player *player, uint64 guid);
+        virtual int32 HandleOpenGo(Player* player, uint64 guid);
 
         // returns true if the state of the objective has changed, in this case, the OutdoorPvP must send a world state ui update.
         virtual bool Update(uint32 diff);
@@ -127,7 +127,7 @@ class OPvPCapturePoint
 
         virtual void SendChangePhase();
 
-        virtual bool HandleGossipOption(Player *player, uint64 guid, uint32 gossipid);
+        virtual bool HandleGossipOption(Player* player, uint64 guid, uint32 gossipid);
 
         virtual bool CanTalkTo(Player* player, Creature* c, GossipMenuItems const& gso);
 
@@ -215,10 +215,10 @@ class OutdoorPvP : public ZoneScript
         virtual bool HandleAreaTrigger(Player* player, uint32 trigger);
 
         // called on custom spell
-        virtual bool HandleCustomSpell(Player *player, uint32 spellId, GameObject* go);
+        virtual bool HandleCustomSpell(Player* player, uint32 spellId, GameObject* go);
 
         // called on go use
-        virtual bool HandleOpenGo(Player *player, uint64 guid);
+        virtual bool HandleOpenGo(Player* player, uint64 guid);
 
         // setup stuff
         virtual bool SetupOutdoorPvP() {return true;}
@@ -247,7 +247,7 @@ class OutdoorPvP : public ZoneScript
 
         virtual bool HandleDropFlag(Player* player, uint32 spellId);
 
-        virtual bool HandleGossipOption(Player *player, uint64 guid, uint32 gossipid);
+        virtual bool HandleGossipOption(Player* player, uint64 guid, uint32 gossipid);
 
         virtual bool CanTalkTo(Player* player, Creature* c, GossipMenuItems const& gso);
 
@@ -289,7 +289,7 @@ class OutdoorPvP : public ZoneScript
 
         void RegisterZone(uint32 zoneid);
 
-        bool HasPlayer(Player *player) const;
+        bool HasPlayer(Player* player) const;
 
         void TeamCastSpell(TeamId team, int32 spellId);
 };

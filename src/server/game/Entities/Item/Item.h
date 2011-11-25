@@ -272,7 +272,7 @@ class Item : public Object
         void SetInTrade(bool b = true) { mb_in_trade = b; }
         bool IsInTrade() const { return mb_in_trade; }
 
-        bool HasEnchantRequiredSkill(const Player *player) const;
+        bool HasEnchantRequiredSkill(const Player* player) const;
         uint32 GetEnchantRequiredLevel() const;
 
         bool IsFitToSpellRequirements(SpellInfo const* spellInfo) const;
@@ -329,7 +329,7 @@ class Item : public Object
 
         // Update States
         ItemUpdateState GetState() const { return uState; }
-        void SetState(ItemUpdateState state, Player *forplayer = NULL);
+        void SetState(ItemUpdateState state, Player* forplayer = NULL);
         void AddToUpdateQueueOf(Player* player);
         void RemoveFromUpdateQueueOf(Player* player);
         bool IsInUpdateQueue() const { return uQueuePos != -1; }
@@ -346,7 +346,7 @@ class Item : public Object
         bool IsConjuredConsumable() const { return GetTemplate()->IsConjuredConsumable(); }
 
         // Item Refund system
-        void SetNotRefundable(Player *owner, bool changestate = true, SQLTransaction* trans = NULL);
+        void SetNotRefundable(Player* owner, bool changestate = true, SQLTransaction* trans = NULL);
         void SetRefundRecipient(uint32 pGuidLow) { m_refundRecipient = pGuidLow; }
         void SetPaidMoney(uint32 money) { m_paidMoney = money; }
         void SetPaidExtendedCost(uint32 iece) { m_paidExtendedCost = iece; }
@@ -354,7 +354,7 @@ class Item : public Object
         uint32 GetPaidMoney() { return m_paidMoney; }
         uint32 GetPaidExtendedCost() { return m_paidExtendedCost; }
 
-        void UpdatePlayedTime(Player *owner);
+        void UpdatePlayedTime(Player* owner);
         uint32 GetPlayedTime();
         bool IsRefundExpired();
 

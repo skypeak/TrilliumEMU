@@ -63,8 +63,8 @@ void CreatureAI::DoZoneInCombat(Creature* creature /*= NULL*/, float maxRangeToN
 
     if (!creature->HasReactState(REACT_PASSIVE) && !creature->getVictim())
     {
-        if (Unit* target = creature->SelectNearestTarget(maxRangeToNearestTarget))
-            creature->AI()->AttackStart(target);
+        if (Unit* nearTarget = creature->SelectNearestTarget(maxRangeToNearestTarget))
+            creature->AI()->AttackStart(nearTarget);
         else if (creature->isSummon())
         {
             if (Unit* summoner = creature->ToTempSummon()->GetSummoner())
@@ -151,7 +151,7 @@ void CreatureAI::DoAttackerGroupInCombat(Player* attacker)
         {
             for(GroupReference *itr = pGroup->GetFirstMember(); itr != NULL; itr = itr->next())
             {
-                Player *pGroupGuy = itr->getSource();
+                Player* pGroupGuy = itr->getSource();
 
                 if(pGroupGuy && pGroupGuy->isAlive() && pGroupGuy->GetMapId() == me->GetMapId())
                 {

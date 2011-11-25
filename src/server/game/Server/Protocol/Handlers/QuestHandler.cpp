@@ -150,7 +150,7 @@ void WorldSession::HandleQuestgiverAcceptQuestOpcode(WorldPacket & recv_data)
 
         if (_player->GetDivider() != 0)
         {
-            Player *player = ObjectAccessor::FindPlayer(_player->GetDivider());
+            Player* player = ObjectAccessor::FindPlayer(_player->GetDivider());
             if (player)
             {
                 player->SendPushToPartyResponse(_player, QUEST_PARTY_MSG_ACCEPT_QUEST);
@@ -576,7 +576,7 @@ void WorldSession::HandlePushQuestToParty(WorldPacket& recvPacket)
         {
             for (GroupReference *itr = pGroup->GetFirstMember(); itr != NULL; itr = itr->next())
             {
-                Player *player = itr->getSource();
+                Player* player = itr->getSource();
 
                 if (!player || player == _player)         // skip self
                     continue;
@@ -631,7 +631,7 @@ void WorldSession::HandleQuestPushResult(WorldPacket& recvPacket)
 
     if (_player->GetDivider() != 0)
     {
-        Player *player = ObjectAccessor::FindPlayer(_player->GetDivider());
+        Player* player = ObjectAccessor::FindPlayer(_player->GetDivider());
         if (player)
         {
             WorldPacket data(MSG_QUEST_PUSH_RESULT, 8 + 4 + 1);
@@ -644,7 +644,7 @@ void WorldSession::HandleQuestPushResult(WorldPacket& recvPacket)
     }
 }
 
-uint32 WorldSession::getDialogStatus(Player *player, Object* questgiver, uint32 defstatus)
+uint32 WorldSession::getDialogStatus(Player* player, Object* questgiver, uint32 defstatus)
 {
     uint32 result = defstatus;
 

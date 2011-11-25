@@ -1074,7 +1074,7 @@ public:
 
         Player* SelectPlayerTargetInRange(float range)
         {
-            Player *target = NULL;
+            Player* target = NULL;
             Trillium::AnyPlayerInObjectRangeCheck u_check(me, range, true);
             Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
             me->VisitNearbyObject(range, searcher);
@@ -1753,7 +1753,7 @@ public:
 
         Unit* SelectPlayerTargetInRange(float range)
         {
-            Player *target = NULL;
+            Player* target = NULL;
             Trillium::AnyPlayerInObjectRangeCheck u_check(me, range, true);
             Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
             me->VisitNearbyObject(range, searcher);
@@ -1854,7 +1854,7 @@ public:
 
         Unit* SelectPlayerTargetInRange(float range)
         {
-            Player *target = NULL;
+            Player* target = NULL;
             Trillium::AnyPlayerInObjectRangeCheck u_check(me, range, true);
             Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
             me->VisitNearbyObject(range, searcher);
@@ -2289,7 +2289,7 @@ public:
 
         Unit* SelectPlayerTargetInRange(float range)
         {
-            Player *target = NULL;
+            Player* target = NULL;
             Trillium::AnyPlayerInObjectRangeCheck u_check(me, range, true);
             Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
             me->VisitNearbyObject(range, searcher);
@@ -2810,7 +2810,7 @@ class go_flee_to_surface : public GameObjectScript
 public:
     go_flee_to_surface() : GameObjectScript("go_flee_to_surface") { }
 
-    bool OnGossipHello(Player *player, GameObject * /*pGO*/)
+    bool OnGossipHello(Player* player, GameObject * /*pGO*/)
     {
         player->RemoveAurasDueToSpell(SPELL_ILLUSION_ROOM);
         player->NearTeleportTo(SaraLocation.GetPositionX(),SaraLocation.GetPositionY(),SaraLocation.GetPositionZ(),M_PI,false);

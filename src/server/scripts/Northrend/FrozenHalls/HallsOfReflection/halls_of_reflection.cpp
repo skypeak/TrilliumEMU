@@ -948,7 +948,7 @@ public:
             if(who->GetTypeId() != TYPEID_PLAYER)
                 return;
 
-            Player* player = (Player *)who;
+            Player* player = (Player* )who;
 
             if(player->GetTeam() == ALLIANCE && me->GetEntry() == NPC_SYLVANA_OUTRO)
                 return;
@@ -960,7 +960,7 @@ public:
                 && m_pInstance->GetData(TYPE_FROST_GENERAL) == DONE
                 && m_pInstance->GetData(TYPE_PHASE) == 3)
             {
-                player = (Player *)who;
+                player = (Player* )who;
                 Event = true;
                 me->setFaction(FACTION);
                 m_pInstance->SetData(TYPE_PHASE, 4);

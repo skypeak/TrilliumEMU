@@ -1354,7 +1354,7 @@ bool ChatHandler::HandleLookupFactionCommand(const char *args)
         return false;
 
     // Can be NULL at console call
-    Player *target = getSelectedPlayer ();
+    Player* target = getSelectedPlayer ();
 
     std::string namepart = args;
     std::wstring wnamepart;
@@ -2106,7 +2106,7 @@ bool ChatHandler::HandleExploreCheatCommand(const char *args)
 
     int flag = atoi((char*)args);
 
-    Player *chr = getSelectedPlayer();
+    Player* chr = getSelectedPlayer();
     if (chr == NULL)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
@@ -2272,7 +2272,7 @@ bool ChatHandler::HandleShowAreaCommand(const char *args)
     if (!*args)
         return false;
 
-    Player *chr = getSelectedPlayer();
+    Player* chr = getSelectedPlayer();
     if (chr == NULL)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
@@ -2303,7 +2303,7 @@ bool ChatHandler::HandleHideAreaCommand(const char *args)
     if (!*args)
         return false;
 
-    Player *chr = getSelectedPlayer();
+    Player* chr = getSelectedPlayer();
     if (chr == NULL)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
@@ -4376,7 +4376,7 @@ bool ChatHandler::HandleSendMoneyCommand(const char *args)
 bool ChatHandler::HandleSendMessageCommand(const char *args)
 {
     ///- Find the player
-    Player *rPlayer;
+    Player* rPlayer;
     if (!extractPlayerTarget((char*)args, &rPlayer))
         return false;
 

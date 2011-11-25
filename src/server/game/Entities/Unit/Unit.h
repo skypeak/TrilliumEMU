@@ -2039,7 +2039,7 @@ class Unit : public WorldObject
         void SetLastManaUse(uint32 spellCastTime) { m_lastManaUse = spellCastTime; }
         bool IsUnderLastManaUseEffect() const;
 
-        void SetContestedPvP(Player *attackedPlayer = NULL);
+        void SetContestedPvP(Player* attackedPlayer = NULL);
 
         void MeleeDamageBonus(Unit *victim, uint32 *damage, WeaponAttackType attType, SpellInfo const *spellProto = NULL);
         uint32 GetCastingTimeForBonus(SpellInfo const *spellProto, DamageEffectType damagetype, uint32 CastingTime);

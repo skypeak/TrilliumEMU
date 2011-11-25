@@ -443,7 +443,7 @@ inline void Battleground::_ProcessJoin(uint32 diff)
     {
         m_ResetStatTimer = 0;
         for (BattlegroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
-            if (Player *player = ObjectAccessor::FindPlayer(itr->first))
+            if (Player* player = ObjectAccessor::FindPlayer(itr->first))
                 player->ResetAllPowers();
     }
 
@@ -497,7 +497,7 @@ inline void Battleground::_ProcessJoin(uint32 diff)
         {
             // TODO : add arena sound PlaySoundToAll(SOUND_ARENA_START);
             for (BattlegroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
-                if (Player *player = ObjectAccessor::FindPlayer(itr->first))
+                if (Player* player = ObjectAccessor::FindPlayer(itr->first))
                 {
                     // BG Status packet
                     WorldPacket status;
@@ -619,7 +619,7 @@ void Battleground::SendPacketToAll(WorldPacket* packet)
             player->GetSession()->SendPacket(packet);
 }
 
-void Battleground::SendPacketToTeam(uint32 TeamID, WorldPacket* packet, Player *sender, bool self)
+void Battleground::SendPacketToTeam(uint32 TeamID, WorldPacket* packet, Player* sender, bool self)
 {
     for (BattlegroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
         if (Player* player = _GetPlayerForTeam(TeamID, itr, "SendPacketToTeam"))
@@ -1418,7 +1418,7 @@ void Battleground::AddPlayerToResurrectQueue(uint64 npc_guid, uint64 player_guid
 {
     m_ReviveQueue[npc_guid].push_back(player_guid);
 
-    Player *player = ObjectAccessor::FindPlayer(player_guid);
+    Player* player = ObjectAccessor::FindPlayer(player_guid);
     if (!player)
         return;
 
@@ -1434,7 +1434,7 @@ void Battleground::RemovePlayerFromResurrectQueue(uint64 player_guid)
             if (*itr2 == player_guid)
             {
                 (itr->second).erase(itr2);
-                if (Player *player = ObjectAccessor::FindPlayer(player_guid))
+                if (Player* player = ObjectAccessor::FindPlayer(player_guid))
                     player->RemoveAurasDueToSpell(SPELL_WAITING_FOR_RESURRECT);
                 return;
             }
@@ -1713,7 +1713,7 @@ void Battleground::SendWarningToAll(int32 entry, ...)
     data << msg.c_str();
     data << (uint8)0;
     for (BattlegroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
-        if (Player *player = ObjectAccessor::FindPlayer(MAKE_NEW_GUID(itr->first, 0, HIGHGUID_PLAYER)))
+        if (Player* player = ObjectAccessor::FindPlayer(MAKE_NEW_GUID(itr->first, 0, HIGHGUID_PLAYER)))
             if (player->GetSession())
                 player->GetSession()->SendPacket(&data);
 }
@@ -1792,12 +1792,12 @@ void Battleground::HandleKillPlayer(Player* player, Player* killer)
 
         for (BattlegroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
         {
-            Player* player = ObjectAccessor::FindPlayer(itr->first);
-            if (!player || player == killer)
+            Player* creditedPlayer = ObjectAccessor::FindPlayer(itr->first);
+            if (!creditedPlayer || creditedPlayer == killer)
                 continue;
 
-            if (player->GetTeam() == killer->GetTeam() && player->IsAtGroupRewardDistance(player))
-                UpdatePlayerScore(player, SCORE_HONORABLE_KILLS, 1);
+            if (creditedPlayer->GetTeam() == killer->GetTeam() && creditedPlayer->IsAtGroupRewardDistance(player))
+                UpdatePlayerScore(creditedPlayer, SCORE_HONORABLE_KILLS, 1);
         }
     }
 

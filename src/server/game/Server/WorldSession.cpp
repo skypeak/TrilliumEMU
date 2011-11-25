@@ -68,7 +68,7 @@ bool MapSessionFilter::Process(WorldPacket* packet)
     if (opHandle->packetProcessing == PROCESS_THREADUNSAFE)
         return false;
 
-    Player *player = m_pSession->GetPlayer();
+    Player* player = m_pSession->GetPlayer();
     if (!player)
         return false;
 
@@ -91,7 +91,7 @@ bool WorldSessionFilter::Process(WorldPacket* packet)
         return true;
 
     //no player attached? -> our client! ^^
-    Player *player = m_pSession->GetPlayer();
+    Player* player = m_pSession->GetPlayer();
     if (!player)
         return true;
 
@@ -391,7 +391,7 @@ void WorldSession::LogoutPlayer(bool Save)
             _player->RemoveAllAurasOnDeath();
 
             // build set of player who attack _player or who have pet attacking of _player
-            std::set<Player *> aset;
+            std::set<Player* > aset;
             for (Unit::AttackerSet::const_iterator itr = _player->getAttackers().begin(); itr != _player->getAttackers().end(); ++itr)
             {
                 Unit *owner = (*itr)->GetOwner();           // including player controlled case
@@ -407,7 +407,7 @@ void WorldSession::LogoutPlayer(bool Save)
             _player->RepopAtGraveyard();
 
             // give honor to all attackers from set like group case
-            for (std::set<Player *>::const_iterator itr = aset.begin(); itr != aset.end(); ++itr)
+            for (std::set<Player* >::const_iterator itr = aset.begin(); itr != aset.end(); ++itr)
                 (*itr)->RewardHonor(_player, aset.size());
 
             // give bg rewards and update counters like kill by first from attackers
@@ -879,7 +879,7 @@ void WorldSession::SendAddonsInfo()
     SendPacket(&data);
 }
 
-void WorldSession::SetPlayer(Player *player)
+void WorldSession::SetPlayer(Player* player)
 {
     _player = player;
 

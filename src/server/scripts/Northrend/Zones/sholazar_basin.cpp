@@ -184,7 +184,7 @@ public:
         return false;
     }
 
-    bool OnQuestReward(Player *player, Creature *_Creature, Quest const *_Quest, uint32 /*item*/)
+    bool OnQuestReward(Player* player, Creature *_Creature, Quest const *_Quest, uint32 /*item*/)
     {
         switch(_Quest->GetQuestId())
         {
@@ -926,7 +926,7 @@ class oracle_frenzyheart_switch : public CreatureScript
 public:
     oracle_frenzyheart_switch() : CreatureScript("oracle_frenzyheart_switch") { }
 
-    bool OnQuestReward(Player *player, Creature *_Creature, Quest const *_Quest, uint32 /*item*/)
+    bool OnQuestReward(Player* player, Creature *_Creature, Quest const *_Quest, uint32 /*item*/)
     {
         switch(_Quest->GetQuestId())
         {
@@ -1037,7 +1037,7 @@ public:
             doReset = false;
         }
 
-        void CheckPulse(Player *pPlayer)
+        void CheckPulse(Player* pPlayer)
         {
             PulseChecked = true;
             hasSurvived = (urand(0,1) == 0);

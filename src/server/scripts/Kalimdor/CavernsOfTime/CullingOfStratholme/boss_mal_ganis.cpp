@@ -224,7 +224,7 @@ public:
                                     Map::PlayerList const & PlList = pInstance->instance->GetPlayers();
                                     if (!PlList.isEmpty())
                                         for (Map::PlayerList::const_iterator itr = PlList.begin(); itr != PlList.end(); ++itr)
-                                            if (Player * player = itr->getSource())
+                                            if (Player*  player = itr->getSource())
                                                 player->KilledMonsterCredit(MalGanis_Kill_Credit, 0);
                                 }
                                 me->SetVisible(false);

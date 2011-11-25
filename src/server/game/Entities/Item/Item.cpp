@@ -828,7 +828,7 @@ void Item::UpdateItemSuffixFactor()
     SetUInt32Value(ITEM_FIELD_PROPERTY_SEED, suffixFactor);
 }
 
-void Item::SetState(ItemUpdateState state, Player *forplayer)
+void Item::SetState(ItemUpdateState state, Player* forplayer)
 {
     if (uState == ITEM_NEW && state == ITEM_REMOVED)
     {
@@ -930,7 +930,7 @@ bool Item::CanBeTraded(bool mail, bool trade) const
     return true;
 }
 
-bool Item::HasEnchantRequiredSkill(const Player *player) const
+bool Item::HasEnchantRequiredSkill(const Player* player) const
 {
   // Check all enchants for required skill
   for (uint32 enchant_slot = PERM_ENCHANTMENT_SLOT; enchant_slot < MAX_ENCHANTMENT_SLOT; ++enchant_slot)
@@ -1265,7 +1265,7 @@ bool ItemRequiredTarget::IsFitToRequirements(Unit* pUnitTarget) const
 
 void Item::BuildUpdate(UpdateDataMapType& data_map)
 {
-    if (Player *owner = GetOwner())
+    if (Player* owner = GetOwner())
         BuildFieldsUpdate(owner, data_map);
     ClearUpdateMask(false);
 }
@@ -1285,7 +1285,7 @@ void Item::DeleteRefundDataFromDB(SQLTransaction* trans)
         (*trans)->PAppend("DELETE FROM item_refund_instance WHERE item_guid = '%u'", GetGUIDLow());
 }
 
-void Item::SetNotRefundable(Player *owner, bool changestate /*=true*/, SQLTransaction* trans /*=NULL*/)
+void Item::SetNotRefundable(Player* owner, bool changestate /*=true*/, SQLTransaction* trans /*=NULL*/)
 {
     if (!HasFlag(ITEM_FIELD_FLAGS, ITEM_FLAG_REFUNDABLE))
         return;
@@ -1303,7 +1303,7 @@ void Item::SetNotRefundable(Player *owner, bool changestate /*=true*/, SQLTransa
     owner->DeleteRefundReference(GetGUIDLow());
 }
 
-void Item::UpdatePlayedTime(Player *owner)
+void Item::UpdatePlayedTime(Player* owner)
 {
     /*  Here we update our played time
         We simply add a number to the current played time,

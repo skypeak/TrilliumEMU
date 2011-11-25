@@ -144,13 +144,13 @@ class Object
         TypeID GetTypeId() const { return m_objectTypeId; }
         bool isType(uint16 mask) const { return (mask & m_objectType); }
 
-        virtual void BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) const;
+        virtual void BuildCreateUpdateBlockForPlayer(UpdateData *data, Player* target) const;
         void SendUpdateToPlayer(Player* player);
 
-        void BuildValuesUpdateBlockForPlayer(UpdateData *data, Player *target) const;
+        void BuildValuesUpdateBlockForPlayer(UpdateData *data, Player* target) const;
         void BuildOutOfRangeUpdateBlock(UpdateData *data) const;
 
-        virtual void DestroyForPlayer(Player *target, bool anim = false) const;
+        virtual void DestroyForPlayer(Player* target, bool anim = false) const;
 
         int32 GetInt32Value(uint16 index) const
         {
@@ -297,7 +297,7 @@ class Object
         virtual bool hasQuest(uint32 /* quest_id */) const { return false; }
         virtual bool hasInvolvedQuest(uint32 /* quest_id */) const { return false; }
         virtual void BuildUpdate(UpdateDataMapType&) {}
-        void BuildFieldsUpdate(Player *, UpdateDataMapType &) const;
+        void BuildFieldsUpdate(Player* , UpdateDataMapType &) const;
 
         // FG: some hacky helpers
         void ForceValuesUpdateAtIndex(uint32);
@@ -322,11 +322,11 @@ class Object
         std::string _ConcatFields(uint16 startIndex, uint16 size) const;
         void _LoadIntoDataField(const char* data, uint32 startOffset, uint32 count);
 
-        virtual void _SetUpdateBits(UpdateMask *updateMask, Player *target) const;
+        virtual void _SetUpdateBits(UpdateMask *updateMask, Player* target) const;
 
-        virtual void _SetCreateBits(UpdateMask *updateMask, Player *target) const;
+        virtual void _SetCreateBits(UpdateMask *updateMask, Player* target) const;
         void _BuildMovementUpdate(ByteBuffer * data, uint16 flags) const;
-        void _BuildValuesUpdate(uint8 updatetype, ByteBuffer *data, UpdateMask *updateMask, Player *target) const;
+        void _BuildValuesUpdate(uint8 updatetype, ByteBuffer *data, UpdateMask *updateMask, Player* target) const;
 
         uint16 m_objectType;
 

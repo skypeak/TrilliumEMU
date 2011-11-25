@@ -27,7 +27,7 @@ class Reset_OnDuelEnd : public PlayerScript
     public:
         Reset_OnDuelEnd() : PlayerScript("Reset_OnDuelEnd") {}
 
-    void OnDuelEnd(Player *winner, Player *looser, DuelCompleteType type)
+    void OnDuelEnd(Player* winner, Player* looser, DuelCompleteType type)
     {
         // reset cooldowns (in order) Elwyn, Durotar, Tirisfal, Tendrasil, Dun Morogh, Gurubashi Arena, Exodar, Mulgore
 		//int32 ZONE_ONE = sWorld->getIntConfig(CONFIG_DUEL_RESET_ONE);

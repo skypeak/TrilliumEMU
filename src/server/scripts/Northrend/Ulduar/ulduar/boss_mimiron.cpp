@@ -1757,7 +1757,7 @@ public:
 
         Unit* SelectPlayerTargetInRange(float range)
         {
-            Player *target = NULL;
+            Player* target = NULL;
             Trillium::AnyPlayerInObjectRangeCheck u_check(me, range, true);
             Trillium::PlayerSearcher<Trillium::AnyPlayerInObjectRangeCheck> searcher(me, target, u_check);
             me->VisitNearbyObject(range, searcher);

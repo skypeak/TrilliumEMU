@@ -196,7 +196,7 @@ Quest::Quest(Field * questRecord)
             ++m_rewchoiceitemscount;
 }
 
-uint32 Quest::XPValue(Player *player) const
+uint32 Quest::XPValue(Player* player) const
 {
     if (player)
     {

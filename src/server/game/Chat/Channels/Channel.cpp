@@ -88,7 +88,7 @@ Channel::Channel(const std::string& name, uint32 channel_id, uint32 Team)
             }
             else // save
             {
-                PreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_ADD_CHANNEL);
+                stmt = CharacterDatabase.GetPreparedStatement(CHAR_ADD_CHANNEL);
                 stmt->setString(0, name);
                 stmt->setUInt32(1, m_Team);
                 CharacterDatabase.Execute(stmt);
@@ -276,7 +276,7 @@ void Channel::Leave(uint64 p, bool send)
 void Channel::KickOrBan(uint64 good, const char *badname, bool ban)
 {
     AccountTypes sec = SEC_PLAYER;
-    Player *gplr = ObjectAccessor::FindPlayer(good);
+    Player* gplr = ObjectAccessor::FindPlayer(good);
     if (gplr)
         sec = gplr->GetSession()->GetSecurity();
 
@@ -294,7 +294,7 @@ void Channel::KickOrBan(uint64 good, const char *badname, bool ban)
     }
     else
     {
-        Player *bad = sObjectAccessor->FindPlayerByName(badname);
+        Player* bad = sObjectAccessor->FindPlayerByName(badname);
         if (bad == NULL || !IsOn(bad->GetGUID()))
         {
             WorldPacket data;
@@ -340,7 +340,7 @@ void Channel::KickOrBan(uint64 good, const char *badname, bool ban)
 void Channel::UnBan(uint64 good, const char *badname)
 {
     uint32 sec = 0;
-    Player *gplr = ObjectAccessor::FindPlayer(good);
+    Player* gplr = ObjectAccessor::FindPlayer(good);
     if (gplr)
         sec = gplr->GetSession()->GetSecurity();
 
@@ -358,7 +358,7 @@ void Channel::UnBan(uint64 good, const char *badname)
     }
     else
     {
-        Player *bad = sObjectAccessor->FindPlayerByName(badname);
+        Player* bad = sObjectAccessor->FindPlayerByName(badname);
         if (bad == NULL || !IsBanned(bad->GetGUID()))
         {
             WorldPacket data;
@@ -433,7 +433,7 @@ void Channel::SetMode(uint64 p, const char *p2n, bool mod, bool set)
     }
     else
     {
-        Player *newp = sObjectAccessor->FindPlayerByName(p2n);
+        Player* newp = sObjectAccessor->FindPlayerByName(p2n);
         if (!newp)
         {
             WorldPacket data;
@@ -503,7 +503,7 @@ void Channel::SetOwner(uint64 p, const char *newname)
         return;
     }
 
-    Player *newp = sObjectAccessor->FindPlayerByName(newname);
+    Player* newp = sObjectAccessor->FindPlayerByName(newname);
     if (newp == NULL || !IsOn(newp->GetGUID()))
     {
         WorldPacket data;
@@ -668,7 +668,7 @@ void Channel::Invite(uint64 p, const char *newname)
         return;
     }
 
-    Player *newp = sObjectAccessor->FindPlayerByName(newname);
+    Player* newp = sObjectAccessor->FindPlayerByName(newname);
     if (!newp)
     {
         WorldPacket data;

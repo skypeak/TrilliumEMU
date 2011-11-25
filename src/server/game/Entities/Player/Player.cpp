@@ -535,7 +535,7 @@ inline void KillRewarder::_RewardReputation(Player* player, float rate)
     player->RewardReputation(_victim, rate);
 }
 
-inline void KillRewarder::_RewardCurrency(Player *player)
+inline void KillRewarder::_RewardCurrency(Player* player)
 {
     // Reward currency onkill.
     player->RewardCurrency(_victim);
@@ -4650,7 +4650,7 @@ Mail* Player::GetMail(uint32 id)
     return NULL;
 }
 
-void Player::_SetCreateBits(UpdateMask *updateMask, Player *target) const
+void Player::_SetCreateBits(UpdateMask *updateMask, Player* target) const
 {
     if (target == this)
         Object::_SetCreateBits(updateMask, target);
@@ -4662,7 +4662,7 @@ void Player::_SetCreateBits(UpdateMask *updateMask, Player *target) const
     }
 }
 
-void Player::_SetUpdateBits(UpdateMask *updateMask, Player *target) const
+void Player::_SetUpdateBits(UpdateMask *updateMask, Player* target) const
 {
     if (target == this)
         Object::_SetUpdateBits(updateMask, target);
@@ -4760,7 +4760,7 @@ void Player::InitVisibleBits()
     updateVisualBits.SetBit(PLAYER_CHOSEN_TITLE);
 }
 
-void Player::BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) const
+void Player::BuildCreateUpdateBlockForPlayer(UpdateData *data, Player* target) const
 {
     for (uint8 i = 0; i < EQUIPMENT_SLOT_END; ++i)
     {
@@ -4791,7 +4791,7 @@ void Player::BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) c
     Unit::BuildCreateUpdateBlockForPlayer(data, target);
 }
 
-void Player::DestroyForPlayer(Player *target, bool anim) const
+void Player::DestroyForPlayer(Player* target, bool anim) const
 {
     Unit::DestroyForPlayer(target, anim);
 
@@ -7318,7 +7318,7 @@ bool Player::RewardHonor(Unit *uVictim, uint32 groupsize, int32 honor, bool pvpt
 
         if (uVictim->GetTypeId() == TYPEID_PLAYER)
         {
-            Player *victim = uVictim->ToPlayer();
+            Player* victim = uVictim->ToPlayer();
 
             if (GetTeam() == victim->GetTeam() && !sWorld->IsFFAPvPRealm())
                 return false;
@@ -8999,7 +8999,7 @@ void Player::SendLoot(uint64 guid, LootType loot_type)
         else
         {
             // the player whose group may loot the corpse
-            Player *recipient = creature->GetLootRecipient();
+            Player* recipient = creature->GetLootRecipient();
             if (!recipient)
                 return;
 
@@ -16616,7 +16616,7 @@ void Player::SendQuestConfirmAccept(const Quest* quest, Player* pReceiver)
     }
 }
 
-void Player::SendPushToPartyResponse(Player *player, uint32 msg)
+void Player::SendPushToPartyResponse(Player* player, uint32 msg)
 {
     if (player)
     {
@@ -19880,7 +19880,7 @@ void Player::Whisper(const std::string& text, uint32 language, uint64 receiver)
     if (!isAddonMessage)                                    // if not addon data
         language = LANG_UNIVERSAL;                          // whispers should always be readable
 
-    Player *rPlayer = ObjectAccessor::FindPlayer(receiver);
+    Player* rPlayer = ObjectAccessor::FindPlayer(receiver);
 
     std::string _text(text);
     sScriptMgr->OnPlayerChat(this, CHAT_MSG_WHISPER, language, _text, rPlayer);

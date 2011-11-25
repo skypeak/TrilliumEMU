@@ -354,7 +354,7 @@ SpellMgr::~SpellMgr()
 }
 
 /// Some checks for spells, to prevent adding deprecated/broken spells for trainers, spell book, etc
-bool SpellMgr::IsSpellValid(SpellInfo const *spellInfo, Player *player, bool msg)
+bool SpellMgr::IsSpellValid(SpellInfo const *spellInfo, Player* player, bool msg)
 {
     // not exist
     if (!spellInfo)

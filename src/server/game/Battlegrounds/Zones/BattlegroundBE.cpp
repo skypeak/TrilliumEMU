@@ -64,7 +64,7 @@ void BattlegroundBE::StartingEventOpenDoors()
         SpawnBGObject(i, 60);
 }
 
-void BattlegroundBE::AddPlayer(Player *player)
+void BattlegroundBE::AddPlayer(Player* player)
 {
     Battleground::AddPlayer(player);
     //create score and add it to map, default values are set in constructor
@@ -107,7 +107,7 @@ bool BattlegroundBE::HandlePlayerUnderMap(Player* player)
     return true;
 }
 
-void BattlegroundBE::HandleAreaTrigger(Player *Source, uint32 Trigger)
+void BattlegroundBE::HandleAreaTrigger(Player* Source, uint32 Trigger)
 {
     // this is wrong way to implement these things. On official it done by gameobject spell cast.
     if (GetStatus() != STATUS_IN_PROGRESS)

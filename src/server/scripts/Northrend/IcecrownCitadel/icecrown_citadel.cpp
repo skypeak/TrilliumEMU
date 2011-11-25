@@ -1913,7 +1913,7 @@ class AliveCheck
 class TeleportToFrozenThrone : public BasicEvent
 {
     public:
-        TeleportToFrozenThrone(Player *player, uint8 attempts): player(player), attemptsLeft(attempts) { }
+        TeleportToFrozenThrone(Player* player, uint8 attempts): player(player), attemptsLeft(attempts) { }
 
         bool Execute(uint64 /*eventTime*/, uint32 /*updateTime*/)
         {
@@ -1923,11 +1923,11 @@ class TeleportToFrozenThrone : public BasicEvent
             return true;
         }
     private:
-        Player *player;
+        Player* player;
         uint8 attemptsLeft;
 };
 
-void TeleportPlayerToFrozenThrone(Player *player)
+void TeleportPlayerToFrozenThrone(Player* player)
 {
     player->m_Events.AddEvent(new TeleportToFrozenThrone(player, 2), player->m_Events.CalculateTime(uint64(5000)));
 }

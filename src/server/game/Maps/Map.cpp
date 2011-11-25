@@ -2213,7 +2213,7 @@ bool InstanceMap::CanEnter(Player* player)
 
     if (!playerList.isEmpty())
         for (PlayerList::const_iterator i = playerList.begin(); i != playerList.end(); ++i)
-            if (Player *iPlayer = i->getSource())
+            if (Player* iPlayer = i->getSource())
             {
                 if (iPlayer->isGameMaster()) // bypass GMs
                     continue;

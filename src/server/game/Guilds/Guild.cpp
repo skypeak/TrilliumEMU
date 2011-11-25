@@ -2362,7 +2362,7 @@ void Guild::DeleteMember(uint64 guid, bool isDisbanding, bool isKicked)
         _SetLeaderGUID(newLeader);
 
         // If player not online data in data field will be loaded from guild tabs no need to update it !!
-        if (Player *newLeaderPlayer = newLeader->FindPlayer())
+        if (Player* newLeaderPlayer = newLeader->FindPlayer())
             newLeaderPlayer->SetRank(GR_GUILDMASTER);
 
         // If leader does not exist (at guild loading with deleted leader) do not send broadcasts

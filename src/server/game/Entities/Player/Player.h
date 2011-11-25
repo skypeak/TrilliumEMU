@@ -303,8 +303,8 @@ struct DuelInfo
 {
     DuelInfo() : initiator(NULL), opponent(NULL), startTimer(0), startTime(0), outOfBound(0) {}
 
-    Player *initiator;
-    Player *opponent;
+    Player* initiator;
+    Player* opponent;
     time_t startTimer;
     time_t startTime;
     time_t outOfBound;
@@ -1580,7 +1580,7 @@ class Player : public Unit, public GridObject<Player>
         void SendQuestTimerFailed(uint32 quest_id);
         void SendCanTakeQuestResponse(uint32 msg);
         void SendQuestConfirmAccept(Quest const* pQuest, Player* pReceiver);
-        void SendPushToPartyResponse(Player *player, uint32 msg);
+        void SendPushToPartyResponse(Player* player, uint32 msg);
         void SendQuestUpdateAddItem(Quest const* pQuest, uint32 item_idx, uint16 count);
         void SendQuestUpdateAddCreatureOrGo(Quest const* pQuest, uint64 guid, uint32 creatureOrGO_idx, uint16 old_count, uint16 add_count);
         void SendQuestUpdateAddPlayer(Quest const* pQuest, uint16 old_count, uint16 add_count);
@@ -1669,7 +1669,7 @@ class Player : public Unit, public GridObject<Player>
 
         uint64 GetSelection() const { return m_curSelection; }
         Unit *GetSelectedUnit() const;
-        Player *GetSelectedPlayer() const;
+        Player* GetSelectedPlayer() const;
         void SetSelection(uint64 guid) { m_curSelection = guid; SetUInt64Value(UNIT_FIELD_TARGET, guid); }
 
         uint8 GetComboPoints() { return m_comboPoints; }
@@ -2027,8 +2027,8 @@ class Player : public Unit, public GridObject<Player>
 
         WorldSession* GetSession() const { return m_session; }
 
-        void BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) const;
-        void DestroyForPlayer(Player *target, bool anim = false) const;
+        void BuildCreateUpdateBlockForPlayer(UpdateData *data, Player* target) const;
+        void DestroyForPlayer(Player* target, bool anim = false) const;
         void SendLogXPGain(uint32 GivenXP, Unit* victim, uint32 BonusXP, bool recruitAFriend = false, float group_rate=1.0f);
 
         // notifiers
@@ -2754,8 +2754,8 @@ class Player : public Unit, public GridObject<Player>
 		void _SavePowers();
         void _SaveInstanceTimeRestrictions(SQLTransaction& trans);
 
-        void _SetCreateBits(UpdateMask *updateMask, Player *target) const;
-        void _SetUpdateBits(UpdateMask *updateMask, Player *target) const;
+        void _SetCreateBits(UpdateMask *updateMask, Player* target) const;
+        void _SetUpdateBits(UpdateMask *updateMask, Player* target) const;
 
         /*********************************************************/
         /***              ENVIRONMENTAL SYSTEM                 ***/

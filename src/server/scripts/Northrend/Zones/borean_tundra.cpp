@@ -976,7 +976,7 @@ public:
             {
                 if (Creature* pRaelorasz = me->FindNearestCreature(NPC_RAELORASZ, 10.0f))
                 {
-                    if (Player *pHarpooner = GetLeaderForFollower())
+                    if (Player* pHarpooner = GetLeaderForFollower())
                     {
                         pHarpooner->KilledMonsterCredit(26175, 0);
                         pHarpooner->RemoveAura(SPELL_DRAKE_HATCHLING_SUBDUED);

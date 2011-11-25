@@ -1219,7 +1219,7 @@ void ScriptMgr::OnPlayerReputationChange(Player* player, uint32 factionID, int32
     FOREACH_SCRIPT(PlayerScript)->OnReputationChange(player, factionID, standing, incremental);
 }
 
-void ScriptMgr::OnPlayerDuelRequest(Player *target, Player *challenger)
+void ScriptMgr::OnPlayerDuelRequest(Player* target, Player* challenger)
 {
     FOREACH_SCRIPT(PlayerScript)->OnDuelRequest(target, challenger);
 }
@@ -1229,7 +1229,7 @@ void ScriptMgr::OnPlayerDuelStart(Player* player1, Player* player2)
     FOREACH_SCRIPT(PlayerScript)->OnDuelStart(player1, player2);
 }
 
-void ScriptMgr::OnPlayerDuelEnd(Player *winner, Player *loser, DuelCompleteType type)
+void ScriptMgr::OnPlayerDuelEnd(Player* winner, Player* loser, DuelCompleteType type)
 {
     FOREACH_SCRIPT(PlayerScript)->OnDuelEnd(winner, loser, type);
 }
@@ -1304,7 +1304,7 @@ void ScriptMgr::OnPlayerDamageDealt(Player* player, Unit* victim, uint32& damage
     FOREACH_SCRIPT(PlayerScript)->OnDamageDealt(player, victim, damage, damageType, spellProto);
 }
 
-void ScriptMgr::OnPlayerSpellCastWithProto(Player *player, SpellInfo const *spellProto)
+void ScriptMgr::OnPlayerSpellCastWithProto(Player* player, SpellInfo const *spellProto)
 {
     FOREACH_SCRIPT(PlayerScript)->OnSpellCastWithProto(player, spellProto);
 }

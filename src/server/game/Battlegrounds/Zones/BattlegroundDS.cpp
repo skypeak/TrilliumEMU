@@ -51,7 +51,7 @@ void BattlegroundDS::PostUpdateImpl(uint32 diff)
        {
             for(BattlegroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end();itr++)
             {
-                Player *player = ObjectAccessor::FindPlayer(itr->first);
+                Player* player = ObjectAccessor::FindPlayer(itr->first);
                 if (player && player->isAlive() && player->GetPositionX() < 1260 && player->GetPositionY() >755 && player->GetPositionY() < 775 && player->GetPositionZ() > 13)
                 {
                     KnockBackPlayer(player, 6.15f, 50.00f, 5.00f);
@@ -109,7 +109,7 @@ void BattlegroundDS::StartingEventOpenDoors()
     m_knockbackCheck = true;
 }
 
-void BattlegroundDS::AddPlayer(Player *player)
+void BattlegroundDS::AddPlayer(Player* player)
 {
     Battleground::AddPlayer(player);
     //create score and add it to map, default values are set in constructor
@@ -146,7 +146,7 @@ void BattlegroundDS::HandleKillPlayer(Player* player, Player* killer)
     CheckArenaWinConditions();
 }
 
-void BattlegroundDS::HandleAreaTrigger(Player *Source, uint32 Trigger)
+void BattlegroundDS::HandleAreaTrigger(Player* Source, uint32 Trigger)
 {
     if (GetStatus() != STATUS_IN_PROGRESS)
         return;

@@ -162,7 +162,7 @@ namespace Trillium
             return baseGain;
         }
 
-        inline uint32 Gain(Player *player, Unit *u)
+        inline uint32 Gain(Player* player, Unit *u)
         {
             uint32 gain;
 

@@ -161,7 +161,7 @@ void WorldSession::HandleEjectPassenger(WorldPacket &data)
 
     if (IS_PLAYER_GUID(guid))
     {
-        Player *player = ObjectAccessor::FindPlayer(guid);
+        Player* player = ObjectAccessor::FindPlayer(guid);
         if (!player)
         {
             sLog->outError("Player %u tried to eject player %u from vehicle, but the latter was not found in world!", GetPlayer()->GetGUIDLow(), GUID_LOPART(guid));

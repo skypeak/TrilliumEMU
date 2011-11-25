@@ -841,7 +841,7 @@ public:
         return true;
     }
 
-    bool OnGossipHello(Player *player, Creature *creature)
+    bool OnGossipHello(Player* player, Creature *creature)
     {
         if (creature->isQuestGiver())
             player->PrepareQuestMenu(creature->GetGUID());
@@ -869,7 +869,7 @@ class AFallFromGracePlayerScript : public PlayerScript
 public:
     AFallFromGracePlayerScript() : PlayerScript("AFallFromGracePlayerScript") { }
 
-    void OnLogin(Player * pPlayer)
+    void OnLogin(Player*  pPlayer)
     {
         if(pPlayer->GetQuestStatus(QUEST_A_FALL_FROM_GRACE) == QUEST_STATUS_INCOMPLETE)
             pPlayer->FailQuest(QUEST_A_FALL_FROM_GRACE);
@@ -916,7 +916,7 @@ public:
         {
             if(spell->Id == SPELL_DESTURCTION_TRIGGER)
             {
-                if(Player *owner = Unit::GetPlayer(*me,guid_owner))
+                if(Player* owner = Unit::GetPlayer(*me,guid_owner))
                     owner->KilledMonsterCredit(ENTRY_PLAGUE_PULT_CREDIT,0);
                 if(target->ToCreature())
                 {
@@ -1145,7 +1145,7 @@ class mob_woodlands_walker : public CreatureScript
 public:
     mob_woodlands_walker() : CreatureScript("mob_woodlands_walker") { }
 
-    bool OnGossipHello(Player *player, Creature *creature)
+    bool OnGossipHello(Player* player, Creature *creature)
     {
         if (player->GetQuestStatus(QUEST_ANCIENTS_ALLINACE) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(QUEST_ANCIENTS_HORDE) == QUEST_STATUS_INCOMPLETE)
             creature->setFaction(16);

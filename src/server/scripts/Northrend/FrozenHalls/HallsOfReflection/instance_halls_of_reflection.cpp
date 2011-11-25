@@ -136,7 +136,7 @@ public:
             }
         }
 
-        void OnPlayerEnter(Player *player)
+        void OnPlayerEnter(Player* player)
         {
                 if (!_teamInInstance)
                     _teamInInstance = player->GetTeam();

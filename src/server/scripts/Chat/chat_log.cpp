@@ -203,7 +203,7 @@ void ChatLog::_Punish(Player* player, std::string& msg)
     }
 }
 
-inline void ChatLog::_ApplySpell(Player *player, uint32 spellId)
+inline void ChatLog::_ApplySpell(Player* player, uint32 spellId)
 {
     if (Aura *a = player->AddAura(spellId, player))
         a->SetDuration(_lexicsActionDuration);

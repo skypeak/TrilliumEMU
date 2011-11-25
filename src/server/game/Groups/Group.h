@@ -186,7 +186,7 @@ class Group
         ~Group();
 
         // group manipulation methods
-        bool   Create(Player *leader);
+        bool   Create(Player* leader);
         void   LoadGroupFromDB(Field *field);
         void   LoadMemberFromDB(uint32 guidLow, uint8 memberFlags, uint8 subgroup, uint8 roles);
         bool   AddInvite(Player* player);
@@ -279,7 +279,7 @@ class Group
         void SendLootRoll(uint64 SourceGuid, uint64 TargetGuid, uint8 RollNumber, uint8 RollType, const Roll &r);
         void SendLootRollWon(uint64 SourceGuid, uint64 TargetGuid, uint8 RollNumber, uint8 RollType, const Roll &r);
         void SendLootAllPassed(uint32 NumberOfPlayers, const Roll &r);
-        void SendLooter(Creature *creature, Player *pLooter);
+        void SendLooter(Creature *creature, Player* pLooter);
         void GroupLoot(Loot *loot, WorldObject* pLootedObject);
         void NeedBeforeGreed(Loot *loot, WorldObject* pLootedObject);
         void MasterLoot(Loot *loot, WorldObject* pLootedObject);

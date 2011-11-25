@@ -180,7 +180,7 @@ void Object::RemoveFromWorld()
     ClearUpdateMask(true);
 }
 
-void Object::BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) const
+void Object::BuildCreateUpdateBlockForPlayer(UpdateData *data, Player* target) const
 {
     if (!target)
         return;
@@ -312,7 +312,7 @@ void Object::_BuildMovementUpdate(ByteBuffer * data, uint16 flags) const
         // 0x08000000
         if (GetTypeId() == TYPEID_PLAYER && this->ToPlayer()->isInFlight())
         {
-            Player *player = const_cast<Object*>(this)->ToPlayer();
+            Player* player = const_cast<Object*>(this)->ToPlayer();
             if (!player)
                 return;
 

@@ -65,7 +65,7 @@ bool BattlegroundSA::SetupBattleground()
 bool BattlegroundSA::ResetObjs()
 {
     for (BattlegroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
-        if (Player *player = ObjectAccessor::FindPlayer(itr->first))
+        if (Player* player = ObjectAccessor::FindPlayer(itr->first))
             SendTransportsRemove(player);
 
     uint32 atF = BG_SA_Factions[Attackers];
@@ -248,7 +248,7 @@ bool BattlegroundSA::ResetObjs()
 
     for (int i = BG_SA_BOAT_ONE; i <= BG_SA_BOAT_TWO; i++)
         for (BattlegroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
-            if (Player *player = ObjectAccessor::FindPlayer(itr->first))
+            if (Player* player = ObjectAccessor::FindPlayer(itr->first))
                 SendTransportInit(player);
 
     TeleportPlayers();
@@ -434,7 +434,7 @@ void BattlegroundSA::FillInitialWorldStates(WorldPacket& data)
   data << uint32(BG_SA_LEFT_ATT_TOKEN_ALL) <<  ally_attacks;
 }
 
-void BattlegroundSA::AddPlayer(Player *player)
+void BattlegroundSA::AddPlayer(Player* player)
 {
     Battleground::AddPlayer(player);
     //create score and add it to map, default values are set in constructor
@@ -494,7 +494,7 @@ void BattlegroundSA::TeleportPlayers()
 {
     for (BattlegroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
     {
-        if (Player *player = ObjectAccessor::FindPlayer(itr->first))
+        if (Player* player = ObjectAccessor::FindPlayer(itr->first))
         {
             // should remove spirit of redemption
             if (player->HasAuraType(SPELL_AURA_SPIRIT_OF_REDEMPTION))
@@ -686,7 +686,7 @@ void BattlegroundSA::SendTime()
     UpdateWorldState(BG_SA_TIMER_SEC_DECS, ((end_of_round%60000)%10000)/1000);
 }
 
-void BattlegroundSA::EventPlayerClickedOnFlag(Player *Source, GameObject* target_obj)
+void BattlegroundSA::EventPlayerClickedOnFlag(Player* Source, GameObject* target_obj)
 {
     switch (target_obj->GetEntry())
     {
@@ -710,7 +710,7 @@ void BattlegroundSA::EventPlayerClickedOnFlag(Player *Source, GameObject* target
     };
 }
 
-void BattlegroundSA::CaptureGraveyard(BG_SA_Graveyards i, Player *Source)
+void BattlegroundSA::CaptureGraveyard(BG_SA_Graveyards i, Player* Source)
 {
     if (GraveyardStatus[i] == Attackers)
         return;
@@ -800,7 +800,7 @@ void BattlegroundSA::EventPlayerUsedGO(Player* Source, GameObject* object)
                 //Achievement Storm the Beach (1310)
                 for (BattlegroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
                 {
-                    if (Player *player = ObjectAccessor::FindPlayer(itr->first))
+                    if (Player* player = ObjectAccessor::FindPlayer(itr->first))
                         if (player->GetTeamId() == Attackers)
                             player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BE_SPELL_TARGET, 65246);
                 }
@@ -824,7 +824,7 @@ void BattlegroundSA::EventPlayerUsedGO(Player* Source, GameObject* object)
                 //Achievement Storm the Beach (1310)
                 for (BattlegroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
                 {
-                    if (Player *player = ObjectAccessor::FindPlayer(itr->first))
+                    if (Player* player = ObjectAccessor::FindPlayer(itr->first))
                         if (player->GetTeamId() == Attackers && RoundScores[1].winner == Attackers)
                             player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BE_SPELL_TARGET, 65246);
                 }

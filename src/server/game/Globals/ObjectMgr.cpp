@@ -5249,7 +5249,7 @@ void ObjectMgr::ReturnOrDeleteOldMails(bool serverUp)
         m->checked = fields[7].GetUInt32();
         m->mailTemplateId = fields[8].GetInt16();
 
-        Player *player = NULL;
+        Player* player = NULL;
         if (serverUp)
             player = ObjectAccessor::FindPlayer((uint64)m->receiver);
 

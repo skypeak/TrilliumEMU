@@ -74,7 +74,7 @@ class ulduar_teleporter : public GameObjectScript
 public:
     ulduar_teleporter() : GameObjectScript("ulduar_teleporter") { }
 
-    bool OnGossipSelect(Player *player, GameObject * /*pGO*/, uint32 sender, uint32 action)
+    bool OnGossipSelect(Player* player, GameObject * /*pGO*/, uint32 sender, uint32 action)
     {
         player->PlayerTalkClass->ClearMenus();
         if (sender != GOSSIP_SENDER_MAIN)
@@ -90,7 +90,7 @@ public:
         return true;
     }
 
-    bool OnGossipHello(Player *player, GameObject *pGO)
+    bool OnGossipHello(Player* player, GameObject *pGO)
     {
         player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Teleport to the Expedition Base Camp", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + BASE_CAMP);
         if (InstanceScript* pInstance = pGO->GetInstanceScript())

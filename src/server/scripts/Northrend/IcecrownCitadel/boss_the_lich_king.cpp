@@ -358,7 +358,7 @@ TPlayerList GetAttackablePlayersInTheMap(Map *map)
             ++it;
     return players;
 }
-Player *SelectRandomPlayerFromList(TPlayerList &players)
+Player* SelectRandomPlayerFromList(TPlayerList &players)
 {
     if (players.empty())
         return NULL;
@@ -367,13 +367,13 @@ Player *SelectRandomPlayerFromList(TPlayerList &players)
     return *it;
 }
 
-Player *SelectRandomPlayerInTheMap(Map *map)
+Player* SelectRandomPlayerInTheMap(Map *map)
 {
     TPlayerList players = GetPlayersInTheMap(map);
     return SelectRandomPlayerFromList(players);
 }
 
-Player *SelectRandomAttackablePlayerInTheMap(Map *map)
+Player* SelectRandomAttackablePlayerInTheMap(Map *map)
 {
     TPlayerList players = GetAttackablePlayersInTheMap(map);
     return SelectRandomPlayerFromList(players);
@@ -886,7 +886,7 @@ class boss_the_lich_king : public CreatureScript
                             {
                                 case EVENT_PAIN_AND_SUFFERING:
                                 {
-                                    if (Player *randomPlayer = SelectRandomAttackablePlayerInTheMap(me->GetMap()))
+                                    if (Player* randomPlayer = SelectRandomAttackablePlayerInTheMap(me->GetMap()))
                                     {
                                         me->SetFacingToObject(randomPlayer);
                                         DoCast(randomPlayer, RAID_MODE(SPELL_PAIN_AND_SUFFERING_10N, SPELL_PAIN_AND_SUFFERING_25N, SPELL_PAIN_AND_SUFFERING_10H, SPELL_PAIN_AND_SUFFERING_25H), true);
@@ -1713,7 +1713,7 @@ static const float Z_FLY;
             void SpellHitTarget(Unit* victim, SpellInfo const* spellEntry)
             {
                 if (spellEntry->Id == SPELL_VALKYR_CHARGE)
-                    if (Player *player = ObjectAccessor::GetPlayer(*me, m_victimGuid))
+                    if (Player* player = ObjectAccessor::GetPlayer(*me, m_victimGuid))
                         DoCast(player, SPELL_VALKYR_CARRY_CAN_CAST, true);
 
                 ScriptedAI::SpellHitTarget(victim, spellEntry);
@@ -1842,7 +1842,7 @@ static const float Z_FLY;
                     {
                         case EVENT_CHARGE_PLAYER:
                         {
-                            if (Player *player = ObjectAccessor::GetPlayer(*me, m_victimGuid))
+                            if (Player* player = ObjectAccessor::GetPlayer(*me, m_victimGuid))
                                 DoCast(player, SPELL_VALKYR_CHARGE, true);
                             else
                                 me->DespawnOrUnsummon();
@@ -2009,7 +2009,7 @@ public:
 
                             if (!curVictim->isAlive() || curVictim->GetTypeId() != TYPEID_PLAYER)
                         {
-                            Player *player = curVictim->ToPlayer();
+                            Player* player = curVictim->ToPlayer();
                             uint8 count = 0;
 
                                 if (player)
@@ -2545,7 +2545,7 @@ class npc_spirit_warden : public CreatureScript
                             if (Creature* lichKing = ObjectAccessor::GetCreature(*me, me->GetInstanceScript()->GetData64(DATA_THE_LICH_KING)))
                                 DoCast(lichKing, IsHeroic() ? SPELL_HARVESTED_SOUL_HEROIC : SPELL_HARVESTED_SOUL_NORMAL, true);
 
-                            if (Player *player = me->FindNearestPlayer(80.0f, true))
+                            if (Player* player = me->FindNearestPlayer(80.0f, true))
                             {
                                 player->CastSpell(player, SPELL_DESTROY_SOUL, true);
                                 TeleportPlayerToFrozenThrone(player);
@@ -2747,7 +2747,7 @@ class npc_terenas_menethil : public CreatureScript
                     caster->CastSpell((*it), SPELL_PAIN_AND_SUFFERING_DAMAGE, true);
                 //Next time try to target somebody else
 
-                if (Player *randomTarget = SelectRandomPlayerInTheMap(caster->GetMap()))
+                if (Player* randomTarget = SelectRandomPlayerInTheMap(caster->GetMap()))
                     caster->SetFacingToObject(randomTarget);
             }
 
@@ -2781,7 +2781,7 @@ class spell_lich_king_pain_and_suffering_effect : public SpellScriptLoader
                     return;
                 }
                 //Next time try to target random player
-                if (Player *randomTarget = SelectRandomPlayerInTheMap(caster->GetMap()))
+                if (Player* randomTarget = SelectRandomPlayerInTheMap(caster->GetMap()))
                     caster->SetFacingToObject(randomTarget);
             }*/
 

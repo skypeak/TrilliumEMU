@@ -297,7 +297,7 @@ void InstanceScript::DoUpdateWorldState(uint32 uiStateId, uint32 uiStateData)
     if (!lPlayers.isEmpty())
     {
         for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
-            if (Player *player = itr->getSource())
+            if (Player* player = itr->getSource())
                 player->SendUpdateWorldState(uiStateId, uiStateData);
     }
     else
@@ -316,7 +316,7 @@ void InstanceScript::DoSendNotifyToInstance(const char *format, ...)
         va_start(ap, format);
         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
         {
-            if (Player *player = i->getSource())
+            if (Player* player = i->getSource())
                 if (WorldSession *pSession = player->GetSession())
                     pSession->SendNotification(format, ap);
         }
@@ -338,7 +338,7 @@ void InstanceScript::DoCompleteAchievement(uint32 achievement)
 
     if (!PlayerList.isEmpty())
         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
-            if (Player *player = i->getSource())
+            if (Player* player = i->getSource())
                 player->CompletedAchievement(pAE);
 }
 
@@ -349,7 +349,7 @@ void InstanceScript::DoUpdateAchievementCriteria(AchievementCriteriaTypes type, 
 
     if (!PlayerList.isEmpty())
         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
-            if (Player *player = i->getSource())
+            if (Player* player = i->getSource())
                 player->UpdateAchievementCriteria(type, miscValue1, miscValue2, unit);
 }
 
@@ -360,7 +360,7 @@ void InstanceScript::DoStartTimedAchievement(AchievementCriteriaTimedTypes type,
 
     if (!PlayerList.isEmpty())
         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
-            if (Player *player = i->getSource())
+            if (Player* player = i->getSource())
                 player->GetAchievementMgr().StartTimedAchievement(type, entry);
 }
 
@@ -371,7 +371,7 @@ void InstanceScript::DoStopTimedAchievement(AchievementCriteriaTimedTypes type, 
 
     if (!PlayerList.isEmpty())
         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
-            if (Player *player = i->getSource())
+            if (Player* player = i->getSource())
                 player->GetAchievementMgr().RemoveTimedAchievement(type, entry);
 }
 

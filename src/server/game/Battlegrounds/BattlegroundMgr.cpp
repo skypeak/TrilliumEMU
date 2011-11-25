@@ -340,7 +340,7 @@ void BattlegroundMgr::BuildPvpLogDataPacket(WorldPacket *data, Battleground *bg)
             continue;
         }
 
-        Player *player = ObjectAccessor::FindPlayer(itr2->first);
+        Player* player = ObjectAccessor::FindPlayer(itr2->first);
         uint32 team = bg->GetPlayerTeam(itr2->first);
         if (!team && player)
             team = player->GetBGTeam();
@@ -525,7 +525,7 @@ void BattlegroundMgr::BuildPlayerLeftBattlegroundPacket(WorldPacket *data, uint6
     *data << uint64(guid);
 }
 
-void BattlegroundMgr::BuildPlayerJoinedBattlegroundPacket(WorldPacket *data, Player *player)
+void BattlegroundMgr::BuildPlayerJoinedBattlegroundPacket(WorldPacket *data, Player* player)
 {
     data->Initialize(SMSG_BATTLEGROUND_PLAYER_JOINED, 8);
     *data << uint64(player->GetGUID());
@@ -952,7 +952,7 @@ void BattlegroundMgr::BuildBattlegroundListPacket(WorldPacket *data, uint64 guid
     }
 }
 
-void BattlegroundMgr::SendToBattleground(Player *player, uint32 instanceId, BattlegroundTypeId bgTypeId)
+void BattlegroundMgr::SendToBattleground(Player* player, uint32 instanceId, BattlegroundTypeId bgTypeId)
 {
     Battleground *bg = GetBattleground(instanceId, bgTypeId);
     if (bg)
@@ -973,7 +973,7 @@ void BattlegroundMgr::SendToBattleground(Player *player, uint32 instanceId, Batt
     }
 }
 
-void BattlegroundMgr::SendAreaSpiritHealerQueryOpcode(Player *player, Battleground *bg, uint64 guid)
+void BattlegroundMgr::SendAreaSpiritHealerQueryOpcode(Player* player, Battleground *bg, uint64 guid)
 {
     WorldPacket data(SMSG_AREA_SPIRIT_HEALER_TIME, 12);
     uint32 time_ = 30000 - bg->GetLastResurrectTime();      // resurrect every 30 seconds

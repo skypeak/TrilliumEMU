@@ -61,7 +61,7 @@ void BattlegroundNA::StartingEventOpenDoors()
         SpawnBGObject(i, 60);
 }
 
-void BattlegroundNA::AddPlayer(Player *player)
+void BattlegroundNA::AddPlayer(Player* player)
 {
     Battleground::AddPlayer(player);
     //create score and add it to map, default values are set in constructor
@@ -104,7 +104,7 @@ bool BattlegroundNA::HandlePlayerUnderMap(Player* player)
     return true;
 }
 
-void BattlegroundNA::HandleAreaTrigger(Player *Source, uint32 Trigger)
+void BattlegroundNA::HandleAreaTrigger(Player* Source, uint32 Trigger)
 {
     if (GetStatus() != STATUS_IN_PROGRESS)
         return;

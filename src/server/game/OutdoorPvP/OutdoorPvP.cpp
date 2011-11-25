@@ -440,7 +440,7 @@ void OutdoorPvP::HandleKill(Player* killer, Unit* killed)
     {
         for (GroupReference *itr = pGroup->GetFirstMember(); itr != NULL; itr = itr->next())
         {
-            Player *pGroupGuy = itr->getSource();
+            Player* pGroupGuy = itr->getSource();
 
             if (!pGroupGuy)
                 continue;
@@ -467,7 +467,7 @@ void OutdoorPvP::HandleKill(Player* killer, Unit* killed)
     }
 }
 
-bool OutdoorPvP::IsInsideObjective(Player *player) const
+bool OutdoorPvP::IsInsideObjective(Player* player) const
 {
     for (OPvPCapturePointMap::const_iterator itr = m_capturePoints.begin(); itr != m_capturePoints.end(); ++itr)
         if (itr->second->IsInsideObjective(player))
@@ -476,12 +476,12 @@ bool OutdoorPvP::IsInsideObjective(Player *player) const
     return false;
 }
 
-bool OPvPCapturePoint::IsInsideObjective(Player *player) const
+bool OPvPCapturePoint::IsInsideObjective(Player* player) const
 {
     return m_activePlayers[player->GetTeamId()].find(player) != m_activePlayers[player->GetTeamId()].end();
 }
 
-bool OutdoorPvP::HandleCustomSpell(Player *player, uint32 spellId, GameObject* go)
+bool OutdoorPvP::HandleCustomSpell(Player* player, uint32 spellId, GameObject* go)
 {
     for (OPvPCapturePointMap::iterator itr = m_capturePoints.begin(); itr != m_capturePoints.end(); ++itr)
         if (itr->second->HandleCustomSpell(player, spellId, go))
@@ -490,14 +490,14 @@ bool OutdoorPvP::HandleCustomSpell(Player *player, uint32 spellId, GameObject* g
     return false;
 }
 
-bool OPvPCapturePoint::HandleCustomSpell(Player *player, uint32 /*spellId*/, GameObject* /*go*/)
+bool OPvPCapturePoint::HandleCustomSpell(Player* player, uint32 /*spellId*/, GameObject* /*go*/)
 {
     if (!player->IsOutdoorPvPActive())
         return false;
     return false;
 }
 
-bool OutdoorPvP::HandleOpenGo(Player *player, uint64 guid)
+bool OutdoorPvP::HandleOpenGo(Player* player, uint64 guid)
 {
     for (OPvPCapturePointMap::iterator itr = m_capturePoints.begin(); itr != m_capturePoints.end(); ++itr)
         if (itr->second->HandleOpenGo(player, guid) >= 0)
@@ -576,7 +576,7 @@ void OutdoorPvP::RegisterZone(uint32 zoneId)
     sOutdoorPvPMgr->AddZone(zoneId, this);
 }
 
-bool OutdoorPvP::HasPlayer(Player *player) const
+bool OutdoorPvP::HasPlayer(Player* player) const
 {
     return m_players[player->GetTeamId()].find(player) != m_players[player->GetTeamId()].end();
 }

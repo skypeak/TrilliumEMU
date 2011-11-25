@@ -579,7 +579,7 @@ private:
         virtual InventoryResult CanStore(Item* pItem, bool swap) = 0;
 
         Guild* m_pGuild;
-        Player *m_pPlayer;
+        Player* m_pPlayer;
         uint8 m_container;
         uint8 m_slotId;
         Item* m_pItem;
