@@ -23,6 +23,7 @@
 #define TRILLIUMEMU_WORLDPACKET_H
 
 #include "Common.h"
+#include "Opcodes.h"
 #include "ByteBuffer.h"
 
 class WorldPacket : public ByteBuffer
@@ -76,5 +77,5 @@ class WorldPacket : public ByteBuffer
         Opcodes m_opcode;
         void _compress(void* dst, uint32 *dst_size, const void* src, int src_size);
 };
-#endif
 
+#endif

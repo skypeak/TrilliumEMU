@@ -24,17 +24,11 @@
 
 #include "Common.h"
 
-// Note: this include need for be sure have full definition of class WorldSession
-//       if this class definition not complete then VS for x64 release use different size for
-//       struct OpcodeHandler in this header and Opcode.cpp and get totally wrong data from
-//       table opcodeTable in source when Opcode.h included but WorldSession.h not included
-#include "WorldSession.h"
-
 /// List of Opcodes
 enum Opcodes
 {
     NUM_OPCODE_HANDLERS                              = (0xFFFF+1),  // last unknown opcode + 1.
-    UNKNOWN_OPCODE = NUM_OPCODE_HANDLERS,                           // must be >= NUM_OPCODE_HANDLERS
+    UNKNOWN_OPCODE                                   = NUM_OPCODE_HANDLERS, // must be >= NUM_OPCODE_HANDLERS
 
     /* OPCODE LEGEND:
         //              =    UNKNOWN
@@ -1418,7 +1412,6 @@ enum PacketProcessing
 };
 
 class WorldPacket;
-class WorldSession;
 
 typedef void(WorldSession::*pOpcodeHandler)(WorldPacket& recvPacket);
 
