@@ -20,12 +20,10 @@
 #ifndef _CALENDARMGR_H
 #define _CALENDARMGR_H
 
-
 #include <string>
 #include <ace/Singleton.h>
 #include "Player.h"
 #include "Common.h"
-
 
 // TODO - Get correct values
 enum CalendarEventType
@@ -47,7 +45,7 @@ enum CalendarInviteStatus
     CALENDARSTATUS_TENTATIVE	= 4,
     CALENDARSTATUS_OUT			= 5,
     CALENDARSTATUS_STANDBY		= 6,
-    
+
 };
 
 enum CalendarFlag
@@ -74,33 +72,32 @@ enum  CalendarSendEventType
 
 enum CalendarCommandError
 {
-CALENDAR_ERROR_INTERNAL = 0,                      
-CALENDAR_ERROR_PERMISSIONS,                   
-CALENDAR_ERROR_ALREADY_INVITED_TO_EVENT,...   
-CALENDAR_ERROR_NOT_ALLIED,                    
-CALENDAR_ERROR_INVITES_EXCEEDED,              
-CALENDAR_ERROR_SELF_INVITES_EXCEEDED,         
-CALENDAR_ERROR_OTHER_INVITES_EXCEEDED,        
-CALENDAR_ERROR_EVENTS_EXCEEDED,               
-CALENDAR_ERROR_GUILD_EVENTS_EXCEEDED,         
-CALENDAR_ERROR_ARENA_EVENTS_EXCEEDED,         
-CALENDAR_ERROR_INVALID_TIME,                  
-CALENDAR_ERROR_INVALID_DATE,                  
-CALENDAR_ERROR_NEEDS_TITLE,                   
-CALENDAR_ERROR_EVENT_INVALID,                 
-CALENDAR_ERROR_NOT_INVITED,                   
-CALENDAR_ERROR_NO_INVITE,                     
-CALENDAR_ERROR_EVENT_PASSED,                  
-CALENDAR_ERROR_EVENT_LOCKED,                  
-CALENDAR_ERROR_DELETE_CREATOR_FAILED,         
-CALENDAR_ERROR_RESTRICTED_LEVEL,              
-CALENDAR_ERROR_EVENT_WRONG_SERVER,            
-CALENDAR_ERROR_INVITE_WRONG_SERVER,           
-CALENDAR_ERROR_NO_GUILD_INVITES,              
-CALENDAR_ERROR_INVALID_SIGNUP,                
-CALENDAR_ERROR_NO_MODERATOR    
+    CALENDAR_ERROR_INTERNAL = 0,
+    CALENDAR_ERROR_PERMISSIONS,
+    CALENDAR_ERROR_ALREADY_INVITED_TO_EVENT,
+    CALENDAR_ERROR_NOT_ALLIED,
+    CALENDAR_ERROR_INVITES_EXCEEDED,
+    CALENDAR_ERROR_SELF_INVITES_EXCEEDED,
+    CALENDAR_ERROR_OTHER_INVITES_EXCEEDED,
+    CALENDAR_ERROR_EVENTS_EXCEEDED,
+    CALENDAR_ERROR_GUILD_EVENTS_EXCEEDED,
+    CALENDAR_ERROR_ARENA_EVENTS_EXCEEDED,
+    CALENDAR_ERROR_INVALID_TIME,
+    CALENDAR_ERROR_INVALID_DATE,
+    CALENDAR_ERROR_NEEDS_TITLE,
+    CALENDAR_ERROR_EVENT_INVALID,
+    CALENDAR_ERROR_NOT_INVITED,
+    CALENDAR_ERROR_NO_INVITE,
+    CALENDAR_ERROR_EVENT_PASSED,
+    CALENDAR_ERROR_EVENT_LOCKED,
+    CALENDAR_ERROR_DELETE_CREATOR_FAILED,
+    CALENDAR_ERROR_RESTRICTED_LEVEL,
+    CALENDAR_ERROR_EVENT_WRONG_SERVER,
+    CALENDAR_ERROR_INVITE_WRONG_SERVER,
+    CALENDAR_ERROR_NO_GUILD_INVITES,
+    CALENDAR_ERROR_INVALID_SIGNUP,
+    CALENDAR_ERROR_NO_MODERATOR
 };
-
 
 struct Calendar_Event
 {
@@ -134,18 +131,16 @@ struct Calendar_Invite
 typedef std::list<Calendar_Invite*> CalendarInviteList;
 typedef std::list<Calendar_Event*> CalendarEventList;
 
-
-
 class CalendarMgr
 {
 	CalendarMgr();
 	friend class ACE_Singleton<CalendarMgr, ACE_Null_Mutex>;
 
 public:
-		
+
 	void LoadHolidayData();
 	void LoadCalendarData();
-			
+
 	Calendar_Event* GetEvent(uint64 eventID)
 	{
 		for (CalendarEventList::const_iterator i = m_eventList.begin(); i != m_eventList.end(); ++i)
@@ -155,7 +150,6 @@ public:
         return NULL;
 	}
 
-	
 	Calendar_Invite* GetInvite(uint64 inviteID)
 	{
 		for (CalendarInviteList::const_iterator i = m_inviteList.begin(); i != m_inviteList.end(); ++i)
@@ -183,7 +177,6 @@ public:
         return NULL;
 	}
 
-
 	/*void AddInvite(CalendarInvite invite) { m_inviteList. = invite; }
 	void RemoveInvite(uint64 inviteID) { m_inviteList.erase(inviteID); }
 
@@ -197,7 +190,7 @@ public:
 
 	void AddEvent(CalendarEvent calendar_event) { _eventMap[calendar_event.id] = calendar_event; }
 	void RemoveEvent(uint64 eventID) { _eventMap.erase(eventID); }
-	
+
 	void AppendInvitesToCalendarPacketForPlayer(WorldPacket &data, Player *player);
 	void AppendEventsToCalendarPacketForPlayer(WorldPacket &data, Player *player);
 	*/
@@ -210,7 +203,7 @@ public:
 		}
 		return false;
 	}
-	
+
 	uint64 GenerateNextEventID() { return ++m_EventID; }
 	uint64 GenerateNextInviteID() { return ++m_InviteID; }
 	uint64 GetCurrentEventID() {return m_EventID;}
@@ -219,7 +212,6 @@ public:
 	uint32 GetHolidayCount() {return m_HolidayCount;}
 	uint32 GetInviteCount() {return m_CalendaInviteCount;}
 	uint32 GetEventCount() {return m_CalendatEventCount;}
-
 
 	void AddOrUpdateCalendarEvent(Calendar_Event &c_event, bool create = false);
     void _AddOrUpdateCalendarEvent(Calendar_Event &c_event);
@@ -236,7 +228,7 @@ public:
 		 return false;
 	}
 	*/
-	
+
 	CalendarInviteList m_inviteList;
 	CalendarEventList m_eventList;
 
