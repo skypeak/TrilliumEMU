@@ -324,5 +324,5 @@ void CharacterDatabaseConnection::DoPrepareStatements()
         "logout_time=?,is_logout_resting=?,resettalents_cost=?,resettalents_time=?,extra_flags=?,currentPetSlot=?,petSlotUsed=?,at_login=?,zone=?,death_expire_time=?,taxi_path=?,"
         "conquestPoints=?,totalHonorPoints=?,totalKills=?,todayKills=?,yesterdayKills=?,chosenTitle=?,"
         "watchedFaction=?,drunk=?,health=?,power1=?,power2=?,power3=?,power4=?,power5=?,latency=?,speccount=?,activespec=?,exploredZones=?,"
-        "equipmentCache=?,knownTitles=?,achievmentPoints=?,actionBars=?,grantableLevels=?,online=? WHERE guid=?", CONNECTION_ASYNC);
+        "equipmentCache=?,knownTitles=?,achievementPoints=?,actionBars=?,grantableLevels=?,online=? WHERE guid=?", CONNECTION_ASYNC);
 }
