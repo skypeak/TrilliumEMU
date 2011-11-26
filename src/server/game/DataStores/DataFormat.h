@@ -36,16 +36,19 @@ const char BattlemasterListEntryfmt[]="niiiiiiiiixsiiiiiiii";
 const char CharStartOutfitEntryfmt[]="diiiiiiiiiiiiiiiiiiiiiiiiixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 const char CharTitlesEntryfmt[]="nxsxix";
 const char ChatChannelsEntryfmt[]="nixsx";
+
 const char ChrClassesEntryfmt[]="nixsxxxixiixxx";
 const char ChrRacesEntryfmt[]="nxixiixixxxxixsxxxxxixxx";
 const char ChrClassesXPowerTypesfmt[]="nii";
+
 const char CinematicSequencesEntryfmt[]="nxxxxxxxxx";
 const char CreatureDisplayInfofmt[]="nixxfxxxxxxxxxxxx";
 const char CreatureFamilyfmt[]="nfifiiiiixsx";
-const char CreatureModelDatafmt[]="nxxxfxxxxxxxxxxffxxxxxxxxxxx";
+const char CreatureModelDatafmt[]="nxxxfxxxxxxxxxxffxxxxxxxxxxxxxx";
 const char CreatureSpellDatafmt[]="niiiixxxx";
 const char CreatureTypefmt[]="nxx";
 const char CurrencyTypesfmt[]="nxxxxxxiixx";
+
 const char DestructibleModelDatafmt[]="ixxixxxixxxixxxixxxxxxxx";
 const char DungeonEncounterfmt[]="iiixisxx";
 const char DurabilityCostsfmt[]="niiiiiiiiiiiiiiiiiiiiiiiiiiiii";
@@ -55,9 +58,11 @@ const char EmotesTextEntryfmt[]="nxixxxxxxxxxxxxxxxx";
 const char FactionEntryfmt[]="niiiiiiiiiiiiiiiiiiffixsxx";
 const char FactionTemplateEntryfmt[]="niiiiiiiiiiiii";
 const char GameObjectDisplayInfofmt[]="nxxxxxxxxxxxffffffxxx";
+
 const char GemPropertiesEntryfmt[]="nixxix";
 const char GlyphPropertiesfmt[]="niii";
 const char GlyphSlotfmt[]="nii";
+
 const char GtBarberShopCostBasefmt[]="xf";
 const char GtCombatRatingsfmt[]="xf";
 const char GtChanceToMeleeCritBasefmt[]="xf";
@@ -69,6 +74,7 @@ const char GtOCTRegenMPfmt[]="xf";
 const char gtOCTHpPerStaminafmt[]="xf";
 const char GtRegenMPPerSptfmt[]="xf";
 const char GtSpellScalingfmt[]="nf";
+
 const char Holidaysfmt[]="nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 const char ItemArmorQualityfmt[]="nfffffffi";
 const char ItemArmorShieldfmt[]="nifffffff";
@@ -84,6 +90,7 @@ const char ItemSetEntryfmt[]="dsiiiiiiiiiixxxxxxxiiiiiiiiiiiiiiiiii";
 const char ItemReforgefmt[]="nifif";
 const char LFGDungeonEntryfmt[]="nxiiiiiiixixxixixx";
 const char LockEntryfmt[]="niiiiiiiiiiiiiiiiiiiiiiiixxxxxxxx";
+const char PhaseEntryfmt[]="nsi";
 const char MailTemplateEntryfmt[]="nxs";
 const char MapEntryfmt[]="nxixxxsixxixiffxiixx";
 const char MapDifficultyEntryfmt[]="diisiix";
@@ -154,7 +161,6 @@ const char WMOAreaTableEntryfmt[]="niiixxxxxiixxxx";
 const char WorldMapAreaEntryfmt[]="xinxffffixxx";
 const char WorldMapOverlayEntryfmt[]="nxiiiixxxxxxxxx";
 const char WorldSafeLocsEntryfmt[]="nifffx";
-const char PhaseEntryfmt[]="nsi";
 
 //DB2 Files
 const char Itemfmt[]="niiiiiii";

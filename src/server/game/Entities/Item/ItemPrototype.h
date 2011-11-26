@@ -590,7 +590,6 @@ struct ItemTemplate
     uint32 Quality;
     uint32 Flags;
     uint32 Flags2;
-    uint32 BuyCount;
     int32  BuyPrice;
     uint32 SellPrice;
     uint32 InventoryType;
@@ -610,15 +609,10 @@ struct ItemTemplate
     uint32 ContainerSlots;
     _ItemStat ItemStat[MAX_ITEM_PROTO_STATS];
     uint32 ScalingStatDistribution;                         // id from ScalingStatDistribution.dbc
-    float  DamageMin;
-    float  DamageMax;
     uint32 DamageType;                                      // id from Resistances.dbc
-    float  DPS;
-    uint32 Armor;
     uint32 Delay;
     float  RangedModRange;
     _Spell Spells[MAX_ITEM_PROTO_SPELLS];
-    float  SpellPPMRate;
     uint32 Bonding;
     std::string  Description;
     uint32 PageText;
@@ -639,7 +633,6 @@ struct ItemTemplate
     _Socket Socket[MAX_ITEM_PROTO_SOCKETS];
     uint32 socketBonus;                                     // id from SpellItemEnchantment.dbc
     uint32 GemProperties;                                   // id from GemProperties.dbc
-    uint32 RequiredDisenchantSkill;
     float  ArmorDamageModifier;
     int32  Duration;                                        // negative = realtime, positive = ingame time
     uint32 ItemLimitCategory;                               // id from ItemLimitCategory.dbc
@@ -647,8 +640,17 @@ struct ItemTemplate
     float  StatScalingFactor;
     int32  Field130;
     int32  Field131;
+
+    // extra fields, not part of db2 files
+    uint32 BuyCount;
+    float  DamageMin;
+    float  DamageMax;
+    float  DPS;
+    uint32 Armor;
+    float  SpellPPMRate;
     uint32 ScriptId;
     uint32 DisenchantID;
+    uint32 RequiredDisenchantSkill;
     uint32 FoodType;
     uint32 MinMoneyLoot;
     uint32 MaxMoneyLoot;
