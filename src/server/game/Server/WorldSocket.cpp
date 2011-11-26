@@ -667,8 +667,6 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
     // manage memory ;)
     const ACE_UINT16 opcode = PacketFilter::DropHighBytes(new_pct->GetOpcode());
 
-    const ACE_UINT16 opcode = new_pct->GetOpcode();
-
     if (closing_)
         return -1;
 

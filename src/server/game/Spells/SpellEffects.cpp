@@ -917,6 +917,22 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                     // TODO: should this be put on taken but not done?
                     if (found)
                         damage += m_spellInfo->Effects[EFFECT_1].CalcValue();
+
+                    if (m_caster->GetTypeId() == TYPEID_PLAYER)
+                    {
+                        // Add Weapon damage plus RAP * 0.1
+                        Item* item = m_caster->ToPlayer()->GetWeaponForAttack(RANGED_ATTACK);
+                        if (item)
+                        {
+                            float dmg_min = item->GetTemplate()->DamageMin;
+                            float dmg_max = item->GetTemplate()->DamageMax;
+                            if (dmg_max == 0.0f && dmg_min > dmg_max)
+                                damage += int32(dmg_min);
+                            else
+                                damage += irand(int32(dmg_min), int32(dmg_max));
+                            damage += int32(item->GetTemplate()->Delay*0.001f);
+                        }
+                    }
                 }
                 break;
             }

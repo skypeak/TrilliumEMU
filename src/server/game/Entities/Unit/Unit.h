@@ -343,6 +343,7 @@ class UnitAI;
 class Totem;
 class Transport;
 class Vehicle;
+class SpellCastTargets;
 
 typedef std::list<Unit*> UnitList;
 
