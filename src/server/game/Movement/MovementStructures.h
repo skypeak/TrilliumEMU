@@ -1309,42 +1309,8 @@ MovementStatusElements* GetMovementStatusElementsSequence(Opcodes opcode)
     {
     case SMSG_PLAYER_MOVE:
         return PlayerMoveSequence;
-    case MSG_MOVE_FALL_LAND:
-        return MovementFallLandSequence;
-    case MSG_MOVE_HEARTBEAT:
-        return MovementHeartBeatSequence;
     case MSG_MOVE_JUMP:
         return MovementJumpSequence;
-    case MSG_MOVE_SET_FACING:
-        return MovementSetFacingSequence;
-    case MSG_MOVE_SET_PITCH:
-        return MovementSetPitchSequence;
-    case MSG_MOVE_START_BACKWARD:
-        return MovementStartBackwardSequence;
-    case MSG_MOVE_START_FORWARD:
-        return MovementStartForwardSequence;
-    case MSG_MOVE_START_STRAFE_LEFT:
-        return MovementStartStrafeLeftSequence;
-    case MSG_MOVE_START_STRAFE_RIGHT:
-        return MovementStartStrafeRightSequence;
-    case MSG_MOVE_START_TURN_LEFT:
-        return MovementStartTurnLeftSequence;
-    case MSG_MOVE_START_TURN_RIGHT:
-        return MovementStartTurnRightSequence;
-    case MSG_MOVE_STOP:
-        return MovementStopSequence;
-    case MSG_MOVE_STOP_STRAFE:
-        return MovementStopStrafeSequence;
-    case MSG_MOVE_STOP_TURN:
-        return MovementStopTurnSequence;
-    case MSG_MOVE_START_ASCEND:
-        return MovementStartAscendSequence;
-    case MSG_MOVE_START_DESCEND:
-        return MovementStartDescendSequence;
-    case MSG_MOVE_START_SWIM:
-        return MovementStartSwimSequence;
-    case MSG_MOVE_STOP_ASCEND:
-        return MovementStopAscendSequence;
     }
     return NULL;
 }
