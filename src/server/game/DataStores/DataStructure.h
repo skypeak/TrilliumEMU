@@ -123,6 +123,13 @@ struct AchievementCriteriaEntry
             uint32  numberOfDays;                           // 4
         } complete_daily_quest_daily;
 
+        // ACHIEVEMENT_CRITERIA_TYPE_CURRENCY = 12
+        struct
+        {
+            uint32 currency;
+            uint32 count;
+        } currencyGain;
+
         // ACHIEVEMENT_CRITERIA_TYPE_COMPLETE_QUESTS_IN_ZONE = 11
         struct
         {
