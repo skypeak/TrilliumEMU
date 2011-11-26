@@ -1231,9 +1231,9 @@ struct ItemDisplayInfoEntry
 // ItemDamageWand.dbc
 struct ItemDamageEntry
 {
-  uint32    Id;                                             // 0 item level
-  float     Value[7];                                       // 1-7 multiplier for item quality
-  uint32    Id2;                                            // 8 item level
+    uint32    Id;                                           // 0 item level
+    float     DPS[7];                                       // 1-7 multiplier for item quality
+    uint32    Id2;                                          // 8 item level
 };
 
 #define MAX_ITEM_EXT_COST_ITEMS         5
@@ -1263,6 +1263,17 @@ struct ItemLimitCategoryEntry
 };
 
 #define MAX_ITEM_ENCHANTMENT_EFFECTS 3
+
+struct ItemDisenchantLootEntry
+{
+    uint32 Id;
+    uint32 ItemClass;
+    int32 Unk;
+    uint32 ItemQuality;
+    uint32 MinItemLevel;
+    uint32 MaxItemLevel;
+    uint32 RequiredDisenchantSkill;
+};
 
 struct ItemRandomPropertiesEntry
 {
