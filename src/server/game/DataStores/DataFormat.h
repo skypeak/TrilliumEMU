@@ -162,9 +162,10 @@ const char WorldMapAreaEntryfmt[]="xinxffffixxx";
 const char WorldMapOverlayEntryfmt[]="nxiiiixxxxxxxxx";
 const char WorldSafeLocsEntryfmt[]="nifffx";
 
-//DB2 Files
+// DB2 Files formats.
 const char Itemfmt[]="niiiiiii";
 const char ItemSparsefmt[]="niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiifiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiisssssiiiiiiiiiiiiiiiiiiiiiiifiiifii";
 const char ItemExtendedCostEntryfmt[]="nxxiiiiiiiiiiiixiiiiiiiiiixxxxx";
+const char ItemCurrencyCostfmt[]="xn";
 
 #endif

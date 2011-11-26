@@ -1169,6 +1169,12 @@ struct ItemEntry
     uint32   Sheath;                                         // 7
 };
 
+struct ItemCurrencyCostEntry
+{
+    uint32  Id;
+    uint32  ItemId;
+};
+
 struct ItemSparseEntry
 {
     uint32     ID;                                           // 0

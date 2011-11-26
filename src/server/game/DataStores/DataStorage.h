@@ -212,6 +212,7 @@ extern DataStorage <WorldSafeLocsEntry>           sWorldSafeLocsStore;
 extern DataStorage <ItemEntry>                    sItemStore;
 extern DataStorage <ItemSparseEntry>              sItemSparseStore;
 extern DataStorage <ItemExtendedCostEntry>        sItemExtendedCostStore;
+extern DataStorage <ItemCurrencyCostEntry>        sItemCurrencyCostStore;
 void LoadDataStorages(const std::string& dataPath);
 
 // script support functions
