@@ -552,17 +552,17 @@ void WorldSession::SendLfgBootPlayer(const LfgPlayerBoot* pBoot)
     }
     sLog->outDebug(LOG_FILTER_NETWORKIO, "SMSG_LFG_BOOT_PLAYER [" UI64FMTD "] inProgress: %u - didVote: %u - agree: %u - victim: [" UI64FMTD "] votes: %u - agrees: %u - left: %u - needed: %u - reason %s",
         guid, uint8(pBoot->inProgress), uint8(playerVote != LFG_ANSWER_PENDING), uint8(playerVote == LFG_ANSWER_AGREE), pBoot->victim, votesNum, agreeNum, secsleft, pBoot->votedNeeded, pBoot->reason.c_str());
-    WorldPacket data(SMSG_LFG_BOOT_PROPOSAL_UPDATE, 1 + 1 + 1 + 8 + 4 + 4 + 4 + 4 + pBoot->reason.length());
-    data << uint8(pBoot->inProgress);                      // Vote in progress
-    data << uint8(playerVote != LFG_ANSWER_PENDING);       // Did Vote
-    data << uint8(playerVote == LFG_ANSWER_AGREE);         // Agree
-    data << uint64(pBoot->victim);                         // Victim GUID
-    data << uint32(votesNum);                              // Total Votes
-    data << uint32(agreeNum);                              // Agree Count
-    data << uint32(secsleft);                              // Time Left
-    data << uint32(pBoot->votedNeeded);                    // Needed Votes
-    data << pBoot->reason.c_str();                         // Kick reason
-    SendPacket(&data);
+    //WorldPacket data(SMSG_LFG_BOOT_PROPOSAL_UPDATE, 1 + 1 + 1 + 8 + 4 + 4 + 4 + 4 + pBoot->reason.length());
+    //data << uint8(pBoot->inProgress);                      // Vote in progress
+    //data << uint8(playerVote != LFG_ANSWER_PENDING);       // Did Vote
+    //data << uint8(playerVote == LFG_ANSWER_AGREE);         // Agree
+    //data << uint64(pBoot->victim);                         // Victim GUID
+    //data << uint32(votesNum);                              // Total Votes
+    //data << uint32(agreeNum);                              // Agree Count
+    //data << uint32(secsleft);                              // Time Left
+    //data << uint32(pBoot->votedNeeded);                    // Needed Votes
+    //data << pBoot->reason.c_str();                         // Kick reason
+    //SendPacket(&data);
 }
 
 void WorldSession::SendLfgUpdateProposal(uint32 proposalId, const LfgProposal* pProp)
@@ -650,10 +650,10 @@ void WorldSession::SendLfgUpdateProposal(uint32 proposalId, const LfgProposal* p
 
 void WorldSession::SendLfgUpdateSearch(bool update)
 {
-    sLog->outDebug(LOG_FILTER_NETWORKIO, "SMSG_LFG_UPDATE_SEARCH [" UI64FMTD "] update: %u", GetPlayer()->GetGUID(), update ? 1 : 0);
-    WorldPacket data(SMSG_LFG_UPDATE_LIST, 1);
-    data << uint8(update);                                 // In Lfg Queue?
-    SendPacket(&data);
+    //sLog->outDebug(LOG_FILTER_NETWORKIO, "SMSG_LFG_UPDATE_SEARCH [" UI64FMTD "] update: %u", GetPlayer()->GetGUID(), update ? 1 : 0);
+    //WorldPacket data(SMSG_LFG_UPDATE_LIST, 1);
+    //data << uint8(update);                                 // In Lfg Queue?
+    //SendPacket(&data);
 }
 
 void WorldSession::SendLfgDisabled()

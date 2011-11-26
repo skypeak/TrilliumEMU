@@ -19,8 +19,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gamePCH.h"
-#include "Object.h"
 #include "Common.h"
 #include "Language.h"
 #include "DatabaseEnv.h"
@@ -977,7 +975,7 @@ bool Player::Create(uint32 guidlow, CharacterCreateInfo* createInfo, uint32 acco
         return false;
     }
 
-    SetMap(sMapMgr->CreateMap(info->mapId, this, 0));
+    SetMap(sMapMgr->CreateMap(info->mapId, this));
 
     uint8 powertype = cEntry->powerType;
 
@@ -1930,7 +1928,9 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
 
     Field* fields = result->Fetch();
 
-    uint32 guid = fields[0].GetUInt32();
+    //uint64 GuildGuid = (*result)[13].GetUInt32();//TODO: store as uin64
+
+    uint32 GuidLow = fields[0].GetUInt32();
     uint8 playerRace = fields[2].GetUInt8();
     uint8 playerClass = fields[3].GetUInt8();
     uint8 gender = fields[4].GetUInt8();
@@ -1988,7 +1988,7 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
     uint32 playerBytes2 = fields[6].GetUInt32();
     *data << uint8(playerBytes2 & 0xFF);                  // facial hair
     *data << uint8(playerBytes);                          // skin
-    *data << uint8(plrClass);                             // class
+    *data << uint8(playerClass);                          // class
     *data << uint32(petFamily);                           // Pet Family
 
     uint32 charFlags = 0;
@@ -2031,7 +2031,7 @@ bool Player::BuildEnumData(QueryResult result, ByteBuffer* data)
     //if (uint8(GuildGuid >> 16))
     //    *data << uint8(GuildGuid^1 >> 16);
 
-    *data << uint8(plrRace);                              // Race
+    *data << uint8(playerRace);                              // Race
     *data << uint8(playerBytes >> 24);                    // Hair color
 
     //if (uint8(GuildGuid >> 48))
@@ -2608,12 +2608,8 @@ void Player::RegenerateAll()
 
         Regenerate(POWER_RAGE);
 
-        if (getClass() == CLASS_PALADIN)
-            Regenerate(POWER_HOLY_POWER);
         if (getClass() == CLASS_DEATH_KNIGHT)
             Regenerate(POWER_RUNIC_POWER);
-        if (getClass() == CLASS_HUNTER)
-            Regenerate(POWER_FOCUS);
 
         m_regenTimerCount -= 2000;
     }
@@ -2635,9 +2631,6 @@ void Player::Regenerate(Powers power)
 
     float addvalue = 0.0f;
 
-    // powers now benefit from haste.
-    float haste = (2 - GetFloatValue(UNIT_MOD_CAST_SPEED));
-
     switch (power)
     {
         case POWER_MANA:
@@ -2648,9 +2641,9 @@ void Player::Regenerate(Powers power)
                 ManaIncreaseRate = sWorld->getRate(RATE_POWER_MANA) * (2.066f - (getLevel() * 0.066f));
 
             if (isInCombat()) // Trillium Updates Mana in intervals of 2s, which is correct
-                addvalue += GetFloatValue(UNIT_FIELD_POWER_REGEN_INTERRUPTED_FLAT_MODIFIER) *  ManaIncreaseRate * 0.001f * m_regenTimer * haste;
+                addvalue += GetFloatValue(UNIT_FIELD_POWER_REGEN_INTERRUPTED_FLAT_MODIFIER) *  ManaIncreaseRate * 0.001f * m_regenTimer;
             else
-                addvalue += GetFloatValue(UNIT_FIELD_POWER_REGEN_FLAT_MODIFIER) * ManaIncreaseRate * 0.001f * m_regenTimer * haste;
+                addvalue += GetFloatValue(UNIT_FIELD_POWER_REGEN_FLAT_MODIFIER) * ManaIncreaseRate * 0.001f * m_regenTimer;
         }
         break;
         case POWER_RAGE:                                    // Regenerate rage
@@ -2658,7 +2651,7 @@ void Player::Regenerate(Powers power)
             if (!isInCombat() && !HasAuraType(SPELL_AURA_INTERRUPT_REGEN))
             {
                 float RageDecreaseRate = sWorld->getRate(RATE_POWER_RAGE_LOSS);
-                addvalue += -20 * RageDecreaseRate * haste;               // 2 rage by tick (= 2 seconds => 1 rage/sec)
+                addvalue += -20 * RageDecreaseRate;               // 2 rage by tick (= 2 seconds => 1 rage/sec)
             }
         }
         break;
@@ -2741,7 +2734,7 @@ void Player::Regenerate(Powers power)
     if (m_regenTimerCount >= 2000)
         SetPower(power, curValue);
     else
-        UpdateUInt32Value(UNIT_FIELD_POWER1 + GetPowerIndexByClass(power, getClass()), curValue);
+        UpdateUInt32Value(UNIT_FIELD_POWER1 + power, curValue);
 }
 
 void Player::RegenerateHealth()
@@ -8109,7 +8102,7 @@ void Player::_ApplyItemBonuses(ItemTemplate const *proto, uint8 slot, bool apply
             ApplySpellPowerBonus(spellbonus, apply);
 
     // If set ScalingStatValue armor get it or use item armor
-    uint32 armor = proto->GetArmor();
+    uint32 armor = proto->Armor;
     if (ssv && proto->Class == ITEM_CLASS_ARMOR)
         armor = ssv->GetArmor(proto->InventoryType, proto->SubClass - 1);
 
@@ -8135,9 +8128,6 @@ void Player::_ApplyItemBonuses(ItemTemplate const *proto, uint8 slot, bool apply
     // Add armor bonus from ArmorDamageModifier if > 0
     if (proto->ArmorDamageModifier > 0)
         HandleStatModifier(UNIT_MOD_ARMOR, TOTAL_VALUE, float(proto->ArmorDamageModifier), apply);
-
-    if (proto->Block)
-        HandleBaseModValue(SHIELD_BLOCK_VALUE, FLAT_MOD, float(proto->Block), apply);
 
     WeaponAttackType attType = BASE_ATTACK;
 
@@ -8459,7 +8449,7 @@ void Player::CastItemCombatSpell(Unit* target, WeaponAttackType attType, uint32 
 
             float chance = (float)spellInfo->ProcChance;
 
-            if (proto.SpellPPMRate)
+            if (proto->SpellPPMRate)
             {
                 if (spellData.SpellId == 52781) // Persuasive Strike
                 {
@@ -24631,7 +24621,7 @@ void Player::BuildPetTalentsInfoData(WorldPacket *data)
 
 void Player::SendTalentsInfoData(bool pet)
 {
-    WorldPacket data(SMSG_TALENT_UPDATE, 50);
+    WorldPacket data(SMSG_TALENTS_INFO, 50);
     data << uint8(pet ? 1 : 0);
     if (pet)
         BuildPetTalentsInfoData(&data);

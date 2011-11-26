@@ -2169,9 +2169,9 @@ void AuraEffect::HandleAuraModShapeshift(AuraApplication const* aurApp, uint8 mo
 
             switch (form)
             {
-                case FORM_CAT:
-                case FORM_BEAR:
-                case FORM_DIREBEAR:
+            case FORM_CAT:
+            case FORM_BEAR:
+            case FORM_DIREBEAR:
                 {
                     // get furor proc chance
                     int32 FurorChance = 0;
@@ -2180,18 +2180,18 @@ void AuraEffect::HandleAuraModShapeshift(AuraApplication const* aurApp, uint8 mo
 
                     switch (GetMiscValue())
                     {
-                        case FORM_CAT:
+                    case FORM_CAT:
                         {
-                            int32 basePoints = std::min(oldPower, FurorChance);
+                            int32 basePoints = std::min<int32>(oldPower, FurorChance);
                             target->SetPower(POWER_ENERGY, 0);
                             target->CastCustomSpell(target, 17099, &basePoints, NULL, NULL, true, NULL, this);
                         }
                         break;
-                        case FORM_BEAR:
-                        case FORM_DIREBEAR:
+                    case FORM_BEAR:
+                    case FORM_DIREBEAR:
                         if (urand(0, 99) < FurorChance)
                             target->CastSpell(target, 17057, true);
-                        default:
+                    default:
                         {
                             int32 newEnergy = std::min(target->GetPower(POWER_ENERGY), FurorChance);
                             target->SetPower(POWER_ENERGY, newEnergy);
@@ -2200,8 +2200,8 @@ void AuraEffect::HandleAuraModShapeshift(AuraApplication const* aurApp, uint8 mo
                     }
                     break;
                 }
-                default:
-                    break;
+            default:
+                break;
             }
         }
         // stop handling the effect if it was removed by linked event
@@ -2234,14 +2234,14 @@ void AuraEffect::HandleAuraModShapeshift(AuraApplication const* aurApp, uint8 mo
             case FORM_BEAR:
             case FORM_DIREBEAR:
             case FORM_CAT:
-                if (AuraEffect* dummy = target->GetAuraEffect(37315, 0))
-                    target->CastSpell(target, 37316, true, NULL, dummy);
-                break;
+            if (AuraEffect* dummy = target->GetAuraEffect(37315, 0))
+                target->CastSpell(target, 37316, true, NULL, dummy);
+            break;
             // Nordrassil Regalia - bonus
             case FORM_MOONKIN:
-                if (AuraEffect* dummy = target->GetAuraEffect(37324, 0))
-                    target->CastSpell(target, 37325, true, NULL, dummy);
-                break;
+            if (AuraEffect* dummy = target->GetAuraEffect(37324, 0))
+                target->CastSpell(target, 37325, true, NULL, dummy);
+            break;
             case FORM_BATTLESTANCE:
             case FORM_DEFENSIVESTANCE:
             case FORM_BERSERKERSTANCE:
@@ -2269,8 +2269,8 @@ void AuraEffect::HandleAuraModShapeshift(AuraApplication const* aurApp, uint8 mo
                     target->SetPower(POWER_RAGE, Rage_val);
                 break;
             }
-            default:
-                break;
+        default:
+            break;
         }
     }
 

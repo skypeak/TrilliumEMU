@@ -265,14 +265,6 @@ int WorldSocket::open (void *a)
     return 0;
 }
 
-int WorldSocket::HandleAuthConnection(WorldPacket& recvPacket)
-{
-    std::string ClientToServerMsg;
-    recvPacket >> ClientToServerMsg;
-
-    return 0;
-}
-
 int WorldSocket::close (u_long)
 {
     shutdown();
@@ -665,6 +657,8 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
     ACE_ASSERT (new_pct);
 
     // manage memory ;)
+    ACE_Auto_Ptr<WorldPacket> aptr (new_pct);
+
     const ACE_UINT16 opcode = PacketFilter::DropHighBytes(new_pct->GetOpcode());
 
     if (closing_)
@@ -679,9 +673,6 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
     {
         switch (opcode)
         {
-            case MSG_CHECK_CONNECTION:
-                sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
-                return HandleAuthConnection(*new_pct);
             case CMSG_PING:
                 return HandlePing (*new_pct);
             case CMSG_AUTH_SESSION:
@@ -694,9 +685,18 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
                 sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
                 return HandleAuthSession (*new_pct);
             case CMSG_KEEP_ALIVE:
-                sLog->outStaticDebug ("CMSG_KEEP_ALIVE , size: " UI64FMTD, uint64(new_pct->size()));
+                sLog->outStaticDebug ("CMSG_KEEP_ALIVE, size: " UI64FMTD, uint64(new_pct->size()));
                 sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
                 return 0;
+            case CMSG_LOG_DISCONNECT:
+                sLog->outStaticDebug("CMSG_LOG_DISCONNECT , size: " UI64FMTD, uint64(new_pct->size()));
+                sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
+                return 0;
+            case CMSG_VERIFY_CONNECTIVITY_RESPONSE:
+                sLog->outStaticDebug("CMSG_VERIFY_CONNECTIVITY_RESPONSE , size: " UI64FMTD, uint64(new_pct->size()));
+                sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
+                return HandleSendAuthSession();
+
             default:
             {
                 ACE_GUARD_RETURN (LockType, Guard, m_SessionLock, -1);
@@ -711,7 +711,7 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
                     // Catches people idling on the login screen and any lingering ingame connections.
                     m_Session->ResetTimeOutTime();
 
-                    // OK , give the packet to WorldSession
+                    // OK, give the packet to WorldSession
                     aptr.release();
                     // WARNINIG here we call it with locks held.
                     // Its possible to cause deadlock if QueuePacket calls back

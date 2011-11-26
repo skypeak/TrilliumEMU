@@ -42,8 +42,12 @@ class MapInstanced : public Map
         void UnloadAll();
         bool CanEnter(Player* player);
 
-        Map* CreateInstance(const uint32 mapId, Player* player);
-        Map* FindMap(uint32 InstanceId) const { return _FindMap(InstanceId); }
+        Map* CreateInstanceForPlayer(const uint32 mapId, Player* player);
+        Map* FindInstanceMap(uint32 instanceId) const
+        {
+            InstancedMaps::const_iterator i = m_InstancedMaps.find(instanceId);
+            return(i == m_InstancedMaps.end() ? NULL : i->second);
+        }
         bool DestroyInstance(InstancedMaps::iterator &itr);
 
         void AddGridMapReference(const GridCoord &p)
@@ -68,12 +72,6 @@ class MapInstanced : public Map
         BattlegroundMap* CreateBattleground(uint32 InstanceId, Battleground* bg);
 
         InstancedMaps m_InstancedMaps;
-
-        Map* _FindMap(uint32 InstanceId) const
-        {
-            InstancedMaps::const_iterator i = m_InstancedMaps.find(InstanceId);
-            return(i == m_InstancedMaps.end() ? NULL : i->second);
-        }
 
         uint16 GridMapReference[MAX_NUMBER_OF_GRIDS][MAX_NUMBER_OF_GRIDS];
 };

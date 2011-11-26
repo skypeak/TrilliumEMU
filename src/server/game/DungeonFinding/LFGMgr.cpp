@@ -148,7 +148,7 @@ void LFGMgr::Update(uint32 diff)
         return;
 
     m_update = false;
-    currTime = time(NULL);
+    time_t currTime = time(NULL);
 
     // Remove obsolete role checks
     for (LfgRoleCheckMap::iterator it = m_RoleChecks.begin(); it != m_RoleChecks.end();)

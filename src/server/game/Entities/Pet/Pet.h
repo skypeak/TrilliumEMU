@@ -25,7 +25,6 @@
 #include "ObjectDefines.h"
 #include "Unit.h"
 #include "TemporarySummon.h"
-#include "Player.h"
 
 enum PetType
 {

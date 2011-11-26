@@ -268,7 +268,7 @@ enum InventoryType
 
 #define MAX_INVTYPE                               29
 
-enum ItemClass // 4.20a 14480
+enum ItemClass
 {
     ITEM_CLASS_CONSUMABLE                       = 0,
     ITEM_CLASS_CONTAINER                        = 1,
@@ -284,7 +284,7 @@ enum ItemClass // 4.20a 14480
     ITEM_CLASS_QUIVER                           = 11,
     ITEM_CLASS_QUEST                            = 12,
     ITEM_CLASS_KEY                              = 13,
-    ITEM_CLASS_NOT_EXIST                        = 14, // not found in 420a 14480
+    ITEM_CLASS_PERMANENT                        = 14,
     ITEM_CLASS_MISC                             = 15,
     ITEM_CLASS_GLYPH                            = 16
 };
@@ -333,11 +333,15 @@ enum ItemSubclassWeapon // 4.20a 14480
     ITEM_SUBCLASS_WEAPON_POLEARM                = 6,
     ITEM_SUBCLASS_WEAPON_SWORD                  = 7,
     ITEM_SUBCLASS_WEAPON_SWORD2                 = 8,
+    ITEM_SUBCLASS_WEAPON_obsolete               = 9,
     ITEM_SUBCLASS_WEAPON_STAFF                  = 10,
+    ITEM_SUBCLASS_WEAPON_EXOTIC                 = 11,
+    ITEM_SUBCLASS_WEAPON_EXOTIC2                = 12,
     ITEM_SUBCLASS_WEAPON_FIST                   = 13,
     ITEM_SUBCLASS_WEAPON_MISC                   = 14,
     ITEM_SUBCLASS_WEAPON_DAGGER                 = 15,
     ITEM_SUBCLASS_WEAPON_THROWN                 = 16,
+    ITEM_SUBCLASS_WEAPON_SPEAR                  = 17,
     ITEM_SUBCLASS_WEAPON_CROSSBOW               = 18,
     ITEM_SUBCLASS_WEAPON_WAND                   = 19,
     ITEM_SUBCLASS_WEAPON_FISHING_POLE           = 20
@@ -477,12 +481,12 @@ enum ItemSubclassKey // 4.20a 14480
 
 #define MAX_ITEM_SUBCLASS_KEY                     2
 
-enum ItemSubclassNotExist
+enum ItemSubclassPermanent
 {
-    ITEM_SUBCLASS_NOT_EXIST                     = 0
+    ITEM_SUBCLASS_PERMANENT                     = 0
 };
 
-#define MAX_ITEM_SUBCLASS_NOT_EXIST               1
+#define MAX_ITEM_SUBCLASS_PERMANENT               1
 
 enum ItemSubclassJunk // 4.20a 14480
 {
@@ -529,7 +533,7 @@ const uint32 MaxItemSubclassValues[MAX_ITEM_CLASS] =
     MAX_ITEM_SUBCLASS_QUIVER,
     MAX_ITEM_SUBCLASS_QUEST,
     MAX_ITEM_SUBCLASS_KEY,
-    MAX_ITEM_SUBCLASS_NOT_EXIST,
+    MAX_ITEM_SUBCLASS_PERMANENT,
     MAX_ITEM_SUBCLASS_JUNK,
     MAX_ITEM_SUBCLASS_GLYPH
 };
