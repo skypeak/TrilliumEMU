@@ -1599,9 +1599,9 @@ uint32 Unit::CalcArmorReducedDamage(Unit* victim, const uint32 damage, SpellInfo
     uint32 newdamage = 0;
     float armor = float(victim->GetArmor());
 
-    // decrease enemy armor effectiveness by SPELL_AURA_MOD_ARMOR_EFFECTIVENESS_FOR_CASTER
+    // bypass enemy armor effectiveness by SPELL_AURA_BYPASS_ARMOR_FOR_CASTER
     int32 auraEffectivenessReduction = 0;
-    AuraEffectList const & reductionAuras = victim->GetAuraEffectsByType(SPELL_AURA_MOD_ARMOR_EFFECTIVENESS_FOR_CASTER);
+    AuraEffectList const & reductionAuras = victim->GetAuraEffectsByType(SPELL_AURA_BYPASS_ARMOR_FOR_CASTER);
     for (AuraEffectList::const_iterator i = reductionAuras.begin(); i != reductionAuras.end(); ++i)
         if ((*i)->GetCasterGUID() == GetGUID())
             auraEffectivenessReduction += (*i)->GetAmount();
