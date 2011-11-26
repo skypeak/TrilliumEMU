@@ -5,7 +5,7 @@ Current Trillium Issues - Not a complete list
 - Transport system [not complete] Should be fixed.
 - Spells DBC [almost complete] Will add custom support
 - Random client crashs related to ByteBufferException DATATYPES [unidentified] Will be rewrited.
-- Grab 4.2.0a Opcodes [almost complete]
+- Grab 4.2.2 Opcodes
 - Guild system [almost complete].
 - Reforge system [almost complete] what is missed here? // Grab opcodes for CMSG_REFORGE & SMSG_SHOW_REFORGE
 - Auction House [almost complete]
