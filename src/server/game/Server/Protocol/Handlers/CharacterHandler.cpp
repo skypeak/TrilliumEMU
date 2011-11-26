@@ -926,40 +926,25 @@ void WorldSession::HandlePlayerLoginOpcode(WorldPacket & recv_data)
 
     m_playerLoading = true;
     uint64 playerGuid = 0;
-    uint8 guidMark, byte;
 
     sLog->outStaticDebug("WORLD: Recvd Player Logon Message");
 
-    recv_data >> guidMark;
+    BitStream* mask = recv_data.ReadBitStream(8);
 
-    // Bits are mixed up...
-    // Let's skip the highguid part -- it's 0x0000 for players anyway
-    if (guidMark & (1 << 2))
-    {
-        recv_data >> byte;
+    ByteBuffer* bytes = new ByteBuffer(8, true);
 
-        playerGuid |= uint64(byte << 8);
-    }
-    if (guidMark & (1 << 5))
-    {
-        recv_data >> byte;
+    if ((*mask)[6]) (*bytes)[5] = recv_data.ReadUInt8() ^ 1;
+    if ((*mask)[0]) (*bytes)[0] = recv_data.ReadUInt8() ^ 1;
+    if ((*mask)[4]) (*bytes)[3] = recv_data.ReadUInt8() ^ 1;
+    if ((*mask)[1]) (*bytes)[4] = recv_data.ReadUInt8() ^ 1;
+    if ((*mask)[2]) (*bytes)[7] = recv_data.ReadUInt8() ^ 1;
+    if ((*mask)[5]) (*bytes)[2] = recv_data.ReadUInt8() ^ 1;
+    if ((*mask)[7]) (*bytes)[6] = recv_data.ReadUInt8() ^ 1;
+    if ((*mask)[3]) (*bytes)[1] = recv_data.ReadUInt8() ^ 1;
 
-        playerGuid |= uint64(byte << 16);
-    }
-    if (guidMark & (1 << 6))
-    {
-        recv_data >> byte;
+    playerGuid = BitConverter::ToUInt64((*bytes));
 
-        playerGuid |= uint64(byte);
-    }
-    if (guidMark & (1 << 4))
-    {
-        recv_data >> byte;
-
-        playerGuid |= uint64(byte << 24);
-    }
-
-    sLog->outDebug(LOG_FILTER_NETWORKIO, "GUID Marker: %u GUID: %u", guidMark, playerGuid);
+    sLog->outDebug(LOG_FILTER_NETWORKIO, "Character (Guid: %u) logging in", playerGuid);
 
     if (!CharCanLogin(GUID_LOPART(playerGuid)))
     {
