@@ -166,6 +166,6 @@ const char WorldSafeLocsEntryfmt[]="nifffx";
 const char Itemfmt[]="niiiiiii";
 const char ItemSparsefmt[]="niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiifiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiisssssiiiiiiiiiiiiiiiiiiiiiiifiiifii";
 const char ItemExtendedCostEntryfmt[]="nxxiiiiiiiiiiiixiiiiiiiiiixxxxx";
-const char ItemCurrencyCostfmt[]="xn";
+const char ItemCurrencyCostfmt[]="ni";
 
 #endif
