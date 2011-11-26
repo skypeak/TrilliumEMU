@@ -8204,11 +8204,6 @@ void Player::_ApplyWeaponDamage(uint8 slot, ItemTemplate const *proto, ScalingSt
 
     if (CanModifyStats() && (damage || proto->Delay))
         UpdateDamagePhysical(attType);
-
-    // Druids get feral AP bonus from weapon dps (lso use DPS from ScalingStatValue)
-    if (getClass() == CLASS_DRUID)
-        if (int32 feral_bonus = proto->getFeralBonus(extraDPS))
-            ApplyFeralAPBonus(feral_bonus, apply);
 }
 
 void Player::_ApplyWeaponDependentAuraMods(Item *item, WeaponAttackType attackType, bool apply)
@@ -14026,10 +14021,6 @@ void Player::ApplyEnchantment(Item *item, EnchantmentSlot slot, bool apply, bool
                             HandleStatModifier(UNIT_MOD_ATTACK_POWER_RANGED_NEG, TOTAL_VALUE, -float(enchant_amount), apply);
                             sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "+ %u RANGED_ATTACK_POWER", enchant_amount);
                             break;
-//                        case ITEM_MOD_FERAL_ATTACK_POWER:
-//                            ApplyFeralAPBonus(enchant_amount, apply);
-//                            sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "+ %u FERAL_ATTACK_POWER", enchant_amount);
-//                            break;
                         case ITEM_MOD_MANA_REGENERATION:
                             ApplyManaRegenBonus(enchant_amount, apply);
                             sLog->outDebug(LOG_FILTER_PLAYER_ITEMS, "+ %u MANA_REGENERATION", enchant_amount);
