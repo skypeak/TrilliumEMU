@@ -1171,7 +1171,7 @@ struct ItemEntry
 
 struct ItemCurrencyCostEntry
 {
-    uint32  Id;
+    //uint32  Id;
     uint32  ItemId;
 };
 
