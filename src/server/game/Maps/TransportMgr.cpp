@@ -335,7 +335,7 @@ Transport* TransportMgr::CreateTransport(uint32 entry, Map* map /*= NULL*/)
     }
 
     // use preset map for instances (need to know which instance)
-    trans->SetMap(map ? map : sMapMgr->CreateMap(mapId, trans));
+    //trans->SetMap(map ? map : sMapMgr->CreateMap(mapId));
     trans->SetZoneScript();
 
     // Get all spawns on Transport map
