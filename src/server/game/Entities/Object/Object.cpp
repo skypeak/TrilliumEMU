@@ -259,14 +259,14 @@ void Object::BuildValuesUpdateBlockForPlayer(UpdateData* data, Player* target) c
 {
     ByteBuffer buf(500);
 
-    buf << (uint8) UPDATETYPE_MOVEMENT;
+    buf << (uint8)UPDATETYPE_VALUES;
     buf.append(GetPackGUID());
 
     UpdateMask updateMask;
     updateMask.SetCount(m_valuesCount);
 
     _SetUpdateBits(&updateMask, target);
-    _BuildValuesUpdate(UPDATETYPE_MOVEMENT, &buf, &updateMask, target);
+    _BuildValuesUpdate(UPDATETYPE_VALUES, &buf, &updateMask, target);
 
     data->AddUpdateBlock(buf);
 }
