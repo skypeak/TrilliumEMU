@@ -251,76 +251,76 @@ bool WorldSession::Update(uint32 diff, PacketFilter& updater)
         {
             switch (opHandle->status)
             {
-            case STATUS_LOGGEDIN:
-                if (!_player)
-                {
-                    // skip STATUS_LOGGEDIN opcode unexpected errors if player logout sometime ago - this can be network lag delayed packets
-                    if (!m_playerRecentlyLogout)
-                        LogUnexpectedOpcode(packet, "STATUS_LOGGEDIN", "the player has not logged in yet");
-                }
-                else if (_player->IsInWorld())
-                {
-                    sScriptMgr->OnPacketReceive(m_Socket, WorldPacket(*packet));
-                    (this->*opHandle->handler)(*packet);
-                    if (sLog->IsOutDebug() && packet->rpos() < packet->wpos())
-                        LogUnprocessedTail(packet);
-                }
-                // lag can cause STATUS_LOGGEDIN opcodes to arrive after the player started a transfer
-                break;
-            case STATUS_LOGGEDIN_OR_RECENTLY_LOGGOUT:
-                if (!_player && !m_playerRecentlyLogout)
-                    LogUnexpectedOpcode(packet, "STATUS_LOGGEDIN_OR_RECENTLY_LOGGOUT",
-                    "the player has not logged in yet and not recently logout");
-                else
-                {
-                    // not expected _player or must checked in packet hanlder
-                    sScriptMgr->OnPacketReceive(m_Socket, WorldPacket(*packet));
-                    (this->*opHandle->handler)(*packet);
-                    if (sLog->IsOutDebug() && packet->rpos() < packet->wpos())
-                        LogUnprocessedTail(packet);
-                }
-                break;
-            case STATUS_TRANSFER:
-                if (!_player)
-                    LogUnexpectedOpcode(packet, "STATUS_TRANSFER", "the player has not logged in yet");
-                else if (_player->IsInWorld())
-                    LogUnexpectedOpcode(packet, "STATUS_TRANSFER", "the player is still in world");
-                else
-                {
-                    sScriptMgr->OnPacketReceive(m_Socket, WorldPacket(*packet));
-                    (this->*opHandle->handler)(*packet);
-                    if (sLog->IsOutDebug() && packet->rpos() < packet->wpos())
-                        LogUnprocessedTail(packet);
-                }
-                break;
-            case STATUS_AUTHED:
-                // prevent cheating with skip queue wait
-                if (m_inQueue)
-                {
-                    LogUnexpectedOpcode(packet, "STATUS_AUTHED", "the player not pass queue yet");
+                case STATUS_LOGGEDIN:
+                    if (!_player)
+                    {
+                        // skip STATUS_LOGGEDIN opcode unexpected errors if player logout sometime ago - this can be network lag delayed packets
+                        if (!m_playerRecentlyLogout)
+                            LogUnexpectedOpcode(packet, "STATUS_LOGGEDIN", "the player has not logged in yet");
+                    }
+                    else if (_player->IsInWorld())
+                    {
+                        sScriptMgr->OnPacketReceive(m_Socket, WorldPacket(*packet));
+                        (this->*opHandle->handler)(*packet);
+                        if (sLog->IsOutDebug() && packet->rpos() < packet->wpos())
+                            LogUnprocessedTail(packet);
+                    }
+                    // lag can cause STATUS_LOGGEDIN opcodes to arrive after the player started a transfer
                     break;
-                }
+                case STATUS_LOGGEDIN_OR_RECENTLY_LOGGOUT:
+                    if (!_player && !m_playerRecentlyLogout)
+                        LogUnexpectedOpcode(packet, "STATUS_LOGGEDIN_OR_RECENTLY_LOGGOUT",
+                        "the player has not logged in yet and not recently logout");
+                    else
+                    {
+                        // not expected _player or must checked in packet hanlder
+                        sScriptMgr->OnPacketReceive(m_Socket, WorldPacket(*packet));
+                        (this->*opHandle->handler)(*packet);
+                        if (sLog->IsOutDebug() && packet->rpos() < packet->wpos())
+                            LogUnprocessedTail(packet);
+                    }
+                    break;
+                case STATUS_TRANSFER:
+                    if (!_player)
+                        LogUnexpectedOpcode(packet, "STATUS_TRANSFER", "the player has not logged in yet");
+                    else if (_player->IsInWorld())
+                        LogUnexpectedOpcode(packet, "STATUS_TRANSFER", "the player is still in world");
+                    else
+                    {
+                        sScriptMgr->OnPacketReceive(m_Socket, WorldPacket(*packet));
+                        (this->*opHandle->handler)(*packet);
+                        if (sLog->IsOutDebug() && packet->rpos() < packet->wpos())
+                            LogUnprocessedTail(packet);
+                    }
+                    break;
+                case STATUS_AUTHED:
+                    // prevent cheating with skip queue wait
+                    if (m_inQueue)
+                    {
+                        LogUnexpectedOpcode(packet, "STATUS_AUTHED", "the player not pass queue yet");
+                        break;
+                    }
 
-                // single from authed time opcodes send in to after logout time
-                // and before other STATUS_LOGGEDIN_OR_RECENTLY_LOGGOUT opcodes.
-                if (packet->GetOpcode() != CMSG_SET_ACTIVE_VOICE_CHANNEL)
-                    m_playerRecentlyLogout = false;
+                    // single from authed time opcodes send in to after logout time
+                    // and before other STATUS_LOGGEDIN_OR_RECENTLY_LOGGOUT opcodes.
+                    if (packet->GetOpcode() != CMSG_SET_ACTIVE_VOICE_CHANNEL)
+                        m_playerRecentlyLogout = false;
 
-                sScriptMgr->OnPacketReceive(m_Socket, WorldPacket(*packet));
-                (this->*opHandle->handler)(*packet);
-                if (sLog->IsOutDebug() && packet->rpos() < packet->wpos())
-                    LogUnprocessedTail(packet);
-                break;
-            case STATUS_NEVER:
-                sLog->outError("SESSION (account: %u, guidlow: %u, char: %s): received not allowed opcode %s (0x%.4X)",
-                    GetAccountId(), m_GUIDLow, _player ? _player->GetName() : "<none>",
-                    LookupOpcodeName(packet->GetOpcode()), packet->GetOpcode());
-                break;
-            case STATUS_UNHANDLED:
-                sLog->outDebug(LOG_FILTER_NETWORKIO, "SESSION (account: %u, guidlow: %u, char: %s): received not handled opcode %s (0x%.4X)",
-                    GetAccountId(), m_GUIDLow, _player ? _player->GetName() : "<none>",
-                    LookupOpcodeName(packet->GetOpcode()), packet->GetOpcode());
-                break;
+                    sScriptMgr->OnPacketReceive(m_Socket, WorldPacket(*packet));
+                    (this->*opHandle->handler)(*packet);
+                    if (sLog->IsOutDebug() && packet->rpos() < packet->wpos())
+                        LogUnprocessedTail(packet);
+                    break;
+                case STATUS_NEVER:
+                    sLog->outError("SESSION (account: %u, guidlow: %u, char: %s): received not allowed opcode %s (0x%.4X)",
+                        GetAccountId(), m_GUIDLow, _player ? _player->GetName() : "<none>",
+                        LookupOpcodeName(packet->GetOpcode()), packet->GetOpcode());
+                    break;
+                case STATUS_UNHANDLED:
+                    sLog->outDebug(LOG_FILTER_NETWORKIO, "SESSION (account: %u, guidlow: %u, char: %s): received not handled opcode %s (0x%.4X)",
+                        GetAccountId(), m_GUIDLow, _player ? _player->GetName() : "<none>",
+                        LookupOpcodeName(packet->GetOpcode()), packet->GetOpcode());
+                    break;
             }
         }
         catch(ByteBufferException &)
@@ -736,6 +736,107 @@ void WorldSession::SaveTutorialsData(SQLTransaction &trans)
     trans->Append(stmt);
 
     m_TutorialsChanged = false;
+}
+
+void WorldSession::ReadMovementInfo(WorldPacket &data, MovementInfo* mi)
+{
+    data >> mi->flags;
+    data >> mi->flags2;
+    data >> mi->time;
+    data >> mi->pos.PositionXYZOStream();
+
+    if (mi->HasMovementFlag(MOVEMENTFLAG_ONTRANSPORT))
+    {
+        data.readPackGUID(mi->t_guid);
+
+        data >> mi->t_pos.PositionXYZOStream();
+        data >> mi->t_time;
+        data >> mi->t_seat;
+
+        if (mi->HasExtraMovementFlag(MOVEMENTFLAG2_INTERPOLATED_MOVEMENT))
+            data >> mi->t_time2;
+    }
+
+    if (mi->HasMovementFlag(MovementFlags(MOVEMENTFLAG_SWIMMING | MOVEMENTFLAG_FLYING)) || (mi->HasExtraMovementFlag(MOVEMENTFLAG2_ALWAYS_ALLOW_PITCHING)))
+        data >> mi->pitch;
+
+    data >> mi->fallTime;
+
+    if (mi->HasMovementFlag(MOVEMENTFLAG_JUMPING))
+    {
+        data >> mi->j_zspeed;
+        data >> mi->j_sinAngle;
+        data >> mi->j_cosAngle;
+        data >> mi->j_xyspeed;
+    }
+
+    //if (mi->HasMovementFlag(MOVEMENTFLAG_SPLINE_ELEVATION))
+    //    data >> mi->splineElevation;
+
+    // This must be a packet spoofing attempt. MOVEMENTFLAG_ROOT sent from the client is not valid,
+    // and when used in conjunction with any of the moving movement flags such as MOVEMENTFLAG_FORWARD
+    // it will freeze clients that receive this player's movement info.
+    if (mi->HasMovementFlag(MOVEMENTFLAG_ROOT))
+        mi->flags &= ~MOVEMENTFLAG_ROOT;
+
+    // Cannot hover and jump at the same time
+   if (mi->HasMovementFlag(MOVEMENTFLAG_HOVER) && mi->HasMovementFlag(MOVEMENTFLAG_JUMPING))
+        mi->flags &= ~MOVEMENTFLAG_JUMPING;
+
+    // Cannot ascend and descend at the same time
+    if (mi->HasMovementFlag(MOVEMENTFLAG_ASCENDING) && mi->HasMovementFlag(MOVEMENTFLAG_DESCENDING))
+        mi->flags &= ~(MOVEMENTFLAG_ASCENDING | MOVEMENTFLAG_DESCENDING);
+
+    // Cannot move left and right at the same time
+    if (mi->HasMovementFlag(MOVEMENTFLAG_TURN_LEFT) && mi->HasMovementFlag(MOVEMENTFLAG_TURN_RIGHT))
+        mi->flags &= ~(MOVEMENTFLAG_TURN_LEFT | MOVEMENTFLAG_TURN_RIGHT);
+
+    // Cannot strafe left and right at the same time
+    if (mi->HasMovementFlag(MOVEMENTFLAG_STRAFE_LEFT) && mi->HasMovementFlag(MOVEMENTFLAG_STRAFE_RIGHT))
+        mi->flags &= ~(MOVEMENTFLAG_STRAFE_LEFT | MOVEMENTFLAG_STRAFE_RIGHT);
+
+    // Cannot pitch up and down at the same time
+    if (mi->HasMovementFlag(MOVEMENTFLAG_PITCH_UP) && mi->HasMovementFlag(MOVEMENTFLAG_PITCH_DOWN))
+        mi->flags &= ~(MOVEMENTFLAG_PITCH_UP | MOVEMENTFLAG_PITCH_DOWN);
+
+    // Cannot move forwards and backwards at the same time
+    if (mi->HasMovementFlag(MOVEMENTFLAG_FORWARD) && mi->HasMovementFlag(MOVEMENTFLAG_BACKWARD))
+        mi->flags &= ~(MOVEMENTFLAG_FORWARD | MOVEMENTFLAG_BACKWARD);
+}
+
+void WorldSession::WriteMovementInfo(WorldPacket* data, MovementInfo* mi)
+{
+    data->appendPackGUID(mi->guid);
+
+    *data << mi->flags;
+    *data << mi->flags2;
+    *data << mi->time;
+    *data << mi->pos.PositionXYZOStream();
+
+    if (mi->HasMovementFlag(MOVEMENTFLAG_ONTRANSPORT))
+    {
+       data->appendPackGUID(mi->t_guid);
+
+       *data << mi->t_pos.PositionXYZOStream();
+       *data << mi->t_time;
+       *data << mi->t_seat;
+    }
+
+    if (mi->HasMovementFlag(MovementFlags(MOVEMENTFLAG_SWIMMING | MOVEMENTFLAG_FLYING)) || mi->HasExtraMovementFlag(MOVEMENTFLAG2_ALWAYS_ALLOW_PITCHING))
+        *data << mi->pitch;
+
+    *data << mi->fallTime;
+
+    if (mi->HasMovementFlag(MOVEMENTFLAG_JUMPING))
+    {
+        *data << mi->j_zspeed;
+        *data << mi->j_sinAngle;
+        *data << mi->j_cosAngle;
+        *data << mi->j_xyspeed;
+    }
+
+    //if (mi->HasMovementFlag(MOVEMENTFLAG_SPLINE_ELEVATION))
+    //    *data << mi->splineElevation;
 }
 
 void WorldSession::ReadAddonsInfo(WorldPacket &data)

@@ -29,17 +29,20 @@
 class WorldPacket : public ByteBuffer
 {
     public:
-                                                            // just container for later use
-        WorldPacket()                                       : ByteBuffer(0), m_opcode(UNKNOWN_OPCODE)
+        // just container for later use
+        WorldPacket() : ByteBuffer(0), m_opcode(UNKNOWN_OPCODE)
+        {
+
+        }
+        WorldPacket(Opcodes opcode, size_t res=200) : ByteBuffer(res), m_opcode(opcode)
         {
         }
-        explicit WorldPacket(Opcodes opcode, size_t res = 200) : ByteBuffer(res), m_opcode(opcode) { }
-                                                            // copy constructor
-        WorldPacket(const WorldPacket &packet)              : ByteBuffer(packet), m_opcode(packet.m_opcode)
+        // copy constructor
+        WorldPacket(const WorldPacket &packet) : ByteBuffer(packet), m_opcode(packet.m_opcode)
         {
         }
 
-        void Initialize(Opcodes opcode, size_t newres = 200)
+        void Initialize(Opcodes opcode, size_t newres=200)
         {
             clear();
             _storage.reserve(newres);
@@ -48,34 +51,11 @@ class WorldPacket : public ByteBuffer
 
         Opcodes GetOpcode() const { return m_opcode; }
         void SetOpcode(Opcodes opcode) { m_opcode = opcode; }
-
         void compress(Opcodes opcode);
-
-        void ReadByteMask(uint8& b)
-        {
-            b = readBit() ? 1 : 0;
-        }
-
-        void ReadByteSeq(uint8& b)
-        {
-            if (b != 0)
-                b ^= read<uint8>();
-        }
-
-        void WriteByteMask(uint8 b)
-        {
-            writeBit(b);
-        }
-
-        void WriteByteSeq(uint8 b)
-        {
-            if (b != 0)
-                append<uint8>(b ^ 1);
-        }
 
     protected:
         Opcodes m_opcode;
-        void _compress(void* dst, uint32 *dst_size, const void* src, int src_size);
+        void Compress(void* dst, uint32 *dst_size, const void* src, int src_size);
 };
 
 #endif

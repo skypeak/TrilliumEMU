@@ -262,10 +262,10 @@ void WorldSession::HandleCharEnum(QueryResult result)
                     //case 14:
                     //    data.writeBit(1);//unk
                     //    break;
-                    case 11: data.writeBit(Guid0 ? 1 : 0); break;
-                    case 12: data.writeBit(Guid1 ? 1 : 0); break;
-                    case 9: data.writeBit(Guid2 ? 1 : 0); break;
-                    case 8: data.writeBit(Guid3 ? 1 : 0); break;
+                    case 11: data.WriteBit(Guid0 ? 1 : 0); break;
+                    case 12: data.WriteBit(Guid1 ? 1 : 0); break;
+                    case 9: data.WriteBit(Guid2 ? 1 : 0); break;
+                    case 8: data.WriteBit(Guid3 ? 1 : 0); break;
                     /*case 15:
                         if(uint8(GuildGuid))
                             data.writeBit(1);
@@ -299,12 +299,12 @@ void WorldSession::HandleCharEnum(QueryResult result)
                             data.writeBit(1);
                         break;*/
                     default:
-                        data.writeBit(0);
+                        data.WriteBit(0);
                         break;
                 }
             }
         }
-        data.flushBits();
+        data.FlushBits();
         data.append(buffer);
         data.put<uint32>(1, guidsVect.size());
     }
@@ -855,10 +855,6 @@ void WorldSession::HandleCharDeleteOpcode(WorldPacket & recv_data)
     recv_data.read_skip<uint16>();
     recv_data.read_skip<uint32>();
 
-    guid = GetRealCharGUID(packetGuid, byte, "Can't delete anything, sorry!");
-    if (guid == -1)
-        return;
-
     // can't delete loaded character
     if (ObjectAccessor::FindPlayer(guid))
         return;
@@ -1310,10 +1306,6 @@ void WorldSession::HandleCharRenameOpcode(WorldPacket& recv_data)
     recv_data >> packetGuid;
     recv_data >> byte;
     recv_data >> newname;
-
-    guid = GetRealCharGUID(packetGuid, byte, "Can't change name, sorry!");
-    if (guid == -1)
-        return;
 
     // prevent character rename to invalid name
     if (!normalizePlayerName(newname))
@@ -2096,84 +2088,4 @@ void WorldSession::HandleCharFactionOrRaceChange(WorldPacket& recv_data)
     data << uint8(facialHair);
     data << uint8(race);
     SendPacket(&data);
-}
-
-uint64 WorldSession::GetRealCharGUID(uint8 packetGuid, uint8 byte, std::string ErrorMessage)
-{
-    uint64 guid;
-    uint32 realguids[1000]; // Max 1000 characters for an account
-    uint32 guids[1000]; // Max 1000 characters for an account
-    int LastCharacter = 0;
-    uint32 Pair = 0;
-    uint32 PairNumber = 0;
-
-    for (int i = 0; i < 2; ++i)
-    {
-        int number;
-        if (i == 0)
-            number = packetGuid;
-        else
-            number = byte;
-
-        if (number % 2 == 0)
-        {
-           if (i == 0)
-                ++packetGuid;
-            else
-            {
-                if (byte != 0)
-                    ++byte;
-            }
-        }
-        else
-        {
-            if (i == 0)
-                --packetGuid;
-            else
-                --byte;
-        }
-
-        if (i == 0)
-        {
-            if (byte == 0 && packetGuid != 0)
-            {
-                QueryResult charresult = CharacterDatabase.PQuery("SELECT guid FROM characters WHERE account='%u'", GetAccountIdForCharDeletion());
-                if (!charresult)
-                    return -1;
-
-                do
-                {
-                    Field* fields = charresult->Fetch();
-                    realguids[LastCharacter] = fields[0].GetUInt32();
-                    guids[LastCharacter] = realguids[LastCharacter];
-                    if (guids[LastCharacter] > 255 && guids[LastCharacter] < 512)
-                        guids[LastCharacter] = guids[LastCharacter]-256;
-                    ++LastCharacter;
-                }
-                while (charresult->NextRow());
-
-                for (int i = 0; i < LastCharacter; ++i)
-                    if (guids[i] == packetGuid)
-                    {
-                        PairNumber = i;
-                        ++Pair;
-                    }
-            }
-        }
-    }
-
-    if (Pair == 1)
-        guid = realguids[PairNumber];
-    else
-    {
-        if (Pair == 0)
-            guid = (byte*256)+packetGuid;
-        else
-        {
-            guid = -1;
-            sLog->outError(ErrorMessage.c_str());
-        }
-    }
-
-    return guid;
 }

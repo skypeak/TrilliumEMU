@@ -399,8 +399,8 @@ void ObjectMgr::LoadCreatureTemplates()
 
     //                                                 0              1                 2                  3                 4            5           6        7         8
     QueryResult result = WorldDatabase.Query("SELECT entry, difficulty_entry_1, difficulty_entry_2, difficulty_entry_3, KillCredit1, KillCredit2, modelid1, modelid2, modelid3, "
-    //                                           9       10      11       12           13           14        15     16      17          18       19         20         21
-                                             "modelid4, name, subname, IconName, gossip_menu_id, minlevel, maxlevel, exp, faction_A, faction_H, npcflag, speed_walk, speed_run, "
+    //                                           9       10      11       12           13           14        15     16   17       18         19         20       21          22
+                                             "modelid4, name, subname, IconName, gossip_menu_id, minlevel, maxlevel, exp, exp_unk, faction_A, faction_H, npcflag, speed_walk, speed_run, "
     //                                         22     23     24     25        26          27             28              29                30           31          32
                                              "scale, rank, mindmg, maxdmg, dmgschool, attackpower, dmg_multiplier, baseattacktime, rangeattacktime, unit_class, unit_flags, "
     //                                             33         34      35             36             37             38          39           40              41           42            43

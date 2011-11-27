@@ -237,8 +237,8 @@ class WorldSession
         void ReadAddonsInfo(WorldPacket &data);
         void SendAddonsInfo();
 
-        void ReadMovementInfo(WorldPacket &data, MovementInfo *mi);
-        void WriteMovementInfo(WorldPacket &data, MovementInfo *mi);
+        void ReadMovementInfo(WorldPacket& data, MovementInfo* mi);
+        void WriteMovementInfo(WorldPacket* data, MovementInfo* mi);
 
         void SendPacket(WorldPacket const* packet);
         void SendNotification(const char *format, ...) ATTR_PRINTF(2, 3);
@@ -402,18 +402,6 @@ class WorldSession
         uint32 GetRecruiterId() { return recruiterId; }
         bool IsARecruiter() { return isRecruiter; }
 
-        uint64 GetRealCharGUID(uint8 packetGuid, uint8 byte, std::string ErrorMessage);
-        uint64 GetRealCreatureGUID(uint8 packetGuid, uint32 byte1, uint8 byte2);
-        bool Chest;
-        uint64 Chestguid;
-        uint32 Chestentry;
-
-        uint64 ConvertToRealHighGuid(uint64 guid, uint32 entry)
-        {
-            uint64 coef = 0x1000000;
-            // 17379390962022744064 -> 0x1035892424704000000
-            return guid+17379390962022744064+coef*entry;
-        }
     public:                                                 // opcodes handlers
 
         void Handle_NULL(WorldPacket& recvPacket);          // not used

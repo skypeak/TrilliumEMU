@@ -496,7 +496,7 @@ void WorldSession::HandleSellItemOpcode(WorldPacket & recv_data)
     if (!itemguid)
         return;
 
-    vendorguid = GetRealCreatureGUID(packetGuid, byte1, byte2);
+    vendorguid = packetGuid, byte1, byte2;
 
     Creature *creature = GetPlayer()->GetNPCIfCanInteractWith(vendorguid, UNIT_NPC_FLAG_VENDOR);
     if (!creature)
@@ -615,7 +615,7 @@ void WorldSession::HandleBuybackItem(WorldPacket & recv_data)
     recv_data >> packetGuid;
     recv_data >> slot;
 
-    vendorguid = GetRealCreatureGUID(packetGuid, byte1, byte2);
+    vendorguid = packetGuid, byte1, byte2;
 
     Creature *creature = GetPlayer()->GetNPCIfCanInteractWith(vendorguid, UNIT_NPC_FLAG_VENDOR);
     if (!creature)
@@ -718,7 +718,7 @@ void WorldSession::HandleBuyItemOpcode(WorldPacket & recv_data)
     recv_data.read_skip<uint64>();
     recv_data.read_skip<uint8>();
 
-    vendorguid = GetRealCreatureGUID(packetGuid, byte1, byte2);
+    vendorguid = packetGuid, byte1, byte2;
 
     // client expects count starting at 1, and we send vendorslot+1 to client already
     if (slot > 0)
@@ -1485,39 +1485,4 @@ void WorldSession::HandleReforgeOpcode(WorldPacket & recv_data )
     _player->ApplyEnchantment(item, REFORGE_ENCHANTMENT_SLOT, true);
 
     item->ClearSoulboundTradeable(_player);
-}
-
-uint64 WorldSession::GetRealCreatureGUID(uint8 packetGuid, uint32 byte1, uint8 byte2)
-{
-    uint64 realguid;
-    uint32 realentry;
-    uint32 entry; // Not always true.
-
-    if (byte1 % 2 == 0)
-        ++byte1;
-    else
-        --byte1;
-    if (byte2 % 2 == 0)
-        ++byte2;
-    else
-        --byte2;
-    if (packetGuid % 2 == 0)
-        ++packetGuid;
-    else
-        --packetGuid;
-
-    entry = byte1/256;
-
-    uint32 RealpacketGuid = packetGuid;
-
-    uint32 coef = (byte1-((entry*256)-1));
-    if (coef > 1)
-        RealpacketGuid += 65536*(coef-1);
-
-    realguid = ((byte2*256)+RealpacketGuid);
-
-    realentry = sObjectMgr->GetCreatureData(uint32(realguid))->id;
-    realguid = ConvertToRealHighGuid(realguid, realentry);
-
-    return realguid;
 }

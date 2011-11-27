@@ -28,8 +28,9 @@
 /// List of Opcodes
 enum Opcodes
 {
-    NUM_OPCODE_HANDLERS                             = (0xFFFF+1),
-    UNKNOWN_OPCODE                                  = NUM_OPCODE_HANDLERS,
+    NUM_OPCODE_HANDLERS                              = (0xFFFF+1),
+    UNKNOWN_OPCODE                                   = NUM_OPCODE_HANDLERS,
+    NULL_OPCODE                                      = 0,
 
     CMSG_ACCEPT_LEVEL_GRANT                          = 0xDC4B, //
     CMSG_ACCEPT_TRADE                                = 0x00, //

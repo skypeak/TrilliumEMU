@@ -17631,23 +17631,50 @@ void Unit::BuildMovementPacket(ByteBuffer *data) const
             break;
     }
 
-    data->writeBits(GetUnitMovementFlags(), 30);
-    data->writeBits(m_movementInfo.flags2, 12);
-    *data << uint32(getMSTime());            // time
-    *data << GetPositionX();
-    *data << GetPositionY();
-    *data << GetPositionZ();
-    *data << GetOrientation();
+    bool onTransport = GetUnitMovementFlags() & MOVEMENTFLAG_ONTRANSPORT;
+    bool hasInterpolatedMovement = m_movementInfo.flags2 & MOVEMENTFLAG2_INTERPOLATED_MOVEMENT;
+    bool time3 = false;
+    bool swimming = ((GetUnitMovementFlags() & (MOVEMENTFLAG_SWIMMING | MOVEMENTFLAG_FLYING))
+        || (m_movementInfo.flags2 & MOVEMENTFLAG2_ALWAYS_ALLOW_PITCHING));
+    bool interPolatedTurning = m_movementInfo.flags2 & MOVEMENTFLAG2_INTERPOLATED_TURNING;
+    bool jumping = GetUnitMovementFlags() & MOVEMENTFLAG_JUMPING;
+    /*bool splineElevation = GetUnitMovementFlags() & MOVEMENTFLAG_SPLINE_ELEVATION;*/
+    bool splineData = false;
 
-    // 0x00000200
-    if (GetUnitMovementFlags() & MOVEMENTFLAG_ONTRANSPORT)
+    data->WriteBits(GetUnitMovementFlags(), 30);
+    data->WriteBits(m_movementInfo.flags2, 12);
+    data->WriteBit(onTransport);
+    if (onTransport)
+    {
+        data->WriteBit(hasInterpolatedMovement);
+        data->WriteBit(time3);
+    }
+
+    data->WriteBit(swimming);
+    data->WriteBit(interPolatedTurning);
+    if (interPolatedTurning)
+        data->WriteBit(jumping);
+
+    //Enable it when is fixed. data->writeBit(splineElevation);
+    data->WriteBit(splineData);
+
+    data->FlushBits(); // reset bit stream
+
+    *data << uint64(GetGUID());
+    *data << uint32(getMSTime());
+    *data << float(GetPositionX());
+    *data << float(GetPositionY());
+    *data << float(GetPositionZ());
+    *data << float(GetOrientation());
+
+    if (onTransport)
     {
         if (m_vehicle)
-            *data << m_vehicle->GetBase()->GetGUID();
+            *data << uint64(m_vehicle->GetBase()->GetGUID());
         else if (GetTransport())
-            *data << GetTransport()->GetGUID();
-        else
-            *data << uint64(0);
+            *data << uint64(GetTransport()->GetGUID());
+        else // probably should never happen
+            *data << (uint64)0;
 
         *data << float (GetTransOffsetX());
         *data << float (GetTransOffsetY());
@@ -17656,23 +17683,21 @@ void Unit::BuildMovementPacket(ByteBuffer *data) const
         *data << uint8 (GetTransSeat());
         *data << uint32(GetTransTime());
 
-        if (m_movementInfo.flags2 & MOVEMENTFLAG2_INTERPOLATED_MOVEMENT)             // & 0x400, 4.0.3
-            *data << uint32(m_movementInfo.t_time2);
+        if (hasInterpolatedMovement)
+            *data << int32(0); // Transport Time 2
+        if (time3)
+            *data << int32(0); // Transport Time 3
     }
 
-    // 0x02200000
-    if ((GetUnitMovementFlags() & (MOVEMENTFLAG_SWIMMING | MOVEMENTFLAG_FLYING))
-        || (m_movementInfo.flags2 & MOVEMENTFLAG2_ALWAYS_ALLOW_PITCHING))
+    if (swimming)
         *data << (float)m_movementInfo.pitch;
 
-    //4.0.6
-    if (m_movementInfo.flags2 & MOVEMENTFLAG2_INTERPOLATED_TURNING)    // & 0x800, 4.0.6
+    if (interPolatedTurning)
     {
         *data << (uint32)m_movementInfo.fallTime;
         *data << (float)m_movementInfo.j_zspeed;
 
-        // 0x00001000
-        if (GetUnitMovementFlags() & MOVEMENTFLAG_FALLING_SLOW)
+        if (jumping)
         {
             *data << (float)m_movementInfo.j_sinAngle;
             *data << (float)m_movementInfo.j_cosAngle;
@@ -17680,9 +17705,10 @@ void Unit::BuildMovementPacket(ByteBuffer *data) const
         }
     }
 
-    // 0x04000000
-    if (GetUnitMovementFlags() & MOVEMENTFLAG_UNKNOWN)
+    /* Enable it when is fixed
+    if (splineElevation)
         *data << (float)m_movementInfo.splineElevation;
+    */
 }
 
 void Unit::SetFlying(bool apply)
