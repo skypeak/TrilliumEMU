@@ -31,141 +31,141 @@
 
 void WorldSession::HandleCalendarGetCalendar(WorldPacket & /*recv_data*/)
 {
-//    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CALENDAR_GET_CALENDAR");     // empty
-//    time_t cur_time = time(NULL);
-//	// we can't really get the real size of this packet...
-//    WorldPacket data(SMSG_CALENDAR_SEND_CALENDAR, 4+4*0+4+4*0+4+4);
-//	size_t p_counter = data.wpos();
-//
-//	uint32 invite_count = 0 ;
-//	data << uint32(invite_count);  // invite count
-//
-//	//Load invite
-//	for (CalendarInviteList::const_iterator itr = sCalendarMgr->m_inviteList.begin(); itr !=sCalendarMgr->m_inviteList.end(); ++itr)
-//	{
-//		if ((*itr)->target_guid == GetPlayer()->GetGUIDLow())
-//		{
-//			data << uint64((*itr)->inviteID);			// Invite ID
-//			data << uint64((*itr)->eventID);			// Event ID
-//			data << uint8((*itr)->rank);				// rank
-//			data << uint8(0);				// unk - TODO: Figure out what this is
-//			data << uint8(0);				// unk
-//			data.appendPackGUID((*itr)->creator_guid);	// Event creator id
-//			invite_count++;
-//		}
-//	}
-//
-//	data.put<uint32>(p_counter, invite_count);
-//
-//    uint32 event_count=0;
-//    p_counter = data.wpos();
-//    data << uint32(event_count);
-//
-//	for (CalendarInviteList::const_iterator itr = sCalendarMgr->m_inviteList.begin(); itr !=sCalendarMgr->m_inviteList.end(); ++itr)
-//	{
-//		if ((*itr))
-//		{
-//
-//			for (CalendarEventList::const_iterator i = sCalendarMgr->m_eventList.begin(); i != sCalendarMgr->m_eventList.end(); ++i)
-//			{
-//				if ((*i)->eventID ==(*itr)->eventID)
-//				{
-//					data << uint64((*i)->eventID);           // event ID
-//					data << (*i)->name;                      // event title
-//					data << uint32((*i)->type);              // event type
-//					data << uint32((*i)->time);              // event time as time bit field
-//					data << uint32((*i)->flags);             // event flags
-//					data << uint32((*i)->dungeonID);         // dungeon ID
-//					data.appendPackGUID((*i)->creator_guid); // creator guid
-//
-//					event_count++;
-//				}
-//			}
-//		}
-//	}
-//
-//	data.put<uint32>(p_counter, event_count);
-//
-//	//data << uint32(0);                                      // unk
-//    //data << uint32(secsToTimeBitFields(cur_time));          // current time
-//
-//    InstanceSave *save = NULL;
-//    uint32 counter = 0;
-//    p_counter = data.wpos();
-//    data << uint32(counter);                                // instance save count
-//
-//    for (uint8 i = 0; i < MAX_DIFFICULTY; ++i)
-//	{
-//        for (Player::BoundInstancesMap::const_iterator itr = _player->m_boundInstances[i].begin(); itr != _player->m_boundInstances[i].end(); ++itr)
-//            if (itr->second.perm)
-//            {
-//                save = itr->second.save;
-//                data << uint32(save->GetMapId());
-//                data << uint32(save->GetDifficulty());
-//                data << uint32(save->GetResetTime() - cur_time);
-//                data << uint64(save->GetInstanceId());      // instance save id as unique instance copy id
-//                ++counter;
-//            }
-//	}
-//
-//    data.put<uint32>(p_counter, counter);
-//
-//    data << uint32(1135753200);                             // unk (28.12.2005 07:00)
-//
-//    uint32 mapid = 0;
-//    MapEntry const* mapEnt;
-//    counter = 0;
-//    p_counter = data.wpos();
-//    data << uint32(counter);                                // raid reset count
-//
-//    ResetTimeByMapDifficultyMap const& resets = sInstanceSaveMgr->GetResetTimeMap();
-//    for (ResetTimeByMapDifficultyMap::const_iterator itr = resets.begin(); itr != resets.end(); ++itr)
-//    {
-//        mapid = PAIR32_LOPART(itr->first);
-//        mapEnt = sMapStore.LookupEntry(mapid);
-//        if (!mapEnt || !mapEnt->IsRaid())
-//            continue;
-//
-//        data << uint32(mapid);
-//        data << uint32(itr->second - cur_time);
-//        data << uint32(mapEnt->unk_time);
-//        ++counter;
-//    }
-//
-//    data.put<uint32>(p_counter, counter);
-//
-//    // TODO: Fix this -- read from DBC?
-//    std::string holidayName = "TestHolidayName";
-//    p_counter = data.wpos();
-//	counter = 0;
-//    data << uint32(counter);                           // holiday count
-//
-//    //TODO: Fix dbc
-// //   for (uint32 i = 0; i < sHolidaysStore.GetNumRows(); ++i)           // areaflag numbered from 0
-// //   {
-// //       if (HolidaysEntry const* holidays = sHolidaysStore.LookupEntry(i))
-// //       {
-// //           data << holidays->ID;                                  // Unk
-// //           data << holidays->unk1;                                  // Unk
-// //           data << holidays->unk2;                                  // Unk
-// //           data << holidays->unk3;                                  // Unk
-// //           data << holidays->unk4;                                  // Unk
-// //           for (uint8 j = 0; j < 26; ++j)
-// //               data << holidays->unk10[j];                              // Unk
-// //           for (uint8 j = 0; j < 10; ++j)
-// //               data << holidays->unk36[j];                              // Unk
-// //           for (uint8 j = 0; j < 10; ++j)
-// //               data << holidays->unk46[j];                              // Unk
-// //           data << holidayName.c_str();                        // holiday name
-// //           ++counter;
-// //       }
-//	//}
-//
-//
-//	data.put<uint32>(p_counter, counter);
-//    sLog->outDebug(LOG_FILTER_NETWORKIO, ">> Sending calendar");
-//    data.hexlike();
-//    SendPacket(&data);
+    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CALENDAR_GET_CALENDAR");     // empty
+    time_t cur_time = time(NULL);
+    // we can't really get the real size of this packet...
+    WorldPacket data(SMSG_CALENDAR_SEND_CALENDAR, 4+4*0+4+4*0+4+4);
+    size_t p_counter = data.wpos();
+
+    uint32 invite_count = 0 ;
+    data << uint32(invite_count);  // invite count
+
+    //Load invite
+    for (CalendarInviteList::const_iterator itr = sCalendarMgr->m_inviteList.begin(); itr !=sCalendarMgr->m_inviteList.end(); ++itr)
+    {
+        if ((*itr)->target_guid == GetPlayer()->GetGUIDLow())
+        {
+            data << uint64((*itr)->inviteID);			// Invite ID
+            data << uint64((*itr)->eventID);			// Event ID
+            data << uint8((*itr)->rank);				// rank
+            data << uint8(0);				// unk - TODO: Figure out what this is
+            data << uint8(0);				// unk
+            data.appendPackGUID((*itr)->creator_guid);	// Event creator id
+            invite_count++;
+        }
+    }
+
+    data.put<uint32>(p_counter, invite_count);
+
+    uint32 event_count=0;
+    p_counter = data.wpos();
+    data << uint32(event_count);
+
+    for (CalendarInviteList::const_iterator itr = sCalendarMgr->m_inviteList.begin(); itr !=sCalendarMgr->m_inviteList.end(); ++itr)
+    {
+        if ((*itr))
+        {
+
+            for (CalendarEventList::const_iterator i = sCalendarMgr->m_eventList.begin(); i != sCalendarMgr->m_eventList.end(); ++i)
+            {
+                if ((*i)->eventID ==(*itr)->eventID)
+                {
+                    data << uint64((*i)->eventID);           // event ID
+                    data << (*i)->name;                      // event title
+                    data << uint32((*i)->type);              // event type
+                    data << uint32((*i)->time);              // event time as time bit field
+                    data << uint32((*i)->flags);             // event flags
+                    data << uint32((*i)->dungeonID);         // dungeon ID
+                    data.appendPackGUID((*i)->creator_guid); // creator guid
+
+                    event_count++;
+                }
+            }
+        }
+    }
+
+    data.put<uint32>(p_counter, event_count);
+
+    //data << uint32(0);                                      // unk
+    //data << uint32(secsToTimeBitFields(cur_time));          // current time
+
+    InstanceSave *save = NULL;
+    uint32 counter = 0;
+    p_counter = data.wpos();
+    data << uint32(counter);                                // instance save count
+
+    for (uint8 i = 0; i < MAX_DIFFICULTY; ++i)
+    {
+        for (Player::BoundInstancesMap::const_iterator itr = _player->m_boundInstances[i].begin(); itr != _player->m_boundInstances[i].end(); ++itr)
+            if (itr->second.perm)
+            {
+                save = itr->second.save;
+                data << uint32(save->GetMapId());
+                data << uint32(save->GetDifficulty());
+                data << uint32(save->GetResetTime() - cur_time);
+                data << uint64(save->GetInstanceId());      // instance save id as unique instance copy id
+                ++counter;
+            }
+    }
+
+    data.put<uint32>(p_counter, counter);
+
+    data << uint32(1135753200);                             // unk (28.12.2005 07:00)
+
+    uint32 mapid = 0;
+    MapEntry const* mapEnt;
+    counter = 0;
+    p_counter = data.wpos();
+    data << uint32(counter);                                // raid reset count
+
+    ResetTimeByMapDifficultyMap const& resets = sInstanceSaveMgr->GetResetTimeMap();
+    for (ResetTimeByMapDifficultyMap::const_iterator itr = resets.begin(); itr != resets.end(); ++itr)
+    {
+        mapid = PAIR32_LOPART(itr->first);
+        mapEnt = sMapStore.LookupEntry(mapid);
+        if (!mapEnt || !mapEnt->IsRaid())
+            continue;
+
+        data << uint32(mapid);
+        data << uint32(itr->second - cur_time);
+        data << uint32(mapEnt->unk_time);
+        ++counter;
+    }
+
+    data.put<uint32>(p_counter, counter);
+
+    // TODO: Fix this -- read from DBC?
+    std::string holidayName = "TestHolidayName";
+    p_counter = data.wpos();
+    counter = 0;
+    data << uint32(counter);                           // holiday count
+
+    //TODO: Fix dbc
+    //   for (uint32 i = 0; i < sHolidaysStore.GetNumRows(); ++i)           // areaflag numbered from 0
+    //   {
+    //       if (HolidaysEntry const* holidays = sHolidaysStore.LookupEntry(i))
+    //       {
+    //           data << holidays->ID;                                  // Unk
+    //           data << holidays->unk1;                                  // Unk
+    //           data << holidays->unk2;                                  // Unk
+    //           data << holidays->unk3;                                  // Unk
+    //           data << holidays->unk4;                                  // Unk
+    //           for (uint8 j = 0; j < 26; ++j)
+    //               data << holidays->unk10[j];                              // Unk
+    //           for (uint8 j = 0; j < 10; ++j)
+    //               data << holidays->unk36[j];                              // Unk
+    //           for (uint8 j = 0; j < 10; ++j)
+    //               data << holidays->unk46[j];                              // Unk
+    //           data << holidayName.c_str();                        // holiday name
+    //           ++counter;
+    //       }
+    //}
+
+
+    data.put<uint32>(p_counter, counter);
+    sLog->outDebug(LOG_FILTER_NETWORKIO, ">> Sending calendar");
+    data.hexlike();
+    SendPacket(&data);
 }
 
 void WorldSession::HandleCalendarGetEvent(WorldPacket &recv_data)
