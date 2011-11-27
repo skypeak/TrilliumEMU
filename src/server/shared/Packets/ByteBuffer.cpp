@@ -84,10 +84,10 @@ ByteBuffer::ByteBuffer(size_t res, bool init): _rpos(0), _wpos(0), _bitpos(8), _
 {
     if (init)
     {
+        _storage.resize(res);
         for (size_t i = 0; i < res; ++i)
-        {
             *this << uint8(0);
-        }
-    } else
+    }
+    else
         _storage.reserve(res);
 }
