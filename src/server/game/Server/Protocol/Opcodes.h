@@ -31,7 +31,7 @@ enum Opcodes
     NUM_OPCODE_HANDLERS                              = (0xFFFF+1),
     UNKNOWN_OPCODE                                   = NUM_OPCODE_HANDLERS,
     NULL_OPCODE                                      = 0,
-
+    
     CMSG_ACCEPT_LEVEL_GRANT                          = 0xDC4B,
     CMSG_ACCEPT_TRADE                                = 0x00,
     CMSG_ACTIVATETAXI                                = 0x00,
@@ -709,7 +709,7 @@ enum Opcodes
     SMSG_GODMODE                                     = 0xDEEE,
     SMSG_GOSSIP_COMPLETE                             = 0x00,
     SMSG_GOSSIP_MESSAGE                              = 0xCCEB,
-    SMSG_GOSSIP_POI                                  = 0x00,
+    SMSG_GOSSIP_POI                                  = 0x1866,
     SMSG_GROUP_CANCEL                                = 0x00,
     SMSG_GROUP_DECLINE                               = 0x00,
     SMSG_GROUP_DESTROYED                             = 0x00,
@@ -932,7 +932,7 @@ enum Opcodes
     SMSG_SEND_UNLEARN_SPELLS                         = 0x00,
     SMSG_SERVERTIME                                  = 0x00,
     SMSG_SERVER_FIRST_ACHIEVEMENT                    = 0x00,
-    SMSG_SERVER_MESSAGE                              = 0x00,
+    SMSG_SERVER_MESSAGE                              = 0xC873,
     SMSG_SET_FACTION_ATWAR                           = 0x00,
     SMSG_SET_FACTION_STANDING                        = 0x00,
     SMSG_SET_FACTION_VISIBLE                         = 0x00,
@@ -1029,7 +1029,7 @@ enum Opcodes
     SMSG_QUESTUPDATE_ADD_ITEM                        = 0x00,
     SMSG_OVERRIDE_LIGHT                              = 0x00,
     SMSG_RANDOMIZE_CHAR_NAME                         = 0xF0DC, //  byte unk(0x80), string name
-
+    
     CMSG_MOVE_SET_COLLISION_HGT                      = 0x00,
     SMSG_MOVE_SET_COLLISION_HGT                      = 0x00,
 };
