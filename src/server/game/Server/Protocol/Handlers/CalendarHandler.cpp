@@ -185,16 +185,16 @@ void WorldSession::HandleCalendarGetEvent(WorldPacket &recv_data)
 
 void WorldSession::HandleCalendarGuildFilter(WorldPacket &recv_data)
 {
-//    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CALENDAR_GUILD_FILTER");
-//    recv_data.hexlike();
-//	uint32 unk1;
-//    uint32 unk2;
-//    uint32 unk3;
-//    recv_data >> unk1;
-//    recv_data >> unk2;
-//    recv_data >> unk3;
+    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CALENDAR_GUILD_FILTER");
+    recv_data.hexlike();
+    uint32 unk1;
+    uint32 unk2;
+    uint32 unk3;
+    recv_data >> unk1;
+    recv_data >> unk2;
+    recv_data >> unk3;
 }
-//
+
 void WorldSession::HandleCalendarArenaTeam(WorldPacket &recv_data)
 {
 //    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CALENDAR_ARENA_TEAM");
