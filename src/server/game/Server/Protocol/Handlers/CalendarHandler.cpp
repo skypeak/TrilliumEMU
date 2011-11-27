@@ -65,7 +65,6 @@ void WorldSession::HandleCalendarGetCalendar(WorldPacket & /*recv_data*/)
     {
         if ((*itr))
         {
-
             for (CalendarEventList::const_iterator i = sCalendarMgr->m_eventList.begin(); i != sCalendarMgr->m_eventList.end(); ++i)
             {
                 if ((*i)->eventID ==(*itr)->eventID)
@@ -97,6 +96,7 @@ void WorldSession::HandleCalendarGetCalendar(WorldPacket & /*recv_data*/)
     for (uint8 i = 0; i < MAX_DIFFICULTY; ++i)
     {
         for (Player::BoundInstancesMap::const_iterator itr = _player->m_boundInstances[i].begin(); itr != _player->m_boundInstances[i].end(); ++itr)
+        {
             if (itr->second.perm)
             {
                 save = itr->second.save;
@@ -106,6 +106,7 @@ void WorldSession::HandleCalendarGetCalendar(WorldPacket & /*recv_data*/)
                 data << uint64(save->GetInstanceId());      // instance save id as unique instance copy id
                 ++counter;
             }
+        }
     }
 
     data.put<uint32>(p_counter, counter);
@@ -170,18 +171,18 @@ void WorldSession::HandleCalendarGetCalendar(WorldPacket & /*recv_data*/)
 
 void WorldSession::HandleCalendarGetEvent(WorldPacket &recv_data)
 {
-//    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CALENDAR_GET_EVENT");
-//
-//	uint64 eventId;
-//
-//	recv_data.hexlike();
-//	recv_data >> eventId;
-//    if (!eventId)
-//        return;
-//
-//    SendCalendarEvent(eventId, true);
+    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CALENDAR_GET_EVENT");
+
+    uint64 eventId;
+
+    recv_data.hexlike();
+    recv_data >> eventId;
+    if (!eventId)
+        return;
+
+    SendCalendarEvent(eventId, true);
 }
-//
+
 void WorldSession::HandleCalendarGuildFilter(WorldPacket &recv_data)
 {
 //    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CALENDAR_GUILD_FILTER");
