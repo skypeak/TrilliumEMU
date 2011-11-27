@@ -39,11 +39,11 @@ enum SpellEffIndex
 // loot modes for creatures and gameobjects, bitmask!
 enum LootModes
 {
-    LOOT_MODE_DEFAULT                  = 1,
-    LOOT_MODE_HARD_MODE_1              = 2,
-    LOOT_MODE_HARD_MODE_2              = 4,
-    LOOT_MODE_HARD_MODE_3              = 8,
-    LOOT_MODE_HARD_MODE_4              = 16
+    LOOT_MODE_DEFAULT                  = 0x1,
+    LOOT_MODE_HARD_MODE_1              = 0x2,
+    LOOT_MODE_HARD_MODE_2              = 0x4,
+    LOOT_MODE_HARD_MODE_3              = 0x8,
+    LOOT_MODE_HARD_MODE_4              = 0x16
 };
 
 enum Gender
@@ -3285,11 +3285,7 @@ enum RemoveMethod
 };
 
 // max supported expansion level in worldserver
-// NOTE: not set it more that supported by targeted client version with all expansions installed
-// account with expansion > client supported will rejected at connection by client
-// because if client receive unsupported expansion level it think
-// that it not have expansion installed and reject
-#define MAX_EXPANSION 3
+#define MAX_EXPANSION 4
 
 enum PetTalentType
 {

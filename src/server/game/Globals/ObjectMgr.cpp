@@ -454,74 +454,75 @@ void ObjectMgr::LoadCreatureTemplates()
         creatureTemplate.minlevel          = fields[14].GetUInt8();
         creatureTemplate.maxlevel          = fields[15].GetUInt8();
         creatureTemplate.expansion         = uint32(fields[16].GetUInt16());
-        creatureTemplate.faction_A         = uint32(fields[17].GetUInt16());
-        creatureTemplate.faction_H         = uint32(fields[18].GetUInt16());
-        creatureTemplate.npcflag           = fields[19].GetUInt32();
-        creatureTemplate.speed_walk        = fields[20].GetFloat();
-        creatureTemplate.speed_run         = fields[21].GetFloat();
-        creatureTemplate.scale             = fields[22].GetFloat();
-        creatureTemplate.rank              = uint32(fields[23].GetUInt8());
-        creatureTemplate.mindmg            = fields[24].GetFloat();
-        creatureTemplate.maxdmg            = fields[25].GetFloat();
-        creatureTemplate.dmgschool         = uint32(fields[26].GetInt8());
-        creatureTemplate.attackpower       = fields[27].GetUInt32();
-        creatureTemplate.dmg_multiplier    = fields[28].GetFloat();
-        creatureTemplate.baseattacktime    = fields[29].GetUInt32();
-        creatureTemplate.rangeattacktime   = fields[30].GetUInt32();
-        creatureTemplate.unit_class        = uint32(fields[31].GetUInt8());
-        creatureTemplate.unit_flags        = fields[32].GetUInt32();
-        creatureTemplate.dynamicflags      = fields[33].GetUInt32();
-        creatureTemplate.family            = uint32(fields[34].GetUInt8());
-        creatureTemplate.trainer_id        = fields[35].GetUInt32();
-        creatureTemplate.trainer_type      = uint32(fields[36].GetUInt8());
-        creatureTemplate.trainer_spell     = fields[37].GetUInt32();
-        creatureTemplate.trainer_class     = uint32(fields[38].GetUInt8());
-        creatureTemplate.trainer_race      = uint32(fields[39].GetUInt8());
-        creatureTemplate.minrangedmg       = fields[40].GetFloat();
-        creatureTemplate.maxrangedmg       = fields[41].GetFloat();
-        creatureTemplate.rangedattackpower = uint32(fields[42].GetUInt16());
-        creatureTemplate.type              = uint32(fields[43].GetUInt8());
+        creatureTemplate.expansionUnknown  = uint32(fields[17].GetUInt16());
+        creatureTemplate.faction_A         = uint32(fields[18].GetUInt16());
+        creatureTemplate.faction_H         = uint32(fields[19].GetUInt16());
+        creatureTemplate.npcflag           = fields[20].GetUInt32();
+        creatureTemplate.speed_walk        = fields[21].GetFloat();
+        creatureTemplate.speed_run         = fields[22].GetFloat();
+        creatureTemplate.scale             = fields[23].GetFloat();
+        creatureTemplate.rank              = uint32(fields[24].GetUInt8());
+        creatureTemplate.mindmg            = fields[25].GetFloat();
+        creatureTemplate.maxdmg            = fields[26].GetFloat();
+        creatureTemplate.dmgschool         = uint32(fields[27].GetInt8());
+        creatureTemplate.attackpower       = fields[28].GetUInt32();
+        creatureTemplate.dmg_multiplier    = fields[29].GetFloat();
+        creatureTemplate.baseattacktime    = fields[30].GetUInt32();
+        creatureTemplate.rangeattacktime   = fields[31].GetUInt32();
+        creatureTemplate.unit_class        = uint32(fields[32].GetUInt8());
+        creatureTemplate.unit_flags        = fields[33].GetUInt32();
+        creatureTemplate.dynamicflags      = fields[34].GetUInt32();
+        creatureTemplate.family            = uint32(fields[35].GetUInt8());
+        creatureTemplate.trainer_id        = fields[36].GetUInt32();
+        creatureTemplate.trainer_type      = uint32(fields[37].GetUInt8());
+        creatureTemplate.trainer_spell     = fields[38].GetUInt32();
+        creatureTemplate.trainer_class     = uint32(fields[39].GetUInt8());
+        creatureTemplate.trainer_race      = uint32(fields[40].GetUInt8());
+        creatureTemplate.minrangedmg       = fields[41].GetFloat();
+        creatureTemplate.maxrangedmg       = fields[42].GetFloat();
+        creatureTemplate.rangedattackpower = uint32(fields[43].GetUInt16());
+        creatureTemplate.type              = uint32(fields[44].GetUInt8());
 
         for (uint8 i = 0; i < MAX_TYPE_FLAGS; ++i)
-            creatureTemplate.type_flags[i]        = fields[44].GetUInt32();
+            creatureTemplate.type_flags[i]        = fields[45].GetUInt32();
 
-        creatureTemplate.lootid            = fields[46].GetUInt32();
-        creatureTemplate.pickpocketLootId  = fields[47].GetUInt32();
-        creatureTemplate.SkinLootId        = fields[48].GetUInt32();
+        creatureTemplate.lootid            = fields[47].GetUInt32();
+        creatureTemplate.pickpocketLootId  = fields[48].GetUInt32();
+        creatureTemplate.SkinLootId        = fields[49].GetUInt32();
 
         for (uint8 i = SPELL_SCHOOL_HOLY; i < MAX_SPELL_SCHOOL; ++i)
         {
-            creatureTemplate.resistance[i] = fields[49 + i -1].GetInt32();
+            creatureTemplate.resistance[i] = fields[50 + i -1].GetInt32();
         }
 
         for (uint8 i = 0; i < CREATURE_MAX_SPELLS; ++i)
         {
-            creatureTemplate.spells[i] = fields[55 + i].GetUInt32();
+            creatureTemplate.spells[i] = fields[56 + i].GetUInt32();
         }
 
-        creatureTemplate.PetSpellDataId = fields[63].GetUInt32();
-        creatureTemplate.VehicleId      = fields[64].GetUInt32();
-        creatureTemplate.mingold        = fields[65].GetUInt32();
-        creatureTemplate.maxgold        = fields[66].GetUInt32();
-        creatureTemplate.AIName         = fields[67].GetString();
-        creatureTemplate.MovementType   = uint32(fields[68].GetUInt8());
-        creatureTemplate.InhabitType    = uint32(fields[69].GetUInt8());
-        creatureTemplate.ModHealth      = fields[70].GetFloat();
-        creatureTemplate.ModMana        = fields[71].GetFloat();
-        creatureTemplate.ModArmor       = fields[72].GetFloat();
-        creatureTemplate.RacialLeader   = fields[73].GetBool();
+        creatureTemplate.PetSpellDataId = fields[64].GetUInt32();
+        creatureTemplate.VehicleId      = fields[65].GetUInt32();
+        creatureTemplate.mingold        = fields[66].GetUInt32();
+        creatureTemplate.maxgold        = fields[67].GetUInt32();
+        creatureTemplate.AIName         = fields[68].GetString();
+        creatureTemplate.MovementType   = uint32(fields[69].GetUInt8());
+        creatureTemplate.InhabitType    = uint32(fields[70].GetUInt8());
+        creatureTemplate.ModHealth      = fields[71].GetFloat();
+        creatureTemplate.ModMana        = fields[72].GetFloat();
+        creatureTemplate.ModArmor       = fields[73].GetFloat();
+        creatureTemplate.RacialLeader   = fields[74].GetBool();
 
         for (uint8 i = 0; i < MAX_CREATURE_QUEST_ITEMS; ++i)
         {
-            creatureTemplate.questItems[i] = fields[74 + i].GetUInt32();
+            creatureTemplate.questItems[i] = fields[75 + i].GetUInt32();
         }
 
-        creatureTemplate.movementId         = fields[80].GetUInt32();
-        creatureTemplate.RegenHealth        = fields[81].GetBool();
-        creatureTemplate.equipmentId        = fields[82].GetUInt32();
-        creatureTemplate.MechanicImmuneMask = fields[83].GetUInt32();
-        creatureTemplate.flags_extra        = fields[84].GetUInt32();
-        creatureTemplate.ScriptID           = GetScriptId(fields[85].GetCString());
+        creatureTemplate.movementId         = fields[81].GetUInt32();
+        creatureTemplate.RegenHealth        = fields[82].GetBool();
+        creatureTemplate.equipmentId        = fields[83].GetUInt32();
+        creatureTemplate.MechanicImmuneMask = fields[84].GetUInt32();
+        creatureTemplate.flags_extra        = fields[85].GetUInt32();
+        creatureTemplate.ScriptID           = GetScriptId(fields[86].GetCString());
 
         ++count;
     }
@@ -890,10 +891,16 @@ void ObjectMgr::CheckCreatureTemplate(CreatureTemplate const* cInfo)
             const_cast<CreatureTemplate*>(cInfo)->scale = 1.0f;
     }
 
-    if (cInfo->expansion > (MAX_CREATURE_BASE_HP - 1))
+    if (cInfo->expansion > MAX_EXPANSION)
     {
-        sLog->outErrorDb("Table `creature_template` lists creature (Entry: %u) with expansion %u. Ignored and set to 0.", cInfo->Entry, cInfo->expansion);
+        sLog->outErrorDb("Table `creature_template` lists creature (Entry: %u) with `exp` %u. Ignored and set to 0.", cInfo->Entry, cInfo->expansion);
         const_cast<CreatureTemplate*>(cInfo)->expansion = 0;
+    }
+
+    if (cInfo->expansionUnknown > MAX_EXPANSION)
+    {
+        sLog->outErrorDb("Table `creature_template` lists creature (Entry: %u) with `exp_unk` %u. Ignored and set to 0.", cInfo->Entry, cInfo->expansionUnknown);
+        const_cast<CreatureTemplate*>(cInfo)->expansionUnknown = 0;
     }
 
     if (uint32 badFlags = (cInfo->flags_extra & ~CREATURE_FLAG_EXTRA_DB_ALLOWED))
