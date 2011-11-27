@@ -133,112 +133,110 @@ typedef std::list<Calendar_Event*> CalendarEventList;
 
 class CalendarMgr
 {
-	CalendarMgr();
-	friend class ACE_Singleton<CalendarMgr, ACE_Null_Mutex>;
+        CalendarMgr();
+        friend class ACE_Singleton<CalendarMgr, ACE_Null_Mutex>;
+    public:
+        void LoadHolidayData();
+        void LoadCalendarData();
 
-public:
+        Calendar_Event* GetEvent(uint64 eventID)
+        {
+	        for (CalendarEventList::const_iterator i = m_eventList.begin(); i != m_eventList.end(); ++i)
+                if ((*i) && (*i)->eventID == eventID)
+                    return (*i);
 
-	void LoadHolidayData();
-	void LoadCalendarData();
+            return NULL;
+        }
 
-	Calendar_Event* GetEvent(uint64 eventID)
-	{
-		for (CalendarEventList::const_iterator i = m_eventList.begin(); i != m_eventList.end(); ++i)
-            if ((*i) && (*i)->eventID == eventID)
-                return (*i);
+        Calendar_Invite* GetInvite(uint64 inviteID)
+        {
+	        for (CalendarInviteList::const_iterator i = m_inviteList.begin(); i != m_inviteList.end(); ++i)
+                if ((*i) && (*i)->inviteID == inviteID)
+                    return (*i);
 
-        return NULL;
-	}
+            return NULL;
+        }
 
-	Calendar_Invite* GetInvite(uint64 inviteID)
-	{
-		for (CalendarInviteList::const_iterator i = m_inviteList.begin(); i != m_inviteList.end(); ++i)
-            if ((*i) && (*i)->inviteID == inviteID)
-                return (*i);
+        Calendar_Invite* GetInviteFromPlayer(uint64 playerGuild, uint8 status)
+        {
+	        for (CalendarInviteList::const_iterator i = m_inviteList.begin(); i != m_inviteList.end(); ++i)
+                if ((*i) && (*i)->target_guid == playerGuild && (*i)->status == status)
+                    return (*i);
 
-        return NULL;
-	}
+            return NULL;
+        }
 
-	Calendar_Invite* GetInviteFromPlayer(uint64 playerGuild, uint8 status)
-	{
-		for (CalendarInviteList::const_iterator i = m_inviteList.begin(); i != m_inviteList.end(); ++i)
-            if ((*i) && (*i)->target_guid == playerGuild && (*i)->status == status)
-                return (*i);
+        Calendar_Invite* GetInviteFromTeargetGuid(uint64 targetGuid,uint64 eventID)
+        {
+	        for (CalendarInviteList::const_iterator i = m_inviteList.begin(); i != m_inviteList.end(); ++i)
+                if ((*i) && (*i)->target_guid == targetGuid)
+                    return (*i);
 
-        return NULL;
-	}
+            return NULL;
+        }
 
-	Calendar_Invite* GetInviteFromTeargetGuid(uint64 targetGuid,uint64 eventID)
-	{
-		for (CalendarInviteList::const_iterator i = m_inviteList.begin(); i != m_inviteList.end(); ++i)
-            if ((*i) && (*i)->target_guid == targetGuid)
-                return (*i);
+        /*void AddInvite(CalendarInvite invite) { m_inviteList. = invite; }
+        void RemoveInvite(uint64 inviteID) { m_inviteList.erase(inviteID); }
 
-        return NULL;
-	}
+        CalendarEvent const* GetEvent(uint64 eventID)
+        {
+	        CalendarEventMap::const_iterator itr = _eventMap.find(eventID);
+	        if(itr == _eventMap.end())
+		        return NULL;
+	        return &itr->second;
+        }
 
-	/*void AddInvite(CalendarInvite invite) { m_inviteList. = invite; }
-	void RemoveInvite(uint64 inviteID) { m_inviteList.erase(inviteID); }
+        void AddEvent(CalendarEvent calendar_event) { _eventMap[calendar_event.id] = calendar_event; }
+        void RemoveEvent(uint64 eventID) { _eventMap.erase(eventID); }
 
-	CalendarEvent const* GetEvent(uint64 eventID)
-	{
-		CalendarEventMap::const_iterator itr = _eventMap.find(eventID);
-		if(itr == _eventMap.end())
-			return NULL;
-		return &itr->second;
-	}
+        void AppendInvitesToCalendarPacketForPlayer(WorldPacket &data, Player *player);
+        void AppendEventsToCalendarPacketForPlayer(WorldPacket &data, Player *player);
+        */
+        bool GetInviteStatus(uint64 playerGuild)
+        {
+	        for (CalendarInviteList::iterator itr = m_inviteList.begin(); itr != m_inviteList.end(); ++itr)
+	        {
+		        if((*itr)->status == CALENDARSTATUS_INVITED && (*itr)->target_guid == playerGuild)
+			        return true;
+	        }
+	        return false;
+        }
 
-	void AddEvent(CalendarEvent calendar_event) { _eventMap[calendar_event.id] = calendar_event; }
-	void RemoveEvent(uint64 eventID) { _eventMap.erase(eventID); }
+        uint64 GenerateNextEventID() { return ++m_EventID; }
+        uint64 GenerateNextInviteID() { return ++m_InviteID; }
+        uint64 GetCurrentEventID() {return m_EventID;}
+        uint64 GetCurrentInviteID() {return m_InviteID;}
 
-	void AppendInvitesToCalendarPacketForPlayer(WorldPacket &data, Player *player);
-	void AppendEventsToCalendarPacketForPlayer(WorldPacket &data, Player *player);
-	*/
-	bool GetInviteStatus(uint64 playerGuild)
-	{
-		for (CalendarInviteList::iterator itr = m_inviteList.begin(); itr != m_inviteList.end(); ++itr)
-		{
-			if((*itr)->status == CALENDARSTATUS_INVITED && (*itr)->target_guid == playerGuild)
-				return true;
-		}
-		return false;
-	}
+        uint32 GetHolidayCount() {return m_HolidayCount;}
+        uint32 GetInviteCount() {return m_CalendaInviteCount;}
+        uint32 GetEventCount() {return m_CalendatEventCount;}
 
-	uint64 GenerateNextEventID() { return ++m_EventID; }
-	uint64 GenerateNextInviteID() { return ++m_InviteID; }
-	uint64 GetCurrentEventID() {return m_EventID;}
-	uint64 GetCurrentInviteID() {return m_InviteID;}
+        void AddOrUpdateCalendarEvent(Calendar_Event &c_event, bool create = false);
+        void _AddOrUpdateCalendarEvent(Calendar_Event &c_event);
 
-	uint32 GetHolidayCount() {return m_HolidayCount;}
-	uint32 GetInviteCount() {return m_CalendaInviteCount;}
-	uint32 GetEventCount() {return m_CalendatEventCount;}
+        void AddOrUpdateCalendarInvite(Calendar_Invite &c_invite, bool create = false);
+        void _AddOrUpdateCalendarInvite(Calendar_Invite &c_invite);
+        void SendCommandResult(WorldSession* session, uint32 type, uint32 errocode, const std::string& param);
+        /*Calendar_Invite* GetInviteStatus(uint64 player)
+        {
+	        for (CalendarInviteList::const_iterator i = m_inviteList.begin(); i != m_inviteList.end(); ++i)
+		        if ((*i) && (*i)->status == 1 && (*i)->target_guid == player)
+			        return true;
 
-	void AddOrUpdateCalendarEvent(Calendar_Event &c_event, bool create = false);
-    void _AddOrUpdateCalendarEvent(Calendar_Event &c_event);
+		        return false;
+        }
+        */
 
-	void AddOrUpdateCalendarInvite(Calendar_Invite &c_invite, bool create = false);
-    void _AddOrUpdateCalendarInvite(Calendar_Invite &c_invite);
-	void CalendarMgr::SendCommandResult(WorldSession* session, uint32 type, uint32 errocode, const std::string& param);
-	/*Calendar_Invite* GetInviteStatus(uint64 player)
-	{
-		for (CalendarInviteList::const_iterator i = m_inviteList.begin(); i != m_inviteList.end(); ++i)
-			if ((*i) && (*i)->status == 1 && (*i)->target_guid == player)
-				return true;
+        CalendarInviteList m_inviteList;
+        CalendarEventList m_eventList;
 
-		 return false;
-	}
-	*/
-
-	CalendarInviteList m_inviteList;
-	CalendarEventList m_eventList;
-
-protected:
-	uint32 m_HolidayCount;
-	uint32 m_CalendaInviteCount;
-	uint32 m_CalendatEventCount;
-	uint64 m_EventID;
-	uint64 m_InviteID;
-	bool m_invitePlayerStatus;
+    protected:
+        uint32 m_HolidayCount;
+        uint32 m_CalendaInviteCount;
+        uint32 m_CalendatEventCount;
+        uint64 m_EventID;
+        uint64 m_InviteID;
+        bool m_invitePlayerStatus;
 };
 
 #define sCalendarMgr ACE_Singleton<CalendarMgr, ACE_Null_Mutex>::instance()
