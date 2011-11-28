@@ -77,12 +77,19 @@ class boss_ragnaros_cata : public CreatureScript
             {
                 if (instance)
                     isntance->SetData(DATA_RAGNAROS_EVENT, NOT_STARTED);
+
+                events.Reset();
             }
 
             void EnterCombat(Unit * /*who*/)
             {
-                EnterPhase1();
+
                 DoScriptText(SAY_AGGRO, me);
+                if (instance)
+                    instance->SetData(DATA_RAGNAROS_EVENT, IN_PROGRESS);
+
+                events.SetPhase(PHASE_1);
+
             }
 
             void JustDied(Unit* /*killer*/)
@@ -95,8 +102,40 @@ class boss_ragnaros_cata : public CreatureScript
             {
                 DoScriptText(RAND(SAY_KILL_1, SAY_KILL_2, SAY_KILL_3), me);
             }
+
+            void UpdateAI(const uint32 diff)
+            {
+                if (!UpdateVictim())
+                {
+                    return;
+
+                    events.Update(diff);
+
+                    while (uint32 eventId = events.ExecuteEvent())
+                    {
+                    }
+
+                    switch (GetPhase(events))
+                    {
+                        case PHASE_1
+                        {
+                            switch (eventId)
+                            {
+                                case EVENT_SULFURAS_SMASH:
+                                {
+                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                                    DoCast(SPELL_SULFURAS_SMASH, me)
+                                    events.ScheduleEvent(EVENT_SULFURAS_SMASH, 40000);
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
         }
-}
+};
 
 void AddSC_boss_ragnaros_cata()
 {
