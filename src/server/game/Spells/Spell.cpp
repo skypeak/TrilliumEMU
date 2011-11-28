@@ -3914,6 +3914,12 @@ void Spell::SendSpellGo()
         data << uint32(0);
     }
 
+    if (castFlags & CAST_FLAG_PROJECTILE)
+    {
+        data << uint32(0); // Ammo display ID
+        data << uint32(0); // Inventory Type
+    }
+
     if (castFlags & CAST_FLAG_VISUAL_CHAIN)
     {
         data << uint32(0);
@@ -3923,6 +3929,20 @@ void Spell::SendSpellGo()
     if (m_targets.GetTargetMask() & TARGET_FLAG_DEST_LOCATION)
     {
         data << uint8(0);
+    }
+
+    if (m_targets.GetTargetMask() & TARGET_FLAG_EXTRA_TARGETS)
+    {
+        data << uint8(0); // Extra targets count
+        /*
+        for (uint8 i = 0; i < count; ++i)
+        {
+            data << float(0);   // Target Position X
+            data << float(0);   // Target Position Y
+            data << float(0);   // Target Position Z
+            data << uint64(0);  // Target Guid
+        }
+        */
     }
 
     m_caster->SendMessageToSet(&data, true);
