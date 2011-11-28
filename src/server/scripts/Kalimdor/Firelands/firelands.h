@@ -26,7 +26,7 @@
 
 enum Data
 {
-    DATA_INTRO_EVENT, //ragnaros intro
+    DATA_INTRO_EVENT,           //ragnaros intro
     DATA_BETHTILAC_EVENT,
     DATA_RHYOLITH_EVENT,
     DATA_ALYSRAZAR_EVENT,
@@ -38,7 +38,7 @@ enum Data
 
 enum Data64
 {
-    DATA_INTRO, //ragnaros intro
+    DATA_INTRO,                 //ragnaros intro
     DATA_BETHTILAC,
     DATA_RHYOLITH,
     DATA_ALYSRAZAR,
@@ -51,18 +51,18 @@ enum Data64
 enum creatures
 {
 //bosses
-    BOSS_BETHTILAC =            52498,
-    BOSS_RHYOLITH =             52558,
-    BOSS_ALYSRAZAR =            52530,
-    BOSS_SHANNOX =              53691,
-    BOSS_BALOROC =              53494,
-    BOSS_MAJORDOMUS =           52571, //54015 <-- maybe this entry
-    BOSS_RAGNAROS_CATA =        52409,
+    BOSS_BETHTILAC          = 52498,
+    BOSS_RHYOLITH           = 52558,
+    BOSS_ALYSRAZAR          = 52530,
+    BOSS_SHANNOX            = 53691,
+    BOSS_BALOROC            = 53494,
+    BOSS_MAJORDOMUS         = 52571, //54015 <-- maybe this entry
+    BOSS_RAGNAROS_CATA      = 52409,
 
 //other npc's
-    NPC_SULFURAS =              53420, //ragnaros boss weapon
-    NPC_LIVING_METEOR =         53500,
-    NPC_MOLTEN_ELEMENTAR =      53189,
+    NPC_SULFURAS            = 53420, //ragnaros boss weapon
+    NPC_LIVING_METEOR       = 53500,
+    NPC_MOLTEN_ELEMENTAR    = 53189,
 };
 
 enum Phase

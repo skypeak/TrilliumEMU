@@ -23,20 +23,20 @@
 #include "ScriptPCH.h"
 #include "firelands.h"
 
-enum Yells //need texts and sound ids
+enum Yells //need texts
 {
-    SAY_AGGRO =                 -0,     //sound id 24517
-    SAY_DEATH =                 -0,     //sound id 24519
-    SAY_KILL_1 =                -0,     //sound id 24531
-    SAY_KILL_2 =                -0,     //sound id 24530
-    SAY_KILL_3 =                -0,     //sound id 24529
-    SAY_HAMMER_DROP_1 =         -0,     //sound id 24520
-    SAY_HAMMER_DROP_2 =         -0,     //sound id 24521
-    SAY_HAMMER_DROP_3 =         -0,     //sound id 24522
-    SAY_HAMMER_PICKUP_1 =       -0,     //sound id 24523
-    SAY_HAMMER_PICKUP_2 =       -0,     //sound id 24524
-    SAY_HAMMER_PICKUP_3 =       -0,     //sound id 24525
-    SAY_PURGE =                 -0,     //sound id 24532
+    SAY_AGGRO                   = -0,     //sound id 24517
+    SAY_DEATH                   = -0,     //sound id 24519
+    SAY_KILL_1                  = -0,     //sound id 24531
+    SAY_KILL_2                  = -0,     //sound id 24530
+    SAY_KILL_3                  = -0,     //sound id 24529
+    SAY_HAMMER_DROP_1           = -0,     //sound id 24520
+    SAY_HAMMER_DROP_2           = -0,     //sound id 24521
+    SAY_HAMMER_DROP_3           = -0,     //sound id 24522
+    SAY_HAMMER_PICKUP_1         = -0,     //sound id 24523
+    SAY_HAMMER_PICKUP_2         = -0,     //sound id 24524
+    SAY_HAMMER_PICKUP_3         = -0,     //sound id 24525
+    SAY_PURGE                   = -0,     //sound id 24532
 };
 
 enum Spells
@@ -89,6 +89,7 @@ class boss_ragnaros_cata : public CreatureScript
                     instance->SetData(DATA_RAGNAROS_EVENT, IN_PROGRESS);
 
                 events.SetPhase(PHASE_1);
+                events.ScheduleEvent(EVENT_SULFURAS_SMASH, 40000);
 
             }
 
@@ -96,6 +97,8 @@ class boss_ragnaros_cata : public CreatureScript
             {
                 _JustDied
                 DoScriptText(SAY_DEATH, me);
+                if (instance)
+                    instance->SetData(DATA_RAGNAROS_EVENT, DONE);
             }
 
             void KilledUnit(Unit* /*Killed*/)
