@@ -134,6 +134,11 @@ class boss_ragnaros_cata : public CreatureScript
                     }
                 }
             }
+        };
+
+        CreatureAI* GetAI(Creature* creature) const
+        {
+            return new boss_ragnaros_cataAI(creature);
         }
 };
 
