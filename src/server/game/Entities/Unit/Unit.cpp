@@ -13974,9 +13974,6 @@ uint32 Unit::GetPowerIndexByClass(uint32 powerId, uint32 classId) const
 
 void Unit::SetPower(Powers power, int32 val)
 {
-    if (GetPower(power) == val)
-        return;
-
     int32 maxPower = (int32)GetMaxPower(power);
     if (maxPower < val)
         val = maxPower;

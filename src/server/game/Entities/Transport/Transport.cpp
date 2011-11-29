@@ -387,9 +387,9 @@ Creature* Transport::CreateNPCPassenger(uint32 entry, float x, float y, float z,
         return NULL;
     }
 
-    creature->setActive(true);
     map->AddToMap(creature);
     AddPassenger(creature);
+    creature->SetWorldObject(true); //so it will not be unloaded with grid
 
     sScriptMgr->OnAddCreaturePassenger(this, creature);
     return creature;
