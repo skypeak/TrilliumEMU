@@ -448,7 +448,7 @@ void LoadDataStorages(const std::string& dataPath)
     sMapDifficultyMap[MAKE_PAIR32(0, 0)] = MapDifficulty(0, 0, 0 > 0);
     sMapDifficultyStore.Clear();
 
-    LoadData(availableDbcLocales, bad_dbc_files, sNameGenStore,                dbcPath, "NameGen.dbc");//14545
+    LoadData(availableDbcLocales, bad_dbc_files, sNameGenStore,                storagesPath, "NameGen.dbc");//14545
     for (uint32 i = 0; i < sNameGenStore.GetNumRows(); ++i)
         if (NameGenEntry const* entry = sNameGenStore.LookupEntry(i))
             sGenNameVectoArraysMap[entry->race].stringVectorArray[entry->gender].push_back(std::string(entry->name));
