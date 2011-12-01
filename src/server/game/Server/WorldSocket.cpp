@@ -777,9 +777,11 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
     recvPacket.read_skip<uint8>();
     recvPacket.read_skip<uint32>();
     recvPacket.read(digest, 7);
-    recvPacket.read_skip<uint16>();
-    recvPacket.read(digest, 10);
-    recvPacket.read_skip<uint32>();
+    recvPacket >> clientBuild;
+    recvPacket.read(digest, 8);
+    recvPacket.read_skip<uint8>();
+    recvPacket.read_skip<uint8>();
+    recvPacket >> clientSeed;
     recvPacket.read_skip<uint8>();
     recvPacket.read_skip<uint8>();
 
@@ -795,7 +797,6 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
     }
     delete tableauAddon;
 
-    recvPacket.read_skip<uint8>();
     recvPacket.read_skip<uint8>();
     recvPacket.read_skip<uint8>();
     recvPacket >> account;
