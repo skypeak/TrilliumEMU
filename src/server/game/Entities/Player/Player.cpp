@@ -7755,8 +7755,8 @@ void Player::DuelComplete(DuelCompleteType type)
     {
         data.Initialize(SMSG_DUEL_WINNER, (1+20));          // we guess size
         data << uint8(type == DUEL_WON ? 0 : 1);            // 0 = just won; 1 = fled
-        data << duel->opponent->GetName();
         data << GetName();
+        data << duel->opponent->GetName();
         SendMessageToSet(&data, true);
     }
 
@@ -18800,7 +18800,7 @@ void Player::SaveToDB(bool create /*= false*/)
 
         stmt->setString(index++, ss.str());
         stmt->setUInt32(index++, GetCurrency(CURRENCY_TYPE_CONQUEST_POINTS));
-        stmt->setUInt32(index++, GetCurrency(CURRENCY_TYPE_HONOR_POINTS));
+        //stmt->setUInt32(index++, GetCurrency(CURRENCY_TYPE_HONOR_POINTS)); Disabled for now, will replaced with currencyPoints.
         stmt->setUInt32(index++, GetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS));
         stmt->setUInt16(index++, GetUInt16Value(PLAYER_FIELD_KILLS, 0));
         stmt->setUInt16(index++, GetUInt16Value(PLAYER_FIELD_KILLS, 1));
@@ -18908,7 +18908,7 @@ void Player::SaveToDB(bool create /*= false*/)
 
         stmt->setString(index++, ss.str());
         stmt->setUInt32(index++, GetCurrency(CURRENCY_TYPE_CONQUEST_POINTS));
-        stmt->setUInt32(index++, GetCurrency(CURRENCY_TYPE_HONOR_POINTS));
+        //stmt->setUInt32(index++, GetCurrency(CURRENCY_TYPE_HONOR_POINTS)); Disabled.
         stmt->setUInt32(index++, GetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS));
         stmt->setUInt16(index++, GetUInt16Value(PLAYER_FIELD_KILLS, 0));
         stmt->setUInt16(index++, GetUInt16Value(PLAYER_FIELD_KILLS, 1));

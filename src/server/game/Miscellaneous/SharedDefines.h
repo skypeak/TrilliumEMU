@@ -2319,7 +2319,7 @@ uint32 const CREATURE_TYPEMASK_DEMON_OR_UNDEAD = (1 << (CREATURE_TYPE_DEMON-1)) 
 uint32 const CREATURE_TYPEMASK_HUMANOID_OR_UNDEAD = (1 << (CREATURE_TYPE_HUMANOID-1)) | (1 << (CREATURE_TYPE_UNDEAD-1));
 uint32 const CREATURE_TYPEMASK_MECHANICAL_OR_ELEMENTAL = (1 << (CREATURE_TYPE_MECHANICAL-1)) | (1 << (CREATURE_TYPE_ELEMENTAL-1));
 
-// CreatureFamily.dbc 4.20a 14480
+// CreatureFamily.dbc
 enum CreatureFamily
 {
     CREATURE_FAMILY_WOLF           = 1,
@@ -2412,6 +2412,18 @@ enum CreatureTypeFlags
     CREATURE_TYPEFLAGS_UNK31            = 0x80000000,
 };
 
+enum CreatureTypeFlags2
+{
+    CREATURE_TYPEFLAGS_2_UNK1           = 0x00000001,
+    CREATURE_TYPEFLAGS_2_UNK2           = 0x00000002,
+    CREATURE_TYPEFLAGS_2_UNK3           = 0x00000004,
+    CREATURE_TYPEFLAGS_2_UNK4           = 0x00000008,
+    CREATURE_TYPEFLAGS_2_UNK5           = 0x00000010,
+    CREATURE_TYPEFLAGS_2_UNK6           = 0x00000020,
+    CREATURE_TYPEFLAGS_2_UNK7           = 0x00000040,
+    CREATURE_TYPEFLAGS_2_UNK8           = 0x00000080,
+};
+
 enum CreatureEliteType
 {
     CREATURE_ELITE_NORMAL          = 0,
@@ -2422,7 +2434,7 @@ enum CreatureEliteType
     CREATURE_UNKNOWN               = 5                      // found in 2.2.3 for 2 mobs
 };
 
-// Holidays.dbc 4.20a 14480
+// Holidays.dbc
 enum HolidayIds
 {
     HOLIDAY_NONE                     = 0,
@@ -2451,16 +2463,16 @@ enum HolidayIds
     HOLIDAY_WOTLK_LAUNCH             = 406,
     HOLIDAY_DAY_OF_DEAD              = 409,
     HOLIDAY_CALL_TO_ARMS_IC          = 420,
-    HOLIDAY_423                      = 423, // Rename
+    HOLIDAY_LOVE_IS_IN_THE_AIR_2     = 423,
     HOLIDAY_KALU_AK_FISHING_DERBY    = 424,
-    HOLIDAY_CALL_TO_ARMS_GILNEAS     = 435,
-    HOLIDAY_CALL_TO_ARMS_TWINPEAKS   = 436,
-    HOLIDAY_442                      = 442, // Rename
-    HOLIDAY_443                      = 443, // Rename
-    HOLIDAY_467                      = 467  // Rename
+    HOLIDAY_CALL_TO_ARMS_BFG         = 435,
+    HOLIDAY_CALL_TO_ARMS_TP          = 436,
+    HOLIDAY_RATED_BG_15_VS_15        = 442,
+    HOLIDAY_RATED_BG_25_VS_25        = 443,
+    HOLIDAY_ANNIVERSARY_7_YEARS      = 467,
 };
 
-// QuestInfo.dbc 4.20a 14480
+// QuestInfo.dbc
 enum QuestTypes
 {
     QUEST_TYPE_GROUP               = 1,
@@ -2476,7 +2488,7 @@ enum QuestTypes
     QUEST_TYPE_RAID_25             = 89
 };
 
-// QuestSort.dbc 4.20a 14480
+// QuestSort.dbc
 enum QuestSort
 {
     QUEST_SORT_GROUP               = 1,
@@ -2701,11 +2713,11 @@ enum SkillType
     SKILL_PET_EXOTIC_SPIRIT_BEAST  = 788,
     SKILL_RACIAL_WORGEN            = 789,
     SKILL_RACIAL_GOBLIN            = 790,
-    SKILL_LANG_WORGEN              = 791,
+    SKILL_LANG_GILNEAN             = 791,
     SKILL_LANG_GOBLIN              = 792,
     SKILL_ARCHAEOLOGY              = 794,
     SKILL_GENERAL_HUNTER           = 795,
-    SKILL_GENERAL_DEATHKNIGHT      = 796,
+    SKILL_GENERAL_DEATH_KNIGHT     = 796,
     SKILL_GENERAL_ROGUE            = 797,
     SKILL_GENERAL_DRUID            = 798,
     SKILL_GENERAL_MAGE             = 799,
@@ -2713,10 +2725,19 @@ enum SkillType
     SKILL_GENERAL_SHAMAN           = 801,
     SKILL_GENERAL_WARLOCK          = 802,
     SKILL_GENERAL_WARRIOR          = 803,
-    SKILL_GENERAL_PRIEST           = 804
+    SKILL_GENERAL_PRIEST           = 804,
+    SKILL_PET_WATER_ELEMENTAL      = 805,
+    SKILL_PET_FOX                  = 808,
+    SKILL_ALL_GLYPHS               = 810,
+    SKILL_PET_DOG                  = 811,
+    SKILL_PET_MONKEY               = 815,
+    SKILL_PET_SHALE_SPIDER         = 817,
+    SKILL_PET_BEETLE               = 818,
+    SKILL_ALL_GUILD_PERKS          = 821,
+    SKILL_PET_HYDRA                = 824,
 };
 
-#define MAX_SKILL_TYPE               805
+#define MAX_SKILL_TYPE               825
 
 inline SkillType SkillByLockType(LockType locktype)
 {
@@ -2727,6 +2748,7 @@ inline SkillType SkillByLockType(LockType locktype)
         case LOCKTYPE_MINING:      return SKILL_MINING;
         case LOCKTYPE_FISHING:     return SKILL_FISHING;
         case LOCKTYPE_INSCRIPTION: return SKILL_INSCRIPTION;
+        case QUEST_SORT_ARCHAEOLOGY:    return SKILL_ARCHAEOLOGY;
         default: break;
     }
     return SKILL_NONE;
@@ -2754,6 +2776,7 @@ inline uint32 SkillByQuestSort(int32 QuestSort)
 
 enum SkillCategory
 {
+    SKILL_CATEGORY_UNK1          = 0,
     SKILL_CATEGORY_ATTRIBUTES    = 5,
     SKILL_CATEGORY_WEAPON        = 6,
     SKILL_CATEGORY_CLASS         = 7,
@@ -2764,7 +2787,7 @@ enum SkillCategory
     SKILL_CATEGORY_GENERIC       = 12
 };
 
-// TotemCategory.dbc 4.20a 14480
+// TotemCategory.dbc
 enum TotemCategory
 {
     TC_SKINNING_SKIFE_OLD          = 1,
@@ -2797,7 +2820,7 @@ enum TotemCategory
     TC_HAMMER_PICK                 = 167,
     TC_BLADED_PICKAXE              = 168,
     TC_FLINT_AND_TINDER            = 169,
-    TC_RUNED_COBALT_ROD            = 189, // not use
+    TC_RUNED_COBALT_ROD            = 189,
     TC_RUNED_TITANIUM_ROD          = 190,
     TC_RUNED_ELEMENTIUM_ROD        = 209,
     TC_HIGH_POWERED_BOLT_GUN       = 210
@@ -2991,6 +3014,8 @@ enum SummonType
     SUMMON_TYPE_VEHICLE     = 9,
     SUMMON_TYPE_VEHICLE2    = 10,
     SUMMON_TYPE_OBJECT      = 11,
+    SUMMON_TYPE_UNK12       = 12,
+    SUMMON_TYPE_UNK13       = 13,
 };
 
 enum EventId
@@ -3135,34 +3160,34 @@ enum BanReturn
     BAN_NOTFOUND
 };
 
-// BattlemasterList.dbc 4.20a 14480
+// BattlemasterList.dbc
 enum BattlegroundTypeId
 {
-    BATTLEGROUND_TYPE_NONE     = 0,
-    BATTLEGROUND_AV            = 1,   // Alterac Valley
-    BATTLEGROUND_WS            = 2,   // Warsong Gulch
-    BATTLEGROUND_AB            = 3,   // Arathi Basin
-    BATTLEGROUND_NA            = 4,   // Nagrand Arena
-    BATTLEGROUND_BE            = 5,   // Blade Edge Arena
-    BATTLEGROUND_AA            = 6,   // All Arenas
-    BATTLEGROUND_EY            = 7,   // Eye of the Storm
-    BATTLEGROUND_RL            = 8,   // Ruins of Lordaeron
-    BATTLEGROUND_SA            = 9,   // Strand of the Ancients
-    BATTLEGROUND_DS            = 10,  // Dalaran Sewers
-    BATTLEGROUND_RV            = 11,  // The Ring of Valor
-    BATTLEGROUND_IC            = 30,  // Isle of Conquest
-    BATTLEGROUND_RB            = 32,  // Random Battleground
-    BATTLEGROUND_RA_BG         = 100, // Rated Battleground
-    BATTLEGROUND_RA_BG1        = 101, // Rated Battleground
-    BATTLEGROUND_RA_BG2        = 102, // Rated Battleground
-    BATTLEGROUND_TP            = 108, // Twin Peaks
-    BATTLEGROUND_BG            = 120, // The Battle for Gilneas
-    BATTLEGROUND_ICD           = 441, // Icecrown Citadel
-    BATTLEGROUND_RS            = 443, // The Ruby Sanctum
-    BATTLEGROUND_RA_ES         = 656  // Rated Eye of the Storm
+    BATTLEGROUND_TYPE_NONE          = 0,
+    BATTLEGROUND_AV                 = 1,
+    BATTLEGROUND_WS                 = 2,
+    BATTLEGROUND_AB                 = 3,
+    BATTLEGROUND_NA                 = 4,
+    BATTLEGROUND_BE                 = 5,
+    BATTLEGROUND_AA                 = 6,
+    BATTLEGROUND_EY                 = 7,
+    BATTLEGROUND_RL                 = 8,
+    BATTLEGROUND_SA                 = 9,
+    BATTLEGROUND_DS                 = 10,
+    BATTLEGROUND_RV                 = 11,
+    BATTLEGROUND_IC                 = 30,
+    BATTLEGROUND_RB                 = 32,
+    BATTLEGROUND_RATED_10_VS_10     = 100,
+    BATTLEGROUND_RATED_15_VS_15     = 101,
+    BATTLEGROUND_RATED_25_VS_25     = 102,
+    BATTLEGROUND_TP                 = 108,
+    BATTLEGROUND_BFG                = 120,
+    // 441 = "Icecrown Citadel"
+    // 443 = "The Ruby Sanctum"
+    // 656 = "Rated Eye of the Storm"
 };
 
-#define MAX_BATTLEGROUND_TYPE_ID 657
+#define MAX_BATTLEGROUND_TYPE_ID 121
 
 enum MailResponseType
 {
@@ -3211,7 +3236,8 @@ enum SpellFamilyNames
     // 14 - unused
     SPELLFAMILY_DEATHKNIGHT = 15,
     // 16 - unused
-    SPELLFAMILY_PET         = 17
+    SPELLFAMILY_PET         = 17,
+    SPELLFAMILY_UNK3        = 50,
 };
 
 // Need to be moved to Pet.h, clean it a bit and sync with last TC standars.. (i will do it later)

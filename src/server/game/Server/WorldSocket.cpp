@@ -745,16 +745,12 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
 int WorldSocket::HandleSendAuthSession()
 {
     WorldPacket packet(SMSG_AUTH_CHALLENGE, 37);
-    packet << uint32(0);
-    packet << uint32(0);
-    packet << uint32(0);
-    packet << uint32(0);
+
+    for (uint32 i = 0; i < 8; i++)
+        packet << uint32(0);
+
     packet << m_Seed;
     packet << uint8(1);
-    packet << uint32(0);
-    packet << uint32(0);
-    packet << uint32(0);
-    packet << uint32(0);
     return SendPacket(packet);
 }
 
@@ -772,26 +768,24 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
     BigNumber v, s, g, N, K;
     WorldPacket packet;
 
-    recvPacket.read_skip<uint8>();
-    recvPacket.read(digest, 5);
-    recvPacket >> clientBuild;
-    recvPacket.read(digest, 2);
-    recvPacket.read_skip<uint8>();
     recvPacket.read_skip<uint32>();
-    recvPacket.read(digest, 4);
+    recvPacket.read_skip<uint8>();
     recvPacket.read_skip<uint64>();
+    recvPacket.read_skip<uint32>();
     recvPacket.read_skip<uint8>();
-    recvPacket.read(digest, 2);
     recvPacket.read_skip<uint32>();
-    recvPacket.read(digest, 4);
+    recvPacket.read_skip<uint8>();
+    recvPacket.read_skip<uint32>();
+    recvPacket.read(digest, 7);
+    recvPacket >> clientBuild;
+    recvPacket.read(digest, 8);
+    recvPacket.read_skip<uint8>();
+    recvPacket.read_skip<uint8>();
     recvPacket >> clientSeed;
-    recvPacket.read(digest, 2);
-    recvPacket.read_skip<uint32>();
-    recvPacket.read(digest, 1);
-    recvPacket.read_skip<uint32>();
-    recvPacket >> account;
-    recvPacket >> m_addonSize;
+    recvPacket.read_skip<uint8>();
+    recvPacket.read_skip<uint8>();
 
+    recvPacket >> m_addonSize;
     uint8 * tableauAddon = new uint8[m_addonSize];
     WorldPacket packetAddon;
     for (uint32 i = 0; i < m_addonSize; i++)
@@ -802,6 +796,10 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
         packetAddon << ByteSize;
     }
     delete tableauAddon;
+
+    recvPacket.read_skip<uint8>();
+    recvPacket.read_skip<uint8>();
+    recvPacket >> account;
 
     if (sWorld->IsClosed())
     {
