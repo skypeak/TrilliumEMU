@@ -41,6 +41,7 @@ enum Yells //need texts
 
 enum Spells
 {
+    //ragnaros
     SPELL_SULFURAS_SMASH        = 98710,
     SPELL_LIVING_METEOR         = 99268,    //every difficult
     SPELL_WRATH_OF_RAGNAROS     = 98263,
@@ -50,6 +51,9 @@ enum Spells
     SPELL_MAGMA_TRAP            = 98164,    //every difficult
     SPELL_LAVA_WAVE             = 100293,
     SPELL_HAND_OF_RAGNAROS      = 98237,
+
+    //living meteor
+    SPELL_METEOR_CRASH          = 99287,    //10 player normal
 };
 
 enum Events     //non heroic
@@ -142,6 +146,36 @@ class boss_ragnaros_cata : public CreatureScript
         CreatureAI* GetAI(Creature* creature) const
         {
             return new boss_ragnaros_cataAI(creature);
+        }
+};
+
+class npc_living_meteor : public CreatureScript
+{
+    public:
+        npc_living_meteor() : CreatureScript("npc_living_meteor") { }
+
+        struct npc_living_meteorAI : public CreatureAI
+        {
+            npc_living_meteor(Creature* creature) : ScriptedAI(creature)
+            {
+                pInstance = creature->GetInstanceScript();
+            }
+            
+            InstanceScript* pInstance;
+            EventMap events;
+
+            void EnterCombat(Unit * /*who*/)        //for selecting the first random player
+            {
+            }
+
+            void KilledUnit(Unit* /*Killed*/)       //select next random player after first is killed
+            {
+            }
+        };
+
+        CreatureAI* GetAI(Creature* creature) const
+        {
+            return new npc_living_meteor(creature);
         }
 };
 
