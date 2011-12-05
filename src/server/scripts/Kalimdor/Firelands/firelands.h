@@ -24,6 +24,9 @@
 #ifndef DEF_FIRELANDS_H
 #define DEF_FIRELANDS_H
 
+#include "ObjectMgr.h"
+#define FirelandsScriptName "instance_firelands"
+
 enum Data
 {
     DATA_INTRO_EVENT,           //ragnaros intro
@@ -34,6 +37,8 @@ enum Data
     DATA_BALOROC_EVENT,
     DATA_MAJORDOMUS_EVENT,
     DATA_RAGNAROS_EVENT,
+
+    DATA_CURRENT_ENCOUNTER_PHASE     = 7,
 };
 
 enum Data64
@@ -50,26 +55,62 @@ enum Data64
 
 enum creatures
 {
-//bosses
+    //bosses
     BOSS_BETHTILAC          = 52498,
     BOSS_RHYOLITH           = 52558,
     BOSS_ALYSRAZAR          = 52530,
     BOSS_SHANNOX            = 53691,
     BOSS_BALOROC            = 53494,
-    BOSS_MAJORDOMUS         = 52571, //54015 <-- maybe this entry
+    BOSS_MAJORDOMUS         = 52571,    //54015 <-- maybe this entry
     BOSS_RAGNAROS_CATA      = 52409,
 
-//other npc's
-    NPC_SULFURAS            = 53420, //ragnaros boss weapon
+    //other npc's
+    NPC_SULFURAS            = 53420,    //ragnaros boss weapon
     NPC_LIVING_METEOR       = 53500,
     NPC_MOLTEN_ELEMENTAR    = 53189,
+
+    // Shannox
+    NPC_RIPLIMB             = 53694,    // Shannox Dogs
+    NPC_RAGEFACE            = 53695,
+    NPC_SHANNOX_SPEAR       = 53752,    // Shannox Spear
+    NPC_CRYSTAL_TRAP        = 53713,
+    NPC_CRYSTAL_PRISON      = 53819,
+
+    // Bethilac
+    NPC_CINDERWEB_SPINNER   = 53642,
+    NPC_CINDERWEB_DRONE     = 53635,
+    NPC_CINDERWEB_SPIDERLING = 53631,
+    NPC_ENGORGED_BROODLING  = 53745,
+    NPC_SPIDERWEB_FILAMENT  = 53082,    // This is the Elevator
+};
+
+enum gameobjectIDs
+{
+	GOB_DOOR_BETHILAC = 208877,
 };
 
 enum Phase
 {
+    //Ragnaros
     PHASE_1,
     PHASE_2,
+
+    //Shannox
+	PHASE_NON = 0, 
+
+	PHASE_SHANNOX_HAS_SPEER = 1,
+	PHASE_SPEAR_ON_THE_GROUND = 2,
+	PHASE_RIPLIMB_GOS_TO_SPEER = 3,
+	PHASE_RIPLIMB_BRINGS_SPEER = 4,
+
+	PHASE_BETHILAC_UPPER = 5,
+	PHASE_BETHILAC_LOWER = 6,
 };
+
+enum PathIDs
+{
+	PATH_SHANNOX = 154280940,
+}
 
 enum DataVar
 {
