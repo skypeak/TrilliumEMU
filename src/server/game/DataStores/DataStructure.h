@@ -1536,7 +1536,7 @@ struct MountTypeEntry
 struct MovieEntry
 {
     uint32      Id;                                         // 0 index
-    //char*       filename;                             // 1
+    //char*       filename;                                 // 1
     //uint32      unk1;                                     // 2        m_volume
     //uint32      unk2;                                     // 3 4.0.0
 };

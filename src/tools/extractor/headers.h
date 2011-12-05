@@ -38,8 +38,8 @@
 #include "StormCommon.h"
 #include "typedefs.h"
 
-static int const patchRev[] = {13164, 13205, 13287, 13329, 13596, 13623, 13914, 14007, 14333, 14480, 14545};
-#define PATCH_REV_COUNT 11
+static int const patchRev[] = {13164, 13205, 13287, 13329, 13596, 13623, 13914, 14007, 14333, 14480, 14545, 14946, 15005};
+#define PATCH_REV_COUNT 13
 #define CLIENT_BUILD 14545
 #define MAX_EXPANSION 3
 
